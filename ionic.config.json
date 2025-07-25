@@ -1,0 +1,7 @@
+{
+  "name": "CYOALitRPG",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
