@@ -34,6 +34,10 @@ const routes: Routes = [
     loadComponent: () => import('./pages/character-create/character-create.page').then(m => m.CharacterCreatePage)
   },
   {
+    path: 'grave-view/:id',
+    loadComponent: () => import('./pages/grave-view/grave-view.page').then(m => m.GraveViewPage)
+  },
+  {
     path: '',
     redirectTo: 'select-character',
     pathMatch: 'full'

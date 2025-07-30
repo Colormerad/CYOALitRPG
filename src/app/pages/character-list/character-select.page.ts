@@ -18,6 +18,7 @@ export class CharacterSelectPage implements OnInit, OnDestroy {
   loading = true;
   error = '';
   username = '';
+  selectedCharacter: any = null;
   private accountSubscription: Subscription | null = null;
 
   constructor(
@@ -75,7 +76,17 @@ export class CharacterSelectPage implements OnInit, OnDestroy {
     }
   }
 
-  selectCharacter(character: any) {
+  onCharacterClick(character: any) {
+    // If the character is already selected, deselect it
+    if (this.selectedCharacter && this.selectedCharacter.id === character.id) {
+      this.selectedCharacter = null;
+    } else {
+      // Otherwise, select the character
+      this.selectedCharacter = character;
+    }
+  }
+
+  playCharacter(character: any) {
     // Navigate to the game page with the character ID
     if (character && character.id) {
       this.router.navigate(['/game', character.id]);
@@ -84,8 +95,51 @@ export class CharacterSelectPage implements OnInit, OnDestroy {
     }
   }
 
+  deleteCharacter(character: any) {
+    if (!character || !character.id) {
+      this.error = 'Invalid character selection';
+      return;
+    }
+
+    // Confirm deletion
+    if (confirm(`Are you sure you want to delete ${character.name}? This character will be marked as dead.`)) {
+      // Mark character as dead
+      this.http.put(`http://localhost:3000/api/characters/${character.id}/mark-dead`, {})
+        .subscribe({
+          next: () => {
+            // Update character in the local array
+            const index = this.characters.findIndex(c => c.id === character.id);
+            if (index !== -1) {
+              this.characters[index].is_dead = true;
+              this.selectedCharacter = null; // Deselect the character
+            }
+          },
+          error: err => {
+            console.error('Error marking character as dead:', err);
+            this.error = 'Failed to delete character';
+          }
+        });
+    }
+  }
+
   createCharacter() {
     // Navigate to the character creation page
     this.router.navigate(['/create-character']);
+  }
+  
+  viewGrave(character: any) {
+    if (!character || !character.id) {
+      this.error = 'Invalid character selection';
+      return;
+    }
+    
+    // Navigate to the grave view page with the character ID
+    this.router.navigate(['/grave-view', character.id]);
+  }
+  
+  clearError() {
+    // Clear the error state and reset any failed operations
+    this.error = '';
+    this.selectedCharacter = null;
   }
 }

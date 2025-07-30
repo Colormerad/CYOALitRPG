@@ -1,0 +1,71 @@
+<ion-content class="retro-content scanlines">
+  <div class="pixel-container">
+    <h1 class="retro-header">Memorial Stone</h1>
+    
+    <!-- Loading state -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="retro-text">Loading...</div>
+      <div class="pixel-loader"></div>
+    </div>
+    
+    <!-- Error state -->
+    <div *ngIf="error" class="error-container">
+      <div class="retro-text error-text">{{ error }}</div>
+      <button class="pixel-button" (click)="goBack()">Return</button>
+    </div>
+    
+    <!-- Grave view -->
+    <div *ngIf="!loading && !error && character" class="grave-view">
+      <div class="grave-header">
+        <div class="grave-icon">✝</div>
+        <div class="character-name">{{ character.name }}</div>
+        <div class="character-dates">
+          <span>Level {{ character.level || 1 }} {{ character.class || 'Warrior' }}</span>
+        </div>
+      </div>
+      
+      <div class="epitaph">
+        "Here lies a brave soul who ventured forth and met their fate."
+      </div>
+      
+      <div class="stats-section">
+        <h2 class="section-title">Legacy</h2>
+        
+        <div class="stat-row">
+          <div class="stat-label">Prompts Survived:</div>
+          <div class="stat-value">{{ promptsSurvived }}</div>
+        </div>
+        
+        <div class="stat-row">
+          <div class="stat-label">Morality:</div>
+          <div class="morality-meter">
+            <div class="morality-bar">
+              <div class="morality-fill" [style.width.%]="moralityScale"></div>
+            </div>
+            <div class="morality-labels">
+              <span>Evil</span>
+              <span>Neutral</span>
+              <span>Good</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="legacy-section">
+        <h2 class="section-title">Family Left Behind</h2>
+        <ul class="legacy-list">
+          <li *ngFor="let family of familyLeftBehind" class="legacy-item">{{ family }}</li>
+          <li *ngIf="familyLeftBehind.length === 0" class="legacy-item">None</li>
+        </ul>
+        
+        <h2 class="section-title">Impact on the World</h2>
+        <ul class="legacy-list">
+          <li *ngFor="let impact of worldImpacts" class="legacy-item">{{ impact }}</li>
+          <li *ngIf="worldImpacts.length === 0" class="legacy-item">Their deeds have been lost to time</li>
+        </ul>
+      </div>
+      
+      <button class="pixel-button return-btn" (click)="goBack()">Return to Character Select</button>
+    </div>
+  </div>
+</ion-content>

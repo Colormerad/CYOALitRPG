@@ -1,0 +1,213 @@
+/* Grave view styles with retro game aesthetic */
+
+.retro-content {
+  --background: var(--retro-bg);
+  font-family: 'VT323', monospace;
+}
+
+.pixel-container {
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Header */
+.retro-header {
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  color: var(--retro-green-brightest);
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 0 5px var(--retro-green-medium);
+}
+
+/* Loading state */
+.loading-container {
+  text-align: center;
+  padding: 32px 0;
+}
+
+.pixel-loader {
+  width: 64px;
+  height: 64px;
+  margin: 20px auto;
+  position: relative;
+  animation: pixelSpin 1.5s infinite steps(8);
+  border: 4px solid var(--retro-green-medium);
+}
+
+.pixel-loader:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  background-color: var(--retro-green-light);
+}
+
+@keyframes pixelSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error state */
+.error-container {
+  text-align: center;
+  padding: 32px 0;
+}
+
+.error-text {
+  color: var(--retro-green-light);
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+/* Grave view */
+.grave-view {
+  color: var(--retro-green-light);
+  text-align: center;
+  padding: 20px 0;
+}
+
+.grave-header {
+  margin-bottom: 30px;
+}
+
+.grave-icon {
+  font-size: 64px;
+  margin-bottom: 10px;
+  color: var(--retro-green-brightest);
+  text-shadow: 0 0 10px var(--retro-green-medium);
+}
+
+.character-name {
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: var(--retro-green-brightest);
+}
+
+.character-dates {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: var(--retro-green-medium);
+}
+
+.epitaph {
+  font-style: italic;
+  margin-bottom: 30px;
+  padding: 10px;
+  border-top: 1px solid var(--retro-green-dark);
+  border-bottom: 1px solid var(--retro-green-dark);
+}
+
+.section-title {
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  color: var(--retro-green-brightest);
+  margin: 25px 0 15px;
+  font-size: 20px;
+  text-shadow: 0 0 5px var(--retro-green-medium);
+}
+
+.stats-section {
+  margin-bottom: 30px;
+  background-color: var(--retro-green-darkest);
+  padding: 15px;
+  border: 2px solid var(--retro-border);
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 5px 0;
+}
+
+.stat-label {
+  flex: 1;
+  text-align: left;
+  font-size: 18px;
+}
+
+.stat-value {
+  flex: 1;
+  text-align: right;
+  font-size: 20px;
+  color: var(--retro-green-brightest);
+}
+
+.morality-meter {
+  flex: 1;
+  text-align: right;
+}
+
+.morality-bar {
+  height: 20px;
+  background-color: var(--retro-green-dark);
+  position: relative;
+  margin-bottom: 5px;
+  border: 2px solid var(--retro-border);
+}
+
+.morality-fill {
+  height: 100%;
+  background-color: var(--retro-green-brightest);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.morality-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.legacy-section {
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.legacy-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legacy-item {
+  padding: 10px;
+  margin-bottom: 8px;
+  background-color: var(--retro-green-darkest);
+  border: 2px solid var(--retro-border);
+  font-size: 16px;
+  
+  &:before {
+    content: '▶ ';
+    color: var(--retro-green-brightest);
+  }
+}
+
+.return-btn {
+  margin: 20px auto;
+  display: block;
+}
+
+/* Scanlines effect */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0) 1px,
+    rgba(0, 0, 0, 0.1) 1px,
+    rgba(0, 0, 0, 0.1) 2px
+  );
+  pointer-events: none;
+  z-index: 1;
+}

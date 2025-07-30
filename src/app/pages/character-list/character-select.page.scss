@@ -70,13 +70,36 @@
 /* Error state */
 .error-container {
   text-align: center;
-  padding: 32px 0;
-}
-
-.error-text {
-  color: var(--retro-green-light);
-  margin-bottom: 16px;
-  font-size: 1.2rem;
+  padding: 2rem;
+  
+  .error-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    
+    .retry-btn {
+      background-color: var(--retro-green-medium);
+      
+      &:hover {
+        background-color: var(--retro-green-bright);
+      }
+    }
+    
+    .cancel-btn {
+      background-color: var(--retro-border);
+      
+      &:hover {
+        background-color: var(--retro-green-dark);
+      }
+    }
+  }
+  
+  .error-text {
+    color: var(--retro-green-light);
+    margin-bottom: 16px;
+    font-size: 1.2rem;
+  }
 }
 
 /* Empty state */
@@ -99,6 +122,25 @@
 /* Character list */
 .character-list {
   margin-top: 24px;
+}
+
+.character-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  
+  .pixel-button {
+    min-width: 100px;
+  }
+  
+  .delete-btn {
+    background-color: var(--retro-red, #8b0000);
+    
+    &:hover {
+      background-color: var(--retro-red-light, #a00000);
+    }
+  }
 }
 
 .characters-grid {
@@ -127,6 +169,12 @@
   box-shadow: none;
 }
 
+.character-card.selected {
+  border: 2px solid var(--retro-green-brightest);
+  box-shadow: 0 0 10px var(--retro-green-medium);
+  transform: translateY(-4px);
+}
+
 .pixel-art-container {
   width: 100%;
   height: 100px;
@@ -145,6 +193,23 @@
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+  position: relative;
+  
+  &.dead::before {
+    content: '✝';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    color: var(--retro-green-darkest);
+    z-index: 2;
+  }
+  
+  &.dead {
+    opacity: 0.7;
+    filter: grayscale(0.8);
+  }
 }
 
 /* Character classes */
