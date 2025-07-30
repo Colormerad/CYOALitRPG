@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, LoginRequest } from '../../services/auth.service';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
@@ -7,9 +7,10 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  standalone: false,
+  standalone: false
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit, AfterViewInit {
+  @ViewChild('backgroundMusic') backgroundMusic!: ElementRef<HTMLAudioElement>;
   loginData: LoginRequest = {
     email: '',
     password: ''
@@ -27,9 +28,77 @@ export class LoginPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Check if user is already authenticated
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/select-character']);
+    // Initialize the page
+  }
+
+  ngAfterViewInit() {
+    this.initializeMusic();
+  }
+
+  ngOnDestroy() {
+    // Stop the music when leaving the page
+    if (this.backgroundMusic) {
+      this.backgroundMusic.nativeElement.pause();
+    }
+  }
+
+  private initializeMusic() {
+    if (this.backgroundMusic) {
+      console.log('Audio element found');
+      
+      // Set up continuous looping
+      this.backgroundMusic.nativeElement.loop = true;
+      this.backgroundMusic.nativeElement.volume = 0.5; // Set volume to 50%
+      
+      // Add event listeners for debugging and loop handling
+      this.backgroundMusic.nativeElement.addEventListener('canplay', () => {
+        console.log('Audio can play');
+      });
+      
+      this.backgroundMusic.nativeElement.addEventListener('error', (event: Event) => {
+        console.error('Audio error:', (event.target as HTMLAudioElement).error);
+        // Attempt to restart playback on error
+        this.backgroundMusic.nativeElement.play().catch(error => {
+          console.error('Failed to restart audio:', error);
+        });
+      });
+      
+      this.backgroundMusic.nativeElement.addEventListener('loadeddata', () => {
+        console.log('Audio loaded data');
+      });
+      
+      this.backgroundMusic.nativeElement.addEventListener('ended', () => {
+        console.log('Audio ended - restarting');
+        // Restart playback if it ends
+        this.backgroundMusic.nativeElement.play().catch(error => {
+          console.error('Error restarting audio:', error);
+        });
+      });
+      
+      try {
+        // Start playback
+        this.backgroundMusic.nativeElement.play().then(() => {
+          console.log('Audio started playing');
+        }).catch(error => {
+          console.error('Error playing background music:', error);
+          // Attempt to restart if initial play fails
+          setTimeout(() => {
+            this.backgroundMusic.nativeElement.play().catch(error => {
+              console.error('Failed to restart audio:', error);
+            });
+          }, 1000);
+        });
+      } catch (error) {
+        console.error('Error playing background music:', error);
+        // Attempt to restart if initial play fails
+        setTimeout(() => {
+          this.backgroundMusic.nativeElement.play().catch(error => {
+            console.error('Failed to restart audio:', error);
+          });
+        }, 1000);
+      }
+    } else {
+      console.error('Audio element not found');
     }
   }
 
