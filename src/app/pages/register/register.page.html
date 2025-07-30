@@ -1,0 +1,185 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <ion-icon name="person-add" slot="start"></ion-icon>
+      Create Account
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="retro-content scanlines">
+  <div class="pixel-container">
+    <!-- Logo/Game Title -->
+    <div class="logo-section">
+      <div class="pixel-art-logo">
+        <ion-icon name="game-controller"></ion-icon>
+      </div>
+      <h1 class="retro-header">Join CYOALitRPG</h1>
+      <p class="retro-text">Begin your epic adventure</p>
+    </div>
+
+    <!-- Register Form -->
+    <div class="pixel-card">
+      <div class="pixel-card-header">
+        <h2 class="retro-header">Create Your Account</h2>
+        <p class="retro-text">Start your journey in the realm</p>
+      </div>
+
+      <div class="pixel-card-content">
+        <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+          <!-- Username Input -->
+          <div class="pixel-form-group">
+            <label class="retro-label">Username</label>
+            <div class="pixel-input-container">
+              <ion-icon name="person" class="pixel-icon"></ion-icon>
+              <ion-input
+                class="pixel-input"
+                type="text"
+                [(ngModel)]="registerData.username"
+                name="username"
+                placeholder="Choose a username"
+                required
+                [disabled]="isLoading">
+              </ion-input>
+            </div>
+          </div>
+          
+          <!-- Email Input -->
+          <div class="pixel-form-group">
+            <label class="retro-label">Email</label>
+            <div class="pixel-input-container">
+              <ion-icon name="mail" class="pixel-icon"></ion-icon>
+              <ion-input
+                class="pixel-input"
+                type="email"
+                [(ngModel)]="registerData.email"
+                name="email"
+                placeholder="Enter your email"
+                required
+                [disabled]="isLoading">
+              </ion-input>
+            </div>
+          </div>
+
+          <!-- Password Input -->
+          <div class="pixel-form-group">
+            <label class="retro-label">Password</label>
+            <div class="pixel-input-container">
+              <ion-icon name="lock-closed" class="pixel-icon"></ion-icon>
+              <ion-input
+                class="pixel-input"
+                [type]="showPassword ? 'text' : 'password'"
+                [(ngModel)]="registerData.password"
+                name="password"
+                placeholder="Create a password"
+                required
+                [disabled]="isLoading">
+              </ion-input>
+              <button type="button" class="pixel-button-small" (click)="togglePasswordVisibility()">
+                <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+              </button>
+            </div>
+          </div>
+
+          <!-- Password Strength Indicator -->
+          <div class="pixel-form-group" *ngIf="registerData.password">
+            <div class="password-strength">
+              <div class="pixel-progress-bar">
+                <div class="pixel-progress" 
+                  [style.width]="(getPasswordStrength() === 'weak' ? 33 : getPasswordStrength() === 'medium' ? 66 : 100) + '%'"
+                  [ngClass]="getPasswordStrength()">
+                </div>
+              </div>
+              <p class="retro-text strength-text" [ngClass]="getPasswordStrength()">
+                Password strength: {{ getPasswordStrength() | titlecase }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Confirm Password Input -->
+          <div class="pixel-form-group">
+            <label class="retro-label">Confirm Password</label>
+            <div class="pixel-input-container">
+              <ion-icon name="lock-closed" class="pixel-icon"></ion-icon>
+              <ion-input
+                class="pixel-input"
+                [type]="showConfirmPassword ? 'text' : 'password'"
+                [(ngModel)]="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                required
+                [disabled]="isLoading">
+              </ion-input>
+              <button type="button" class="pixel-button-small" (click)="toggleConfirmPasswordVisibility()">
+                <ion-icon [name]="showConfirmPassword ? 'eye-off' : 'eye'"></ion-icon>
+              </button>
+            </div>
+          </div>
+
+          <!-- Password Match Indicator -->
+          <div class="pixel-form-group" *ngIf="confirmPassword">
+            <div class="password-match" [ngClass]="registerData.password === confirmPassword ? 'match' : 'no-match'">
+              <ion-icon [name]="registerData.password === confirmPassword ? 'checkmark-circle' : 'close-circle'"></ion-icon>
+              <span class="retro-text">
+                {{ registerData.password === confirmPassword ? 'Passwords match' : 'Passwords do not match' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Register Button -->
+          <button 
+            type="submit" 
+            class="pixel-button"
+            [disabled]="isLoading || !registerForm.form.valid || registerData.password !== confirmPassword">
+            <ion-spinner *ngIf="isLoading" name="crescent" class="button-icon"></ion-spinner>
+            <span *ngIf="!isLoading">
+              <ion-icon name="person-add" class="button-icon"></ion-icon>
+              Create Account
+            </span>
+            <span *ngIf="isLoading">Creating Account...</span>
+          </button>
+
+          <!-- Terms and Conditions -->
+          <div class="pixel-form-group terms-section">
+            <p class="retro-text small-text">
+              By creating an account, you agree to our 
+              <a href="#" class="pixel-link inline" (click)="$event.preventDefault()">Terms of Service</a> 
+              and 
+              <a href="#" class="pixel-link inline" (click)="$event.preventDefault()">Privacy Policy</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Login Link -->
+    <div class="pixel-section">
+      <p class="retro-text">Already have an account?</p>
+      <button 
+        class="pixel-button-outline" 
+        (click)="goToLogin()"
+        [disabled]="isLoading">
+        <ion-icon name="log-in" class="button-icon"></ion-icon>
+        Log In
+      </button>
+    </div>
+
+    <!-- Password Requirements -->
+    <div class="pixel-card info-card">
+      <div class="pixel-card-content">
+        <div class="requirements-info">
+          <ion-icon name="information-circle" class="info-icon"></ion-icon>
+          <div>
+            <p class="retro-text"><strong>Password Requirements:</strong></p>
+            <p class="retro-text small-text">• At least 6 characters long</p>
+            <p class="retro-text small-text">• Mix of letters and numbers recommended</p>
+            <p class="retro-text small-text">• Keep it secure and memorable</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

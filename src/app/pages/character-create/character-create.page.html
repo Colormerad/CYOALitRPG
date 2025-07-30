@@ -1,0 +1,42 @@
+<div class="create-character-container">
+  <div class="create-character-card">
+    <h1>Create Your Character</h1>
+    
+    <div *ngIf="loading" class="loading">
+      <p>Creating character...</p>
+    </div>
+    
+    <div *ngIf="error" class="error-message">
+      <p>{{ error }}</p>
+    </div>
+    
+    <div class="form-group">
+      <label for="characterName">Character Name</label>
+      <input 
+        type="text" 
+        id="characterName" 
+        name="characterName" 
+        [(ngModel)]="characterName" 
+        placeholder="Enter a name for your character"
+        [disabled]="loading"
+      >
+    </div>
+    
+    <div class="button-group">
+      <button 
+        class="cancel-button" 
+        (click)="cancel()" 
+        [disabled]="loading"
+      >
+        Cancel
+      </button>
+      <button 
+        class="create-button" 
+        (click)="createCharacter()" 
+        [disabled]="loading || !characterName.trim()"
+      >
+        Create Character
+      </button>
+    </div>
+  </div>
+</div>

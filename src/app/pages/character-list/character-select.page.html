@@ -1,0 +1,64 @@
+<ion-content class="retro-content scanlines">
+  <div class="pixel-container">
+    <h1 class="retro-header">Character Select</h1>
+    <div class="welcome-message retro-text">Welcome, {{username}}!</div>
+    
+    <!-- Loading state -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="retro-text">Loading...</div>
+      <div class="pixel-loader"></div>
+    </div>
+    
+    <!-- Error state -->
+    <div *ngIf="error" class="error-container">
+      <div class="retro-text error-text">{{ error }}</div>
+      <button class="pixel-button" (click)="ngOnInit()">Retry</button>
+    </div>
+    
+    <!-- No characters state -->
+    <div *ngIf="!loading && !error && characters.length === 0" class="empty-state">
+      <div class="pixel-art-container">
+        <div class="pixel-art-character empty-slot"></div>
+      </div>
+      <div class="retro-text">No characters found</div>
+      <div class="retro-text hint-text">Begin your first adventure!</div>
+      <button class="pixel-button create-btn" (click)="createCharacter()">
+        Start
+      </button>
+    </div>
+    
+    <!-- Character list -->
+    <div *ngIf="!loading && !error && characters.length > 0" class="character-list">
+      <div class="characters-grid">
+        <div *ngFor="let character of characters" 
+             class="character-card" 
+             (click)="selectCharacter(character)">
+          <div class="pixel-art-container">
+            <div class="pixel-art-character" 
+                 [ngClass]="character.class?.toLowerCase() || 'warrior'"></div>
+          </div>
+          <div class="character-info">
+            <div class="character-name">{{ character.name }}</div>
+            <div class="character-details">
+              <span>Lvl {{ character.level || 1 }}</span>
+              <span>{{ character.class || 'Warrior' }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Create new character card -->
+        <div class="character-card new-character" (click)="createCharacter()">
+          <div class="pixel-art-container">
+            <div class="pixel-art-character empty-slot"></div>
+          </div>
+          <div class="character-info">
+            <div class="character-name">New Character</div>
+            <div class="character-details">
+              <span>Create</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

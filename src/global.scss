@@ -25,6 +25,14 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+/* Import Retro Pixel Art Theme */
+@import "./theme/retro-theme.scss";
+@import "./theme/retro-ionic-overrides.scss";
+@import "./theme/scrolling-fix.scss";
+
+/* Import Pixel Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------

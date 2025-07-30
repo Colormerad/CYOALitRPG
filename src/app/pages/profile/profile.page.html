@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar class="retro-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/character-select" class="pixel-button"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="retro-header">Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="retro-content scanlines">
+  <div class="pixel-container">
+    <h1 class="retro-header">Account Settings</h1>
+    
+    <!-- Loading state -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="retro-text">Loading...</div>
+      <div class="pixel-loader"></div>
+    </div>
+    
+    <!-- Error state -->
+    <div *ngIf="error" class="error-container">
+      <div class="retro-text error-text">{{ error }}</div>
+      <button class="pixel-button" (click)="loadAccountData()">Retry</button>
+    </div>
+    
+    <!-- Account Info -->
+    <div *ngIf="!loading && !error" class="account-section">
+      <div class="pixel-art-container">
+        <div class="pixel-art-avatar"></div>
+      </div>
+      
+      <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="profile-form">
+        <!-- Username Field -->
+        <div class="form-group">
+          <label class="retro-label">Username</label>
+          <input type="text" formControlName="username" class="pixel-input" [readonly]="!editMode" />
+          <div *ngIf="profileForm.get('username')?.invalid && profileForm.get('username')?.touched" class="error-text">
+            Username must be 3-20 characters
+          </div>
+        </div>
+        
+        <!-- Email Field -->
+        <div class="form-group">
+          <label class="retro-label">Email</label>
+          <input type="email" formControlName="email" class="pixel-input" [readonly]="!editMode" />
+          <div *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" class="error-text">
+            Please enter a valid email
+          </div>
+        </div>
+        
+        <!-- Password Fields (only shown in edit mode) -->
+        <div *ngIf="editMode" class="form-group">
+          <label class="retro-label">New Password</label>
+          <input type="password" formControlName="password" class="pixel-input" />
+          <div *ngIf="profileForm.get('password')?.invalid && profileForm.get('password')?.touched" class="error-text">
+            Password must be at least 6 characters
+          </div>
+        </div>
+        
+        <div *ngIf="editMode" class="form-group">
+          <label class="retro-label">Confirm Password</label>
+          <input type="password" formControlName="confirmPassword" class="pixel-input" />
+          <div *ngIf="passwordsDoNotMatch()" class="error-text">
+            Passwords do not match
+          </div>
+        </div>
+        
+        <!-- Account Stats -->
+        <div class="account-stats">
+          <div class="stat-item">
+            <span class="retro-label">Account Created:</span>
+            <span class="retro-text">{{ accountCreatedDate }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="retro-label">Characters:</span>
+            <span class="retro-text">{{ characterCount }}</span>
+          </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button *ngIf="!editMode" type="button" class="pixel-button edit-btn" (click)="toggleEditMode()">
+            Edit Profile
+          </button>
+          <button *ngIf="editMode" type="submit" class="pixel-button save-btn" [disabled]="profileForm.invalid || passwordsDoNotMatch()">
+            Save Changes
+          </button>
+          <button *ngIf="editMode" type="button" class="pixel-button cancel-btn" (click)="cancelEdit()">
+            Cancel
+          </button>
+          <button type="button" class="pixel-button logout-btn" (click)="logout()">
+            Logout
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

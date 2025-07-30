@@ -1,0 +1,281 @@
+.game-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'VT323', monospace;
+  background-color: var(--retro-bg);
+  color: var(--retro-text);
+  min-height: 100%;
+  height: auto;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  
+  h1 {
+    margin: 0;
+    color: var(--retro-green-brightest, var(--retro-green-lightest));
+    font-size: 2.2rem;
+    font-family: 'Press Start 2P', 'VT323', monospace;
+    text-shadow: 0 0 5px var(--retro-green-medium);
+  }
+  
+  .back-button {
+    padding: 10px 16px;
+    background-color: var(--retro-button-bg);
+    color: var(--retro-button-text);
+    border: 2px solid var(--retro-border);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-family: 'VT323', monospace;
+    
+    &:hover {
+      background-color: var(--retro-green-medium);
+      color: var(--retro-green-lightest);
+      text-shadow: 0 0 3px var(--retro-green-darkest);
+    }
+  }
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.4rem;
+  color: var(--retro-green-light);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+.error {
+  background-color: var(--retro-green-dark);
+  color: var(--retro-green-lightest);
+  padding: 15px;
+  border: 2px solid var(--retro-border);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: center;
+  
+  button {
+    margin-top: 10px;
+    padding: 10px 16px;
+    background-color: var(--retro-button-bg);
+    color: var(--retro-button-text);
+    border: 2px solid var(--retro-border);
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    
+    &:hover {
+      background-color: var(--retro-green-medium);
+      color: var(--retro-green-lightest);
+    }
+  }
+}
+
+.story-content {
+  margin-bottom: 30px;
+}
+
+.story-node {
+  background-color: var(--retro-green-dark);
+  padding: 25px;
+  border-radius: 8px;
+  border: 2px solid var(--retro-border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
+  
+  h2 {
+    margin-top: 0;
+    color: var(--retro-green-lightest);
+    font-size: 1.6rem;
+    font-family: 'Press Start 2P', 'VT323', monospace;
+    text-shadow: 0 0 3px var(--retro-green-medium);
+    margin-bottom: 15px;
+  }
+  
+  .story-text {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--retro-text);
+    
+    p {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+.password-input {
+  margin-top: 20px;
+  
+  h3 {
+    color: var(--retro-green-lightest);
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    font-family: 'VT323', monospace;
+    text-shadow: 0 0 3px var(--retro-green-medium);
+  }
+  
+  .input-group {
+    display: flex;
+    
+    input {
+      flex: 1;
+      padding: 12px 15px;
+      font-size: 1.2rem;
+      font-family: 'VT323', monospace;
+      background-color: var(--retro-input-bg);
+      color: var(--retro-input-text);
+      border: 2px solid var(--retro-border);
+      border-radius: 4px 0 0 4px;
+      outline: none;
+      
+      &:focus {
+        border-color: var(--retro-green-lightest);
+        box-shadow: 0 0 0 2px rgba(197, 230, 138, 0.2);
+      }
+    }
+    
+    button {
+      padding: 12px 20px;
+      background-color: var(--retro-button-bg);
+      color: var(--retro-button-text);
+      border: 2px solid var(--retro-border);
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      
+      &:hover {
+        background-color: var(--retro-green-medium);
+        color: var(--retro-green-lightest);
+      }
+    }
+  }
+}
+
+.choices {
+  margin-top: 30px;
+  
+  h3 {
+    color: var(--retro-green-lightest);
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    font-family: 'VT323', monospace;
+    text-shadow: 0 0 3px var(--retro-green-medium);
+  }
+  
+  .choice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    
+    .choice-item {
+      .choice-button {
+        width: 100%;
+        padding: 15px 20px;
+        background-color: var(--retro-button-bg);
+        color: var(--retro-button-text);
+        border: 2px solid var(--retro-border);
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: 'VT323', monospace;
+        font-size: 1.2rem;
+        text-align: left;
+        transition: all 0.2s;
+        
+        &:hover {
+          background-color: var(--retro-green-medium);
+          color: var(--retro-green-lightest);
+          text-shadow: 0 0 3px var(--retro-green-darkest);
+          transform: scale(1.01);
+        }
+      }
+    }
+  }
+}
+
+.player-status {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: var(--retro-green-dark);
+  border: 2px solid var(--retro-border);
+  border-radius: 8px;
+  
+  h3 {
+    margin-top: 0;
+    color: var(--retro-green-lightest);
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    font-family: 'Press Start 2P', 'VT323', monospace;
+    text-shadow: 0 0 3px var(--retro-green-medium);
+  }
+  
+  .character-info {
+    .metadata {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      
+      .metadata-item {
+        padding: 10px;
+        background-color: var(--retro-green-darkest);
+        border: 1px solid var(--retro-border);
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        
+        .label {
+          font-weight: bold;
+          color: var(--retro-green-light);
+          margin-right: 5px;
+          font-family: 'VT323', monospace;
+        }
+        
+        .value {
+          color: var(--retro-green-lightest);
+          font-family: 'VT323', monospace;
+        }
+      }
+    }
+  }
+}
+
+// Ensure scrollable content
+html, body {
+  overflow-y: auto !important;
+}
+
+// Game page specific scrolling
+.game-page-content {
+  position: relative;
+  display: block;
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    
+    h1 {
+      margin-bottom: 15px;
+    }
+  }
+  
+  .player-status .character-info .metadata {
+    grid-template-columns: 1fr;
+  }
+}

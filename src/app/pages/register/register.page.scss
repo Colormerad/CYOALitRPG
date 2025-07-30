@@ -1,0 +1,429 @@
+// Import retro theme mixins
+@import "../../../theme/retro-theme.scss";
+
+.retro-content {
+  --background: var(--retro-bg);
+  
+  .pixel-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: var(--retro-bg);
+    
+    .logo-section {
+      text-align: center;
+      margin-bottom: 30px;
+      
+      .pixel-art-logo {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 10px;
+        
+        ion-icon {
+          font-size: 48px;
+          color: var(--retro-green-light);
+        }
+      }
+      
+      .retro-header {
+        color: var(--retro-text);
+        font-size: 2rem;
+        font-family: 'Press Start 2P', 'VT323', monospace;
+        margin: 10px 0;
+        text-shadow: 2px 2px 0 var(--retro-green-darkest);
+        letter-spacing: 1px;
+      }
+      
+      .retro-text {
+        color: var(--retro-green-light);
+        font-size: 1rem;
+        font-family: 'VT323', monospace;
+        margin: 0;
+        letter-spacing: 1px;
+      }
+    }
+    
+    .pixel-card {
+      width: 100%;
+      max-width: 400px;
+      background-color: var(--retro-green-darkest);
+      border: 2px solid var(--retro-border);
+      padding: 16px;
+      margin-bottom: 20px;
+      @include pixel-border(2px, var(--retro-border));
+      
+      .pixel-card-header {
+        text-align: center;
+        padding-bottom: 16px;
+        border-bottom: 2px dashed var(--retro-border);
+        margin-bottom: 16px;
+        
+        h2.retro-header {
+          color: var(--retro-green-light);
+          font-size: 1.5rem;
+          font-family: 'Press Start 2P', 'VT323', monospace;
+          margin-bottom: 8px;
+        }
+        
+        p.retro-text {
+          color: var(--retro-text);
+          font-size: 1rem;
+          font-family: 'VT323', monospace;
+        }
+      }
+    }
+      
+      .pixel-card-content {
+        .pixel-form-group {
+          margin-bottom: 16px;
+          
+          .retro-label {
+            display: block;
+            color: var(--retro-green-light);
+            font-family: 'VT323', monospace;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+          }
+          
+          .pixel-input-container {
+            display: flex;
+            align-items: center;
+            background-color: var(--retro-green-dark);
+            border: 2px solid var(--retro-border);
+            padding: 4px 8px;
+            
+            .pixel-icon {
+              color: var(--retro-green-light);
+              margin-right: 8px;
+              font-size: 1.2rem;
+            }
+            
+            .pixel-input {
+              --background: transparent;
+              --color: var(--retro-text);
+              --placeholder-color: var(--retro-green-light);
+              --placeholder-opacity: 0.7;
+              font-family: 'VT323', monospace;
+              font-size: 1.1rem;
+              --padding-start: 0;
+            }
+            
+            .pixel-button-small {
+              background: transparent;
+              color: var(--retro-green-light);
+              border: none;
+              padding: 4px 8px;
+              
+              &:active {
+                color: var(--retro-highlight);
+              }
+            }
+          }
+        }
+      
+      .password-strength {
+        margin: 8px 0 16px 0;
+        
+        .pixel-progress-bar {
+          height: 8px;
+          background-color: var(--retro-green-dark);
+          border: 2px solid var(--retro-border);
+          margin-bottom: 4px;
+          
+          .pixel-progress {
+            height: 100%;
+            background-color: var(--retro-green-medium);
+            
+            &.weak {
+              background-color: var(--retro-danger);
+              width: 33%;
+            }
+            
+            &.medium {
+              background-color: var(--retro-warning);
+              width: 66%;
+            }
+            
+            &.strong {
+              background-color: var(--retro-success);
+              width: 100%;
+            }
+          }
+        }
+        
+        .strength-text {
+          font-size: 0.9rem;
+          
+          &.weak {
+            color: var(--retro-danger);
+          }
+          
+          &.medium {
+            color: var(--retro-warning);
+          }
+          
+          &.strong {
+            color: var(--retro-success);
+          }
+        }
+      }
+      
+      .password-match {
+        margin: 8px 0 16px 0;
+        display: flex;
+        align-items: center;
+        
+        &.match {
+          color: var(--retro-success);
+        }
+        
+        &.no-match {
+          color: var(--retro-danger);
+        }
+        
+        ion-icon {
+          margin-right: 4px;
+          font-size: 1rem;
+        }
+        
+        .retro-text {
+          font-size: 0.9rem;
+        }
+      }
+      
+      .pixel-button {
+        width: 100%;
+        background-color: var(--retro-button-bg);
+        color: var(--retro-button-text);
+        border: 2px solid var(--retro-border);
+        padding: 10px 16px;
+        font-family: 'Press Start 2P', 'VT323', monospace;
+        text-transform: uppercase;
+        margin-top: 16px;
+        position: relative;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        
+        .button-icon {
+          margin-right: 8px;
+        }
+        
+        &:active:not([disabled]) {
+          transform: translateY(2px);
+          background-color: var(--retro-green-medium);
+        }
+        
+        &[disabled] {
+          opacity: 0.6;
+        }
+      }
+      
+      .pixel-link {
+        background: transparent;
+        color: var(--retro-green-light);
+        border: none;
+        font-family: 'VT323', monospace;
+        font-size: 1rem;
+        margin-top: 8px;
+        padding: 4px;
+        width: 100%;
+        text-decoration: underline;
+        
+        &.inline {
+          display: inline;
+          margin: 0;
+          padding: 0;
+        }
+        
+        &:active:not([disabled]) {
+          color: var(--retro-highlight);
+        }
+      }
+      
+      .terms-section {
+        margin-top: 16px;
+        text-align: center;
+        
+        .small-text {
+          font-size: 0.9rem;
+          opacity: 0.9;
+        }
+      }
+      
+      .pixel-section {
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        margin-top: 16px;
+        
+        .retro-text {
+          color: var(--retro-text);
+          margin-bottom: 12px;
+          font-family: 'VT323', monospace;
+          font-size: 1.1rem;
+        }
+        
+        .pixel-button-outline {
+          background-color: transparent;
+          color: var(--retro-green-light);
+          border: 2px dashed var(--retro-border);
+          width: 100%;
+          padding: 10px 16px;
+          font-family: 'Press Start 2P', 'VT323', monospace;
+          font-size: 1rem;
+          
+          &:active:not([disabled]) {
+            background-color: var(--retro-green-darkest);
+            color: var(--retro-highlight);
+          }
+        }
+      }
+      
+      .info-card {
+        margin-top: 20px;
+        
+        .requirements-info {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          
+          .info-icon {
+            color: var(--retro-green-light);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+          }
+          
+          .small-text {
+            margin: 4px 0;
+          }
+        }
+      }
+      
+      .requirements-card {
+        width: 100%;
+        max-width: 400px;
+        margin-top: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        
+        .requirements-info {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          color: white;
+          
+          ion-icon {
+            font-size: 1.2rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+          }
+          
+          div {
+            font-size: 0.9rem;
+            line-height: 1.4;
+          }
+        }
+      }
+    }
+    
+    .login-section {
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      margin-top: 16px;
+      
+      .retro-text {
+        color: var(--retro-text);
+        margin-bottom: 12px;
+        font-family: 'VT323', monospace;
+        font-size: 1.1rem;
+      }
+      
+      .pixel-button-outline {
+        background-color: transparent;
+        color: var(--retro-green-light);
+        border: 2px dashed var(--retro-border);
+        width: 100%;
+        padding: 10px 16px;
+        font-family: 'Press Start 2P', 'VT323', monospace;
+        font-size: 1rem;
+        
+        &:active:not([disabled]) {
+          background-color: var(--retro-green-darkest);
+          color: var(--retro-highlight);
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 480px) {
+  .retro-content .pixel-container {
+    padding: 15px;
+    
+    .logo-section {
+      margin-bottom: 20px;
+      
+      .pixel-art-logo {
+        width: 48px;
+        height: 48px;
+      }
+      
+      .retro-header {
+        font-size: 1.5rem;
+      }
+    }
+    
+    .pixel-card {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+// Animation for form elements
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-card {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.login-section {
+  animation: slideInUp 0.8s ease-out;
+}
+
+.requirements-card {
+  animation: slideInUp 1s ease-out;
+}
+
+// Form validation styles
+.auth-item {
+  &.ng-invalid.ng-touched {
+    --border-color: var(--ion-color-danger);
+    
+    ion-input {
+      --color: var(--ion-color-danger);
+    }
+  }
+  
+  &.ng-valid.ng-touched {
+    --border-color: var(--ion-color-success);
+  }
+}

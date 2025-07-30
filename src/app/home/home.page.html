@@ -1,20 +1,139 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="dark">
     <ion-title>
-      Blank
+      <ion-icon name="book" slot="start"></ion-icon>
+      CYOALitRPG
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="showCharacterStats()" [disabled]="!currentCharacter">
+        <ion-icon name="person" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="restartGame()">
+        <ion-icon name="refresh" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="game-content">
+  <!-- Connection Status -->
+  <ion-card class="status-card" [color]="isConnected ? 'success' : 'danger'">
+    <ion-card-content>
+      <ion-icon [name]="isConnected ? 'checkmark-circle' : 'close-circle'" slot="start"></ion-icon>
+      <span>{{ isConnected ? 'Database Connected' : 'Database Disconnected' }}</span>
+    </ion-card-content>
+  </ion-card>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <!-- Character Stats Bar -->
+  <ion-card *ngIf="currentCharacter" class="character-card">
+    <ion-card-header>
+      <ion-card-title>{{ currentCharacter.name }}</ion-card-title>
+      <ion-card-subtitle>Level {{ currentCharacter.level }} Hero</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4">
+            <div class="stat-item">
+              <ion-icon name="heart" color="danger"></ion-icon>
+              <span>{{ currentCharacter.health }}</span>
+            </div>
+          </ion-col>
+          <ion-col size="4">
+            <div class="stat-item">
+              <ion-icon name="flash" color="primary"></ion-icon>
+              <span>{{ currentCharacter.mana }}</span>
+            </div>
+          </ion-col>
+          <ion-col size="4">
+            <div class="stat-item">
+              <ion-icon name="star" color="warning"></ion-icon>
+              <span>{{ currentCharacter.experience }}</span>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4">
+            <div class="stat-item">
+              <ion-icon name="fitness" color="dark"></ion-icon>
+              <span>{{ currentCharacter.strength }}</span>
+            </div>
+          </ion-col>
+          <ion-col size="4">
+            <div class="stat-item">
+              <ion-icon name="walk" color="secondary"></ion-icon>
+              <span>{{ currentCharacter.agility }}</span>
+            </div>
+          </ion-col>
+          <ion-col size="4">
+            <div class="stat-item">
+              <ion-icon name="library" color="tertiary"></ion-icon>
+              <span>{{ currentCharacter.intelligence }}</span>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Story Content -->
+  <ion-card *ngIf="currentStoryNode" class="story-card">
+    <ion-card-header>
+      <ion-card-title>{{ currentStoryNode.title }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p class="story-text">{{ currentStoryNode.content }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Loading...</p>
   </div>
+
+  <!-- Choices -->
+  <div *ngIf="availableChoices.length > 0 && !isLoading" class="choices-container">
+    <h3>What do you choose?</h3>
+    <ion-button 
+      *ngFor="let choice of availableChoices" 
+      expand="block" 
+      fill="outline" 
+      class="choice-button"
+      (click)="makeChoice(choice)"
+      [disabled]="isLoading">
+      <ion-icon name="arrow-forward" slot="end"></ion-icon>
+      {{ choice.choice_text }}
+    </ion-button>
+  </div>
+
+  <!-- No Choices Available -->
+  <ion-card *ngIf="availableChoices.length === 0 && !isLoading && currentStoryNode" color="medium">
+    <ion-card-content>
+      <div class="text-center">
+        <ion-icon name="flag" size="large"></ion-icon>
+        <h3>The End</h3>
+        <p>You've reached the end of this story path!</p>
+        <ion-button (click)="restartGame()" color="primary">
+          <ion-icon name="refresh" slot="start"></ion-icon>
+          Start Over
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Instructions -->
+  <ion-card *ngIf="!isConnected" color="warning">
+    <ion-card-header>
+      <ion-card-title>Getting Started</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>To play CYOALitRPG, you need to:</p>
+      <ol>
+        <li>Start the PostgreSQL database: <code>docker-compose up -d</code></li>
+        <li>Start the backend server: <code>cd backend && npm start</code></li>
+        <li>Refresh this page</li>
+      </ol>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

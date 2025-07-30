@@ -1,0 +1,136 @@
+/* 
+ * Retro Pixel Art Theme
+ * Inspired by monochromatic green Game Boy aesthetic
+ */
+
+// Base colors
+:root {
+  // Main green shades (from darkest to lightest)
+  --retro-green-darkest: #0f380f;
+  --retro-green-dark: #306230;
+  --retro-green-medium: #8bac0f;
+  --retro-green-light: #9bbc0f;
+  --retro-green-lightest: #c5e68a;
+  
+  // Background and text colors
+  --retro-bg: var(--retro-green-darkest);
+  --retro-text: var(--retro-green-lightest);
+  --retro-border: var(--retro-green-medium);
+  
+  // UI element colors
+  --retro-button-bg: var(--retro-green-dark);
+  --retro-button-text: var(--retro-green-lightest);
+  --retro-input-bg: var(--retro-green-dark);
+  --retro-input-text: var(--retro-green-lightest);
+  
+  // Accent colors
+  --retro-accent: var(--retro-green-light);
+  --retro-highlight: var(--retro-green-lightest);
+}
+
+// Pixel art rendering
+.pixel-art {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+// Pixel borders
+@mixin pixel-border($size: 2px, $color: var(--retro-border)) {
+  border: $size solid $color;
+  box-shadow: 
+    $size $size 0 0 $color,
+    -$size $size 0 0 $color,
+    $size -$size 0 0 $color,
+    -$size -$size 0 0 $color;
+}
+
+// Pixel button style
+.pixel-button {
+  background-color: var(--retro-button-bg);
+  color: var(--retro-button-text);
+  border: none;
+  padding: 8px 16px;
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  text-transform: uppercase;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    border: 2px solid var(--retro-border);
+    pointer-events: none;
+  }
+  
+  &:active {
+    transform: translateY(2px);
+  }
+}
+
+// Pixel input style
+.pixel-input {
+  background-color: var(--retro-input-bg);
+  color: var(--retro-input-text);
+  border: 2px solid var(--retro-border);
+  padding: 8px;
+  font-family: 'Press Start 2P', 'VT323', monospace;
+}
+
+// Pixel container style
+.pixel-container {
+  background-color: var(--retro-bg);
+  border: 2px solid var(--retro-border);
+  padding: 16px;
+}
+
+// Scanline effect
+.scanlines {
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      rgba(0, 0, 0, 0.1) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0.3;
+  }
+}
+
+// CRT screen effect
+.crt-screen {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(0, 0, 0, 0.2) 90%
+    );
+    pointer-events: none;
+    z-index: 5;
+  }
+}

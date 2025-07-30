@@ -1,0 +1,157 @@
+// Profile Page Styles
+
+// Container styling
+.pixel-container {
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+// Account section
+.account-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+// Pixel art avatar
+.pixel-art-container {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pixel-art-avatar {
+  width: 80px;
+  height: 80px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAhGVYSWZNTQAqAAAACAAFARIAAwAAAAEAAQAAARoABQAAAAEAAABKARsABQAAAAEAAABSASgAAwAAAAEAAgAAh2kABAAAAAEAAABaAAAAAAAAAEgAAAABAAAASAAAAAEAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAADHbxzxAAAACXBIWXMAAAsTAAALEwEAmpwYAAACyGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNi4wLjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgICAgICAgICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iPgogICAgICAgICA8dGlmZjpZUmVzb2x1dGlvbj43MjwvdGlmZjpZUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6UmVzb2x1dGlvblVuaXQ+MjwvdGlmZjpSZXNvbHV0aW9uVW5pdD4KICAgICAgICAgPHRpZmY6WFJlc29sdXRpb24+NzI8L3RpZmY6WFJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj42NDwvZXhpZjpQaXhlbFhEaW1lbnNpb24+CiAgICAgICAgIDxleGlmOkNvbG9yU3BhY2U+MTwvZXhpZjpDb2xvclNwYWNlPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+NjQ8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4K+y8wEAAAAIVJREFUOBFjYBgFgJGBgYHh9OnT/0F8EBvGh4mD5GBqYHxGmACIDRMEsWGGwMRgbGQ+TA5ZnAlZM4wNMwAmBmMj82FyyOIwPiOyIEwBugEwMRgbnY8sDhNH9gIjzICLFy+Cow5mCDIbxkcWh4nD+MhsWBgwwhTDxGBsdD6yOEwcxkdmAwCZuS1SHf9OjgAAAABJRU5ErkJggg==");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  border: 2px solid var(--retro-border);
+  padding: 10px;
+  background-color: var(--retro-green-dark);
+}
+
+// Form styling
+.profile-form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.retro-label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  font-size: 12px;
+  color: var(--retro-green-lightest);
+}
+
+// Account stats
+.account-stats {
+  margin: 20px 0;
+  border: 2px solid var(--retro-border);
+  padding: 15px;
+  background-color: var(--retro-green-darkest);
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Action buttons
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+// Button styles
+.edit-btn {
+  background-color: var(--retro-green-medium);
+}
+
+.save-btn {
+  background-color: var(--retro-green-medium);
+}
+
+.cancel-btn {
+  background-color: var(--retro-green-dark);
+}
+
+.logout-btn {
+  background-color: #8b2e2e;
+  margin-top: 10px;
+  width: 100%;
+}
+
+// Error text
+.error-text {
+  color: #ff6b6b;
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+// Loading container
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.pixel-loader {
+  width: 40px;
+  height: 40px;
+  margin-top: 20px;
+  border: 4px solid var(--retro-green-dark);
+  border-top: 4px solid var(--retro-green-lightest);
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Error container
+.error-container {
+  text-align: center;
+  padding: 20px;
+  
+  .error-text {
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+}
+
+// Retro toast
+.retro-toast {
+  --background: var(--retro-green-dark);
+  --color: var(--retro-green-lightest);
+  --border-color: var(--retro-border);
+  --border-width: 2px;
+  --border-style: solid;
+  font-family: 'Press Start 2P', 'VT323', monospace;
+}

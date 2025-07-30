@@ -1,0 +1,214 @@
+/* 
+ * Retro Pixel Art Ionic Component Overrides
+ * Applies the retro theme to standard Ionic components
+ */
+
+:root {
+  /* Apply retro colors to Ionic variables */
+  --ion-background-color: var(--retro-bg);
+  --ion-background-color-rgb: 15, 56, 15;
+  
+  --ion-text-color: var(--retro-text);
+  --ion-text-color-rgb: 197, 230, 138;
+  
+  --ion-color-primary: var(--retro-green-medium);
+  --ion-color-primary-rgb: 139, 172, 15;
+  --ion-color-primary-contrast: var(--retro-green-lightest);
+  --ion-color-primary-contrast-rgb: 197, 230, 138;
+  --ion-color-primary-shade: var(--retro-green-dark);
+  --ion-color-primary-tint: var(--retro-green-light);
+  
+  --ion-color-secondary: var(--retro-green-light);
+  --ion-color-secondary-rgb: 155, 188, 15;
+  --ion-color-secondary-contrast: var(--retro-green-darkest);
+  --ion-color-secondary-contrast-rgb: 15, 56, 15;
+  --ion-color-secondary-shade: var(--retro-green-medium);
+  --ion-color-secondary-tint: var(--retro-green-lightest);
+  
+  --ion-item-background: var(--retro-green-dark);
+  --ion-toolbar-background: var(--retro-green-darkest);
+  --ion-tab-bar-background: var(--retro-green-darkest);
+  
+  /* Font family overrides */
+  --ion-font-family: 'VT323', monospace;
+}
+
+/* Apply pixel art styling to common Ionic components */
+
+/* Buttons */
+ion-button {
+  --background: var(--retro-button-bg);
+  --color: var(--retro-button-text);
+  --border-width: 2px;
+  --border-style: solid;
+  --border-color: var(--retro-border);
+  --box-shadow: none;
+  --border-radius: 0px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  letter-spacing: -0.5px;
+  height: auto;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  text-transform: uppercase;
+}
+
+/* Inputs */
+ion-input, ion-textarea, ion-select {
+  --background: var(--retro-input-bg);
+  --color: var(--retro-input-text);
+  --border-color: var(--retro-border);
+  --border-width: 2px;
+  --border-style: solid;
+  --border-radius: 0px;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+}
+
+/* Cards */
+ion-card {
+  --background: var(--retro-green-dark);
+  --color: var(--retro-text);
+  border: 2px solid var(--retro-border);
+  border-radius: 0;
+  box-shadow: 4px 4px 0 var(--retro-green-darkest);
+}
+
+ion-card-header {
+  --background: var(--retro-green-medium);
+  --color: var(--retro-green-lightest);
+  border-bottom: 2px solid var(--retro-border);
+}
+
+ion-card-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+/* Lists */
+ion-item {
+  --background: var(--retro-green-dark);
+  --color: var(--retro-text);
+  --border-color: var(--retro-border);
+  --border-width: 2px;
+  --border-style: solid;
+  --padding-start: 8px;
+  --inner-padding-end: 8px;
+  --min-height: 48px;
+}
+
+/* Headers */
+ion-header ion-toolbar {
+  --background: var(--retro-green-darkest);
+  --color: var(--retro-green-lightest);
+  --border-color: var(--retro-border);
+  --border-width: 0 0 2px 0;
+  --border-style: solid;
+}
+
+ion-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+/* Tab Bar */
+ion-tab-bar {
+  --background: var(--retro-green-darkest);
+  --color: var(--retro-green-medium);
+  --selected-color: var(--retro-green-lightest);
+  border-top: 2px solid var(--retro-border);
+}
+
+/* Scanline effect on the entire app */
+ion-content {
+  position: relative;
+}
+
+ion-content::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(0, 0, 0, 0.1) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0.3;
+}
+
+/* Pixel art images */
+.pixel-image {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Custom classes for retro UI elements */
+.retro-container {
+  background-color: var(--retro-green-dark);
+  border: 2px solid var(--retro-border);
+  padding: 16px;
+  margin: 16px;
+}
+
+.retro-header {
+  font-family: 'Press Start 2P', monospace;
+  color: var(--retro-green-lightest);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.retro-text {
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  color: var(--retro-text);
+  line-height: 1.2;
+}
+
+/* Pixel art progress bar */
+.pixel-progress {
+  height: 20px;
+  background-color: var(--retro-green-darkest);
+  border: 2px solid var(--retro-border);
+  position: relative;
+  margin: 16px 0;
+}
+
+.pixel-progress-bar {
+  height: 100%;
+  background-color: var(--retro-green-medium);
+}
+
+/* Pixel art avatar */
+.pixel-avatar {
+  border: 2px solid var(--retro-border);
+  background-color: var(--retro-green-dark);
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pixel-avatar img {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

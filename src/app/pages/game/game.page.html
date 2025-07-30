@@ -1,0 +1,53 @@
+<div class="game-container game-page-content">
+  <div class="header">
+    <h1>LitRPG Adventure</h1>
+    <button class="back-button" (click)="goToCharacterSelect()">Back to Characters</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <p>Loading...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button (click)="loadPlayerProgress()">Try Again</button>
+  </div>
+
+  <div *ngIf="!loading && !error && currentNode" class="story-content">
+    <div class="story-node">
+      <h2>{{ currentNode.title }}</h2>
+      <div class="story-text" [innerHTML]="currentNode.content"></div>
+    </div>
+
+    <div *ngIf="currentNode.requiresInput" class="password-input">
+      <h3>{{ currentNode.inputDescription || 'Enter Password' }}</h3>
+      <div class="input-group">
+        <input type="text" [(ngModel)]="passwordInput" placeholder="Enter your answer..." />
+        <button (click)="submitPassword()">Submit</button>
+      </div>
+    </div>
+
+    <div *ngIf="!currentNode.requiresInput" class="choices">
+      <h3>What will you do?</h3>
+      <div class="choice-list">
+        <div *ngFor="let choice of choices" class="choice-item">
+          <button (click)="makeChoice(choice.id || 0, choice)" class="choice-button">
+            {{ choice.text }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error && playerProgress" class="player-status">
+    <div class="character-info">
+      <h3>Character Status</h3>
+      <div class="metadata" *ngIf="playerProgress.metadata">
+        <div *ngFor="let item of objectKeys(playerProgress.metadata)" class="metadata-item">
+          <span class="label">{{ formatMetadataKey(item) }}:</span>
+          <span class="value">{{ playerProgress.metadata[item] }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
