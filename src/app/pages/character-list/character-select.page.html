@@ -1,5 +1,5 @@
-<ion-content class="retro-content scanlines">
-  <div class="pixel-container">
+<ion-content class="retro-content scanlines" [fullscreen]="true">
+  <div class="pixel-container" style="padding-bottom: 150px; margin-bottom: 50px;">
     <h1 class="retro-header">Character Select</h1>
     <div class="welcome-message retro-text">Welcome, {{username}}!</div>
     
@@ -75,5 +75,7 @@
         </div>
       </div>
     </div>
+    <!-- Bottom spacer to prevent content from being cut off by menu -->
+    <div class="bottom-spacer" style="height: 60px; width: 100%;"></div>
   </div>
 </ion-content>
