@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { AudioService } from '../../services/audio.service';
 import { Router } from '@angular/router';
 import { AuthService, LoginRequest } from '../../services/auth.service';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
@@ -9,6 +10,10 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
   styleUrls: ['./login.page.scss'],
   standalone: false
 })
+/*
+ * LoginPage component with continuous background music playback
+ * Handles audio service initialization and volume/mute controls
+ */
 export class LoginPage implements OnInit, AfterViewInit {
   @ViewChild('backgroundMusic') backgroundMusic!: ElementRef<HTMLAudioElement>;
   loginData: LoginRequest = {
@@ -24,7 +29,8 @@ export class LoginPage implements OnInit, AfterViewInit {
     private router: Router,
     private alertController: AlertController,
     private loadingController: LoadingController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private audioService: AudioService
   ) {}
 
   ngOnInit() {
@@ -48,7 +54,16 @@ export class LoginPage implements OnInit, AfterViewInit {
       
       // Set up continuous looping
       this.backgroundMusic.nativeElement.loop = true;
-      this.backgroundMusic.nativeElement.volume = 0.5; // Set volume to 50%
+      
+      // Subscribe to volume changes
+      this.audioService.volume$.subscribe(volume => {
+        this.backgroundMusic.nativeElement.volume = volume;
+      });
+      
+      // Subscribe to mute changes
+      this.audioService.muted$.subscribe(muted => {
+        this.backgroundMusic.nativeElement.muted = muted;
+      });
       
       // Add event listeners for debugging and loop handling
       this.backgroundMusic.nativeElement.addEventListener('canplay', () => {
