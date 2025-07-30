@@ -8,6 +8,135 @@ A mobile-first Choose Your Own Adventure LitRPG game built with Ionic Angular an
 - **Character Progression**: Level up your character with experience, stats, and abilities
 - **Database Integration**: PostgreSQL backend for persistent game state
 - **Modern UI**: Beautiful, responsive interface with animations and effects
+
+## Setup Instructions
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [npm](https://www.npmjs.com/) (v6 or higher)
+- [Docker](https://www.docker.com/products/docker-desktop)
+- [Docker Compose](https://docs.docker.com/compose/install/) (usually included with Docker Desktop)
+
+### PostgreSQL Database Setup
+
+#### Option 1: Using Docker (Recommended)
+
+1. Create a `docker-compose.yml` file in the project root with the following content:
+
+```yaml
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: cyoa_postgres
+    environment:
+      POSTGRES_USER: cyoa_user
+      POSTGRES_PASSWORD: cyoa_password
+      POSTGRES_DB: cyoa_litrpg
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres_data:
+```
+
+2. Start the PostgreSQL container:
+
+```bash
+docker-compose up -d
+```
+
+3. Verify the container is running:
+
+```bash
+docker ps
+```
+
+#### Option 2: Manual PostgreSQL Installation
+
+1. [Download and install PostgreSQL](https://www.postgresql.org/download/)
+2. Create a new database and user:
+
+```sql
+CREATE USER cyoa_user WITH PASSWORD 'cyoa_password';
+CREATE DATABASE cyoa_litrpg OWNER cyoa_user;
+```
+
+3. Connect to the database and run the initialization script:
+
+```bash
+psql -U cyoa_user -d cyoa_litrpg -f init.sql
+```
+
+### Database Configuration
+
+The application is configured to connect to PostgreSQL with these default settings:
+
+- Host: `localhost`
+- Port: `5432`
+- Database: `cyoa_litrpg`
+- Username: `cyoa_user`
+- Password: `cyoa_password`
+
+If you need to modify these settings, update the connection details in `backend/db-connection.js`.
+
+### Application Setup
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd CYOALitRPG
+```
+
+2. Install dependencies for both frontend and backend:
+
+```bash
+npm install
+cd backend
+npm install
+cd ..
+```
+
+3. Start the PostgreSQL database using Docker:
+
+```bash
+docker-compose up -d
+```
+
+This will automatically initialize the database with all required tables and seed data using the `init.sql` file.
+
+4. Run the story tables migration and import the story prompts:
+
+```bash
+# First, run the migration to create story tables
+psql -U cyoa_user -d cyoa_litrpg -f backend/migrations/add_story_tables.sql
+
+# Then run the import script to populate story content
+node backend/import-story-prompts.js
+```
+
+5. Run the application (both frontend and backend):
+
+```bash
+npm run start:all
+```
+
+This will start:
+- The Angular frontend at http://localhost:8100
+- The Node.js backend at http://localhost:3000
+
+### Development Commands
+
+- Start frontend only: `npm run start`
+- Start backend only: `cd backend && npm run start`
+- Run tests: `npm test`
+- Build for production: `npm run build`
 - **Real-time Updates**: Live character stats and story progression
 
 ## Tech Stack
