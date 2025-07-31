@@ -88,11 +88,30 @@
           <button *ngIf="editMode" type="button" class="pixel-button cancel-btn" (click)="cancelEdit()">
             Cancel
           </button>
-          <button type="button" class="pixel-button logout-btn" (click)="logout()">
+          <button type="button" class="pixel-button logout-btn" (click)="this.logout()">
             Logout
           </button>
         </div>
       </form>
+    </div>
+    
+    <!-- Audio Controls Section -->
+    <div class="audio-controls" *ngIf="!loading && !error">
+      <h2 class="retro-header">Audio Settings</h2>
+      <!-- Added audio controls section for volume and mute functionality -->
+      <div class="control-group">
+        <label class="retro-label">Volume</label>
+        <ion-range [value]="volume" (ionChange)="setVolume($event.detail.value)" min="0" max="1" step="0.01">
+          <ion-icon slot="start" name="volume-low"></ion-icon>
+          <ion-icon slot="end" name="volume-high"></ion-icon>
+        </ion-range>
+      </div>
+      <div class="control-group">
+        <ion-button [class.muted]="isMuted" (click)="toggleMute()">
+          <ion-icon [name]="isMuted ? 'volume-mute' : 'volume-medium'" slot="start"></ion-icon>
+          <span>{{ isMuted ? 'Unmute' : 'Mute' }}</span>
+        </ion-button>
+      </div>
     </div>
   </div>
 </ion-content>

@@ -1,3 +1,4 @@
+<!-- Added background music player for continuous audio playback -->
 <ion-header [translucent]="true">
   <ion-toolbar color="dark">
     <ion-title>
@@ -8,6 +9,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="retro-content scanlines">
+  <audio #backgroundMusic src="assets/audio/The Fun House of Doom_7.wav" loop></audio>
   <div class="pixel-container">
     <!-- Logo/Game Title -->
     <div class="logo-section">
