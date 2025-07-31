@@ -536,9 +536,12 @@ class StoryService {
         nextNodeExists = nextNodeResult.rows.length > 0;
         
         // Check if this is a death node
-        if (nextNodeExists && nextNodeResult.rows[0].title === "The End") {
+        if (nextNodeExists && nextNodeResult.rows[0].title && nextNodeResult.rows[0].title.toLowerCase() === "the end") {
           isDeathNode = true;
-          console.log(`Node ID ${nextNodeId} is a death node`);
+          console.log(`Node ID ${nextNodeId} is a death node with title '${nextNodeResult.rows[0].title}'`);
+          console.log('This should mark the character as dead');
+        } else if (nextNodeExists) {
+          console.log(`Node ID ${nextNodeId} is NOT a death node. Title: '${nextNodeResult.rows[0].title}'`);
         }
         
         console.log(`Node ID ${nextNodeId} exists: ${nextNodeExists}`);
@@ -598,14 +601,20 @@ class StoryService {
       );
       
       // If this is a death node, mark the character as dead
+      console.log(`Is death node check: isDeathNode = ${isDeathNode}`);
       if (isDeathNode) {
         console.log(`Marking character ${characterId} as dead`);
-        await client.query(
-          `UPDATE "character" 
-           SET is_dead = true, updated_at = CURRENT_TIMESTAMP
-           WHERE Id = $1`,
-          [characterId]
-        );
+        try {
+          const updateResult = await client.query(
+            `UPDATE "character" 
+             SET is_dead = true, updated_at = CURRENT_TIMESTAMP
+             WHERE Id = $1 RETURNING *`,
+            [characterId]
+          );
+          console.log('Character update result:', updateResult.rows[0]);
+        } catch (updateError) {
+          console.error('Error updating character death status:', updateError);
+        }
         
         // Add death metadata
         metadata.death_reason = "You met an unfortunate end in your adventure";

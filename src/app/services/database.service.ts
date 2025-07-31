@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 export interface User {
   id?: number;
@@ -179,12 +180,24 @@ export class DatabaseService {
   }
 
   makeChoice(characterId: number, choiceId: number, inputValue?: string, classId?: number): Observable<PlayerProgress> {
+    console.log('DatabaseService.makeChoice called with:', { characterId, choiceId, inputValue, classId });
+    
     return this.http.post<PlayerProgress>(`${this.apiUrl}/story/choice`, {
       characterId,
       choiceId,
       inputValue,
       classId
-    }, this.httpOptions);
+    }, this.httpOptions).pipe(
+      tap(
+        (response) => {
+          console.log('makeChoice response:', response);
+          if (response?.currentNode?.title?.toLowerCase() === 'the end') {
+            console.log('Death node detected in makeChoice response!');
+          }
+        },
+        (error) => console.error('makeChoice error:', error)
+      )
+    );
   }
 
   makePasswordChoice(characterId: number, choiceId: number, password: string): Observable<PlayerProgress> {
@@ -193,6 +206,17 @@ export class DatabaseService {
       choiceId,
       password
     }, this.httpOptions);
+  }
+  
+  // Character death operations
+  markCharacterDead(characterId: number): Observable<any> {
+    console.log(`Marking character ${characterId} as dead via service`);
+    return this.http.put<any>(`${this.apiUrl}/characters/${characterId}/mark-dead`, {}, this.httpOptions).pipe(
+      tap(
+        (response) => console.log('Character marked as dead response:', response),
+        (error) => console.error('Error marking character as dead:', error)
+      )
+    );
   }
 
   submitPassword(characterId: number, password: string): Observable<PlayerProgress> {

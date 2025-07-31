@@ -11,7 +11,7 @@ router.get('/user/:userId', async (req, res) => {
   try {
     const userId = parseInt(req.params.userId);
     const result = await pool.query(
-      'SELECT * FROM Character WHERE AccountId = $1 ORDER BY id',
+      'SELECT * FROM "character" WHERE AccountId = $1 ORDER BY id',
       [userId]
     );
     res.json(result.rows);
@@ -99,14 +99,6 @@ router.post('/', async (req, res) => {
       [result.rows[0].id]
     );
     
-    // Create initial character profile for the new character
-    await pool.query(
-      `INSERT INTO characterprofile 
-       (characterid, goodevilaxis, orderchaosaxis) 
-       VALUES ($1, 0, 0)`,
-      [result.rows[0].id]
-    );
-    
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error('Error creating character:', err);
@@ -114,6 +106,37 @@ router.post('/', async (req, res) => {
   }
 });
 
+/**
+ * Mark a character as dead
+ */
+router.put('/:id/mark-dead', async (req, res) => {
+  try {
+    const characterId = parseInt(req.params.id);
+    console.log(`Marking character ${characterId} as dead via API endpoint`);
+    
+    // Add the is_dead column if it doesn't exist
+    await pool.query(
+      'ALTER TABLE "character" ADD COLUMN IF NOT EXISTS is_dead BOOLEAN DEFAULT FALSE'
+    );
+    
+    const result = await pool.query(
+      'UPDATE "character" SET is_dead = true, updated_at = CURRENT_TIMESTAMP WHERE id = $1 RETURNING *',
+      [characterId]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Character not found' });
+    }
+    
+    console.log('Character marked as dead:', result.rows[0]);
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Error marking character as dead:', err);
+    res.status(500).json({ error: 'Failed to mark character as dead' });
+  }
+});
+
+module.exports = router;
 /**
  * Update a character
  */

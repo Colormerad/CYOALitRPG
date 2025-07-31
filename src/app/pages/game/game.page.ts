@@ -79,8 +79,31 @@ export class GamePage implements OnInit {
         this.loadCharacterProfile();
         
         // Check if this is a death node (title is 'The End')
-        if (node.title === 'The End') {
+        console.log('Checking if node is a death node:', node.title);
+        if (node.title && node.title.toLowerCase() === 'the end') {
+          console.log('Death node detected! Setting isDeathScreen to true');
+          
           this.isDeathScreen = true;
+          
+          // Mark the character as dead using the database service
+          this.databaseService.markCharacterDead(this.characterId).subscribe({
+            next: (response) => {
+              console.log('Character marked as dead successfully:', response);
+              
+              // Verify character death status after marking as dead
+              this.databaseService.getCharacter(this.characterId).subscribe({
+                next: (character) => {
+                  console.log('Character after marking as dead:', character);
+                  console.log('Is character marked as dead?', character.is_dead);
+                },
+                error: (err) => console.error('Error checking character death status:', err)
+              });
+            },
+            error: (err) => {
+              console.error('Error marking character as dead:', err);
+              this.error = 'Failed to mark character as dead';
+            }
+          });
         }
         
         // Extract choices from the node if available

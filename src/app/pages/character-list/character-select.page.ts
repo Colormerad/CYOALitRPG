@@ -56,7 +56,7 @@ export class CharacterSelectPage implements OnInit, OnDestroy {
    */
   private loadCharacters(accountId: number) {
     // Use full API URL to prevent 404 errors
-    this.http.get(`http://localhost:3000/api/accounts/${accountId}/characters`).subscribe({
+    this.http.get(`http://localhost:3000/api/characters/user/${accountId}`).subscribe({
       next: (data: any) => {
         this.characters = data;
         this.loading = false;
