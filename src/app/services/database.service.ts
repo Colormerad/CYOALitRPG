@@ -24,7 +24,8 @@ export interface Character {
   intelligence: number;
   classId?: number;
   createdAt?: string;
-  updatedAt?: string; 
+  updatedAt?: string;
+  is_dead?: boolean;
 }
 
 export interface StoryNode {

@@ -84,8 +84,6 @@ const storyPrompts = [
     title: "Dress Code",
     content: "\"Ah, wonderful. We get all sorts here—fresh squires, seasoned bards, and even a wayward noble or two.\" He leans in slightly, lowering his voice. \"But before you enter through our gates, you'll need to meet our dress code. Dragons, you see, are not particularly fond of machine-crafted garb. Or perhaps...\"He muses a finger lightly brushing his unshaved face. \"-They are too fond of machine-crafted garb. It's really all perspective you see.\"\n\tHe winks. \"Thankfully, your admission includes wardrobe selection. Come along, and choose what suits you best.\"",
     nodeType: "outfit_selection",
-    requiresInput: false,
-    inputType: null,
     choices: [
       {
         choiceText: "Random Outfit 1 Placeholder",
@@ -116,38 +114,18 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Tuck your phone along with your clothes into the locker and set your password.",
-        nextNodeId: null, // This will be handled by the password input
-        metadataImpact: { rule_following: 1, security: 1 },
-        requiresInput: true,
-        inputType: "numeric",
-        inputPrompt: "What is your password",
-        inputDescription: "4 digit numeric code",
-        passwordChoices: [
-          { value: "1234", nextNodeId: 7 },
-          { value: "2222", nextNodeId: 7 },
-          { value: "birthday", nextNodeId: 6 },
-          { value: "random", nextNodeId: 7 }
-        ]
+        nextNodeId: 19, // Points to the new Password Entry node
+        metadataImpact: { rule_following: 1, security: 1 }
       },
       {
         choiceText: "Grab your clothes back out of the locker and redress- this is silly. I'm wearing my own clothes and turn to head into the faire wearing your street clothes.",
-        nextNodeId: 6,
+        nextNodeId: 6, // The Crossroads
         metadataImpact: { rule_following: -1, stubbornness: 1, modern: 1 }
       },
       {
         choiceText: "Close the locker and set the password. Glance around and tuck your phone into the waist of your outfit. Hopefully it doesn't fall out.",
-        nextNodeId: null, // This will be handled by the password input
-        metadataImpact: { rule_following: -1, resourcefulness: 1, anxiety: 1 },
-        requiresInput: true,
-        inputType: "numeric",
-        inputPrompt: "What is your password",
-        inputDescription: "4 digit numeric code",
-        passwordChoices: [
-          { value: "1234", nextNodeId: 7 },
-          { value: "2222", nextNodeId: 7 },
-          { value: "birthday", nextNodeId: 6 },
-          { value: "random", nextNodeId: 7 }
-        ]
+        nextNodeId: 19, // Points to the new Password Entry node
+        metadataImpact: { rule_following: -1, resourcefulness: 1, anxiety: 1 }
       }
     ]
   },
@@ -158,22 +136,22 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Follow the flickering lantern to the left.",
-        nextNodeId: 6,
+        nextNodeId: 6, // The Masked Path
         metadataImpact: { curiosity: 1, caution: -1 }
       },
       {
         choiceText: "Investigate the lantern, but keep your distance.",
-        nextNodeId: 6,
+        nextNodeId: 6, // The Masked Path
         metadataImpact: { curiosity: 1, caution: 1 }
       },
       {
         choiceText: "Head toward the sound of wheels on the right.",
-        nextNodeId: 7,
+        nextNodeId: 7, // The Stagecoach
         metadataImpact: { boldness: 1, caution: -1 }
       },
       {
         choiceText: "Wait and listen for more clues before deciding.",
-        nextNodeId: 7,
+        nextNodeId: 7, // The Stagecoach
         metadataImpact: { patience: 1, caution: 1 }
       }
     ]
@@ -185,17 +163,17 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Talk to the moving mask.",
-        nextNodeId: 8,
+        nextNodeId: 8, // The Whispering Mask
         metadataImpact: { courage: 1, curiosity: 1 }
       },
       {
         choiceText: "Ignore it and walk faster.",
-        nextNodeId: 9,
+        nextNodeId: 9, // The Clock Tent
         metadataImpact: { fear: 1, caution: 1 }
       },
       {
         choiceText: "Take one of the masks from a tree.",
-        nextNodeId: 10,
+        nextNodeId: 10, // The Unnatural Garden
         metadataImpact: { boldness: 1, theft: 1 }
       }
     ]
@@ -207,17 +185,17 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Step inside the coach.",
-        nextNodeId: 9,
+        nextNodeId: 9, // The Clock Tent
         metadataImpact: { trust: 1, curiosity: 1 }
       },
       {
         choiceText: "Climb up to talk to the driver.",
-        nextNodeId: 11,
+        nextNodeId: 11, // The Doppelgänger Driver
         metadataImpact: { boldness: 1, leadership: 1 }
       },
       {
         choiceText: "Back away slowly and hide.",
-        nextNodeId: 12,
+        nextNodeId: 12, // The Puppet Stall
         metadataImpact: { caution: 1, fear: 1 }
       }
     ]
@@ -229,12 +207,12 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Say 'yes' and name one of them.",
-        nextNodeId: 13,
+        nextNodeId: 13, // The Puppet Stall
         metadataImpact: { honesty: 1, courage: 1 }
       },
       {
         choiceText: "Say 'no' and ask for more time.",
-        nextNodeId: 10,
+        nextNodeId: 10, // The Unnatural Garden
         metadataImpact: { caution: 1, patience: 1 }
       },
       {
@@ -251,17 +229,17 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Pick the fastest-ticking watch.",
-        nextNodeId: 11,
+        nextNodeId: 11, // The Doppelgänger Driver
         metadataImpact: { haste: 1, impatience: 1 }
       },
       {
         choiceText: "Pick the slowest one.",
-        nextNodeId: 12,
+        nextNodeId: 12, // The Puppet Stall
         metadataImpact: { patience: 1, thoughtfulness: 1 }
       },
       {
         choiceText: "Break them all.",
-        nextNodeId: 14,
+        nextNodeId: 14, // The Portrait Hall
         metadataImpact: { chaos: 1, rebellion: 1 }
       }
     ]
@@ -273,7 +251,7 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Ask her what she's growing.",
-        nextNodeId: 13,
+        nextNodeId: 13, // The Puppet Stall
         metadataImpact: { curiosity: 1, caution: 1 }
       },
       {
@@ -283,7 +261,7 @@ const storyPrompts = [
       },
       {
         choiceText: "Offer to help her tend the garden.",
-        nextNodeId: 14,
+        nextNodeId: 14, // The Portrait Hall
         metadataImpact: { helpfulness: 1, patience: 1 }
       }
     ]
@@ -295,17 +273,17 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Jump from the moving coach.",
-        nextNodeId: 13,
+        nextNodeId: 13, // The Puppet Stall
         metadataImpact: { fear: 1, impulsiveness: 1 }
       },
       {
         choiceText: "Try to stop the horses.",
-        nextNodeId: 15,
+        nextNodeId: 15, // The Memory Jars
         metadataImpact: { bravery: 1, leadership: 1 }
       },
       {
         choiceText: "Attack your doppelgänger.",
-        nextNodeId: 14,
+        nextNodeId: 14, // The Portrait Hall
         metadataImpact: { aggression: 1, fear: 1 }
       }
     ]
@@ -317,17 +295,17 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Explain your fear.",
-        nextNodeId: 13,
+        nextNodeId: 13, // The Puppet Stall (loop)
         metadataImpact: { honesty: 1, vulnerability: 1 }
       },
       {
         choiceText: "Grab the puppet and crush it.",
-        nextNodeId: 14,
+        nextNodeId: 14, // The Portrait Hall
         metadataImpact: { aggression: 1, fear: 1 }
       },
       {
         choiceText: "Apologize and follow it.",
-        nextNodeId: 15,
+        nextNodeId: 15, // The Memory Jars
         metadataImpact: { remorse: 1, curiosity: 1 }
       }
     ]
@@ -339,12 +317,12 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Step into the empty frame.",
-        nextNodeId: 15,
+        nextNodeId: 15, // The Memory Jars
         metadataImpact: { courage: 1, curiosity: 1 }
       },
       {
         choiceText: "Smash all the frames.",
-        nextNodeId: 14,
+        nextNodeId: 14, // The Portrait Hall (loop)
         metadataImpact: { aggression: 1, rebellion: 1 }
       }
     ]
@@ -356,12 +334,12 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Take a jar labeled 'Guilt'.",
-        nextNodeId: 15,
+        nextNodeId: 15, // The Memory Jars (loop)
         metadataImpact: { introspection: 1, remorse: 1 }
       },
       {
         choiceText: "Take a jar labeled 'Hope'.",
-        nextNodeId: 15,
+        nextNodeId: 15, // The Memory Jars (loop)
         metadataImpact: { optimism: 1, courage: 1 }
       },
       {
@@ -378,22 +356,22 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Approach the smiling shadow.",
-        nextNodeId: 16,
+        nextNodeId: 16, // Portal Entered
         metadataImpact: { optimism: 1, trust: 1 }
       },
       {
         choiceText: "Approach the one wearing regret.",
-        nextNodeId: 16,
+        nextNodeId: 16, // Portal Entered
         metadataImpact: { introspection: 1, remorse: 1 }
       },
       {
         choiceText: "Walk through the portal alone.",
-        nextNodeId: 16,
+        nextNodeId: 16, // Portal Entered
         metadataImpact: { independence: 1, courage: 1 }
       },
       {
         choiceText: "Turn back the way you came.",
-        nextNodeId: 6,
+        nextNodeId: 6, // The Crossroads
         metadataImpact: { caution: 1, fear: 1 }
       }
     ]
@@ -418,6 +396,34 @@ const storyPrompts = [
         choiceText: "Try again from the beginning",
         nextNodeId: 0,
         metadataImpact: { resilience: 1, learning: 1 }
+      }
+    ]
+  },
+  // New node for password selection
+  {
+    title: "Locker Password",
+    content: "You set a password for your locker. What 4-digit code do you choose?",
+    nodeType: "standard",
+    choices: [
+      {
+        choiceText: "1234 - A simple, easy to remember code",
+        nextNodeId: 6, // The Crossroads
+        metadataImpact: { security: -1, simplicity: 1 }
+      },
+      {
+        choiceText: "2222 - Your lucky number repeated",
+        nextNodeId: 6, // The Crossroads
+        metadataImpact: { security: -1, superstition: 1 }
+      },
+      {
+        choiceText: "Your birthday - A date you'll never forget",
+        nextNodeId: 6, // The Crossroads
+        metadataImpact: { security: -1, sentimentality: 1 }
+      },
+      {
+        choiceText: "A random number - Maximum security",
+        nextNodeId: 6, // The Crossroads
+        metadataImpact: { security: 1, caution: 1 }
       }
     ]
   }
@@ -447,8 +453,8 @@ async function importStoryPrompts() {
           prompt.title,
           prompt.content,
           prompt.nodeType || 'standard',
-          prompt.requiresInput || false,
-          prompt.inputType || null
+          false, // No more requiresInput
+          null   // No more inputType
         ]
       );
       

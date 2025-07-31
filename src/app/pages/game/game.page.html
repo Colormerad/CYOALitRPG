@@ -13,7 +13,40 @@
     <button (click)="loadPlayerProgress()">Try Again</button>
   </div>
 
-  <div *ngIf="!loading && !error && currentNode" class="story-content">
+  <!-- Death Screen -->
+  <div *ngIf="!loading && !error && isDeathScreen" class="death-screen">
+    <div class="death-content">
+      <h2 class="death-title">{{ currentNode?.title || 'The End' }}</h2>
+      <div class="death-text" [innerHTML]="currentNode?.content || 'Your journey has come to an end.'">
+      </div>
+      
+      <div class="death-info" *ngIf="playerProgress?.metadata">
+        <h3>Final Status</h3>
+        <div class="metadata">
+          <div *ngIf="playerProgress?.metadata.death_reason" class="metadata-item">
+            <span class="label">Cause of Death:</span>
+            <span class="value">{{ playerProgress?.metadata.death_reason }}</span>
+          </div>
+          <div *ngIf="playerProgress?.metadata.death_timestamp" class="metadata-item">
+            <span class="label">Time of Death:</span>
+            <span class="value">{{ playerProgress?.metadata.death_timestamp | date:'medium' }}</span>
+          </div>
+          <div *ngIf="playerProgress?.metadata.prompts_survived" class="metadata-item">
+            <span class="label">Survived:</span>
+            <span class="value">{{ playerProgress?.metadata.prompts_survived }} choices</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="death-actions">
+        <button class="grave-button" (click)="viewGrave()">View Grave</button>
+        <button class="start-over-button" (click)="startOver()">Start Over</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Regular Game Content -->
+  <div *ngIf="!loading && !error && currentNode && !isDeathScreen" class="story-content">
     <div class="story-node">
       <h2>{{ currentNode.title }}</h2>
       <div class="story-text" [innerHTML]="currentNode.content"></div>
@@ -39,11 +72,11 @@
     </div>
   </div>
 
-  <div *ngIf="!loading && !error && playerProgress" class="player-status">
+  <div *ngIf="!loading && !error && playerProgress && !isDeathScreen" class="player-status">
     <div class="character-info">
       <h3>Character Status</h3>
-      <div class="metadata" *ngIf="playerProgress.metadata">
-        <div *ngFor="let item of objectKeys(playerProgress.metadata)" class="metadata-item">
+      <div class="metadata" *ngIf="playerProgress?.metadata">
+        <div *ngFor="let item of objectKeys(playerProgress?.metadata)" class="metadata-item">
           <span class="label">{{ formatMetadataKey(item) }}:</span>
           <span class="value">{{ playerProgress.metadata[item] }}</span>
         </div>

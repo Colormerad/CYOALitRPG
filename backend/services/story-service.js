@@ -1,5 +1,6 @@
 const { Pool } = require('pg');
 const profileService = require('./profile-service');
+const llmService = require('./llm-service');
 
 // PostgreSQL connection
 const pool = new Pool({
@@ -99,7 +100,7 @@ class StoryService {
    * @param {Array} choiceHistory - Optional choice history for placeholder replacement
    * @returns {Promise<Object>} - The story node with its choices
    */
-  async getStoryNode(nodeId, choiceHistory = null) {
+  async getStoryNode(nodeId, choiceHistory = null, characterId = null) {
     // Debug log
     console.log('getStoryNode called with nodeId:', nodeId);
     console.log('choiceHistory:', JSON.stringify(choiceHistory));
@@ -112,7 +113,53 @@ class StoryService {
         [nodeId]
       );
       
-      if (nodeResult.rows.length === 0) {
+      // If node doesn't exist and we have a character ID, try to generate it with LLM
+      if (nodeResult.rows.length === 0 && characterId) {
+        console.log(`Story node with ID ${nodeId} not found. Attempting to generate with LLM...`);
+        
+        try {
+          // Get player progress for context
+          const progressResult = await client.query(
+            'SELECT * FROM PlayerProgress WHERE CharacterId = $1',
+            [characterId]
+          );
+          
+          if (progressResult.rows.length > 0) {
+            const progress = progressResult.rows[0];
+            
+            // Get character info
+            const characterResult = await client.query(
+              'SELECT * FROM "character" WHERE Id = $1',
+              [characterId]
+            );
+            
+            const characterInfo = characterResult.rows[0] || {};
+            
+            // Prepare context for LLM
+            const llmContext = {
+              characterId,
+              playerProgress: progress,
+              choiceHistory: progress.choicehistory || [],
+              characterInfo,
+              metadata: progress.metadata || {}
+            };
+            
+            // Generate a new node using LLM
+            const generatedNode = await llmService.generateStoryNode(llmContext);
+            console.log('Successfully generated new story node with LLM');
+            
+            // Return the generated node
+            return generatedNode;
+          }
+        } catch (llmError) {
+          console.error('Failed to generate story node with LLM:', llmError);
+          // Fall through to the original error
+        }
+        
+        // If we get here, either we don't have enough context or LLM generation failed
+        throw new Error(`Story node with ID ${nodeId} not found and could not be generated`);
+      } else if (nodeResult.rows.length === 0) {
+        // No character ID provided, can't generate
         throw new Error(`Story node with ID ${nodeId} not found`);
       }
       
@@ -465,6 +512,7 @@ class StoryService {
       
       // If this choice leads to a specific next node, use that
       let nextNodeId = choice.nextnodeid;
+      console.log(`Choice ID: ${choiceId}, Choice text: ${choice.choicetext}, Next Node ID from choice: ${nextNodeId}`);
       
       // Special handling for "Show me more options" in outfit selection
       if (currentNodeResult.rows.length > 0 && 
@@ -475,6 +523,72 @@ class StoryService {
         console.log('Refreshing outfit options without advancing to next node');
       }
       
+      // Check if the next node exists in the database
+      let nextNodeExists = false;
+      let isDeathNode = false;
+      
+      if (nextNodeId) {
+        console.log(`Checking if node ID ${nextNodeId} exists in database...`);
+        const nextNodeResult = await client.query(
+          'SELECT Id, Title FROM StoryNode WHERE Id = $1',
+          [nextNodeId]
+        );
+        nextNodeExists = nextNodeResult.rows.length > 0;
+        
+        // Check if this is a death node
+        if (nextNodeExists && nextNodeResult.rows[0].title === "The End") {
+          isDeathNode = true;
+          console.log(`Node ID ${nextNodeId} is a death node`);
+        }
+        
+        console.log(`Node ID ${nextNodeId} exists: ${nextNodeExists}`);
+      } else {
+        console.log('WARNING: nextNodeId is null or undefined!');
+      }
+      
+      // If next node doesn't exist, generate one using LLM
+      if (nextNodeId && !nextNodeExists) {
+        console.log(`Next node ID ${nextNodeId} not found in database. Generating with LLM...`);
+        
+        // Get character info for context
+        const characterResult = await client.query(
+          'SELECT * FROM "character" WHERE Id = $1',
+          [characterId]
+        );
+        
+        const characterInfo = characterResult.rows[0] || {};
+        
+        // Prepare context for LLM
+        const llmContext = {
+          characterId,
+          playerProgress: progress,
+          choiceHistory,
+          characterInfo,
+          metadata
+        };
+        
+        // Generate a new node using LLM
+        try {
+          const generatedNode = await llmService.generateStoryNode(llmContext);
+          console.log('Successfully generated new story node with LLM');
+          
+          // Use the generated node's ID as the next node
+          nextNodeId = generatedNode.id;
+        } catch (llmError) {
+          console.error('Failed to generate story node with LLM:', llmError);
+          // If LLM fails, we'll continue with the original nextNodeId
+          // This might lead to a 404 later, but at least we tried
+        }
+      }
+      
+      // Defensive check to ensure nextNodeId is never null
+      if (!nextNodeId) {
+        console.error('Critical error: nextNodeId is null before updating PlayerProgress');
+        // Use the current node ID as a fallback to prevent database constraint violation
+        nextNodeId = progress.currentnodeid;
+        console.log(`Using fallback node ID: ${nextNodeId}`);
+      }
+      
       // Update progress
       await client.query(
         `UPDATE PlayerProgress 
@@ -482,6 +596,30 @@ class StoryService {
          WHERE Id = $4`,
         [nextNodeId, JSON.stringify(choiceHistory), JSON.stringify(metadata), progress.id]
       );
+      
+      // If this is a death node, mark the character as dead
+      if (isDeathNode) {
+        console.log(`Marking character ${characterId} as dead`);
+        await client.query(
+          `UPDATE "character" 
+           SET is_dead = true, updated_at = CURRENT_TIMESTAMP
+           WHERE Id = $1`,
+          [characterId]
+        );
+        
+        // Add death metadata
+        metadata.death_reason = "You met an unfortunate end in your adventure";
+        metadata.death_timestamp = new Date().toISOString();
+        metadata.prompts_survived = choiceHistory.length;
+        
+        // Update progress with death metadata
+        await client.query(
+          `UPDATE PlayerProgress 
+           SET Metadata = $1
+           WHERE Id = $2`,
+          [JSON.stringify(metadata), progress.id]
+        );
+      }
       
       await client.query('COMMIT');
       

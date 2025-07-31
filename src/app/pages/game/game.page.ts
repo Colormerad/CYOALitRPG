@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { DatabaseService, StoryNode, Choice, PlayerProgress, CharacterProfile } from '../../services/database.service';
+import { DatabaseService, StoryNode, Choice, PlayerProgress, CharacterProfile, Character } from '../../services/database.service';
 
 @Component({
   selector: 'app-game',
@@ -20,6 +20,8 @@ export class GamePage implements OnInit {
   error: string | null = null;
   passwordInput: string = '';
   characterProfile: CharacterProfile | null = null;
+  characterData: Character | null = null;
+  isDeathScreen: boolean = false;
   
   // Helper for template
   objectKeys = Object.keys;
@@ -47,6 +49,8 @@ export class GamePage implements OnInit {
     this.databaseService.getPlayerProgress(this.characterId).subscribe({
       next: (progress) => {
         this.playerProgress = progress;
+        // Load character data to check if character is dead
+        this.loadCharacterData();
         if (progress.currentNode && progress.currentNode.id) {
           this.loadCurrentNode(progress.currentNode.id);
         } else {
@@ -73,6 +77,12 @@ export class GamePage implements OnInit {
         this.currentNode = node;
         // Load character profile
         this.loadCharacterProfile();
+        
+        // Check if this is a death node (title is 'The End')
+        if (node.title === 'The End') {
+          this.isDeathScreen = true;
+        }
+        
         // Extract choices from the node if available
         if (node.choices && Array.isArray(node.choices)) {
           this.choices = node.choices;
@@ -162,6 +172,35 @@ export class GamePage implements OnInit {
 
   goToCharacterSelect(): void {
     this.router.navigate(['/character-select']);
+  }
+  
+  loadCharacterData(): void {
+    this.databaseService.getCharacter(this.characterId).subscribe({
+      next: (character) => {
+        this.characterData = character;
+        // Check if character is marked as dead
+        if (character && character.is_dead) {
+          this.isDeathScreen = true;
+        }
+      },
+      error: (err: any) => {
+        console.error('Error loading character data:', err);
+        // Non-blocking error, continue with the game
+      }
+    });
+  }
+  
+  startOver(): void {
+    // Navigate to character creation to start a new character
+    this.router.navigate(['/character-create']);
+  }
+  
+  viewGrave(): void {
+    // Navigate to the grave view page with the character ID
+    // Pass a query parameter to indicate this character came from the death screen
+    this.router.navigate(['/grave-view', this.characterId], {
+      queryParams: { fromDeathScreen: 'true' }
+    });
   }
 
   /**

@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
   try {
     const characterId = parseInt(req.params.id);
     const result = await pool.query(
-      'SELECT * FROM Character WHERE id = $1',
+      'SELECT * FROM "character" WHERE id = $1',
       [characterId]
     );
     

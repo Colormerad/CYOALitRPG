@@ -264,6 +264,122 @@ html, body {
   overflow-y: auto;
 }
 
+// Death Screen Styling
+.death-screen {
+  margin-bottom: 30px;
+  
+  .death-content {
+    background-color: var(--retro-green-darkest);
+    padding: 30px;
+    border-radius: 8px;
+    border: 3px solid var(--retro-border);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    
+    .death-title {
+      color: #ff5555;
+      font-size: 2.2rem;
+      font-family: 'Press Start 2P', 'VT323', monospace;
+      text-shadow: 0 0 5px #aa0000;
+      margin-bottom: 25px;
+      letter-spacing: 1px;
+    }
+    
+    .death-text {
+      font-size: 1.4rem;
+      line-height: 1.7;
+      color: var(--retro-green-lightest);
+      margin-bottom: 30px;
+      text-align: left;
+      
+      p {
+        margin-bottom: 15px;
+      }
+    }
+    
+    .death-info {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: var(--retro-green-dark);
+      border: 2px solid var(--retro-border);
+      border-radius: 8px;
+      margin-bottom: 30px;
+      
+      h3 {
+        margin-top: 0;
+        color: var(--retro-green-lightest);
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        font-family: 'Press Start 2P', 'VT323', monospace;
+        text-shadow: 0 0 3px var(--retro-green-medium);
+      }
+      
+      .metadata {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        
+        .metadata-item {
+          padding: 10px;
+          background-color: var(--retro-green-darkest);
+          border: 1px solid var(--retro-border);
+          border-radius: 4px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+          
+          .label {
+            font-weight: bold;
+            color: var(--retro-green-light);
+            margin-right: 5px;
+            font-family: 'VT323', monospace;
+          }
+          
+          .value {
+            color: var(--retro-green-lightest);
+            font-family: 'VT323', monospace;
+          }
+        }
+      }
+    }
+    
+    .death-actions {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      
+      button {
+        padding: 15px 25px;
+        font-size: 1.3rem;
+        font-family: 'VT323', monospace;
+        border: 2px solid var(--retro-border);
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        
+        &.grave-button {
+          background-color: #333333;
+          color: #cccccc;
+          
+          &:hover {
+            background-color: #444444;
+            transform: scale(1.05);
+          }
+        }
+        
+        &.start-over-button {
+          background-color: var(--retro-green-medium);
+          color: var(--retro-green-lightest);
+          
+          &:hover {
+            background-color: var(--retro-green-light);
+            transform: scale(1.05);
+          }
+        }
+      }
+    }
+  }
+}
+
 // Responsive adjustments
 @media (max-width: 768px) {
   .header {
@@ -277,5 +393,10 @@ html, body {
   
   .player-status .character-info .metadata {
     grid-template-columns: 1fr;
+  }
+  
+  .death-screen .death-content .death-actions {
+    flex-direction: column;
+    gap: 15px;
   }
 }

@@ -43,13 +43,28 @@ export class GraveViewPage implements OnInit {
     this.http.get(`http://localhost:3000/api/characters/${characterId}`).subscribe({
       next: (character: any) => {
         this.character = character;
+        console.log('Character data received:', character);
         
-        if (!character.is_dead) {
-          this.error = 'This character is not deceased';
+        // Check if is_dead property exists and is true
+        // Also check for isDead or IsDead in case of case sensitivity issues
+        if (!character.is_dead && !character.isDead && !character.IsDead) {
+          console.log('Character is not marked as dead, is_dead =', character.is_dead);
+          
+          // Force character to be marked as dead if it came from the death screen
+          const fromDeathScreen = this.route.snapshot.queryParamMap.get('fromDeathScreen') === 'true';
+          if (fromDeathScreen) {
+            console.log('Character came from death screen, forcing is_dead = true');
+            character.is_dead = true;
+            this.loadLegacyData(characterId);
+            return;
+          }
+          
+          this.error = `This character is not deceased (is_dead: ${character.is_dead})`;
           this.loading = false;
           return;
         }
         
+        console.log('Character is marked as dead, loading legacy data');
         this.loadLegacyData(characterId);
       },
       error: err => {
