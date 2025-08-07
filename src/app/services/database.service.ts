@@ -48,12 +48,13 @@ export interface Choice {
   text: string;
   nextNodeId?: number;
   metadataImpact?: any;
+  classId?: number; // For outfit/class selection
+  outfitStyle?: string;
+  outfitId?: number; // For outfit selection
   requiresInput?: boolean;
   inputType?: string;
   inputPrompt?: string;
   inputDescription?: string;
-  classId?: number; // Added for outfit selection
-  outfitId?: number; // Added for outfit selection
 }
 
 export interface CharacterProfile {
@@ -179,14 +180,13 @@ export class DatabaseService {
     return this.http.get<PlayerProgress>(`${this.apiUrl}/story/progress/${characterId}`);
   }
 
-  makeChoice(characterId: number, choiceId: number, inputValue?: string, classId?: number): Observable<PlayerProgress> {
-    console.log('DatabaseService.makeChoice called with:', { characterId, choiceId, inputValue, classId });
+  makeChoice(characterId: number, choiceId: number, inputValue?: string): Observable<PlayerProgress> {
+    console.log('DatabaseService.makeChoice called with:', { characterId, choiceId, inputValue });
     
     return this.http.post<PlayerProgress>(`${this.apiUrl}/story/choice`, {
       characterId,
       choiceId,
-      inputValue,
-      classId
+      inputValue
     }, this.httpOptions).pipe(
       tap(
         (response) => {
@@ -196,6 +196,21 @@ export class DatabaseService {
           }
         },
         (error) => console.error('makeChoice error:', error)
+      )
+    );
+  }
+  
+  setCharacterClass(characterId: number, classId: number, outfitStyle?: string): Observable<PlayerProgress> {
+    console.log('DatabaseService.setCharacterClass called with:', { characterId, classId, outfitStyle });
+    
+    return this.http.post<PlayerProgress>(`${this.apiUrl}/story/character/set-class`, {
+      characterId,
+      classId,
+      outfitStyle
+    }, this.httpOptions).pipe(
+      tap(
+        (response) => console.log('setCharacterClass response:', response),
+        (error) => console.error('setCharacterClass error:', error)
       )
     );
   }

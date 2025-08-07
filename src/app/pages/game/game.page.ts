@@ -140,23 +140,62 @@ export class GamePage implements OnInit {
     
     // Check if this is an outfit selection choice with a classId
     const classId = choice?.classId;
+    const outfitStyle = choice?.outfitStyle;
     
-    this.databaseService.makeChoice(this.characterId, choiceId, undefined, classId).subscribe({
-      next: (progress) => {
-        this.playerProgress = progress;
-        if (progress.currentNode && progress.currentNode.id) {
-          this.loadCurrentNode(progress.currentNode.id);
-        } else {
-          this.error = 'No next story node found';
+    // If this is a class selection via outfit, handle it separately
+    if (classId) {
+      console.log(`Outfit selection with classId ${classId} detected, handling separately`);
+      
+      // First make the choice to advance the story
+      this.databaseService.makeChoice(this.characterId, choiceId).subscribe({
+        next: (progress) => {
+          this.playerProgress = progress;
+          
+          // Then set the character class
+          this.databaseService.setCharacterClass(this.characterId, classId, outfitStyle).subscribe({
+            next: (updatedProgress) => {
+              console.log('Class assignment successful:', updatedProgress);
+              this.playerProgress = updatedProgress;
+              
+              if (progress.currentNode && progress.currentNode.id) {
+                this.loadCurrentNode(progress.currentNode.id);
+              } else {
+                this.error = 'No next story node found';
+                this.loading = false;
+              }
+            },
+            error: (err: any) => {
+              console.error('Error assigning class:', err);
+              this.error = 'Failed to assign character class. Please try again.';
+              this.loading = false;
+            }
+          });
+        },
+        error: (err: any) => {
+          console.error('Error making choice:', err);
+          this.error = 'Failed to process your choice. Please try again.';
           this.loading = false;
         }
-      },
-      error: (err: any) => {
-        console.error('Error making choice:', err);
-        this.error = 'Failed to process your choice. Please try again.';
-        this.loading = false;
-      }
-    });
+      });
+    } else {
+      // Regular choice without class assignment
+      this.databaseService.makeChoice(this.characterId, choiceId).subscribe({
+        next: (progress) => {
+          this.playerProgress = progress;
+          if (progress.currentNode && progress.currentNode.id) {
+            this.loadCurrentNode(progress.currentNode.id);
+          } else {
+            this.error = 'No next story node found';
+            this.loading = false;
+          }
+        },
+        error: (err: any) => {
+          console.error('Error making choice:', err);
+          this.error = 'Failed to process your choice. Please try again.';
+          this.loading = false;
+        }
+      });
+    }
   }
 
   submitPassword(): void {

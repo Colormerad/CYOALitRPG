@@ -110,4 +110,26 @@ router.get('/outfits/random', async (req, res) => {
   }
 });
 
+// Set character class (separate from makeChoice)
+router.post('/character/set-class', async (req, res) => {
+  try {
+    const { characterId, classId, outfitStyle } = req.body;
+    
+    if (!characterId || !classId) {
+      return res.status(400).json({ error: 'Character ID and class ID are required' });
+    }
+    
+    const progress = await storyService.assignClassToCharacter(
+      parseInt(characterId),
+      parseInt(classId),
+      outfitStyle
+    );
+    
+    res.json(progress);
+  } catch (err) {
+    console.error('Error setting character class:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
