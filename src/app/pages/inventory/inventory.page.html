@@ -1,0 +1,132 @@
+<div class="game-container inventory-page-content">
+  <div class="header">
+    <h1>Inventory</h1>
+    <div class="header-buttons">
+      <button class="back-button" (click)="goBack()">Back to Game</button>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading">
+    <p>Loading...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button (click)="goBack()">Return to Game</button>
+  </div>
+
+  <!-- Inventory content -->
+  <div *ngIf="!loading && !error" class="inventory-content">
+    <!-- Character info and gold -->
+    <div class="character-info-panel">
+      <div class="character-name">
+        <h2>{{ character?.name }}</h2>
+      </div>
+      <div class="gold-container">
+        <span class="gold-icon">💰</span>
+        <span class="gold-amount">{{ gold }} Gold</span>
+      </div>
+    </div>
+
+    <!-- Inventory tabs -->
+    <div class="inventory-tabs">
+      <div class="tab-buttons">
+        <button 
+          [class.active]="activeTab === 'all'" 
+          (click)="setActiveTab('all')">All</button>
+        <button 
+          [class.active]="activeTab === 'equipment'" 
+          (click)="setActiveTab('equipment')">Equipment</button>
+        <button 
+          [class.active]="activeTab === 'consumables'" 
+          (click)="setActiveTab('consumables')">Consumables</button>
+        <button 
+          [class.active]="activeTab === 'quest'" 
+          (click)="setActiveTab('quest')">Quest</button>
+      </div>
+    </div>
+
+    <!-- Item grid -->
+    <div class="item-grid" *ngIf="!selectedItem">
+      <div class="item-card" *ngFor="let item of getFilteredItems()" (click)="selectItem(item)">
+        <div class="item-icon" [class.equipped]="item.isEquipped">
+          <ion-icon name="cube" *ngIf="!item.icon"></ion-icon>
+          <img [src]="item.icon" *ngIf="item.icon" alt="{{ item.name }}">
+          <div class="item-quantity" *ngIf="item.quantity > 1">{{ item.quantity }}</div>
+          <div class="equipped-badge" *ngIf="item.isEquipped">E</div>
+        </div>
+        <div class="item-name">{{ item.name }}</div>
+      </div>
+      
+      <!-- Empty state -->
+      <div class="empty-state" *ngIf="getFilteredItems().length === 0">
+        <ion-icon name="sad"></ion-icon>
+        <p>No items found in this category</p>
+      </div>
+    </div>
+
+    <!-- Item details -->
+    <div class="item-details" *ngIf="selectedItem">
+      <div class="item-header">
+        <h3>{{ selectedItem.name }}</h3>
+        <ion-button fill="clear" (click)="closeItemDetails()">
+          <ion-icon name="close"></ion-icon>
+        </ion-button>
+      </div>
+      
+      <div class="item-content">
+        <div class="item-image">
+          <ion-icon name="cube" *ngIf="!selectedItem.icon" size="large"></ion-icon>
+          <img [src]="selectedItem.icon" *ngIf="selectedItem.icon" alt="{{ selectedItem.name }}">
+        </div>
+        
+        <div class="item-info">
+          <p class="item-description">{{ selectedItem.description }}</p>
+          
+          <div class="item-type">
+            <span>Type: </span>
+            <span class="value">{{ selectedItem.type | titlecase }}</span>
+          </div>
+          
+          <div class="item-value">
+            <span>Value: </span>
+            <span class="value">{{ selectedItem.value }} Gold</span>
+          </div>
+          
+          <div class="item-quantity">
+            <span>Quantity: </span>
+            <span class="value">{{ selectedItem.quantity }}</span>
+          </div>
+          
+          <!-- Stats for equipment -->
+        </div>
+        <!-- Intelligence is used instead of magic in our stats interface -->
+        <div *ngIf="selectedItem.stats?.intelligence" class="stat">
+          <span>Intelligence:</span> <span>+{{ selectedItem.stats?.intelligence }}</span>
+        </div>
+      </div>
+      <div class="item-actions">
+        <button 
+          *ngIf="selectedItem.type === 'equipment' && !selectedItem.isEquipped" 
+          class="action-button equip-button" 
+          (click)="equipItem(selectedItem)">
+          Equip
+        </button>
+        <button 
+          *ngIf="selectedItem.type === 'equipment' && selectedItem.isEquipped" 
+          class="action-button unequip-button" 
+          (click)="unequipItem(selectedItem)">
+          Unequip
+        </button>
+        <button 
+          *ngIf="selectedItem.type === 'consumable'" 
+          class="action-button use-button" 
+          (click)="useItem(selectedItem)">
+          Use
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

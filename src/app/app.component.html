@@ -7,11 +7,11 @@
       <div class="pixel-icon game-icon"></div>
       <div class="menu-label">Game</div>
     </div>
-    <div class="menu-item" [class.disabled]="!gameStarted" [class.active]="activeMenuItem === 'inventory'" (click)="navigateToPage('inventory')">
+    <div class="menu-item" [class.disabled]="!gameStarted || !characterSelected" [class.active]="activeMenuItem === 'inventory'" (click)="navigateToPage('inventory')">
       <div class="pixel-icon inventory-icon"></div>
       <div class="menu-label">Items</div>
     </div>
-    <div class="menu-item" [class.disabled]="!gameStarted" [class.active]="activeMenuItem === 'quests'" (click)="navigateToPage('quests')">
+    <div class="menu-item" [class.disabled]="!gameStarted || !characterSelected" [class.active]="activeMenuItem === 'quests'" (click)="navigateToPage('quests')">
       <div class="pixel-icon quests-icon"></div>
       <div class="menu-label">Quests</div>
     </div>

@@ -1,7 +1,9 @@
 <div class="game-container game-page-content">
   <div class="header">
     <h1>LitRPG Adventure</h1>
-    <button class="back-button" (click)="goToCharacterSelect()">Back to Characters</button>
+    <div class="header-buttons">
+      <button class="back-button" (click)="goToCharacterSelect()">Back to Characters</button>
+    </div>
   </div>
 
   <div *ngIf="loading" class="loading">

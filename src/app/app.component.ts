@@ -15,6 +15,8 @@ export class AppComponent {
   activeMenuItem = '';
   // Flag to check if current page is login or registration
   isAuthPage = false;
+  // Flag to check if a character is selected
+  characterSelected = false;
   
   constructor(
     private router: Router,
@@ -38,6 +40,10 @@ export class AppComponent {
         
         // Check if current page is login or registration
         this.isAuthPage = currentUrl.includes('/login') || currentUrl.includes('/register');
+        
+        // Check if a character is selected by looking for character ID in URL
+        const characterIdMatch = currentUrl.match(/\/(game|inventory|quests)\/([0-9]+)/);
+        this.characterSelected = characterIdMatch !== null && characterIdMatch.length > 2;
         
         // Set active menu item based on URL
         if (currentUrl.includes('/game')) {
@@ -68,16 +74,36 @@ export class AppComponent {
     // Set active menu item
     this.activeMenuItem = page;
     
+    // Get current character ID from URL if available
+    let characterId: number | null = null;
+    const currentUrl = this.router.url;
+    const gameMatch = currentUrl.match(/\/game\/(\d+)/);
+    if (gameMatch && gameMatch[1]) {
+      characterId = parseInt(gameMatch[1], 10);
+    }
+    
     // Handle navigation based on page
     switch (page) {
       case 'game':
-        this.router.navigate(['/game']);
+        if (characterId) {
+          this.router.navigate(['/game', characterId]);
+        } else {
+          this.router.navigate(['/select-character']);
+        }
         break;
       case 'inventory':
-        this.router.navigate(['/inventory']);
+        if (characterId) {
+          this.router.navigate(['/inventory', characterId]);
+        } else {
+          this.router.navigate(['/select-character']);
+        }
         break;
       case 'quests':
-        this.router.navigate(['/quests']);
+        if (characterId) {
+          this.router.navigate(['/quests', characterId]);
+        } else {
+          this.router.navigate(['/select-character']);
+        }
         break;
       case 'profile':
         this.router.navigate(['/profile']);

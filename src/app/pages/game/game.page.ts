@@ -236,6 +236,10 @@ export class GamePage implements OnInit {
     this.router.navigate(['/character-select']);
   }
   
+  goToInventory(): void {
+    this.router.navigate(['/inventory', this.characterId]);
+  }
+  
   loadCharacterData(): void {
     this.databaseService.getCharacter(this.characterId).subscribe({
       next: (character) => {

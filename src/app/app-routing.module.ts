@@ -38,6 +38,10 @@ const routes: Routes = [
     loadComponent: () => import('./pages/grave-view/grave-view.page').then(m => m.GraveViewPage)
   },
   {
+    path: 'inventory/:id',
+    loadComponent: () => import('./pages/inventory/inventory.page').then(m => m.InventoryPage)
+  },
+  {
     path: '',
     redirectTo: 'select-character',
     pathMatch: 'full'
