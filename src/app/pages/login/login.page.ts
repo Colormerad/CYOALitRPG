@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
 import { Router } from '@angular/router';
-import { AuthService, LoginRequest } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
+import { LoginRequest } from '../../models/account.model';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
 @Component({

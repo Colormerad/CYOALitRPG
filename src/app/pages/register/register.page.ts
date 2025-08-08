@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, RegisterRequest } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
+import { RegisterRequest } from '../../models/account.model';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
 @Component({

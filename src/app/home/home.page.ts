@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService, Character, StoryNode, Choice } from '../services/database.service';
+import { DatabaseService } from '../services/database.service';
+import { Character } from '../models/character.model';
+import { StoryNode, Choice } from '../models/story.model';
 import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
@@ -41,14 +43,14 @@ export class HomePage implements OnInit {
   async initializeGame() {
     // Create a demo character for testing
     const demoCharacter: Character = {
-      user_id: 1,
+      accountId: 1,
       name: 'Demo Hero',
       level: 1,
       experience: 0,
       health: 100,
       mana: 50,
       strength: 10,
-      agility: 10,
+      dexterity: 10,
       intelligence: 10
     };
 
@@ -69,9 +71,8 @@ export class HomePage implements OnInit {
         this.databaseService.setCurrentStoryNode(storyNode);
       }
 
-      // Load available choices
-      const choices = await this.databaseService.getStoryNodeChoices(nodeId).toPromise();
-      this.availableChoices = choices || [];
+      // Load available choices from the story node itself
+      this.availableChoices = storyNode && storyNode.choices ? storyNode.choices : [];
     } catch (error) {
       this.showToast('Error loading story content', 'danger');
       console.error('Error loading story node:', error);
@@ -88,31 +89,24 @@ export class HomePage implements OnInit {
 
     this.isLoading = true;
     try {
-      const result = await this.databaseService.makeChoice(choice.id!, this.currentCharacter).toPromise();
-      
-      // Update character stats
-      this.currentCharacter = result.character;
-      this.databaseService.setCurrentCharacter(result.character);
+      // Use makeChoice with correct arguments (characterId and choiceId)
+const result = await this.databaseService.makeChoice(this.currentCharacter.id!, choice.id!).toPromise();
 
-      // Show consequences if any
-      if (result.consequences) {
-        let message = 'Choice made! ';
-        if (result.consequences.experience) message += `+${result.consequences.experience} XP `;
-        if (result.consequences.health) message += `+${result.consequences.health} HP `;
-        if (result.consequences.mana) message += `+${result.consequences.mana} MP `;
-        if (result.consequences.strength) message += `+${result.consequences.strength} STR `;
-        if (result.consequences.agility) message += `+${result.consequences.agility} AGI `;
-        if (result.consequences.intelligence) message += `+${result.consequences.intelligence} INT `;
-        
-        this.showToast(message, 'success');
-      }
+// Update character stats if PlayerProgress includes updated character info
+if (result && result.metadata && result.metadata.updatedCharacter) {
+  this.currentCharacter = result.metadata.updatedCharacter;
+  this.databaseService.setCurrentCharacter(this.currentCharacter!);
+}
 
-      // Load next story node if available
-      if (result.next_node_id) {
-        setTimeout(() => {
-          this.loadStoryNode(result.next_node_id);
-        }, 1500);
-      }
+// Show a generic success message (customize if you add consequences to PlayerProgress)
+this.showToast('Choice made!', 'success');
+
+// Load next story node if available
+if (result && result.currentNode && result.currentNode.id) {
+  setTimeout(() => {
+    this.loadStoryNode(result.currentNode.id!);
+  }, 1500);
+}
     } catch (error) {
       this.showToast('Error making choice', 'danger');
       console.error('Error making choice:', error);
@@ -133,7 +127,7 @@ export class HomePage implements OnInit {
         <strong>Health:</strong> ${this.currentCharacter.health}<br>
         <strong>Mana:</strong> ${this.currentCharacter.mana}<br>
         <strong>Strength:</strong> ${this.currentCharacter.strength}<br>
-        <strong>Agility:</strong> ${this.currentCharacter.agility}<br>
+        <strong>Dexterity:</strong> ${this.currentCharacter.dexterity}<br>
         <strong>Intelligence:</strong> ${this.currentCharacter.intelligence}
       `,
       buttons: ['OK']

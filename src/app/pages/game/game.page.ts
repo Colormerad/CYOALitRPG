@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { DatabaseService, StoryNode, Choice, PlayerProgress, CharacterProfile, Character } from '../../services/database.service';
+import { DatabaseService } from '../../services/database.service';
+import { StoryNode, Choice } from '../../models/story.model';
+import { PlayerProgress } from '../../models/player-progress.model';
+import { CharacterProfile } from '../../models/character-profile.model';
+import { Character } from '../../models/character.model';
 
 @Component({
   selector: 'app-game',

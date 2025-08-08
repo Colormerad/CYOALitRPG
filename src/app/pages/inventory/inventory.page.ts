@@ -4,7 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { DatabaseService, InventoryItem, Character, PlayerProgress } from '../../services/database.service';
+import { DatabaseService } from '../../services/database.service';
+import { InventoryItem } from '../../models/inventory.model';
+import { Character } from '../../models/character.model';
+import { PlayerProgress } from '../../models/player-progress.model';
 
 @Component({
   selector: 'app-inventory',
