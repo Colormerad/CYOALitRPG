@@ -109,34 +109,7 @@ router.post('/', async (req, res) => {
 /**
  * Mark a character as dead
  */
-router.put('/:id/mark-dead', async (req, res) => {
-  try {
-    const characterId = parseInt(req.params.id);
-    console.log(`Marking character ${characterId} as dead via API endpoint`);
-    
-    // Add the is_dead column if it doesn't exist
-    await pool.query(
-      'ALTER TABLE "character" ADD COLUMN IF NOT EXISTS is_dead BOOLEAN DEFAULT FALSE'
-    );
-    
-    const result = await pool.query(
-      'UPDATE "character" SET is_dead = true, updated_at = CURRENT_TIMESTAMP WHERE id = $1 RETURNING *',
-      [characterId]
-    );
-    
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Character not found' });
-    }
-    
-    console.log('Character marked as dead:', result.rows[0]);
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error('Error marking character as dead:', err);
-    res.status(500).json({ error: 'Failed to mark character as dead' });
-  }
-});
-
-module.exports = router;
+// Duplicate mark-dead route removed; consolidated below.
 /**
  * Update a character
  */
@@ -147,7 +120,7 @@ router.put('/:id', async (req, res) => {
     
     // Check if character exists
     const checkResult = await pool.query(
-      'SELECT * FROM Character WHERE id = $1',
+      'SELECT * FROM "character" WHERE id = $1',
       [characterId]
     );
     
@@ -156,10 +129,9 @@ router.put('/:id', async (req, res) => {
     }
     
     const result = await pool.query(
-      `UPDATE Character 
+      `UPDATE "character" 
        SET name = $1, level = $2, experience = $3, health = $4, 
-           mana = $5, strength = $6, agility = $7, intelligence = $8,
-           updated_at = NOW()
+           mana = $5, strength = $6, agility = $7, intelligence = $8
        WHERE id = $9
        RETURNING *`,
       [
@@ -195,7 +167,7 @@ router.delete('/:id', async (req, res) => {
     
     // Then delete the character
     const result = await pool.query(
-      'DELETE FROM Character WHERE id = $1 RETURNING id',
+      'DELETE FROM "character" WHERE id = $1 RETURNING id',
       [characterId]
     );
     
@@ -216,6 +188,7 @@ router.delete('/:id', async (req, res) => {
 router.put('/:id/mark-dead', async (req, res) => {
   try {
     const characterId = parseInt(req.params.id);
+    console.log('[mark-dead] PUT called for id:', characterId);
     
     // First check if the character exists
     const checkResult = await pool.query(
@@ -227,40 +200,31 @@ router.put('/:id/mark-dead', async (req, res) => {
       return res.status(404).json({ error: 'Character not found' });
     }
     
-    // First, check if the is_dead column exists
-    try {
-      const columnCheck = await pool.query(`
-        SELECT column_name 
-        FROM information_schema.columns 
-        WHERE table_name = 'character' AND column_name = 'is_dead'
-      `);
-      
-      // If the column doesn't exist, add it
-      if (columnCheck.rows.length === 0) {
-        await pool.query('ALTER TABLE "character" ADD COLUMN is_dead BOOLEAN NOT NULL DEFAULT FALSE');
-        console.log('Added is_dead column to Character table');
-      }
-    } catch (alterErr) {
-      console.error('Error checking/adding is_dead column:', alterErr);
-      return res.status(500).json({ error: 'Database schema error' });
-    }
-    
-    // Mark the character as dead
+    // Mark the character as dead (assumes schema is already in place)
     try {
       const result = await pool.query(
-        'UPDATE "character" SET is_dead = TRUE WHERE id = $1 RETURNING id',
+        'UPDATE "character" SET is_dead = TRUE WHERE id = $1 RETURNING *',
         [characterId]
       );
-      
-      res.json({ message: 'Character marked as dead', id: characterId });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Character not found after update' });
+      }
+      res.json(result.rows[0]);
     } catch (updateErr) {
-      console.error('Error updating character:', updateErr);
-      res.status(500).json({ error: 'Failed to update character status' });
+      console.error('[mark-dead] Error updating character:', updateErr);
+      return res.status(500).json({ error: 'Failed to update character status', details: updateErr.message });
     }
   } catch (err) {
-    console.error('Error marking character as dead:', err);
-    res.status(500).json({ error: 'Failed to mark character as dead' });
+    console.error('[mark-dead] Unexpected error:', err);
+    return res.status(500).json({ error: 'Failed to mark character as dead', details: err.message });
   }
+});
+
+/**
+ * Guard against accidental GETs to mark-dead (helps avoid confusing 404s from GET requests)
+ */
+router.get('/:id/mark-dead', (req, res) => {
+  return res.status(405).json({ error: 'Method Not Allowed', allowed: 'PUT' });
 });
 
 /**
