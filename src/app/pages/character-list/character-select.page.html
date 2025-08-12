@@ -50,13 +50,13 @@
              (click)="onCharacterClick(character)">
           <div class="pixel-art-container">
             <div class="pixel-art-character" 
-                 [ngClass]="[character.class?.toLowerCase() || 'warrior', character.is_dead ? 'dead' : '']"></div>
+                 [ngClass]="[(character.className || character.class || 'Warrior')?.toLowerCase(), character.is_dead ? 'dead' : '']"></div>
           </div>
           <div class="character-info">
             <div class="character-name">{{ character.name }}</div>
             <div class="character-details">
               <span>Lvl {{ character.level || 1 }}</span>
-              <span>{{ character.class || 'Warrior' }}</span>
+              <span>{{ character.className || character.class || 'Adventurer' }}</span>
             </div>
           </div>
         </div>

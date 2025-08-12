@@ -11,7 +11,7 @@ router.get('/user/:userId', async (req, res) => {
   try {
     const userId = parseInt(req.params.userId);
     const result = await pool.query(
-      'SELECT * FROM "character" WHERE AccountId = $1 ORDER BY id',
+      'SELECT c.*, cls.Name as "className" FROM "character" c LEFT JOIN Class cls ON cls.Id = c.ClassId WHERE c.AccountId = $1 ORDER BY c.id',
       [userId]
     );
     res.json(result.rows);
