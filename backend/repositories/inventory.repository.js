@@ -64,5 +64,23 @@ module.exports = {
     } finally {
       client.release();
     }
+  },
+
+  async addNamedItemToInventory(characterId, name, quantity = 1, explicitTypeName = null) {
+    if (!name || typeof name !== 'string') return null;
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      const typeName = explicitTypeName || inferItemType(name);
+      const itemId = await this.getOrCreateItemByName(client, name, typeName);
+      await this.addItemToInventory(client, characterId, itemId, quantity);
+      await client.query('COMMIT');
+      return { itemId, name, typeName, quantity };
+    } catch (e) {
+      await client.query('ROLLBACK');
+      throw e;
+    } finally {
+      client.release();
+    }
   }
 };

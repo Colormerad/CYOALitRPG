@@ -303,6 +303,48 @@ class StoryService {
       metadata.equipment = classAssignment.equipment.map(item => item.description);
     }
 
+    // Item acquisition: prefer explicit metadata on the choice, fallback to heuristic parsing
+    try {
+      const effects = choice.effects || choice.Effects || null; // support both casings if present
+      if (effects && effects.inventory_add && Array.isArray(effects.inventory_add)) {
+        for (const entry of effects.inventory_add) {
+          const name = (entry?.name || '').trim();
+          const qty = Number.isFinite(entry?.quantity) ? entry.quantity : 1;
+          const typeName = entry?.type || null;
+          if (name) {
+            const added = await inventoryRepo.addNamedItemToInventory(characterId, name, qty, typeName);
+            console.log('[makeChoice] effects.inventory_add -> added item:', added);
+          }
+        }
+      } else {
+        // Heuristic: detect item pickup actions from the choice text and add item to inventory
+        const text = (choice.choicetext || '').toLowerCase();
+        const patterns = [
+          /(grab|snatch|get|collect|acquire|take)\s+(?:one of the\s+|the\s+|a\s+|an\s+)?([^\.;,!\n]+?)(?:\s+from\s+.*|\s+off\s+.*|\s+out of\s+.*|\s+and\s+.*|$)/i,
+          /(pick\s+up)\s+(?:one of the\s+|the\s+|a\s+|an\s+)?([^\.;,!\n]+?)(?:\s+from\s+.*|\s+off\s+.*|\s+out of\s+.*|\s+and\s+.*|$)/i,
+        ];
+        let captured = null;
+        for (const rx of patterns) {
+          const m = rx.exec(choice.choicetext || '');
+          if (m && m[2]) { captured = m[2]; break; }
+        }
+        if (captured) {
+          let name = captured.trim();
+          // Basic cleanup
+          name = name.replace(/^(one of the|the|a|an)\s+/i, '');
+          name = name.replace(/\s+(from|off|out of)\s+.*$/i, '');
+          name = name.replace(/\s+and\s+.*$/i, '');
+          name = name.replace(/\.$/, '');
+          if (name && name.length <= 100) {
+            const added = await inventoryRepo.addNamedItemToInventory(characterId, name, 1, null);
+            console.log('[makeChoice] Heuristic pickup -> added item:', added);
+          }
+        }
+      }
+    } catch (invErr) {
+      console.warn('[makeChoice] Pickup detection/add failed:', invErr?.message || invErr);
+    }
+
     // Determine next node
     let nextNodeId = initialNextNodeId;
     console.log(`Choice ID: ${choiceId}, Choice text: ${choice.choicetext}, Next Node ID from choice: ${nextNodeId}`);
