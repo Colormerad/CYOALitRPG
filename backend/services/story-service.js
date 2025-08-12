@@ -1,6 +1,7 @@
 // Use centralized DB pool and repositories
 const { pool } = require('../repositories/db');
 const classRepo = require('../repositories/class.repository');
+const inventoryRepo = require('../repositories/inventory.repository');
 const storyNodeRepo = require('../repositories/story-node.repository');
 const progressRepo = require('../repositories/progress.repository');
 const characterRepo = require('../repositories/character.repository');
@@ -35,11 +36,86 @@ class StoryService {
     if (!classData) {
       throw new Error(`Class with ID ${classId} not found`);
     }
+    
+    // Apply attribute bonuses from class to character profile
+    // Support multiple casings/keys from DB
+    console.log('[assignClassToCharacter] characterId:', characterId, 'classId:', classId);
+    console.log('[assignClassToCharacter] classData bonus fields snapshot:', {
+      strengthbonus: classData.strengthbonus,
+      strengthBonus: classData.strengthBonus,
+      StrengthBonus: classData.StrengthBonus,
+      dexteritybonus: classData.dexteritybonus,
+      dexterityBonus: classData.dexterityBonus,
+      DexterityBonus: classData.DexterityBonus,
+      constitutionbonus: classData.constitutionbonus,
+      constitutionBonus: classData.constitutionBonus,
+      ConstitutionBonus: classData.ConstitutionBonus,
+      intelligencebonus: classData.intelligencebonus,
+      intelligenceBonus: classData.intelligenceBonus,
+      IntelligenceBonus: classData.IntelligenceBonus,
+      wisdombonus: classData.wisdombonus,
+      wisdomBonus: classData.wisdomBonus,
+      WisdomBonus: classData.WisdomBonus,
+      charismabonus: classData.charismabonus,
+      charismaBonus: classData.charismaBonus,
+      CharismaBonus: classData.CharismaBonus,
+    });
+    const toInt = (v) => {
+      const n = parseInt(v, 10);
+      return Number.isFinite(n) ? n : 0;
+    };
+    const bonusByKey = (obj, keys) => {
+      for (const k of keys) {
+        if (obj[k] !== undefined && obj[k] !== null) return toInt(obj[k]);
+      }
+      return 0;
+    };
+    const bonuses = {
+      strength: bonusByKey(classData, ['strengthbonus', 'strengthBonus', 'StrengthBonus']),
+      dexterity: bonusByKey(classData, ['dexteritybonus', 'dexterityBonus', 'DexterityBonus']),
+      constitution: bonusByKey(classData, ['constitutionbonus', 'constitutionBonus', 'ConstitutionBonus']),
+      intelligence: bonusByKey(classData, ['intelligencebonus', 'intelligenceBonus', 'IntelligenceBonus']),
+      wisdom: bonusByKey(classData, ['wisdombonus', 'wisdomBonus', 'WisdomBonus']),
+      charisma: bonusByKey(classData, ['charismabonus', 'charismaBonus', 'CharismaBonus'])
+    };
+    const base = 10;
+    const targetAttrs = {
+      strength: bonuses.strength,
+      dexterity: bonuses.dexterity,
+      constitution: bonuses.constitution,
+      intelligence: bonuses.intelligence,
+      wisdom: bonuses.wisdom,
+      charisma: bonuses.charisma,
+    };
+    console.log('[assignClassToCharacter] computed bonuses:', bonuses, 'target attributes (replace):', targetAttrs);
+    let updatedProfile = null;
+    try {
+      updatedProfile = await profileService.setCharacterAttributes(characterId, targetAttrs);
+      console.log('[assignClassToCharacter] profile set to:', updatedProfile ? {
+        strength: updatedProfile.strength,
+        dexterity: updatedProfile.dexterity,
+        constitution: updatedProfile.constitution,
+        intelligence: updatedProfile.intelligence,
+        wisdom: updatedProfile.wisdom,
+        charisma: updatedProfile.charisma,
+      } : null);
+    } catch (e) {
+      console.error('Failed to set class attributes on profile:', e);
+    }
     const equipment = await classRepo.getStartingEquipment(classId);
+    let addedInventory = [];
+    try {
+      addedInventory = await inventoryRepo.addDescriptionsAsItemsToInventory(characterId, equipment);
+      console.log('[assignClassToCharacter] added starting equipment to inventory:', addedInventory);
+    } catch (e) {
+      console.error('[assignClassToCharacter] failed to add starting equipment to inventory:', e);
+    }
     return {
       character: updated,
       class: classData,
-      equipment
+      equipment,
+      profile: updatedProfile,
+      addedInventory,
     };
   }
 

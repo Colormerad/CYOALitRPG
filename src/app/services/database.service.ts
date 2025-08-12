@@ -180,72 +180,55 @@ export class DatabaseService {
 
   // Inventory operations
   getCharacterInventory(characterId: number): Observable<{ items: InventoryItem[], gold: number }> {
-    // Get the player progress which contains the real inventory data
+    // Fetch items from backend CharacterInventory and gold from player progress, then combine
     return new Observable(observer => {
-      this.getPlayerProgress(characterId).subscribe({
-        next: (progress) => {
-          // Initialize items array
-          let items: InventoryItem[] = [];
-          
-          // Add inventory items from player progress if they exist
-          if (progress.inventory && Array.isArray(progress.inventory)) {
-            items = [...progress.inventory];
-          }
-          
-          // Add equipment items if they exist but aren't already in the inventory
-          if (progress.equipment && Array.isArray(progress.equipment)) {
-            // Convert equipment items to inventory items if they're not already in the format
-            const equipmentItems = progress.equipment.map((item: any, index: number) => {
-              // If the item is already an InventoryItem object, use it directly
-              if (typeof item === 'object' && item !== null && 'id' in item && 'name' in item) {
-                // Check if this equipment item is already in the inventory
-                const existingItem = items.find(invItem => invItem.id === item.id);
-                if (existingItem) {
-                  return null; // Skip this item as it's already in the inventory
-                }
-                
-                return {
-                  ...item,
-                  type: item.type || 'equipment',
-                  quantity: item.quantity || 1,
-                  isEquipped: true // Equipment items are equipped by default
-                } as InventoryItem;
-              }
-              
-              // Otherwise, create a new InventoryItem from the equipment string or object
-              const itemName = typeof item === 'string' ? item : `Equipment ${index + 1}`;
-              
-              // Check if this equipment item is already in the inventory by name
-              const existingItem = items.find(invItem => invItem.name === itemName);
-              if (existingItem) {
-                return null; // Skip this item as it's already in the inventory
-              }
-              
-              return {
-                id: 1000 + items.length + index, // Generate a unique ID
-                name: itemName,
-                description: `Class equipment: ${itemName}`,
-                type: 'equipment' as 'equipment',
-                value: 0,
-                quantity: 1,
-                isEquipped: true,
-                equipSlot: 'weapon' as 'weapon' // Default slot, should be determined based on item type
-              };
-            }).filter((item): item is InventoryItem => item !== null);
-            
-            // Add equipment items to the inventory
-            items = [...items, ...equipmentItems];
-          }
-          
-          const gold = progress.gold || 0;
-          
-          // Return the combined inventory data
-          observer.next({ items, gold });
-          observer.complete();
+      this.http.get<any[]>(`${this.apiUrl}/characters/${characterId}/inventory`).subscribe({
+        next: (rows) => {
+          const mapType = (itemTypeName?: string): 'equipment' | 'consumable' | 'quest' | 'misc' => {
+            const t = (itemTypeName || '').toLowerCase();
+            if (['weapon', 'armor', 'accessory', 'shield'].includes(t)) return 'equipment';
+            if (['consumable', 'potion', 'elixir', 'scroll'].includes(t)) return 'consumable';
+            if (['quest'].includes(t)) return 'quest';
+            return 'misc';
+          };
+
+          const items: InventoryItem[] = (rows || []).map((r) => ({
+            id: r.id ?? r.itemid,
+            name: r.itemname || r.name,
+            description: r.itemdescription || r.description || '',
+            type: mapType(r.itemtypename),
+            value: r.value ?? 0,
+            quantity: r.quantity ?? 1,
+            isEquipped: !!r.isequipped,
+          }));
+
+          this.getPlayerProgress(characterId).subscribe({
+            next: (progress) => {
+              const gold = progress?.gold || 0;
+              observer.next({ items, gold });
+              observer.complete();
+            },
+            error: (err) => {
+              console.warn('Failed to load player progress for gold; defaulting to 0. Error:', err);
+              observer.next({ items, gold: 0 });
+              observer.complete();
+            }
+          });
         },
         error: (err) => {
-          console.error('Error loading inventory data from player progress:', err);
-          observer.error(err);
+          console.error('Error loading inventory items from backend:', err);
+          // Fallback: still try to provide gold so page can render something
+          this.getPlayerProgress(characterId).subscribe({
+            next: (progress) => {
+              const gold = progress?.gold || 0;
+              observer.next({ items: [], gold });
+              observer.complete();
+            },
+            error: (e2) => {
+              console.error('Additionally failed to load player progress for gold:', e2);
+              observer.error(err);
+            }
+          });
         }
       });
     });

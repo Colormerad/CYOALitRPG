@@ -37,6 +37,46 @@ class ProfileService {
   }
   
   /**
+   * Set absolute character attribute values (replace, not add)
+   * @param {number} characterId
+   * @param {{strength?: number, dexterity?: number, constitution?: number, intelligence?: number, wisdom?: number, charisma?: number}} attrs
+   * @returns {Promise<Object>} Updated CharacterProfile row
+   */
+  async setCharacterAttributes(characterId, attrs = {}) {
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      // Ensure profile exists
+      await this.getCharacterProfile(characterId);
+      const updates = [];
+      const values = [characterId];
+      let i = 2;
+      const clamp = (n) => Math.max(0, Math.min(100, parseInt(n, 10)));
+      if (attrs.strength !== undefined) { updates.push(`Strength = $${i}`); values.push(clamp(attrs.strength)); i++; }
+      if (attrs.dexterity !== undefined) { updates.push(`Dexterity = $${i}`); values.push(clamp(attrs.dexterity)); i++; }
+      if (attrs.constitution !== undefined) { updates.push(`Constitution = $${i}`); values.push(clamp(attrs.constitution)); i++; }
+      if (attrs.intelligence !== undefined) { updates.push(`Intelligence = $${i}`); values.push(clamp(attrs.intelligence)); i++; }
+      if (attrs.wisdom !== undefined) { updates.push(`Wisdom = $${i}`); values.push(clamp(attrs.wisdom)); i++; }
+      if (attrs.charisma !== undefined) { updates.push(`Charisma = $${i}`); values.push(clamp(attrs.charisma)); i++; }
+      updates.push('UpdatedAt = CURRENT_TIMESTAMP');
+      if (updates.length > 0) {
+        const sql = `UPDATE CharacterProfile SET ${updates.join(', ')} WHERE CharacterId = $1 RETURNING *`;
+        console.log('[ProfileService.setCharacterAttributes] updates:', updates, 'values:', values);
+        const res = await client.query(sql, values);
+        await client.query('COMMIT');
+        return res.rows[0];
+      }
+      await client.query('COMMIT');
+      return this.getCharacterProfile(characterId);
+    } catch (e) {
+      await client.query('ROLLBACK');
+      throw e;
+    } finally {
+      client.release();
+    }
+  }
+  
+  /**
    * Initialize a character's profile
    * @param {number} characterId - The ID of the character
    * @returns {Promise<Object>} - The initialized character profile
@@ -68,6 +108,7 @@ class ProfileService {
    */
   async updateCharacterProfile(characterId, metadataImpact) {
     if (!metadataImpact) return this.getCharacterProfile(characterId);
+    console.log('[ProfileService.updateCharacterProfile] characterId:', characterId, 'impact:', metadataImpact);
     
     const client = await pool.connect();
     
@@ -250,6 +291,8 @@ class ProfileService {
       
       // If we have updates to make
       if (updates.length > 0) {
+        console.log('[ProfileService.updateCharacterProfile] updates:', updates);
+        console.log('[ProfileService.updateCharacterProfile] values:', values);
         const updateQuery = `
           UPDATE CharacterProfile 
           SET ${updates.join(', ')} 
@@ -259,6 +302,14 @@ class ProfileService {
         
         const result = await client.query(updateQuery, values);
         profile = result.rows[0];
+        console.log('[ProfileService.updateCharacterProfile] updated profile:', profile ? {
+          strength: profile.strength,
+          dexterity: profile.dexterity,
+          constitution: profile.constitution,
+          intelligence: profile.intelligence,
+          wisdom: profile.wisdom,
+          charisma: profile.charisma,
+        } : null);
       }
       
       await client.query('COMMIT');
