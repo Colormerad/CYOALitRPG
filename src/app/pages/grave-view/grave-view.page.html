@@ -20,7 +20,7 @@
         <div class="grave-icon">✝</div>
         <div class="character-name">{{ character.name }}</div>
         <div class="character-dates">
-          <span>Level {{ character.level || 1 }} {{ character.class || 'Warrior' }}</span>
+          <span>Level {{ character.level || 1 }} {{ getClassDisplay() }}</span>
         </div>
       </div>
       
@@ -37,6 +37,21 @@
         </div>
         
         <div class="stat-row">
+          <div class="stat-label">Cause of Death:</div>
+          <div class="stat-value">{{ getCauseOfDeath() }}</div>
+        </div>
+
+        <div class="stat-row" *ngIf="deathTimestamp">
+          <div class="stat-label">Time of Death:</div>
+          <div class="stat-value">{{ deathTimestamp | date:'MM-dd-yy hh:mm' }}</div>
+        </div>
+
+        <div class="stat-row" *ngIf="getCreatedAt() as ca">
+          <div class="stat-label">Created At:</div>
+          <div class="stat-value">{{ toDateValue(ca) | date:'MM-dd-yy hh:mm' }}</div>
+        </div>
+
+        <div class="stat-row">
           <div class="stat-label">Morality:</div>
           <div class="morality-meter">
             <div class="morality-bar">
@@ -51,6 +66,34 @@
         </div>
       </div>
       
+      <div class="legacy-section" *ngIf="profile">
+        <h2 class="section-title">Character Profile</h2>
+        <ul class="legacy-list">
+          <ng-container *ngFor="let kv of profile | keyvalue">
+            <li class="legacy-item" *ngIf="showProfileKey(kv.key)">
+              <strong>{{ displayKey(kv.key) }}:</strong>&nbsp;
+              <span *ngIf="isDateTime(kv.value); else rawVal">{{ toDateValue(kv.value) | date:'MM-dd-yy hh:mm' }}</span>
+              <ng-template #rawVal>{{ kv.value }}</ng-template>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+
+      <div class="legacy-section" *ngIf="getAvailablePreferences().length">
+        <h2 class="section-title">Personality & Preferences</h2>
+        <div class="preference" *ngFor="let pref of getAvailablePreferences()">
+          <div class="pref-header">
+            <strong>{{ pref.label }}</strong>
+            <span class="pref-value">{{ pref.value }}%</span>
+          </div>
+          <div class="pref-scale-labels">
+            <span class="min-label">{{ pref.minLabel }}</span>
+            <span class="max-label">{{ pref.maxLabel }}</span>
+          </div>
+          <ion-range [value]="pref.value" [min]="0" [max]="100" disabled="true"></ion-range>
+        </div>
+      </div>
+
       <div class="legacy-section">
         <h2 class="section-title">Family Left Behind</h2>
         <ul class="legacy-list">

@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
   try {
     const characterId = parseInt(req.params.id);
     const result = await pool.query(
-      'SELECT * FROM "character" WHERE id = $1',
+      'SELECT c.*, cls.Name as "className" FROM "character" c LEFT JOIN Class cls ON cls.Id = c.ClassId WHERE c.id = $1',
       [characterId]
     );
     
@@ -252,57 +252,132 @@ router.get('/:id/legacy', async (req, res) => {
     
     // Get player progress to determine prompts survived
     const progressResult = await pool.query(
-      'SELECT COUNT(*) as prompt_count FROM PlayerProgress WHERE character_id = $1',
+      'SELECT COUNT(*) as prompt_count FROM PlayerProgress WHERE characterid = $1',
       [characterId]
     );
     
     const promptsSurvived = parseInt(progressResult.rows[0]?.prompt_count || 0);
-    
-    // Generate placeholder data for now
-    // In a real implementation, this would come from the database
-    const moralityScale = Math.floor(Math.random() * 100); // 0-100
-    
-    const possibleFamily = [
-      'Spouse who misses them dearly',
-      'Three young children',
-      'Elderly parents',
-      'A loyal dog named Rex',
-      'A twin sibling',
-      'A large extended family'
-    ];
-    
-    const familyCount = Math.floor(Math.random() * 3) + 1;
-    const familyLeftBehind = [];
-    for (let i = 0; i < familyCount; i++) {
-      const index = Math.floor(Math.random() * possibleFamily.length);
-      familyLeftBehind.push(possibleFamily[index]);
-      possibleFamily.splice(index, 1);
-      if (possibleFamily.length === 0) break;
+
+    // Fetch the most recent player progress to get metadata and choice history
+    const latestProgressResult = await pool.query(
+      'SELECT * FROM PlayerProgress WHERE characterid = $1 ORDER BY id DESC LIMIT 1',
+      [characterId]
+    );
+
+    const latestProgress = latestProgressResult.rows[0] || null;
+    let metadata = {};
+    let choiceHistory = [];
+    let lastChoiceId = null;
+    let deathReason = null;
+    let deathTimestamp = null;
+    let deathNode = null;
+    let deathPrompt = null;
+    let className = null;
+    let classIdFromMeta = null;
+
+    try {
+      if (latestProgress) {
+        metadata = latestProgress.metadata || {};
+        // choicehistory may be stored as array of numbers or array of objects
+        const rawHistory = latestProgress.choicehistory;
+        if (Array.isArray(rawHistory)) {
+          choiceHistory = rawHistory;
+          const lastEntry = rawHistory.length ? rawHistory[rawHistory.length - 1] : null;
+          if (lastEntry && typeof lastEntry === 'object' && lastEntry.choiceId != null) {
+            lastChoiceId = lastEntry.choiceId;
+          } else if (typeof lastEntry === 'number') {
+            lastChoiceId = lastEntry;
+          }
+        }
+
+        deathReason = metadata.death_reason || metadata.deathReason || null;
+        deathTimestamp = metadata.death_timestamp || metadata.deathTimestamp || null;
+        // Accept multiple casings/keys from metadata
+        className = metadata.className || metadata.classname || metadata.class_name || null;
+        classIdFromMeta = metadata.classId || metadata.classid || metadata.class_id || null;
+      }
+    } catch (parseErr) {
+      console.error('[legacy] Error parsing latest progress:', parseErr);
     }
-    
-    const possibleImpacts = [
-      'Saved a village from destruction',
-      'Defeated a fearsome monster',
-      'Discovered an ancient artifact',
-      'Brokered peace between warring factions',
-      'Built a school for orphaned children',
-      'Planted an enchanted forest'
-    ];
-    
-    const impactCount = Math.floor(Math.random() * 3) + 1;
-    const worldImpacts = [];
-    for (let i = 0; i < impactCount; i++) {
-      const index = Math.floor(Math.random() * possibleImpacts.length);
-      worldImpacts.push(possibleImpacts[index]);
-      possibleImpacts.splice(index, 1);
-      if (possibleImpacts.length === 0) break;
+
+    // If we have lastChoiceId, fetch the choice to include text/title as context
+    if (lastChoiceId != null) {
+      try {
+        const choiceRes = await pool.query(
+          'SELECT Id as id, ChoiceText as "choiceText" FROM StoryChoice WHERE Id = $1',
+          [lastChoiceId]
+        );
+        if (choiceRes.rows.length) {
+          deathPrompt = choiceRes.rows[0];
+        }
+      } catch (choiceErr) {
+        console.error('[legacy] Error loading last StoryChoice:', choiceErr);
+      }
     }
+
+    // Attempt to include death node context if present on latest progress
+    if (latestProgress && (latestProgress.nodeid != null || latestProgress.nodeId != null)) {
+      const nodeId = latestProgress.nodeid ?? latestProgress.nodeId;
+      try {
+        const nodeRes = await pool.query(
+          'SELECT id, title, content, isdeathnode FROM StoryNode WHERE id = $1',
+          [nodeId]
+        );
+        if (nodeRes.rows.length) {
+          deathNode = nodeRes.rows[0];
+        }
+      } catch (nodeErr) {
+        console.error('[legacy] Error loading death StoryNode:', nodeErr);
+      }
+    }
+
+    // Prefer explicit metadata value; else use number of choices made; else fallback to row count
+    const metaPrompts = metadata && (metadata.prompts_survived || metadata.promptsSurvived);
+    const choiceCount = Array.isArray(choiceHistory) ? choiceHistory.length : 0;
+    const finalPromptsSurvived = Number(metaPrompts ?? (choiceCount || promptsSurvived)) || 0;
     
+    // Load CharacterProfile for summary display
+    let profile = null;
+    try {
+      const profRes = await pool.query(
+        'SELECT * FROM CharacterProfile WHERE characterid = $1 LIMIT 1',
+        [characterId]
+      );
+      if (profRes.rows.length) {
+        profile = profRes.rows[0];
+      }
+    } catch (profErr) {
+      console.error('[legacy] Error loading CharacterProfile:', profErr);
+    }
+
+    // try to fallback classId from character row if not present in metadata
+    const classId = classIdFromMeta != null ? classIdFromMeta : (character.classid || character.classId || null);
+
+    // If className is still missing but we have classId, look up the class name
+    if (!className && classId != null) {
+      try {
+        const classRes = await pool.query('SELECT Name FROM Class WHERE Id = $1', [classId]);
+        if (classRes.rows.length) {
+          className = classRes.rows[0].name || classRes.rows[0].Name || null;
+        }
+      } catch (clsErr) {
+        console.error('[legacy] Error looking up class name by classId:', clsErr);
+      }
+    }
+
     res.json({
-      promptsSurvived,
-      moralityScale,
-      familyLeftBehind,
-      worldImpacts
+      promptsSurvived: Number(finalPromptsSurvived) || 0,
+      moralityScale: null, // backend no longer fabricates; frontend will handle default
+      familyLeftBehind: [],
+      worldImpacts: [],
+      deathReason,
+      deathTimestamp,
+      lastChoiceId,
+      deathNode,
+      deathPrompt,
+      profile,
+      className,
+      classId
     });
   } catch (err) {
     console.error('Error getting character legacy:', err);

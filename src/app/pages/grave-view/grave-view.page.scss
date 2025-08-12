@@ -8,7 +8,7 @@
 .pixel-container {
   padding: 16px;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0 auto 20px;
 }
 
 /* Header */
@@ -186,6 +186,38 @@
     content: '▶ ';
     color: var(--retro-green-brightest);
   }
+}
+
+/* Preferences (sliders) */
+.preference {
+  margin-bottom: 16px;
+}
+
+.pref-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.pref-scale-labels {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.pref-scale-labels .min-label {
+  text-align: left;
+}
+
+.pref-scale-labels .max-label {
+  margin-left: auto;
+  text-align: right;
+}
+
+ion-range {
+  --bar-background: var(--retro-green-dark);
+  --bar-background-active: var(--retro-green-brightest);
+  --knob-size: 18px;
 }
 
 .return-btn {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +7,7 @@ import { StoryNode, Choice } from '../../models/story.model';
 import { PlayerProgress } from '../../models/player-progress.model';
 import { CharacterProfile } from '../../models/character-profile.model';
 import { Character } from '../../models/character.model';
+import { AudioService } from '../../services/audio.service';
 
 @Component({
   selector: 'app-game',
@@ -15,7 +16,8 @@ import { Character } from '../../models/character.model';
   templateUrl: './game.page.html',
   styleUrls: ['./game.page.scss']
 })
-export class GamePage implements OnInit {
+export class GamePage implements OnInit, AfterViewInit {
+  @ViewChild('backgroundMusic') backgroundMusic!: ElementRef<HTMLAudioElement>;
   characterId: number = 0;
   currentNode: StoryNode | null = null;
   choices: Choice[] = [];
@@ -33,7 +35,8 @@ export class GamePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private audioService: AudioService
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +48,50 @@ export class GamePage implements OnInit {
         this.error = 'Invalid character ID';
         this.loading = false;
       }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.initializeMusic();
+  }
+
+  ngOnDestroy(): void {
+    if (this.backgroundMusic) {
+      this.backgroundMusic.nativeElement.pause();
+    }
+  }
+
+  private initializeMusic() {
+    if (!this.backgroundMusic) {
+      console.error('Background music element not found');
+      return;
+    }
+
+    const audioEl = this.backgroundMusic.nativeElement;
+    audioEl.loop = true;
+
+    // React to global volume/mute
+    this.audioService.volume$.subscribe(volume => {
+      audioEl.volume = volume;
+    });
+    this.audioService.muted$.subscribe(muted => {
+      audioEl.muted = muted;
+    });
+
+    audioEl.addEventListener('error', () => {
+      console.error('Game page audio error', audioEl.error);
+    });
+
+    // Attempt playback (handles most autoplay cases after user interaction)
+    audioEl.play().catch(err => {
+      console.warn('Autoplay blocked on game page; will retry after user interaction.', err);
+      const tryPlay = () => {
+        audioEl.play().catch(() => {});
+        window.removeEventListener('click', tryPlay);
+        window.removeEventListener('keydown', tryPlay);
+      };
+      window.addEventListener('click', tryPlay, { once: true });
+      window.addEventListener('keydown', tryPlay, { once: true });
     });
   }
 
