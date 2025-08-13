@@ -1,0 +1,4420 @@
+{
+  "generatedAt": "2025-08-12T17:40:39.498Z",
+  "tables": {
+    "account": {
+      "columns": [
+        "id",
+        "email",
+        "passwordhash",
+        "createdat",
+        "username"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "email": "demo@example.com",
+          "passwordhash": "$2b$10$example.hash.for.demo.user",
+          "createdat": "2025-07-25T18:33:53.532Z",
+          "username": "Player1"
+        },
+        {
+          "id": 2,
+          "email": "test@example.com",
+          "passwordhash": "$2b$10$yb93T.Tv2FUUl/2z2JBEMOtSgb3MoYuk5Bnl04RMzz.yXRa24RY.i",
+          "createdat": "2025-07-25T18:36:56.020Z",
+          "username": "Player2"
+        },
+        {
+          "id": 3,
+          "email": "mandi@mandimay.com",
+          "passwordhash": "$2b$10$22nmYnZy9p1Bme3MIOCNrOcDDtnSG3/eQADFozKsIQuT9.s/F3hke",
+          "createdat": "2025-07-25T23:40:59.597Z",
+          "username": "colormerad"
+        },
+        {
+          "id": 4,
+          "email": "pwilliams0530@gmail.com",
+          "passwordhash": "$2b$10$.ujpeQPRm/vXNx.y.6YBh.iNQN4HLMKrLbZCYK8xL1wVQfPa2VTK6",
+          "createdat": "2025-07-29T03:15:37.001Z",
+          "username": "Xero"
+        }
+      ]
+    },
+    "character": {
+      "columns": [
+        "id",
+        "name",
+        "createdat",
+        "accountid",
+        "level",
+        "experience",
+        "classid",
+        "worldid",
+        "locationid",
+        "coordinatex",
+        "coordinatey",
+        "is_dead"
+      ],
+      "rows": []
+    },
+    "characterinventory": {
+      "columns": [
+        "characterid",
+        "itemid",
+        "quantity",
+        "isequipped"
+      ],
+      "rows": []
+    },
+    "characterprofile": {
+      "columns": [
+        "id",
+        "characterid",
+        "strength",
+        "dexterity",
+        "constitution",
+        "intelligence",
+        "wisdom",
+        "charisma",
+        "goodevilaxis",
+        "orderchaosaxis",
+        "combatpreference",
+        "explorationpreference",
+        "socialpreference",
+        "puzzlepreference",
+        "caution",
+        "bravery",
+        "curiosity",
+        "empathy",
+        "magicaffinity",
+        "strengthexp",
+        "dexterityexp",
+        "constitutionexp",
+        "intelligenceexp",
+        "wisdomexp",
+        "charismaexp",
+        "additionaltraits",
+        "createdat",
+        "updatedat"
+      ],
+      "rows": []
+    },
+    "characterskill": {
+      "columns": [
+        "characterid",
+        "skillid",
+        "level",
+        "experience"
+      ],
+      "rows": []
+    },
+    "characterspell": {
+      "columns": [
+        "characterid",
+        "spellid",
+        "isequipped"
+      ],
+      "rows": []
+    },
+    "characterstat": {
+      "columns": [
+        "characterid",
+        "statid",
+        "value"
+      ],
+      "rows": []
+    },
+    "class": {
+      "columns": [
+        "id",
+        "name",
+        "description",
+        "strengthbonus",
+        "dexteritybonus",
+        "constitutionbonus",
+        "intelligencebonus",
+        "wisdombonus",
+        "charismabonus",
+        "createdat",
+        "updatedat"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "name": "Bardbarian",
+          "description": "They sing songs of blood and biceps. The louder the ballad, the stronger the blow.",
+          "strengthbonus": 15,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 8,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 2,
+          "name": "Cheesemancer",
+          "description": "Wields the power of dairy-based devastation. Foes are often grated... and melted.",
+          "strengthbonus": 8,
+          "dexteritybonus": 10,
+          "constitutionbonus": 10,
+          "intelligencebonus": 14,
+          "wisdombonus": 12,
+          "charismabonus": 13,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 3,
+          "name": "Owl Knight",
+          "description": "Sees all. Knows more. Hoots dramatically before every battle.",
+          "strengthbonus": 13,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 10,
+          "wisdombonus": 13,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 4,
+          "name": "Forgecaller",
+          "description": "Summons weapons mid-combat from flames and molten steel. Hot-headed, literally.",
+          "strengthbonus": 14,
+          "dexteritybonus": 10,
+          "constitutionbonus": 15,
+          "intelligencebonus": 10,
+          "wisdombonus": 8,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 5,
+          "name": "Venom Vicar",
+          "description": "Preaches sermons of sin... and syringes.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 10,
+          "intelligencebonus": 13,
+          "wisdombonus": 15,
+          "charismabonus": 9,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 6,
+          "name": "Bog Druid",
+          "description": "Smells like wet leaves. Fights like rotting vengeance. Brings frogs to a sword fight.",
+          "strengthbonus": 10,
+          "dexteritybonus": 10,
+          "constitutionbonus": 13,
+          "intelligencebonus": 9,
+          "wisdombonus": 15,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 7,
+          "name": "Sponge Squire",
+          "description": "Absorbs blows and insults with equal efficiency. Secretly hydrophobic.",
+          "strengthbonus": 12,
+          "dexteritybonus": 13,
+          "constitutionbonus": 14,
+          "intelligencebonus": 8,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 8,
+          "name": "Tooth Herald",
+          "description": "Commands the battlefield with blinding smiles and bludgeoning plaque.",
+          "strengthbonus": 13,
+          "dexteritybonus": 12,
+          "constitutionbonus": 12,
+          "intelligencebonus": 9,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 9,
+          "name": "Crumb Knight",
+          "description": "Carbs are courage. Wears gluten with pride. May contain traces of bravery.",
+          "strengthbonus": 14,
+          "dexteritybonus": 10,
+          "constitutionbonus": 14,
+          "intelligencebonus": 8,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 10,
+          "name": "Ink Witch",
+          "description": "Writes curses mid-fight. Books don't just hurt your feelings — now they bite.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 10,
+          "intelligencebonus": 15,
+          "wisdombonus": 10,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 11,
+          "name": "Fighter",
+          "description": "Trained in every weapon. Masters of grit and steel. Always ready, never flashy.",
+          "strengthbonus": 15,
+          "dexteritybonus": 13,
+          "constitutionbonus": 14,
+          "intelligencebonus": 8,
+          "wisdombonus": 8,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 12,
+          "name": "Wizard",
+          "description": "Studies ancient tomes and makes them explode. Big hat = big intellect.",
+          "strengthbonus": 8,
+          "dexteritybonus": 10,
+          "constitutionbonus": 10,
+          "intelligencebonus": 15,
+          "wisdombonus": 13,
+          "charismabonus": 9,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 13,
+          "name": "Ranger",
+          "description": "One with the woods, one with the wild. And their aim? Unnatural.",
+          "strengthbonus": 10,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 8,
+          "wisdombonus": 12,
+          "charismabonus": 9,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 14,
+          "name": "Paladin",
+          "description": "Divine justice with plate armor. Smiles politely while smiting evil.",
+          "strengthbonus": 14,
+          "dexteritybonus": 10,
+          "constitutionbonus": 14,
+          "intelligencebonus": 8,
+          "wisdombonus": 12,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 15,
+          "name": "Sorcerer",
+          "description": "Power flows from within—often explosively.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 10,
+          "intelligencebonus": 15,
+          "wisdombonus": 10,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 16,
+          "name": "Rogue",
+          "description": "If you saw them, they messed up. Sneaky, stabby, stylish.",
+          "strengthbonus": 10,
+          "dexteritybonus": 15,
+          "constitutionbonus": 12,
+          "intelligencebonus": 10,
+          "wisdombonus": 8,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 17,
+          "name": "Cleric",
+          "description": "Heals the wounded, smites the wicked, and still makes time for afternoon prayers.",
+          "strengthbonus": 10,
+          "dexteritybonus": 10,
+          "constitutionbonus": 13,
+          "intelligencebonus": 8,
+          "wisdombonus": 15,
+          "charismabonus": 11,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 18,
+          "name": "Druid",
+          "description": "Talks to trees. Turns into bears. May or may not be dating a dryad.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 12,
+          "intelligencebonus": 10,
+          "wisdombonus": 15,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 19,
+          "name": "Bard",
+          "description": "Their songs can charm, inspire, or start bar fights. Sometimes all three.",
+          "strengthbonus": 8,
+          "dexteritybonus": 13,
+          "constitutionbonus": 10,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 15,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 20,
+          "name": "Barbarian",
+          "description": "Rage first, question never. Smells like blood and pine sap.",
+          "strengthbonus": 15,
+          "dexteritybonus": 13,
+          "constitutionbonus": 14,
+          "intelligencebonus": 8,
+          "wisdombonus": 8,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 21,
+          "name": "Monk",
+          "description": "Fists of fury, soul of calm. Every movement is poetry—until it punches your ribs in half.",
+          "strengthbonus": 8,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 22,
+          "name": "Warlock",
+          "description": "Power borrowed from something ancient. Eyes that glow, secrets that burn.",
+          "strengthbonus": 10,
+          "dexteritybonus": 14,
+          "constitutionbonus": 13,
+          "intelligencebonus": 8,
+          "wisdombonus": 10,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 23,
+          "name": "Necromancer",
+          "description": "Makes friends… from corpses. Not great at parties. Excellent at revenge.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 24,
+          "name": "Beastmaster",
+          "description": "They growl. Their pet growls. Everything else whimpers and runs.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 25,
+          "name": "Enchanter",
+          "description": "Turns blades dull, voices sweet, and enemies into fans.",
+          "strengthbonus": 10,
+          "dexteritybonus": 14,
+          "constitutionbonus": 13,
+          "intelligencebonus": 8,
+          "wisdombonus": 10,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 26,
+          "name": "Assassin",
+          "description": "You'll never hear them coming. If you do... it’s already too late.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 27,
+          "name": "Elementalist",
+          "description": "Bends nature’s fury into bite-sized spells. Has no chill. Except when casting Frost Nova.",
+          "strengthbonus": 10,
+          "dexteritybonus": 14,
+          "constitutionbonus": 13,
+          "intelligencebonus": 8,
+          "wisdombonus": 10,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 28,
+          "name": "Spellsword",
+          "description": "The perfect mix of stab and zap. Stylish, versatile, deadly.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 29,
+          "name": "Warden",
+          "description": "Protector of the wilds and the weak. Watchful, wise, and wicked with a spear.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 30,
+          "name": "Blood Mage",
+          "description": "Life is power—especially their own. The cost is pain. The payoff is terrifying.",
+          "strengthbonus": 15,
+          "dexteritybonus": 13,
+          "constitutionbonus": 14,
+          "intelligencebonus": 8,
+          "wisdombonus": 8,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 31,
+          "name": "Beemancer",
+          "description": "Summons swarms, hexes with honey, and stings with spite.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 32,
+          "name": "Wheelwright of Destiny",
+          "description": "Fate turns on a wheel—and so do enemies when this class rolls into combat.",
+          "strengthbonus": 8,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 33,
+          "name": "Mildew Monk",
+          "description": "Channels decay to rot foes’ weapons and resolve. Somehow always moist.",
+          "strengthbonus": 13,
+          "dexteritybonus": 10,
+          "constitutionbonus": 14,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 34,
+          "name": "Meat Mage",
+          "description": "Casts spells using cuts of meat. Summons spectral bacon.",
+          "strengthbonus": 13,
+          "dexteritybonus": 10,
+          "constitutionbonus": 14,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 35,
+          "name": "Boxmancer",
+          "description": "Master of containment. Can summon, vanish, and weaponize crates.",
+          "strengthbonus": 8,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 36,
+          "name": "Gambler",
+          "description": "Every attack is a game of chance—but the house usually loses.",
+          "strengthbonus": 8,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 37,
+          "name": "Disco Knight",
+          "description": "Fights with rhythm and radiant damage. Once you hear their entrance music, it’s already too late.",
+          "strengthbonus": 8,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 38,
+          "name": "Cluckadin",
+          "description": "Divine protector of the coop. Smite first, squawk questions later.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 39,
+          "name": "Lucksmith",
+          "description": "Twists fate like a pretzel. Buffs allies with improbable luck.",
+          "strengthbonus": 10,
+          "dexteritybonus": 14,
+          "constitutionbonus": 13,
+          "intelligencebonus": 8,
+          "wisdombonus": 10,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 40,
+          "name": "Threadwalker",
+          "description": "Bends the narrative to their will. Can 'snip' enemies or 'sew' outcomes.",
+          "strengthbonus": 13,
+          "dexteritybonus": 10,
+          "constitutionbonus": 14,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 41,
+          "name": "Innkeeper",
+          "description": "Master of morale and rest. Can conjure food, boost stamina, and knows everyone’s secrets.",
+          "strengthbonus": 8,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 42,
+          "name": "Blacksmith",
+          "description": "Repairs gear mid-battle. Can summon anvils and forge weapons in seconds.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 43,
+          "name": "Tailor",
+          "description": "Mends armor, weaves spell-resistant cloth, and stitches status effects into enemies.",
+          "strengthbonus": 8,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 44,
+          "name": "Baker",
+          "description": "Bakes buffing buns and explosive sourdough.",
+          "strengthbonus": 10,
+          "dexteritybonus": 14,
+          "constitutionbonus": 13,
+          "intelligencebonus": 8,
+          "wisdombonus": 10,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 45,
+          "name": "Archivist",
+          "description": "Unleashes forgotten knowledge. Buffs allies and deciphers dungeon runes.",
+          "strengthbonus": 10,
+          "dexteritybonus": 14,
+          "constitutionbonus": 13,
+          "intelligencebonus": 8,
+          "wisdombonus": 10,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 46,
+          "name": "Chamberlain",
+          "description": "Optimizes allies’ cooldowns and organizes the battlefield like a ballroom.",
+          "strengthbonus": 8,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 47,
+          "name": "Stablemaster",
+          "description": "Summons and controls mounts. Can trample enemies with spectral steeds.",
+          "strengthbonus": 13,
+          "dexteritybonus": 10,
+          "constitutionbonus": 14,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 48,
+          "name": "Scullion",
+          "description": "Cleans up messes… including enemies. Removes debuffs, throws scalding soup.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 49,
+          "name": "Merchant",
+          "description": "Deals in buffs, bribes, and bargains. Can summon a pop-up market.",
+          "strengthbonus": 8,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 50,
+          "name": "Playwright",
+          "description": "Rewrites the battlefield. Can alter initiative and invoke plot armor.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 51,
+          "name": "Pyro-Bardian",
+          "description": "Shouts power chords mid-berserk rage. Deals damage by riff and by roar.",
+          "strengthbonus": 15,
+          "dexteritybonus": 13,
+          "constitutionbonus": 14,
+          "intelligencebonus": 8,
+          "wisdombonus": 8,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 52,
+          "name": "Necromelter",
+          "description": "Raises the dairy-dead and spreads curdled fear.",
+          "strengthbonus": 10,
+          "dexteritybonus": 14,
+          "constitutionbonus": 13,
+          "intelligencebonus": 8,
+          "wisdombonus": 10,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 53,
+          "name": "Stitchguard",
+          "description": "Mends more than armor—mends souls. Protects allies with blessed quilting.",
+          "strengthbonus": 15,
+          "dexteritybonus": 13,
+          "constitutionbonus": 14,
+          "intelligencebonus": 8,
+          "wisdombonus": 8,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 54,
+          "name": "Bogwarden",
+          "description": "Defends sacred wetlands with muck, croaks, and vines.",
+          "strengthbonus": 13,
+          "dexteritybonus": 10,
+          "constitutionbonus": 14,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 55,
+          "name": "Forgecaster",
+          "description": "Spellcraft built on sparks and steel. Creates living weapons of flame and fury.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 56,
+          "name": "Swarmblade",
+          "description": "Sneaks in with silence, swarms out with bees. Stings. Disappears. Repeats.",
+          "strengthbonus": 13,
+          "dexteritybonus": 10,
+          "constitutionbonus": 14,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 57,
+          "name": "Drunken Fist Fool",
+          "description": "Staggers like a fool, strikes like a master.",
+          "strengthbonus": 8,
+          "dexteritybonus": 12,
+          "constitutionbonus": 14,
+          "intelligencebonus": 14,
+          "wisdombonus": 8,
+          "charismabonus": 10,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 58,
+          "name": "Packlord",
+          "description": "Weaponizes inventory. Can sell mid-fight and ship pain express.",
+          "strengthbonus": 8,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 59,
+          "name": "Bloodscribe",
+          "description": "Channels life force into forbidden lore. Writes spells in their own veins.",
+          "strengthbonus": 8,
+          "dexteritybonus": 15,
+          "constitutionbonus": 13,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 60,
+          "name": "Crumbfighter",
+          "description": "Bashes with bread. Slashes with rolling pins. Toasts victory with buns of justice.",
+          "strengthbonus": 13,
+          "dexteritybonus": 10,
+          "constitutionbonus": 14,
+          "intelligencebonus": 10,
+          "wisdombonus": 10,
+          "charismabonus": 8,
+          "createdat": "2025-07-29T04:22:53.890Z",
+          "updatedat": "2025-07-29T04:22:53.890Z"
+        }
+      ]
+    },
+    "classoutfit": {
+      "columns": [
+        "id",
+        "classid",
+        "description",
+        "createdat"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "classid": 1,
+          "description": "Sleeveless chainmail over a crushed velvet doublet with skull motifs and a lute-axe combo.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 2,
+          "classid": 2,
+          "description": "Flowing robe patterned like Swiss cheese, wax-coated wheel hat.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 3,
+          "classid": 3,
+          "description": "Feathered cloak over silver armor with owl-eyed helmet.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 4,
+          "classid": 4,
+          "description": "Blacksmith's apron fused with ember-wreathed armor plates.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 5,
+          "classid": 5,
+          "description": "Clerical vestments stitched from snake leather and a poison pulpit vial.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 6,
+          "classid": 6,
+          "description": "Moss cloak, robes soaked in swamp water, crown of frogs.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 7,
+          "classid": 7,
+          "description": "Padded gambeson made of spongy material, giant wooden ladle.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 8,
+          "classid": 8,
+          "description": "Ivory tabard with molar patterns, toothbrush flail.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 9,
+          "classid": 9,
+          "description": "Bread-themed armor, baguette scabbard, pretzel shield.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 10,
+          "classid": 10,
+          "description": "Dark robe with shifting script, enormous feather quill.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 11,
+          "classid": 11,
+          "description": "Steel breastplate, crimson gambeson, utility belt with whetstones.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 12,
+          "classid": 12,
+          "description": "Floor-length robe with constellations, tall pointed hat.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 13,
+          "classid": 13,
+          "description": "Hooded green cloak, rugged leathers, birch bark quiver.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 14,
+          "classid": 14,
+          "description": "Polished armor with sunburst tabard, radiant cloak.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 15,
+          "classid": 15,
+          "description": "Shimmering robe of shifting colors, arcane tattoos.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 16,
+          "classid": 16,
+          "description": "Black-and-grey garb, face-obscuring cowl, soft boots.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 17,
+          "classid": 17,
+          "description": "Ornate vestments over chainmail, holy symbol necklace.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 18,
+          "classid": 18,
+          "description": "Woven grass tunic, bark boots, feather-bone accessories.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 19,
+          "classid": 19,
+          "description": "Bright doublet, puffy shirt, feathered hat, jangling belts.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 20,
+          "classid": 20,
+          "description": "Fur-lined vest, leather kilt, massive axe.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 21,
+          "classid": 21,
+          "description": "Simple linen robes tied with a sash, barefoot with wrapped ankles and wrists, and a wooden prayer bead necklace clacking softly as they move.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 22,
+          "classid": 22,
+          "description": "Tattered noble cloak over dark, tailored garments etched with infernal or eldritch patterns. A living mark pulses somewhere on their skin.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 23,
+          "classid": 23,
+          "description": "Faded black robes adorned with bone clasps, fingerless gloves stained with embalming fluid, and a skull-topped staff that whispers.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 24,
+          "classid": 24,
+          "description": "Furs draped over leather armor, feathered pauldrons, and a fang necklace from their first bonded beast. Often accompanied by growls.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 25,
+          "classid": 25,
+          "description": "Silk robe interwoven with silver filaments and shifting runes, gloves enchanted to shimmer with glamor, and a crystal chime belt.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 26,
+          "classid": 26,
+          "description": "Matte leather armor stitched for silence, cloak that blends into shadow, and a half-mask carved like a blank face.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 27,
+          "classid": 27,
+          "description": "Robes in quadrants of red, blue, green, and brown—fire, ice, wind, and stone—each glowing faintly with elemental energy.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 28,
+          "classid": 28,
+          "description": "Half-plate with arcane runes etched into the pauldrons, robes beneath, and a glowing sword sheathed across the back.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 29,
+          "classid": 29,
+          "description": "Camouflaged armor of bark and hide, a heavy green cloak, and a falcon feather circlet denoting rank among wild protectors.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 30,
+          "classid": 30,
+          "description": "Robes dyed red and black, etched with scars and ritual sigils. Arm wraps often soaked with dried blood.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 31,
+          "classid": 31,
+          "description": "Puffy yellow-and-black striped robe, honeycomb pauldrons, and a translucent beekeeper veil shimmering with pollen motes.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 32,
+          "classid": 32,
+          "description": "Grease-streaked apron, gear-shaped shoulder guards, and a wagon wheel strapped to their back like a divine halo.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 33,
+          "classid": 33,
+          "description": "Moss-stained robe with moldy fringes, a belt of fungus jars, and sandals that squish ominously.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 34,
+          "classid": 34,
+          "description": "Apron stitched from jerky, butcher’s boots, and a bacon-slice sash. Every pocket contains emergency meat.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 35,
+          "classid": 35,
+          "description": "Corrugated armor, cardboard helm, and a mail label cape reading “fragile” in glowing runes.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 36,
+          "classid": 36,
+          "description": "Velvet vest covered in gold embroidery, dice buttons, and a cape that always seems to flutter dramatically.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 37,
+          "classid": 37,
+          "description": "Mirrored breastplate that reflects rainbow light, bell-bottom greaves, and a chainmail disco-ball helm.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 38,
+          "classid": 38,
+          "description": "White-feather tabard, egg-shaped shield, beaked helm, and armor blessed by the Holy Coop.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 39,
+          "classid": 39,
+          "description": "Patchwork coat covered in rabbit feet, clovers, dice charms, and pockets filled with chance.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 40,
+          "classid": 40,
+          "description": "Cloak made from ever-moving threads of every color, needle-stitched boots, and a scarf that tangles time.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 41,
+          "classid": 41,
+          "description": "Stained apron over quilted tunic, ring of iron keys, mug hook on the belt, and a welcoming, worn smile.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 42,
+          "classid": 42,
+          "description": "Charcoal-smeared leather apron, soot-covered gloves, metal-rimmed boots, and a belt full of tongs and chisels.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 43,
+          "classid": 43,
+          "description": "Doublet covered in pins and spools, scissors sheath at the hip, and an enchanted measuring tape coiled at the neck.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 44,
+          "classid": 44,
+          "description": "Flour-covered smock, rising-dough hat, oven mitt gauntlets, and a belt of croissants and baguettes.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 45,
+          "classid": 45,
+          "description": "Dusty scholar robes, oversized glasses, scroll satchels under each arm, and ink stains as battle scars.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 46,
+          "classid": 46,
+          "description": "Crisp livery, spotless gloves, scroll case with emergency policies, and a lapel pin of authority.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 47,
+          "classid": 47,
+          "description": "Rough wool cloak, reinforced boots, leather gloves with reins etched into the palms, and saddle polish on everything.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 48,
+          "classid": 48,
+          "description": "Ripped apron soaked in dishwater, bucket helm that still leaks, and a ladle that doubles as a warhammer.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 49,
+          "classid": 49,
+          "description": "Vest lined with hidden pockets, gold-trimmed cloak, jingling coin boots, and a monocle that appraises souls.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 50,
+          "classid": 50,
+          "description": "Frilled collar, ink-streaked breeches, and a reversible cape bearing tragedy and comedy masks.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 51,
+          "classid": 51,
+          "description": "Charred leather armor stitched with lute strings, flaming pauldrons, and a battle-lute strapped over the back.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 52,
+          "classid": 52,
+          "description": "Black robes with bubbling cheese runes, skull-shaped fondue pot helm, and gauntlets made of aged brie.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 53,
+          "classid": 53,
+          "description": "Armor quilted with holy threads, a shield patched with blessings, and a sacred sewing needle as a holy symbol.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 54,
+          "classid": 54,
+          "description": "Cloak of reeds and swamp grass, frog-skull pauldrons, and boots that squelch when moving righteously.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 55,
+          "classid": 55,
+          "description": "Magically tempered apron, steel-gem hybrid pauldrons, and gloves that spark with heat and mana.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 56,
+          "classid": 56,
+          "description": "Honeycomb armor plates, veiled cowl, and twin daggers dripping with golden venom.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 57,
+          "classid": 57,
+          "description": "Wine-stained robes with comedy mask trim, bare feet, and jangling bells tied with loose ribbons.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 58,
+          "classid": 58,
+          "description": "Merchant robes reinforced with crate wood, scroll-buckles, and satchels enchanted to carry armies.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 59,
+          "classid": 59,
+          "description": "Robes of flesh-toned parchment, blood-ink tattoos forming glyphs, and a writing quill sheathed in bone.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 60,
+          "classid": 60,
+          "description": "Bread-plate armor, croissant pauldrons, flour-dusted tabard, and a brioche helm that smells like justice.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        }
+      ]
+    },
+    "classstartingequipment": {
+      "columns": [
+        "id",
+        "classid",
+        "description",
+        "createdat"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "classid": 1,
+          "description": "Lute (counts as a club)",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 2,
+          "classid": 1,
+          "description": "greataxe",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 3,
+          "classid": 1,
+          "description": "explorer's pack.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 4,
+          "classid": 2,
+          "description": "Cheese wand",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 5,
+          "classid": 2,
+          "description": "fondue flask (acid damage)",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 6,
+          "classid": 2,
+          "description": "spellbook.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 7,
+          "classid": 3,
+          "description": "Longsword",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 8,
+          "classid": 3,
+          "description": "shield",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 9,
+          "classid": 3,
+          "description": "chainmail",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 10,
+          "classid": 3,
+          "description": "owl companion.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 11,
+          "classid": 4,
+          "description": "Warhammer",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 12,
+          "classid": 4,
+          "description": "blacksmith tongs (toolkit)",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 13,
+          "classid": 4,
+          "description": "heated forge stone.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 14,
+          "classid": 5,
+          "description": "Poisoned mace",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 15,
+          "classid": 5,
+          "description": "healer's kit",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 16,
+          "classid": 5,
+          "description": "venomous relic.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 17,
+          "classid": 6,
+          "description": "Quarterstaff",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 18,
+          "classid": 6,
+          "description": "herbalism kit",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 19,
+          "classid": 6,
+          "description": "swamp salve.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 20,
+          "classid": 7,
+          "description": "Wooden ladle (club)",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 21,
+          "classid": 7,
+          "description": "water barrel",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 22,
+          "classid": 7,
+          "description": "padded armor.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 23,
+          "classid": 8,
+          "description": "Tooth flail",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 24,
+          "classid": 8,
+          "description": "hygiene kit",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 25,
+          "classid": 8,
+          "description": "light armor.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 26,
+          "classid": 9,
+          "description": "Breadblade (scimitar)",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 27,
+          "classid": 9,
+          "description": "yeast bombs",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 28,
+          "classid": 9,
+          "description": "shield.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 29,
+          "classid": 10,
+          "description": "Quill wand",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 30,
+          "classid": 10,
+          "description": "inkpot focus",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 31,
+          "classid": 10,
+          "description": "grimoire.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 32,
+          "classid": 11,
+          "description": "Longsword",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 33,
+          "classid": 11,
+          "description": "shield",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 34,
+          "classid": 11,
+          "description": "chainmail",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 35,
+          "classid": 11,
+          "description": "adventurer's kit.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 36,
+          "classid": 12,
+          "description": "Quarterstaff",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 37,
+          "classid": 12,
+          "description": "spellbook",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 38,
+          "classid": 12,
+          "description": "component pouch.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 39,
+          "classid": 13,
+          "description": "Longbow",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 40,
+          "classid": 13,
+          "description": "two shortswords",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 41,
+          "classid": 13,
+          "description": "explorer's pack.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 42,
+          "classid": 14,
+          "description": "Mace",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 43,
+          "classid": 14,
+          "description": "chainmail",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 44,
+          "classid": 14,
+          "description": "holy symbol.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 45,
+          "classid": 15,
+          "description": "Wand",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 46,
+          "classid": 15,
+          "description": "component pouch",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 47,
+          "classid": 15,
+          "description": "sorcerer’s focus crystal.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 48,
+          "classid": 16,
+          "description": "Two daggers",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 49,
+          "classid": 16,
+          "description": "thieves’ tools",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 50,
+          "classid": 16,
+          "description": "leather armor.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 51,
+          "classid": 17,
+          "description": "Mace",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 52,
+          "classid": 17,
+          "description": "chainmail",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 53,
+          "classid": 17,
+          "description": "holy book.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 54,
+          "classid": 18,
+          "description": "Druidic focus",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 55,
+          "classid": 18,
+          "description": "wooden shield",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 56,
+          "classid": 18,
+          "description": "herbalism kit.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 57,
+          "classid": 19,
+          "description": "Rapier",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 58,
+          "classid": 19,
+          "description": "lute",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 59,
+          "classid": 19,
+          "description": "entertainer's pack.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 60,
+          "classid": 20,
+          "description": "Greataxe",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 61,
+          "classid": 20,
+          "description": "four javelins",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 62,
+          "classid": 20,
+          "description": "explorer’s pack.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 63,
+          "classid": 21,
+          "description": "Bo staff",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 64,
+          "classid": 21,
+          "description": "prayer beads",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 65,
+          "classid": 21,
+          "description": "sandals of silence.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 66,
+          "classid": 22,
+          "description": "Hexblade",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 67,
+          "classid": 22,
+          "description": "pact book",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 68,
+          "classid": 22,
+          "description": "infernal pendant.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 69,
+          "classid": 23,
+          "description": "Bone staff",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 70,
+          "classid": 23,
+          "description": "skeletal minion starter kit",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 71,
+          "classid": 23,
+          "description": "ritual chalk.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 72,
+          "classid": 24,
+          "description": "Whip",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 73,
+          "classid": 24,
+          "description": "beast bond charm",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 74,
+          "classid": 24,
+          "description": "leather armor.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 75,
+          "classid": 25,
+          "description": "Enchanter’s wand",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 76,
+          "classid": 25,
+          "description": "silver thread pouch",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 77,
+          "classid": 25,
+          "description": "glamor mirror.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 78,
+          "classid": 26,
+          "description": "Poisoned daggers",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 79,
+          "classid": 26,
+          "description": "smoke bombs",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 80,
+          "classid": 26,
+          "description": "black cowl.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 81,
+          "classid": 27,
+          "description": "Elemental focus crystal",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 82,
+          "classid": 27,
+          "description": "spellbook",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 83,
+          "classid": 27,
+          "description": "energy shard belt.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 84,
+          "classid": 28,
+          "description": "Runeblade",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 85,
+          "classid": 28,
+          "description": "shield",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 86,
+          "classid": 28,
+          "description": "spell-charged ring.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 87,
+          "classid": 29,
+          "description": "Spear",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 88,
+          "classid": 29,
+          "description": "falconry glove",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 89,
+          "classid": 29,
+          "description": "forest garb.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 90,
+          "classid": 30,
+          "description": "Blood dagger",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 91,
+          "classid": 30,
+          "description": "sanguine vial",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 92,
+          "classid": 30,
+          "description": "leather-bound grimoire.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 93,
+          "classid": 31,
+          "description": "Bee staff",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 94,
+          "classid": 31,
+          "description": "smoker canister",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 95,
+          "classid": 31,
+          "description": "honeycomb armor.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 96,
+          "classid": 32,
+          "description": "Wagon wheel boomerang",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 97,
+          "classid": 32,
+          "description": "horse grease",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 98,
+          "classid": 32,
+          "description": "tinker's tools.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 99,
+          "classid": 33,
+          "description": "Mildew staff",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 100,
+          "classid": 33,
+          "description": "jar of rot",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 101,
+          "classid": 33,
+          "description": "moldy rags.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 102,
+          "classid": 34,
+          "description": "Meat wand",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 103,
+          "classid": 34,
+          "description": "enchanted butcher's knife",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 104,
+          "classid": 34,
+          "description": "bacon bandolier.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 105,
+          "classid": 35,
+          "description": "Box focus",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 106,
+          "classid": 35,
+          "description": "crate shield",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 107,
+          "classid": 35,
+          "description": "storage keyring.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 108,
+          "classid": 36,
+          "description": "Lucky deck",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 109,
+          "classid": 36,
+          "description": "gambling dice",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 110,
+          "classid": 36,
+          "description": "coin pouch.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 111,
+          "classid": 37,
+          "description": "Disco ball mace",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 112,
+          "classid": 37,
+          "description": "platform greaves",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 113,
+          "classid": 37,
+          "description": "rhythm cape.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 114,
+          "classid": 38,
+          "description": "Egg shield",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 115,
+          "classid": 38,
+          "description": "feathered sword",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 116,
+          "classid": 38,
+          "description": "holy whistle.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 117,
+          "classid": 39,
+          "description": "Clover charm",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 118,
+          "classid": 39,
+          "description": "coin of fate",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 119,
+          "classid": 39,
+          "description": "horseshoe knuckles.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 120,
+          "classid": 40,
+          "description": "Threadblade",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 121,
+          "classid": 40,
+          "description": "needle wand",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 122,
+          "classid": 40,
+          "description": "stitch-in-time scroll.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 123,
+          "classid": 41,
+          "description": "Tankard",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 124,
+          "classid": 41,
+          "description": "apron of hospitality",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 125,
+          "classid": 41,
+          "description": "keyring of welcome.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 126,
+          "classid": 42,
+          "description": "Smith’s hammer",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 127,
+          "classid": 42,
+          "description": "portable anvil shard",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 128,
+          "classid": 42,
+          "description": "metalworking kit.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 129,
+          "classid": 43,
+          "description": "Needle gauntlet",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 130,
+          "classid": 43,
+          "description": "enchanted thread pouch",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 131,
+          "classid": 43,
+          "description": "wardrobe scroll.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 132,
+          "classid": 44,
+          "description": "Rolling pin mace",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 133,
+          "classid": 44,
+          "description": "dough pouch",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 134,
+          "classid": 44,
+          "description": "baking stone.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 135,
+          "classid": 45,
+          "description": "Tome of knowledge",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 136,
+          "classid": 45,
+          "description": "ink quill",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 137,
+          "classid": 45,
+          "description": "scholar’s spectacles.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 138,
+          "classid": 46,
+          "description": "Clipboard of coordination",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 139,
+          "classid": 46,
+          "description": "dagger of delegation",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 140,
+          "classid": 46,
+          "description": "formal gloves.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 141,
+          "classid": 47,
+          "description": "Riding crop",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 142,
+          "classid": 47,
+          "description": "stable horn",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 143,
+          "classid": 47,
+          "description": "hoof-charmed boots.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 144,
+          "classid": 48,
+          "description": "Soapstone",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 145,
+          "classid": 48,
+          "description": "ladle",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 146,
+          "classid": 48,
+          "description": "boiling bucket.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 147,
+          "classid": 49,
+          "description": "Sales ledger",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 148,
+          "classid": 49,
+          "description": "coin purse",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 149,
+          "classid": 49,
+          "description": "summonable kiosk token.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 150,
+          "classid": 50,
+          "description": "Scroll of rewrites",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 151,
+          "classid": 50,
+          "description": "inkwell wand",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 152,
+          "classid": 50,
+          "description": "tragedy/comedy masks.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 153,
+          "classid": 51,
+          "description": "Flame guitar (greatclub)",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 154,
+          "classid": 51,
+          "description": "rage amp",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 155,
+          "classid": 51,
+          "description": "bardic spark potion.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 156,
+          "classid": 52,
+          "description": "Cheddar staff",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 157,
+          "classid": 52,
+          "description": "bone-flavored fondue pot",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 158,
+          "classid": 52,
+          "description": "animated gouda.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 159,
+          "classid": 53,
+          "description": "Holy needle",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 160,
+          "classid": 53,
+          "description": "shield of quilting",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 161,
+          "classid": 53,
+          "description": "embroidery holy symbol.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 162,
+          "classid": 54,
+          "description": "Swampy trident",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 163,
+          "classid": 54,
+          "description": "croakstone",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 164,
+          "classid": 54,
+          "description": "muckwalker boots.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 165,
+          "classid": 55,
+          "description": "Forge gauntlet",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 166,
+          "classid": 55,
+          "description": "focus gem",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 167,
+          "classid": 55,
+          "description": "heated blade.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 168,
+          "classid": 56,
+          "description": "Stinger daggers",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 169,
+          "classid": 56,
+          "description": "hive bombs",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 170,
+          "classid": 56,
+          "description": "smoke veil.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 171,
+          "classid": 57,
+          "description": "Wine gourd",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 172,
+          "classid": 57,
+          "description": "laughter beads",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 173,
+          "classid": 57,
+          "description": "disarming fan.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 174,
+          "classid": 58,
+          "description": "Merchant’s pack",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 175,
+          "classid": 58,
+          "description": "crate cannon",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 176,
+          "classid": 58,
+          "description": "summonable booth crystal.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 177,
+          "classid": 59,
+          "description": "Quill-knife",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 178,
+          "classid": 59,
+          "description": "blood ink",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 179,
+          "classid": 59,
+          "description": "forbidden tome.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 180,
+          "classid": 60,
+          "description": "Bread hammer",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 181,
+          "classid": 60,
+          "description": "butter knife",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        },
+        {
+          "id": 182,
+          "classid": 60,
+          "description": "apron of defense.",
+          "createdat": "2025-07-29T04:22:53.890Z"
+        }
+      ]
+    },
+    "faction": {
+      "columns": [
+        "id",
+        "worldid",
+        "name",
+        "type",
+        "ideology",
+        "zonesofinfluence",
+        "createdat",
+        "updatedat"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "worldid": 1,
+          "name": "High Council of Regence",
+          "type": "Government",
+          "ideology": "Stability through shared rule",
+          "zonesofinfluence": [
+            [
+              4000,
+              6000
+            ],
+            [
+              1000,
+              3000
+            ]
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 2,
+          "worldid": 1,
+          "name": "Black Fleet",
+          "type": "Pirate Confederacy",
+          "ideology": "Freedom through domination of the seas",
+          "zonesofinfluence": [
+            [
+              6000,
+              8000
+            ],
+            [
+              5000,
+              8000
+            ]
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 3,
+          "worldid": 1,
+          "name": "Wyrdshaman Circle",
+          "type": "Druidic Order",
+          "ideology": "Balance and wild sovereignty",
+          "zonesofinfluence": [
+            [
+              2000,
+              4000
+            ],
+            [
+              4000,
+              7000
+            ]
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 4,
+          "worldid": 1,
+          "name": "Crimson Pact",
+          "type": "Occult Cabal",
+          "ideology": "Power through dark contracts",
+          "zonesofinfluence": [
+            [
+              3000,
+              5000
+            ],
+            [
+              3000,
+              4000
+            ]
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        }
+      ]
+    },
+    "item": {
+      "columns": [
+        "id",
+        "name",
+        "description",
+        "itemtypeid",
+        "requiredlevel",
+        "value",
+        "isconsumable",
+        "usedescription",
+        "rarity"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "name": "Iron Sword",
+          "description": "A sturdy blade forged from iron",
+          "itemtypeid": 1,
+          "requiredlevel": 1,
+          "value": 100,
+          "isconsumable": false,
+          "usedescription": "Equip to increase attack power",
+          "rarity": "Common"
+        },
+        {
+          "id": 2,
+          "name": "Leather Armor",
+          "description": "Basic protection made from tanned hide",
+          "itemtypeid": 2,
+          "requiredlevel": 1,
+          "value": 80,
+          "isconsumable": false,
+          "usedescription": "Equip to increase defense",
+          "rarity": "Common"
+        },
+        {
+          "id": 3,
+          "name": "Health Potion",
+          "description": "Restores 50 health points",
+          "itemtypeid": 3,
+          "requiredlevel": 1,
+          "value": 25,
+          "isconsumable": true,
+          "usedescription": "Drink to restore health",
+          "rarity": "Common"
+        },
+        {
+          "id": 4,
+          "name": "Magic Ring",
+          "description": "Increases magical power",
+          "itemtypeid": 4,
+          "requiredlevel": 5,
+          "value": 200,
+          "isconsumable": false,
+          "usedescription": "Equip to boost intelligence",
+          "rarity": "Rare"
+        },
+        {
+          "id": 5,
+          "name": "Iron Ore",
+          "description": "Raw material for blacksmithing",
+          "itemtypeid": 5,
+          "requiredlevel": 1,
+          "value": 10,
+          "isconsumable": false,
+          "usedescription": "Used in crafting weapons",
+          "rarity": "Common"
+        },
+        {
+          "id": 6,
+          "name": "Whip",
+          "description": "Whip",
+          "itemtypeid": 5,
+          "requiredlevel": 1,
+          "value": 0,
+          "isconsumable": false,
+          "usedescription": "",
+          "rarity": "Common"
+        },
+        {
+          "id": 7,
+          "name": "beast bond charm",
+          "description": "beast bond charm",
+          "itemtypeid": 5,
+          "requiredlevel": 1,
+          "value": 0,
+          "isconsumable": false,
+          "usedescription": "",
+          "rarity": "Common"
+        },
+        {
+          "id": 8,
+          "name": "leather armor.",
+          "description": "leather armor.",
+          "itemtypeid": 2,
+          "requiredlevel": 1,
+          "value": 0,
+          "isconsumable": false,
+          "usedescription": "",
+          "rarity": "Common"
+        },
+        {
+          "id": 9,
+          "name": "Enchanter’s wand",
+          "description": "Enchanter’s wand",
+          "itemtypeid": 1,
+          "requiredlevel": 1,
+          "value": 0,
+          "isconsumable": false,
+          "usedescription": "",
+          "rarity": "Common"
+        },
+        {
+          "id": 10,
+          "name": "silver thread pouch",
+          "description": "silver thread pouch",
+          "itemtypeid": 5,
+          "requiredlevel": 1,
+          "value": 0,
+          "isconsumable": false,
+          "usedescription": "",
+          "rarity": "Common"
+        },
+        {
+          "id": 11,
+          "name": "glamor mirror.",
+          "description": "glamor mirror.",
+          "itemtypeid": 5,
+          "requiredlevel": 1,
+          "value": 0,
+          "isconsumable": false,
+          "usedescription": "",
+          "rarity": "Common"
+        },
+        {
+          "id": 12,
+          "name": "Druidic focus",
+          "description": "Druidic focus",
+          "itemtypeid": 5,
+          "requiredlevel": 1,
+          "value": 0,
+          "isconsumable": false,
+          "usedescription": "",
+          "rarity": "Common"
+        },
+        {
+          "id": 13,
+          "name": "wooden shield",
+          "description": "wooden shield",
+          "itemtypeid": 2,
+          "requiredlevel": 1,
+          "value": 0,
+          "isconsumable": false,
+          "usedescription": "",
+          "rarity": "Common"
+        },
+        {
+          "id": 14,
+          "name": "herbalism kit.",
+          "description": "herbalism kit.",
+          "itemtypeid": 5,
+          "requiredlevel": 1,
+          "value": 0,
+          "isconsumable": false,
+          "usedescription": "",
+          "rarity": "Common"
+        },
+        {
+          "id": 15,
+          "name": "your clothes back",
+          "description": "your clothes back",
+          "itemtypeid": 5,
+          "requiredlevel": 1,
+          "value": 0,
+          "isconsumable": false,
+          "usedescription": "",
+          "rarity": "Common"
+        }
+      ]
+    },
+    "itemstatbonus": {
+      "columns": [
+        "id",
+        "itemid",
+        "statid",
+        "bonusamount"
+      ],
+      "rows": []
+    },
+    "itemtype": {
+      "columns": [
+        "id",
+        "name",
+        "description"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "name": "Weapon",
+          "description": "Items used for combat"
+        },
+        {
+          "id": 2,
+          "name": "Armor",
+          "description": "Protective equipment"
+        },
+        {
+          "id": 3,
+          "name": "Consumable",
+          "description": "Single-use items"
+        },
+        {
+          "id": 4,
+          "name": "Accessory",
+          "description": "Jewelry and magical trinkets"
+        },
+        {
+          "id": 5,
+          "name": "Material",
+          "description": "Crafting components"
+        }
+      ]
+    },
+    "itemuseeffect": {
+      "columns": [
+        "id",
+        "itemid",
+        "effecttype",
+        "statid",
+        "amount",
+        "durationinturns"
+      ],
+      "rows": []
+    },
+    "location": {
+      "columns": [
+        "id",
+        "worldid",
+        "name",
+        "type",
+        "coordinatex",
+        "coordinatey",
+        "regionname",
+        "terrain",
+        "factionspresent",
+        "hooks",
+        "createdat",
+        "updatedat"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "worldid": 1,
+          "name": "Highspire",
+          "type": "Capital City",
+          "coordinatex": 5200,
+          "coordinatey": 2200,
+          "regionname": "Averwyn",
+          "terrain": "Urban/Plains",
+          "factionspresent": [
+            "High Council of Regence",
+            "Merchant Accord"
+          ],
+          "hooks": [
+            "noble intrigue",
+            "political quests",
+            "guild espionage"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 2,
+          "worldid": 1,
+          "name": "Black Hollow",
+          "type": "Town",
+          "coordinatex": 3800,
+          "coordinatey": 4800,
+          "regionname": "Vaskyr Wilds",
+          "terrain": "Forest",
+          "factionspresent": [
+            "Wyrdshaman Circle"
+          ],
+          "hooks": [
+            "beast hunting",
+            "ritual magic",
+            "lost druid relics"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 3,
+          "worldid": 1,
+          "name": "Seaview",
+          "type": "Port City",
+          "coordinatex": 6500,
+          "coordinatey": 6000,
+          "regionname": "Umbral Coast",
+          "terrain": "Coastal",
+          "factionspresent": [
+            "Black Fleet",
+            "Merchant Accord"
+          ],
+          "hooks": [
+            "naval trade",
+            "pirate conflict",
+            "sea god cults"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 4,
+          "worldid": 1,
+          "name": "Greyglass",
+          "type": "Floating Ruins",
+          "coordinatex": 4500,
+          "coordinatey": 3500,
+          "regionname": "Shattered Reach",
+          "terrain": "Wasteland",
+          "factionspresent": [
+            "Lantern Archive",
+            "Crimson Pact"
+          ],
+          "hooks": [
+            "unstable magic",
+            "forbidden knowledge",
+            "artifact salvage"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        }
+      ]
+    },
+    "loottable": {
+      "columns": [
+        "id",
+        "name",
+        "description"
+      ],
+      "rows": []
+    },
+    "loottableentry": {
+      "columns": [
+        "id",
+        "loottableid",
+        "itemid",
+        "dropchance",
+        "minquantity",
+        "maxquantity"
+      ],
+      "rows": []
+    },
+    "monster": {
+      "columns": [
+        "id",
+        "name",
+        "description",
+        "level",
+        "experiencereward",
+        "monstertypeid",
+        "loottableid"
+      ],
+      "rows": []
+    },
+    "monsterguaranteeddrop": {
+      "columns": [
+        "id",
+        "monsterid",
+        "itemid",
+        "minquantity",
+        "maxquantity"
+      ],
+      "rows": []
+    },
+    "monsterskill": {
+      "columns": [
+        "monsterid",
+        "skillid",
+        "level"
+      ],
+      "rows": []
+    },
+    "monsterspell": {
+      "columns": [
+        "monsterid",
+        "spellid"
+      ],
+      "rows": []
+    },
+    "monsterstat": {
+      "columns": [
+        "monsterid",
+        "statid",
+        "value"
+      ],
+      "rows": []
+    },
+    "monstertype": {
+      "columns": [
+        "id",
+        "name",
+        "description"
+      ],
+      "rows": []
+    },
+    "playerprogress": {
+      "columns": [
+        "id",
+        "characterid",
+        "currentnodeid",
+        "choicehistory",
+        "metadata",
+        "createdat",
+        "updatedat"
+      ],
+      "rows": []
+    },
+    "region": {
+      "columns": [
+        "id",
+        "worldid",
+        "name",
+        "xrangestart",
+        "xrangeend",
+        "yrangestart",
+        "yrangeend",
+        "features",
+        "travelmodifier",
+        "encounterrate",
+        "magiclevel",
+        "factionbias",
+        "createdat",
+        "updatedat"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "worldid": 1,
+          "name": "Tundra",
+          "xrangestart": 0,
+          "xrangeend": 2000,
+          "yrangestart": 0,
+          "yrangeend": 3000,
+          "features": [
+            "frozen ruins",
+            "icebound temples",
+            "scarce wildlife"
+          ],
+          "travelmodifier": 2,
+          "encounterrate": 0.4,
+          "magiclevel": "low",
+          "factionbias": [
+            "Forgotten Seers"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 2,
+          "worldid": 1,
+          "name": "Mountains",
+          "xrangestart": 2000,
+          "xrangeend": 4000,
+          "yrangestart": 0,
+          "yrangeend": 3000,
+          "features": [
+            "dragon lairs",
+            "deep mines",
+            "mountain passes"
+          ],
+          "travelmodifier": 3,
+          "encounterrate": 0.5,
+          "magiclevel": "medium",
+          "factionbias": [
+            "Stoneclad Brotherhood"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 3,
+          "worldid": 1,
+          "name": "Hills",
+          "xrangestart": 4000,
+          "xrangeend": 6000,
+          "yrangestart": 0,
+          "yrangeend": 2000,
+          "features": [
+            "villages",
+            "caves",
+            "outposts"
+          ],
+          "travelmodifier": 1.2,
+          "encounterrate": 0.3,
+          "magiclevel": "low",
+          "factionbias": [
+            "Guild of the Many Hands"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 4,
+          "worldid": 1,
+          "name": "Urban/Plains",
+          "xrangestart": 4000,
+          "xrangeend": 6000,
+          "yrangestart": 2000,
+          "yrangeend": 3000,
+          "features": [
+            "city walls",
+            "farming estates",
+            "trade routes"
+          ],
+          "travelmodifier": 1,
+          "encounterrate": 0.2,
+          "magiclevel": "low",
+          "factionbias": [
+            "High Council of Regence"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 5,
+          "worldid": 1,
+          "name": "Wasteland",
+          "xrangestart": 3000,
+          "xrangeend": 5000,
+          "yrangestart": 3000,
+          "yrangeend": 4000,
+          "features": [
+            "arcane storms",
+            "floating debris",
+            "twisted monsters"
+          ],
+          "travelmodifier": 2.5,
+          "encounterrate": 0.6,
+          "magiclevel": "very high",
+          "factionbias": [
+            "Crimson Pact",
+            "Lantern Archive"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 6,
+          "worldid": 1,
+          "name": "Forest/Jungle",
+          "xrangestart": 0,
+          "xrangeend": 4000,
+          "yrangestart": 4000,
+          "yrangeend": 7000,
+          "features": [
+            "ancient groves",
+            "overgrown ruins",
+            "forest spirits"
+          ],
+          "travelmodifier": 2,
+          "encounterrate": 0.5,
+          "magiclevel": "high",
+          "factionbias": [
+            "Wyrdshaman Circle"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 7,
+          "worldid": 1,
+          "name": "Plains",
+          "xrangestart": 6000,
+          "xrangeend": 8000,
+          "yrangestart": 3000,
+          "yrangeend": 5000,
+          "features": [
+            "rivers",
+            "fields",
+            "small towns"
+          ],
+          "travelmodifier": 1,
+          "encounterrate": 0.2,
+          "magiclevel": "low",
+          "factionbias": [
+            "Merchant Accord"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 8,
+          "worldid": 1,
+          "name": "Swamp/Coastal",
+          "xrangestart": 6000,
+          "xrangeend": 8000,
+          "yrangestart": 5000,
+          "yrangeend": 8000,
+          "features": [
+            "tidal flats",
+            "hidden bays",
+            "salt marshes"
+          ],
+          "travelmodifier": 1.5,
+          "encounterrate": 0.4,
+          "magiclevel": "medium",
+          "factionbias": [
+            "Black Fleet"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 9,
+          "worldid": 1,
+          "name": "Desert",
+          "xrangestart": 8000,
+          "xrangeend": 10000,
+          "yrangestart": 0,
+          "yrangeend": 5000,
+          "features": [
+            "sandstorms",
+            "lost cities",
+            "crystalline monoliths"
+          ],
+          "travelmodifier": 2.5,
+          "encounterrate": 0.3,
+          "magiclevel": "medium",
+          "factionbias": [
+            "Ash Dervishes"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        },
+        {
+          "id": 10,
+          "worldid": 1,
+          "name": "Jungle",
+          "xrangestart": 8000,
+          "xrangeend": 10000,
+          "yrangestart": 5000,
+          "yrangeend": 10000,
+          "features": [
+            "bioluminescent flora",
+            "forgotten temples",
+            "prehistoric beasts"
+          ],
+          "travelmodifier": 3,
+          "encounterrate": 0.6,
+          "magiclevel": "very high",
+          "factionbias": [
+            "Emerald Court"
+          ],
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        }
+      ]
+    },
+    "skill": {
+      "columns": [
+        "id",
+        "name",
+        "description",
+        "skillcategoryid"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "name": "Sword Fighting",
+          "description": "Proficiency with sword weapons",
+          "skillcategoryid": 1
+        },
+        {
+          "id": 2,
+          "name": "Archery",
+          "description": "Skill with bows and ranged weapons",
+          "skillcategoryid": 1
+        },
+        {
+          "id": 3,
+          "name": "Fire Magic",
+          "description": "Mastery of fire-based spells",
+          "skillcategoryid": 2
+        },
+        {
+          "id": 4,
+          "name": "Healing Magic",
+          "description": "Ability to restore health and cure ailments",
+          "skillcategoryid": 2
+        },
+        {
+          "id": 5,
+          "name": "Blacksmithing",
+          "description": "Creating and repairing weapons and armor",
+          "skillcategoryid": 3
+        },
+        {
+          "id": 6,
+          "name": "Alchemy",
+          "description": "Brewing potions and magical concoctions",
+          "skillcategoryid": 3
+        },
+        {
+          "id": 7,
+          "name": "Foraging",
+          "description": "Finding food and materials in the wild",
+          "skillcategoryid": 4
+        },
+        {
+          "id": 8,
+          "name": "Stealth",
+          "description": "Moving unseen and avoiding detection",
+          "skillcategoryid": 4
+        }
+      ]
+    },
+    "skillcategory": {
+      "columns": [
+        "id",
+        "name",
+        "description"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "name": "Combat",
+          "description": "Physical fighting abilities"
+        },
+        {
+          "id": 2,
+          "name": "Magic",
+          "description": "Spellcasting and magical abilities"
+        },
+        {
+          "id": 3,
+          "name": "Crafting",
+          "description": "Item creation and enhancement"
+        },
+        {
+          "id": 4,
+          "name": "Survival",
+          "description": "Exploration and resource gathering"
+        }
+      ]
+    },
+    "spell": {
+      "columns": [
+        "id",
+        "name",
+        "description",
+        "spellcategoryid",
+        "basedamage",
+        "damagetype",
+        "conditioneffect",
+        "chancetohit",
+        "targettype"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "name": "Fireball",
+          "description": "Launches a ball of fire at the target",
+          "spellcategoryid": 1,
+          "basedamage": 25,
+          "damagetype": "Fire",
+          "conditioneffect": "Burn",
+          "chancetohit": 0.85,
+          "targettype": "Single"
+        },
+        {
+          "id": 2,
+          "name": "Lightning Bolt",
+          "description": "Strikes target with electrical energy",
+          "spellcategoryid": 1,
+          "basedamage": 30,
+          "damagetype": "Lightning",
+          "conditioneffect": "Stun",
+          "chancetohit": 0.9,
+          "targettype": "Single"
+        },
+        {
+          "id": 3,
+          "name": "Shield",
+          "description": "Creates a magical barrier around the caster",
+          "spellcategoryid": 2,
+          "basedamage": 0,
+          "damagetype": "None",
+          "conditioneffect": "Shield",
+          "chancetohit": 1,
+          "targettype": "Self"
+        },
+        {
+          "id": 4,
+          "name": "Heal",
+          "description": "Restores health to the target",
+          "spellcategoryid": 4,
+          "basedamage": 0,
+          "damagetype": "Healing",
+          "conditioneffect": "Regeneration",
+          "chancetohit": 1,
+          "targettype": "Single"
+        },
+        {
+          "id": 5,
+          "name": "Teleport",
+          "description": "Instantly moves to a different location",
+          "spellcategoryid": 3,
+          "basedamage": 0,
+          "damagetype": "None",
+          "conditioneffect": "None",
+          "chancetohit": 1,
+          "targettype": "Self"
+        }
+      ]
+    },
+    "spellcategory": {
+      "columns": [
+        "id",
+        "name",
+        "description"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "name": "Offensive",
+          "description": "Damage-dealing spells"
+        },
+        {
+          "id": 2,
+          "name": "Defensive",
+          "description": "Protection and shielding spells"
+        },
+        {
+          "id": 3,
+          "name": "Utility",
+          "description": "Non-combat helpful spells"
+        },
+        {
+          "id": 4,
+          "name": "Healing",
+          "description": "Health restoration spells"
+        }
+      ]
+    },
+    "spellscaling": {
+      "columns": [
+        "id",
+        "spellid",
+        "statid",
+        "scalingfactor"
+      ],
+      "rows": []
+    },
+    "stat": {
+      "columns": [
+        "id",
+        "name",
+        "description"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "name": "Strength",
+          "description": "Physical power and melee damage"
+        },
+        {
+          "id": 2,
+          "name": "Agility",
+          "description": "Speed, dexterity, and dodge chance"
+        },
+        {
+          "id": 3,
+          "name": "Intelligence",
+          "description": "Magical power and mana pool"
+        },
+        {
+          "id": 4,
+          "name": "Vitality",
+          "description": "Health points and physical resistance"
+        },
+        {
+          "id": 5,
+          "name": "Wisdom",
+          "description": "Mana regeneration and magical resistance"
+        },
+        {
+          "id": 6,
+          "name": "Luck",
+          "description": "Critical hit chance and loot quality"
+        }
+      ]
+    },
+    "storychoice": {
+      "columns": [
+        "id",
+        "storynodeid",
+        "choicetext",
+        "nextnodeid",
+        "metadataimpact",
+        "createdat",
+        "updatedat",
+        "effects"
+      ],
+      "rows": [
+        {
+          "id": 18,
+          "storynodeid": 5,
+          "choicetext": "Tuck your phone along with your clothes into the locker and set your password.",
+          "nextnodeid": 19,
+          "metadataimpact": {
+            "security": 1,
+            "rule_following": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 20,
+          "storynodeid": 5,
+          "choicetext": "Close the locker and set the password. Glance around and tuck your phone into the waist of your outfit. Hopefully it doesn't fall out.",
+          "nextnodeid": 19,
+          "metadataimpact": {
+            "anxiety": 1,
+            "rule_following": -1,
+            "resourcefulness": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 19,
+          "storynodeid": 5,
+          "choicetext": "Grab your clothes back out of the locker and redress- this is silly. I'm wearing my own clothes and turn to head into the faire wearing your street clothes.",
+          "nextnodeid": 7,
+          "metadataimpact": {
+            "modern": 1,
+            "stubbornness": 1,
+            "rule_following": -1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {
+            "inventory_add": [
+              {
+                "name": "your clothes back",
+                "quantity": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": 27,
+          "storynodeid": 7,
+          "choicetext": "Take one of the masks from a tree.",
+          "nextnodeid": 11,
+          "metadataimpact": {
+            "theft": 1,
+            "boldness": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {
+            "inventory_add": [
+              {
+                "name": "masks",
+                "quantity": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "storynodeid": 1,
+          "choicetext": "\"What a weird sign,\" you mutter, glancing around.\n\tYou were supposed to meet someone here, but you don't see them or— anyone out here. You check your phone. No signal. Of course. And you're already fifteen minutes late.\n\tMaybe they're inside.",
+          "nextnodeid": 2,
+          "metadataimpact": {
+            "curiosity": -1,
+            "personality": "cautious"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 2,
+          "storynodeid": 1,
+          "choicetext": "You tug your hoodie tighter against a sudden breeze and take a hesitant step toward the fairgrounds. The gates yawn open, unmanned. There's no ticket booth, no staff, just… music. Faint flute and drumbeats drift on the wind. \"Maybe they're already inside,\" you murmur, trying not to feel like you're walking into a trap.",
+          "nextnodeid": 2,
+          "metadataimpact": {
+            "anxiety": 1,
+            "personality": "adventurous"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 3,
+          "storynodeid": 1,
+          "choicetext": "You circle the sign, half-expecting a prank camera crew or a bored medieval LARPer to jump out yelling \"Gotcha!\" But there's nothing—just that odd silence you only notice when it's unnatural. Your shoes crunch gravel as you walk a little further in. You pass through the gates before you can talk yourself out of it.",
+          "nextnodeid": 2,
+          "metadataimpact": {
+            "curiosity": 1,
+            "personality": "skeptical"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 4,
+          "storynodeid": 1,
+          "choicetext": "You reach out and touch the sign. The wood feels oddly warm. As you pull your hand back, a shimmer runs down the painted letters like rippling water. You blink. The fairgrounds seem… closer than they were before. Larger. Brighter. You take one cautious step forward, nervous but glad you decided to do this on your own.",
+          "nextnodeid": 2,
+          "metadataimpact": {
+            "personality": "mystical",
+            "magic_affinity": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 5,
+          "storynodeid": 2,
+          "choicetext": "My good sir",
+          "nextnodeid": 3,
+          "metadataimpact": {
+            "formality": 1,
+            "gender_preference": "masculine"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 6,
+          "storynodeid": 2,
+          "choicetext": "Dearest madam",
+          "nextnodeid": 3,
+          "metadataimpact": {
+            "formality": 1,
+            "gender_preference": "feminine"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 7,
+          "storynodeid": 2,
+          "choicetext": "Friend is fine, thank you.",
+          "nextnodeid": 3,
+          "metadataimpact": {
+            "formality": 0,
+            "gender_preference": "neutral"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 8,
+          "storynodeid": 2,
+          "choicetext": "...",
+          "nextnodeid": 3,
+          "metadataimpact": {
+            "social": -1,
+            "personality": "reserved"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 9,
+          "storynodeid": 3,
+          "choicetext": "Young",
+          "nextnodeid": 4,
+          "metadataimpact": {
+            "experience": -1,
+            "age_preference": "young"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 10,
+          "storynodeid": 3,
+          "choicetext": "Wisened",
+          "nextnodeid": 4,
+          "metadataimpact": {
+            "wisdom": 1,
+            "experience": 1,
+            "age_preference": "old"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 11,
+          "storynodeid": 3,
+          "choicetext": "Somewhere in between",
+          "nextnodeid": 4,
+          "metadataimpact": {
+            "experience": 0,
+            "age_preference": "middle"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 12,
+          "storynodeid": 3,
+          "choicetext": "...",
+          "nextnodeid": 4,
+          "metadataimpact": {
+            "social": -1,
+            "personality": "mysterious"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 13,
+          "storynodeid": 4,
+          "choicetext": "Random Outfit 1 Placeholder",
+          "nextnodeid": 5,
+          "metadataimpact": {
+            "outfit_style": "random1"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 14,
+          "storynodeid": 4,
+          "choicetext": "Random Outfit 2 Placeholder",
+          "nextnodeid": 5,
+          "metadataimpact": {
+            "outfit_style": "random2"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 15,
+          "storynodeid": 4,
+          "choicetext": "Random Outfit 3 Placeholder",
+          "nextnodeid": 5,
+          "metadataimpact": {
+            "outfit_style": "random3"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 16,
+          "storynodeid": 4,
+          "choicetext": "Random Outfit 4 Placeholder",
+          "nextnodeid": 5,
+          "metadataimpact": {
+            "outfit_style": "random4"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 17,
+          "storynodeid": 4,
+          "choicetext": "Show me more options",
+          "nextnodeid": 5,
+          "metadataimpact": {
+            "outfit_style": "refresh"
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 21,
+          "storynodeid": 6,
+          "choicetext": "Follow the flickering lantern to the left.",
+          "nextnodeid": 7,
+          "metadataimpact": {
+            "caution": -1,
+            "curiosity": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 22,
+          "storynodeid": 6,
+          "choicetext": "Investigate the lantern, but keep your distance.",
+          "nextnodeid": 7,
+          "metadataimpact": {
+            "caution": 1,
+            "curiosity": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 23,
+          "storynodeid": 6,
+          "choicetext": "Head toward the sound of wheels on the right.",
+          "nextnodeid": 8,
+          "metadataimpact": {
+            "caution": -1,
+            "boldness": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 24,
+          "storynodeid": 6,
+          "choicetext": "Wait and listen for more clues before deciding.",
+          "nextnodeid": 8,
+          "metadataimpact": {
+            "caution": 1,
+            "patience": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 25,
+          "storynodeid": 7,
+          "choicetext": "Talk to the moving mask.",
+          "nextnodeid": 9,
+          "metadataimpact": {
+            "courage": 1,
+            "curiosity": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 26,
+          "storynodeid": 7,
+          "choicetext": "Ignore it and walk faster.",
+          "nextnodeid": 10,
+          "metadataimpact": {
+            "fear": 1,
+            "caution": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 28,
+          "storynodeid": 8,
+          "choicetext": "Step inside the coach.",
+          "nextnodeid": 10,
+          "metadataimpact": {
+            "trust": 1,
+            "curiosity": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 29,
+          "storynodeid": 8,
+          "choicetext": "Climb up to talk to the driver.",
+          "nextnodeid": 12,
+          "metadataimpact": {
+            "boldness": 1,
+            "leadership": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 30,
+          "storynodeid": 8,
+          "choicetext": "Back away slowly and hide.",
+          "nextnodeid": 13,
+          "metadataimpact": {
+            "fear": 1,
+            "caution": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 31,
+          "storynodeid": 9,
+          "choicetext": "Say 'yes' and name one of them.",
+          "nextnodeid": 14,
+          "metadataimpact": {
+            "courage": 1,
+            "honesty": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 32,
+          "storynodeid": 9,
+          "choicetext": "Say 'no' and ask for more time.",
+          "nextnodeid": 11,
+          "metadataimpact": {
+            "caution": 1,
+            "patience": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 33,
+          "storynodeid": 9,
+          "choicetext": "Rip the mask from the tree.",
+          "nextnodeid": 18,
+          "metadataimpact": {
+            "aggression": 1,
+            "impulsiveness": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 34,
+          "storynodeid": 10,
+          "choicetext": "Pick the fastest-ticking watch.",
+          "nextnodeid": 12,
+          "metadataimpact": {
+            "haste": 1,
+            "impatience": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 35,
+          "storynodeid": 10,
+          "choicetext": "Pick the slowest one.",
+          "nextnodeid": 13,
+          "metadataimpact": {
+            "patience": 1,
+            "thoughtfulness": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 36,
+          "storynodeid": 10,
+          "choicetext": "Break them all.",
+          "nextnodeid": 15,
+          "metadataimpact": {
+            "chaos": 1,
+            "rebellion": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 37,
+          "storynodeid": 11,
+          "choicetext": "Ask her what she's growing.",
+          "nextnodeid": 14,
+          "metadataimpact": {
+            "caution": 1,
+            "curiosity": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 38,
+          "storynodeid": 11,
+          "choicetext": "Try to pick the rose.",
+          "nextnodeid": 18,
+          "metadataimpact": {
+            "greed": 1,
+            "impulsiveness": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 39,
+          "storynodeid": 11,
+          "choicetext": "Offer to help her tend the garden.",
+          "nextnodeid": 15,
+          "metadataimpact": {
+            "patience": 1,
+            "helpfulness": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 40,
+          "storynodeid": 12,
+          "choicetext": "Jump from the moving coach.",
+          "nextnodeid": 14,
+          "metadataimpact": {
+            "fear": 1,
+            "impulsiveness": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 41,
+          "storynodeid": 12,
+          "choicetext": "Try to stop the horses.",
+          "nextnodeid": 16,
+          "metadataimpact": {
+            "bravery": 1,
+            "leadership": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 42,
+          "storynodeid": 12,
+          "choicetext": "Attack your doppelgänger.",
+          "nextnodeid": 15,
+          "metadataimpact": {
+            "fear": 1,
+            "aggression": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 43,
+          "storynodeid": 13,
+          "choicetext": "Explain your fear.",
+          "nextnodeid": 14,
+          "metadataimpact": {
+            "honesty": 1,
+            "vulnerability": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 45,
+          "storynodeid": 13,
+          "choicetext": "Apologize and follow it.",
+          "nextnodeid": 16,
+          "metadataimpact": {
+            "remorse": 1,
+            "curiosity": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 46,
+          "storynodeid": 14,
+          "choicetext": "Step into the empty frame.",
+          "nextnodeid": 16,
+          "metadataimpact": {
+            "courage": 1,
+            "curiosity": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 47,
+          "storynodeid": 14,
+          "choicetext": "Smash all the frames.",
+          "nextnodeid": 15,
+          "metadataimpact": {
+            "rebellion": 1,
+            "aggression": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 48,
+          "storynodeid": 15,
+          "choicetext": "Take a jar labeled 'Guilt'.",
+          "nextnodeid": 16,
+          "metadataimpact": {
+            "remorse": 1,
+            "introspection": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 49,
+          "storynodeid": 15,
+          "choicetext": "Take a jar labeled 'Hope'.",
+          "nextnodeid": 16,
+          "metadataimpact": {
+            "courage": 1,
+            "optimism": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 50,
+          "storynodeid": 15,
+          "choicetext": "Refuse to take any.",
+          "nextnodeid": 18,
+          "metadataimpact": {
+            "independence": 1,
+            "stubbornness": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 51,
+          "storynodeid": 16,
+          "choicetext": "Approach the smiling shadow.",
+          "nextnodeid": 17,
+          "metadataimpact": {
+            "trust": 1,
+            "optimism": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 52,
+          "storynodeid": 16,
+          "choicetext": "Approach the one wearing regret.",
+          "nextnodeid": 17,
+          "metadataimpact": {
+            "remorse": 1,
+            "introspection": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 53,
+          "storynodeid": 16,
+          "choicetext": "Walk through the portal alone.",
+          "nextnodeid": 17,
+          "metadataimpact": {
+            "courage": 1,
+            "independence": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 54,
+          "storynodeid": 16,
+          "choicetext": "Turn back the way you came.",
+          "nextnodeid": 7,
+          "metadataimpact": {
+            "fear": 1,
+            "caution": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 55,
+          "storynodeid": 17,
+          "choicetext": "Continue your adventure...",
+          "nextnodeid": 18,
+          "metadataimpact": {
+            "completion": 1,
+            "new_beginning": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 56,
+          "storynodeid": 18,
+          "choicetext": "Try again from the beginning",
+          "nextnodeid": 1,
+          "metadataimpact": {
+            "learning": 1,
+            "resilience": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 57,
+          "storynodeid": 19,
+          "choicetext": "1234 - A simple, easy to remember code",
+          "nextnodeid": 7,
+          "metadataimpact": {
+            "security": -1,
+            "simplicity": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 58,
+          "storynodeid": 19,
+          "choicetext": "2222 - Your lucky number repeated",
+          "nextnodeid": 7,
+          "metadataimpact": {
+            "security": -1,
+            "superstition": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 59,
+          "storynodeid": 19,
+          "choicetext": "Your birthday - A date you'll never forget",
+          "nextnodeid": 7,
+          "metadataimpact": {
+            "security": -1,
+            "sentimentality": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 60,
+          "storynodeid": 19,
+          "choicetext": "A random number - Maximum security",
+          "nextnodeid": 7,
+          "metadataimpact": {
+            "caution": 1,
+            "security": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {}
+        },
+        {
+          "id": 44,
+          "storynodeid": 13,
+          "choicetext": "Grab the puppet and crush it.",
+          "nextnodeid": 15,
+          "metadataimpact": {
+            "fear": 1,
+            "aggression": 1
+          },
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z",
+          "effects": {
+            "inventory_add": [
+              {
+                "name": "puppet",
+                "quantity": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "storynode": {
+      "columns": [
+        "id",
+        "title",
+        "content",
+        "nodetype",
+        "requiresinput",
+        "inputtype",
+        "createdat",
+        "updatedat"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "title": "Welcome to MYTHOS",
+          "content": "Yawning from the long drive, you step out of the car and stretch your legs, groaning softly as your back pops. The air smells faintly of hay and funnel cake—strangely comforting. In the distance, the sweeping span of the Renaissance Faire stretches wide and colorful, a jarring contrast to the asphalt parking lot and roaring highway you just pulled off from.\n\tA weathered plywood sign greets you with uneven, hand-painted letters:\n\t\"Welcome to MYTHOS. May you have ye olde time you deserve.\"\n\tFrowning, you scratch your head.",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 2,
+          "title": "The Ticket Booth",
+          "content": "You make your way up the gravel path toward the ticket booth.\n\tA portly older gentleman leans over the counter to greet you. His handmade tunic of rumpled linen in various faded hues of grey looks like it's seen a few seasons, and his braided belt jingles faintly with little metal charms.\n\t\"Ah! Welcome, welcome, my dear friend,\" he says with a bright smile and a curious tilt of his head. \"How would you prefer to be addressed today?\"",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 3,
+          "title": "Your Experience",
+          "content": "He nods as you respond, eyes twinkling. \"Perfect, {{prompt2answer}} And here at MYTHOS, you may be anything you want to be.\" He gestures behind him at the towering gates with an almost conspiratorial grin. \"As your journey begins, how experienced do you feel?\"",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 4,
+          "title": "Dress Code",
+          "content": "\"Ah, wonderful. We get all sorts here—fresh squires, seasoned bards, and even a wayward noble or two.\" He leans in slightly, lowering his voice. \"But before you enter through our gates, you'll need to meet our dress code. Dragons, you see, are not particularly fond of machine-crafted garb. Or perhaps...\"He muses a finger lightly brushing his unshaved face. \"-They are too fond of machine-crafted garb. It's really all perspective you see.\"\n\tHe winks. \"Thankfully, your admission includes wardrobe selection. Come along, and choose what suits you best.\"",
+          "nodetype": "outfit_selection",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 5,
+          "title": "Your Possessions",
+          "content": "The outfit fits as if it were hand stitched just for you. You bend and twist surprisingly comfortable in the unfamiliar fabric. A set of lockers sits open along with a sign. Leave ye material possessions at the door. After all, there is no need for them where you are headed. Phones are not permitted inside. You shove your clothes into a locker and begin to tuck your phone into your pocket out of habit when you realize this outfit has no pockets. Uncomfortable you turn to ask the ticketmaster what you should do- but when you turn he has disappeared from view. He must have gone off to help another customer you reassure yourself.",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 6,
+          "title": "The Crossroads",
+          "content": "As you step deeper into the faire, the sounds of laughter and music grow distant. The path splits before you, and a strange mist curls around your ankles. To your left, a flickering lantern hangs from a twisted branch. To your right, you hear the faint sound of wheels on gravel.",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 7,
+          "title": "The Masked Path",
+          "content": "You follow a flickering lantern through a hedge archway. The path ahead twists, lined with wooden masks nailed to trees. One of them turns to look at you.",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 8,
+          "title": "The Stagecoach",
+          "content": "A stagecoach painted in shifting colors creaks to a halt beside you. The driver gestures wordlessly toward the open door, where a single violin plays itself.",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 9,
+          "title": "The Whispering Mask",
+          "content": "The mask whispers your name and asks, 'Do you know what you left behind?' Images flash across its surface: a house, a mirror, a scar.",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 10,
+          "title": "The Clock Tent",
+          "content": "You stumble into a tent filled with clocks, each ticking out of sync. A sign reads: 'Pick your pace or be lost in time.'",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 11,
+          "title": "The Unnatural Garden",
+          "content": "A garden blooms in unnatural colors. Each plant seems to sway toward you. A woman in a mask kneels in the center, tending to a blue rose that pulses like a heartbeat.",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 12,
+          "title": "The Doppelgänger Driver",
+          "content": "The driver turns to reveal your own face beneath the hood. 'We're nearly out of time,' it says. The horses begin to scream like people.",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 13,
+          "title": "The Puppet Stall",
+          "content": "You hide beneath a puppet stall, watching legs pass by. One pair stops. A marionette drops beside you and speaks with your voice: 'Why did you run?'",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 14,
+          "title": "The Portrait Hall",
+          "content": "You reach a hallway of portraits—each depicting you, but different: older, wounded, crowned. One frame is empty and warm to the touch.",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 15,
+          "title": "The Memory Jars",
+          "content": "The air thickens. Whispers echo with things you've never told anyone. You see a child holding your memories in jars.",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 16,
+          "title": "The Shimmering Gate",
+          "content": "At last, a shimmering gate pulses before you. The path splits: three shadows wait. One wears your smile. One wears your regret. One wears nothing at all.",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 17,
+          "title": "Portal Entered",
+          "content": "As you step through the shimmering gate, the world around you dissolves into a kaleidoscope of colors and sensations. You feel yourself being pulled forward, transformed, becoming something new yet familiar. The journey has only just begun...",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 18,
+          "title": "The End",
+          "content": "Darkness envelops you as your choices lead to an unfortunate end. But in this realm of stories, death is merely another beginning...",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        },
+        {
+          "id": 19,
+          "title": "Locker Password",
+          "content": "You set a password for your locker. What 4-digit code do you choose?",
+          "nodetype": "standard",
+          "requiresinput": false,
+          "inputtype": null,
+          "createdat": "2025-07-31T20:16:04.447Z",
+          "updatedat": "2025-07-31T20:16:04.447Z"
+        }
+      ]
+    },
+    "world": {
+      "columns": [
+        "id",
+        "name",
+        "description",
+        "dimensionsx",
+        "dimensionsy",
+        "createdat",
+        "updatedat"
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "name": "Virelia",
+          "description": "A sprawling, magic-scarred continent where players can forge any path—adventurer, merchant, explorer, or loreseeker. Every coordinate has meaning, history, and danger.",
+          "dimensionsx": 10000,
+          "dimensionsy": 10000,
+          "createdat": "2025-07-29T20:17:31.561Z",
+          "updatedat": "2025-07-29T20:17:31.561Z"
+        }
+      ]
+    }
+  }
+}

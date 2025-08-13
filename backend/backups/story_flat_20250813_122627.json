@@ -1,0 +1,1915 @@
+[
+  {
+    "id": 1,
+    "title": "Welcome to MYTHOS",
+    "content": "Yawning from the long drive, you step out of the car and stretch your legs, groaning softly as your back pops. The air smells faintly of hay and funnel cake—strangely comforting. In the distance, the sweeping span of the Renaissance Faire stretches wide and colorful, a jarring contrast to the asphalt parking lot and roaring highway you just pulled off from.\n\tA weathered plywood sign greets you with uneven, hand-painted letters:\n\t\"Welcome to MYTHOS. May you have ye olde time you deserve.\"\n\tFrowning, you scratch your head.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 1,
+        "choiceText": "\"What a weird sign,\" you mutter, glancing around.\n\tYou were supposed to meet someone here, but you don't see them or— anyone out here. You check your phone. No signal. Of course. And you're already fifteen minutes late.\n\tMaybe they're inside.",
+        "nextNodeId": 2,
+        "metadataImpact": {
+          "curiosity": -1,
+          "personality": "cautious"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 2,
+        "choiceText": "You tug your hoodie tighter against a sudden breeze and take a hesitant step toward the fairgrounds. The gates yawn open, unmanned. There's no ticket booth, no staff, just… music. Faint flute and drumbeats drift on the wind. \"Maybe they're already inside,\" you murmur, trying not to feel like you're walking into a trap.",
+        "nextNodeId": 2,
+        "metadataImpact": {
+          "anxiety": 1,
+          "personality": "adventurous"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 3,
+        "choiceText": "You circle the sign, half-expecting a prank camera crew or a bored medieval LARPer to jump out yelling \"Gotcha!\" But there's nothing—just that odd silence you only notice when it's unnatural. Your shoes crunch gravel as you walk a little further in. You pass through the gates before you can talk yourself out of it.",
+        "nextNodeId": 2,
+        "metadataImpact": {
+          "curiosity": 1,
+          "personality": "skeptical"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 4,
+        "choiceText": "You reach out and touch the sign. The wood feels oddly warm. As you pull your hand back, a shimmer runs down the painted letters like rippling water. You blink. The fairgrounds seem… closer than they were before. Larger. Brighter. You take one cautious step forward, nervous but glad you decided to do this on your own.",
+        "nextNodeId": 2,
+        "metadataImpact": {
+          "personality": "mystical",
+          "magic_affinity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "The Ticket Booth",
+    "content": "You make your way up the gravel path toward the ticket booth.\n\tA portly older gentleman leans over the counter to greet you. His handmade tunic of rumpled linen in various faded hues of grey looks like it's seen a few seasons, and his braided belt jingles faintly with little metal charms.\n\t\"Ah! Welcome, welcome, my dear friend,\" he says with a bright smile and a curious tilt of his head. \"How would you prefer to be addressed today?\"",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 5,
+        "choiceText": "My good sir",
+        "nextNodeId": 3,
+        "metadataImpact": {
+          "formality": 1,
+          "gender_preference": "masculine"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 6,
+        "choiceText": "Dearest madam",
+        "nextNodeId": 3,
+        "metadataImpact": {
+          "formality": 1,
+          "gender_preference": "feminine"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 7,
+        "choiceText": "Friend is fine, thank you.",
+        "nextNodeId": 3,
+        "metadataImpact": {
+          "formality": 0,
+          "gender_preference": "neutral"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 8,
+        "choiceText": "...",
+        "nextNodeId": 3,
+        "metadataImpact": {
+          "social": -1,
+          "personality": "reserved"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Your Experience",
+    "content": "He nods as you respond, eyes twinkling. \"Perfect, {{prompt2answer}} And here at MYTHOS, you may be anything you want to be.\" He gestures behind him at the towering gates with an almost conspiratorial grin. \"As your journey begins, how experienced do you feel?\"",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 9,
+        "choiceText": "Young",
+        "nextNodeId": 4,
+        "metadataImpact": {
+          "experience": -1,
+          "age_preference": "young"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 10,
+        "choiceText": "Wisened",
+        "nextNodeId": 4,
+        "metadataImpact": {
+          "wisdom": 1,
+          "experience": 1,
+          "age_preference": "old"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 11,
+        "choiceText": "Somewhere in between",
+        "nextNodeId": 4,
+        "metadataImpact": {
+          "experience": 0,
+          "age_preference": "middle"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 12,
+        "choiceText": "...",
+        "nextNodeId": 4,
+        "metadataImpact": {
+          "social": -1,
+          "personality": "mysterious"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Dress Code",
+    "content": "\"Ah, wonderful. We get all sorts here—fresh squires, seasoned bards, and even a wayward noble or two.\" He leans in slightly, lowering his voice. \"But before you enter through our gates, you'll need to meet our dress code. Dragons, you see, are not particularly fond of machine-crafted garb. Or perhaps...\"He muses a finger lightly brushing his unshaved face. \"-They are too fond of machine-crafted garb. It's really all perspective you see.\"\n\tHe winks. \"Thankfully, your admission includes wardrobe selection. Come along, and choose what suits you best.\"",
+    "nodeType": "outfit_selection",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 13,
+        "choiceText": "Random Outfit 1 Placeholder",
+        "nextNodeId": 5,
+        "metadataImpact": {
+          "outfit_style": "random1"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 14,
+        "choiceText": "Random Outfit 2 Placeholder",
+        "nextNodeId": 5,
+        "metadataImpact": {
+          "outfit_style": "random2"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 15,
+        "choiceText": "Random Outfit 3 Placeholder",
+        "nextNodeId": 5,
+        "metadataImpact": {
+          "outfit_style": "random3"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 16,
+        "choiceText": "Random Outfit 4 Placeholder",
+        "nextNodeId": 5,
+        "metadataImpact": {
+          "outfit_style": "random4"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 17,
+        "choiceText": "Show me more options",
+        "nextNodeId": 5,
+        "metadataImpact": {
+          "outfit_style": "refresh"
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Your Possessions",
+    "content": "The outfit fits as if it were hand stitched just for you. You bend and twist surprisingly comfortable in the unfamiliar fabric. A set of lockers sits open along with a sign. Leave ye material possessions at the door. After all, there is no need for them where you are headed. Phones are not permitted inside. You shove your clothes into a locker and begin to tuck your phone into your pocket out of habit when you realize this outfit has no pockets. Uncomfortable you turn to ask the ticketmaster what you should do- but when you turn he has disappeared from view. He must have gone off to help another customer you reassure yourself.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 18,
+        "choiceText": "Tuck your phone along with your clothes into the locker and set your password.",
+        "nextNodeId": 19,
+        "metadataImpact": {
+          "security": 1,
+          "rule_following": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 19,
+        "choiceText": "Grab your clothes back out of the locker and redress- this is silly. I'm wearing my own clothes and turn to head into the faire wearing your street clothes.",
+        "nextNodeId": 7,
+        "metadataImpact": {
+          "modern": 1,
+          "stubbornness": 1,
+          "rule_following": -1
+        },
+        "effects": {
+          "inventory_add": [
+            {
+              "name": "your clothes back",
+              "quantity": 1
+            }
+          ]
+        },
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 20,
+        "choiceText": "Close the locker and set the password. Glance around and tuck your phone into the waist of your outfit. Hopefully it doesn't fall out.",
+        "nextNodeId": 19,
+        "metadataImpact": {
+          "anxiety": 1,
+          "rule_following": -1,
+          "resourcefulness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "The Crossroads",
+    "content": "As you step deeper into the faire, the sounds of laughter and music grow distant. The path splits before you, and a strange mist curls around your ankles. To your left, a flickering lantern hangs from a twisted branch. To your right, you hear the faint sound of wheels on gravel.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 21,
+        "choiceText": "Follow the flickering lantern to the left.",
+        "nextNodeId": 7,
+        "metadataImpact": {
+          "caution": -1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 22,
+        "choiceText": "Investigate the lantern, but keep your distance.",
+        "nextNodeId": 7,
+        "metadataImpact": {
+          "caution": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 23,
+        "choiceText": "Head toward the sound of wheels on the right.",
+        "nextNodeId": 8,
+        "metadataImpact": {
+          "caution": -1,
+          "boldness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 24,
+        "choiceText": "Wait and listen for more clues before deciding.",
+        "nextNodeId": 8,
+        "metadataImpact": {
+          "caution": 1,
+          "patience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "The Masked Path",
+    "content": "You follow a flickering lantern through a hedge archway. The path ahead twists, lined with wooden masks nailed to trees. One of them turns to look at you.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 25,
+        "choiceText": "Talk to the moving mask.",
+        "nextNodeId": 9,
+        "metadataImpact": {
+          "courage": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 26,
+        "choiceText": "Ignore it and walk faster.",
+        "nextNodeId": 10,
+        "metadataImpact": {
+          "fear": 1,
+          "caution": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 27,
+        "choiceText": "Take one of the masks from a tree.",
+        "nextNodeId": 11,
+        "metadataImpact": {
+          "theft": 1,
+          "boldness": 1
+        },
+        "effects": {
+          "inventory_add": [
+            {
+              "name": "masks",
+              "quantity": 1
+            }
+          ]
+        },
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "The Stagecoach",
+    "content": "A stagecoach painted in shifting colors creaks to a halt beside you. The driver gestures wordlessly toward the open door, where a single violin plays itself.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 28,
+        "choiceText": "Step inside the coach.",
+        "nextNodeId": 10,
+        "metadataImpact": {
+          "trust": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 29,
+        "choiceText": "Climb up to talk to the driver.",
+        "nextNodeId": 12,
+        "metadataImpact": {
+          "boldness": 1,
+          "leadership": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 30,
+        "choiceText": "Back away slowly and hide.",
+        "nextNodeId": 13,
+        "metadataImpact": {
+          "fear": 1,
+          "caution": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "The Whispering Mask",
+    "content": "The mask whispers your name and asks, 'Do you know what you left behind?' Images flash across its surface: a house, a mirror, a scar.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 31,
+        "choiceText": "Say 'yes' and name one of them.",
+        "nextNodeId": 14,
+        "metadataImpact": {
+          "courage": 1,
+          "honesty": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 32,
+        "choiceText": "Say 'no' and ask for more time.",
+        "nextNodeId": 11,
+        "metadataImpact": {
+          "caution": 1,
+          "patience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 33,
+        "choiceText": "Rip the mask from the tree.",
+        "nextNodeId": 18,
+        "metadataImpact": {
+          "aggression": 1,
+          "impulsiveness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "The Clock Tent",
+    "content": "You stumble into a tent filled with clocks, each ticking out of sync. A sign reads: 'Pick your pace or be lost in time.'",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 34,
+        "choiceText": "Pick the fastest-ticking watch.",
+        "nextNodeId": 12,
+        "metadataImpact": {
+          "haste": 1,
+          "impatience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 35,
+        "choiceText": "Pick the slowest one.",
+        "nextNodeId": 13,
+        "metadataImpact": {
+          "patience": 1,
+          "thoughtfulness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 36,
+        "choiceText": "Break them all.",
+        "nextNodeId": 15,
+        "metadataImpact": {
+          "chaos": 1,
+          "rebellion": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "The Unnatural Garden",
+    "content": "A garden blooms in unnatural colors. Each plant seems to sway toward you. A woman in a mask kneels in the center, tending to a blue rose that pulses like a heartbeat.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 37,
+        "choiceText": "Ask her what she's growing.",
+        "nextNodeId": 14,
+        "metadataImpact": {
+          "caution": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 38,
+        "choiceText": "Try to pick the rose.",
+        "nextNodeId": 18,
+        "metadataImpact": {
+          "greed": 1,
+          "impulsiveness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 39,
+        "choiceText": "Offer to help her tend the garden.",
+        "nextNodeId": 15,
+        "metadataImpact": {
+          "patience": 1,
+          "helpfulness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "The Doppelgänger Driver",
+    "content": "The driver turns to reveal your own face beneath the hood. 'We're nearly out of time,' it says. The horses begin to scream like people.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 40,
+        "choiceText": "Jump from the moving coach.",
+        "nextNodeId": 14,
+        "metadataImpact": {
+          "fear": 1,
+          "impulsiveness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 41,
+        "choiceText": "Try to stop the horses.",
+        "nextNodeId": 16,
+        "metadataImpact": {
+          "bravery": 1,
+          "leadership": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 42,
+        "choiceText": "Attack your doppelgänger.",
+        "nextNodeId": 15,
+        "metadataImpact": {
+          "fear": 1,
+          "aggression": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "The Puppet Stall",
+    "content": "You hide beneath a puppet stall, watching legs pass by. One pair stops. A marionette drops beside you and speaks with your voice: 'Why did you run?'",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 43,
+        "choiceText": "Explain your fear.",
+        "nextNodeId": 14,
+        "metadataImpact": {
+          "honesty": 1,
+          "vulnerability": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 44,
+        "choiceText": "Grab the puppet and crush it.",
+        "nextNodeId": 15,
+        "metadataImpact": {
+          "fear": 1,
+          "aggression": 1
+        },
+        "effects": {
+          "inventory_add": [
+            {
+              "name": "puppet",
+              "quantity": 1
+            }
+          ]
+        },
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 45,
+        "choiceText": "Apologize and follow it.",
+        "nextNodeId": 16,
+        "metadataImpact": {
+          "remorse": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "title": "The Portrait Hall",
+    "content": "You reach a hallway of portraits—each depicting you, but different: older, wounded, crowned. One frame is empty and warm to the touch.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 46,
+        "choiceText": "Step into the empty frame.",
+        "nextNodeId": 16,
+        "metadataImpact": {
+          "courage": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 47,
+        "choiceText": "Smash all the frames.",
+        "nextNodeId": 15,
+        "metadataImpact": {
+          "rebellion": 1,
+          "aggression": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "title": "The Memory Jars",
+    "content": "The air thickens. Whispers echo with things you've never told anyone. You see a child holding your memories in jars.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 48,
+        "choiceText": "Take a jar labeled 'Guilt'.",
+        "nextNodeId": 16,
+        "metadataImpact": {
+          "remorse": 1,
+          "introspection": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 49,
+        "choiceText": "Take a jar labeled 'Hope'.",
+        "nextNodeId": 16,
+        "metadataImpact": {
+          "courage": 1,
+          "optimism": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 50,
+        "choiceText": "Refuse to take any.",
+        "nextNodeId": 18,
+        "metadataImpact": {
+          "independence": 1,
+          "stubbornness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "title": "The Shimmering Gate",
+    "content": "At last, a shimmering gate pulses before you. The path splits: three shadows wait. One wears your smile. One wears your regret. One wears nothing at all.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 51,
+        "choiceText": "Approach the smiling shadow.",
+        "nextNodeId": 17,
+        "metadataImpact": {
+          "trust": 1,
+          "optimism": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 52,
+        "choiceText": "Approach the one wearing regret.",
+        "nextNodeId": 17,
+        "metadataImpact": {
+          "remorse": 1,
+          "introspection": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 53,
+        "choiceText": "Walk through the portal alone.",
+        "nextNodeId": 17,
+        "metadataImpact": {
+          "courage": 1,
+          "independence": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 54,
+        "choiceText": "Turn back the way you came.",
+        "nextNodeId": 7,
+        "metadataImpact": {
+          "fear": 1,
+          "caution": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Portal Entered",
+    "content": "As you step through the shimmering gate, the world around you dissolves into a kaleidoscope of colors and sensations. You feel yourself being pulled forward, transformed, becoming something new yet familiar. The journey has only just begun...",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 55,
+        "choiceText": "Continue your adventure...",
+        "nextNodeId": 18,
+        "metadataImpact": {
+          "completion": 1,
+          "new_beginning": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "title": "The End",
+    "content": "Darkness envelops you as your choices lead to an unfortunate end. But in this realm of stories, death is merely another beginning...",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 56,
+        "choiceText": "Try again from the beginning",
+        "nextNodeId": 1,
+        "metadataImpact": {
+          "learning": 1,
+          "resilience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "title": "Locker Password",
+    "content": "You set a password for your locker. What 4-digit code do you choose?",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-07-31T20:16:04.447Z",
+    "updatedAt": "2025-07-31T20:16:04.447Z",
+    "choices": [
+      {
+        "id": 57,
+        "choiceText": "1234 - A simple, easy to remember code",
+        "nextNodeId": 7,
+        "metadataImpact": {
+          "security": -1,
+          "simplicity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 58,
+        "choiceText": "2222 - Your lucky number repeated",
+        "nextNodeId": 7,
+        "metadataImpact": {
+          "security": -1,
+          "superstition": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 59,
+        "choiceText": "Your birthday - A date you'll never forget",
+        "nextNodeId": 7,
+        "metadataImpact": {
+          "security": -1,
+          "sentimentality": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      },
+      {
+        "id": 60,
+        "choiceText": "A random number - Maximum security",
+        "nextNodeId": 7,
+        "metadataImpact": {
+          "caution": 1,
+          "security": 1
+        },
+        "effects": {},
+        "createdAt": "2025-07-31T20:16:04.447Z",
+        "updatedAt": "2025-07-31T20:16:04.447Z"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "title": "Welcome to MYTHOS",
+    "content": "Yawning from the long drive, you step out of the car and stretch your legs, groaning softly as your back pops. The air smells faintly of hay and funnel cake—strangely comforting. In the distance, the sweeping span of the Renaissance Faire stretches wide and colorful, a jarring contrast to the asphalt parking lot and roaring highway you just pulled off from.\n\tA weathered plywood sign greets you with uneven, hand-painted letters:\n\t\"Welcome to MYTHOS. May you have ye olde time you deserve.\"\n\tFrowning, you scratch your head.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 61,
+        "choiceText": "\"What a weird sign,\" you mutter, glancing around.\n\tYou were supposed to meet someone here, but you don't see them or— anyone out here. You check your phone. No signal. Of course. And you're already fifteen minutes late.\n\tMaybe they're inside.",
+        "nextNodeId": 21,
+        "metadataImpact": {
+          "curiosity": -1,
+          "personality": "cautious"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 62,
+        "choiceText": "You tug your hoodie tighter against a sudden breeze and take a hesitant step toward the fairgrounds. The gates yawn open, unmanned. There's no ticket booth, no staff, just… music. Faint flute and drumbeats drift on the wind. \"Maybe they're already inside,\" you murmur, trying not to feel like you're walking into a trap.",
+        "nextNodeId": 21,
+        "metadataImpact": {
+          "anxiety": 1,
+          "personality": "adventurous"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 63,
+        "choiceText": "You circle the sign, half-expecting a prank camera crew or a bored medieval LARPer to jump out yelling \"Gotcha!\" But there's nothing—just that odd silence you only notice when it's unnatural. Your shoes crunch gravel as you walk a little further in. You pass through the gates before you can talk yourself out of it.",
+        "nextNodeId": 21,
+        "metadataImpact": {
+          "curiosity": 1,
+          "personality": "skeptical"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 64,
+        "choiceText": "You reach out and touch the sign. The wood feels oddly warm. As you pull your hand back, a shimmer runs down the painted letters like rippling water. You blink. The fairgrounds seem… closer than they were before. Larger. Brighter. You take one cautious step forward, nervous but glad you decided to do this on your own.",
+        "nextNodeId": 21,
+        "metadataImpact": {
+          "personality": "mystical",
+          "magic_affinity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "title": "The Ticket Booth",
+    "content": "You make your way up the gravel path toward the ticket booth.\n\tA portly older gentleman leans over the counter to greet you. His handmade tunic of rumpled linen in various faded hues of grey looks like it's seen a few seasons, and his braided belt jingles faintly with little metal charms.\n\t\"Ah! Welcome, welcome, my dear friend,\" he says with a bright smile and a curious tilt of his head. \"How would you prefer to be addressed today?\"",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 65,
+        "choiceText": "My good sir",
+        "nextNodeId": 22,
+        "metadataImpact": {
+          "formality": 1,
+          "gender_preference": "masculine"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 66,
+        "choiceText": "Dearest madam",
+        "nextNodeId": 22,
+        "metadataImpact": {
+          "formality": 1,
+          "gender_preference": "feminine"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 67,
+        "choiceText": "Friend is fine, thank you.",
+        "nextNodeId": 22,
+        "metadataImpact": {
+          "formality": 0,
+          "gender_preference": "neutral"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 68,
+        "choiceText": "...",
+        "nextNodeId": 22,
+        "metadataImpact": {
+          "social": -1,
+          "personality": "reserved"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "title": "Your Experience",
+    "content": "He nods as you respond, eyes twinkling. \"Perfect, {{prompt2answer}} And here at MYTHOS, you may be anything you want to be.\" He gestures behind him at the towering gates with an almost conspiratorial grin. \"As your journey begins, how experienced do you feel?\"",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 69,
+        "choiceText": "Young",
+        "nextNodeId": 23,
+        "metadataImpact": {
+          "experience": -1,
+          "age_preference": "young"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 70,
+        "choiceText": "Wisened",
+        "nextNodeId": 23,
+        "metadataImpact": {
+          "wisdom": 1,
+          "experience": 1,
+          "age_preference": "old"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 71,
+        "choiceText": "Somewhere in between",
+        "nextNodeId": 23,
+        "metadataImpact": {
+          "experience": 0,
+          "age_preference": "middle"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 72,
+        "choiceText": "...",
+        "nextNodeId": 23,
+        "metadataImpact": {
+          "social": -1,
+          "personality": "mysterious"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "title": "Dress Code",
+    "content": "\"Ah, wonderful. We get all sorts here—fresh squires, seasoned bards, and even a wayward noble or two.\" He leans in slightly, lowering his voice. \"But before you enter through our gates, you'll need to meet our dress code. Dragons, you see, are not particularly fond of machine-crafted garb. Or perhaps...\"He muses a finger lightly brushing his unshaved face. \"-They are too fond of machine-crafted garb. It's really all perspective you see.\"\n\tHe winks. \"Thankfully, your admission includes wardrobe selection. Come along, and choose what suits you best.\"",
+    "nodeType": "outfit_selection",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 73,
+        "choiceText": "Random Outfit 1 Placeholder",
+        "nextNodeId": 24,
+        "metadataImpact": {
+          "outfit_style": "random1"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 74,
+        "choiceText": "Random Outfit 2 Placeholder",
+        "nextNodeId": 24,
+        "metadataImpact": {
+          "outfit_style": "random2"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 75,
+        "choiceText": "Random Outfit 3 Placeholder",
+        "nextNodeId": 24,
+        "metadataImpact": {
+          "outfit_style": "random3"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 76,
+        "choiceText": "Random Outfit 4 Placeholder",
+        "nextNodeId": 24,
+        "metadataImpact": {
+          "outfit_style": "random4"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 77,
+        "choiceText": "Show me more options",
+        "nextNodeId": 24,
+        "metadataImpact": {
+          "outfit_style": "refresh"
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "title": "Your Possessions",
+    "content": "The outfit fits as if it were hand stitched just for you. You bend and twist surprisingly comfortable in the unfamiliar fabric. A set of lockers sits open along with a sign. Leave ye material possessions at the door. After all, there is no need for them where you are headed. Phones are not permitted inside. You shove your clothes into a locker and begin to tuck your phone into your pocket out of habit when you realize this outfit has no pockets. Uncomfortable you turn to ask the ticketmaster what you should do- but when you turn he has disappeared from view. He must have gone off to help another customer you reassure yourself.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 78,
+        "choiceText": "Tuck your phone along with your clothes into the locker and set your password.",
+        "nextNodeId": 38,
+        "metadataImpact": {
+          "security": 1,
+          "rule_following": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 79,
+        "choiceText": "Grab your clothes back out of the locker and redress- this is silly. I'm wearing my own clothes and turn to head into the faire wearing your street clothes.",
+        "nextNodeId": 26,
+        "metadataImpact": {
+          "modern": 1,
+          "stubbornness": 1,
+          "rule_following": -1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 80,
+        "choiceText": "Close the locker and set the password. Glance around and tuck your phone into the waist of your outfit. Hopefully it doesn't fall out.",
+        "nextNodeId": 38,
+        "metadataImpact": {
+          "anxiety": 1,
+          "rule_following": -1,
+          "resourcefulness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "title": "The Crossroads",
+    "content": "As you step deeper into the faire, the sounds of laughter and music grow distant. The path splits before you, and a strange mist curls around your ankles. To your left, a flickering lantern hangs from a twisted branch. To your right, you hear the faint sound of wheels on gravel.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 81,
+        "choiceText": "Follow the flickering lantern to the left.",
+        "nextNodeId": 26,
+        "metadataImpact": {
+          "caution": -1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 82,
+        "choiceText": "Investigate the lantern, but keep your distance.",
+        "nextNodeId": 26,
+        "metadataImpact": {
+          "caution": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 83,
+        "choiceText": "Head toward the sound of wheels on the right.",
+        "nextNodeId": 27,
+        "metadataImpact": {
+          "caution": -1,
+          "boldness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 84,
+        "choiceText": "Wait and listen for more clues before deciding.",
+        "nextNodeId": 27,
+        "metadataImpact": {
+          "caution": 1,
+          "patience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "title": "The Masked Path",
+    "content": "You follow a flickering lantern through a hedge archway. The path ahead twists, lined with wooden masks nailed to trees. One of them turns to look at you.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 85,
+        "choiceText": "Talk to the moving mask.",
+        "nextNodeId": 28,
+        "metadataImpact": {
+          "courage": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 86,
+        "choiceText": "Ignore it and walk faster.",
+        "nextNodeId": 29,
+        "metadataImpact": {
+          "fear": 1,
+          "caution": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 87,
+        "choiceText": "Take one of the masks from a tree.",
+        "nextNodeId": 30,
+        "metadataImpact": {
+          "theft": 1,
+          "boldness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "title": "The Stagecoach",
+    "content": "A stagecoach painted in shifting colors creaks to a halt beside you. The driver gestures wordlessly toward the open door, where a single violin plays itself.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 88,
+        "choiceText": "Step inside the coach.",
+        "nextNodeId": 29,
+        "metadataImpact": {
+          "trust": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 89,
+        "choiceText": "Climb up to talk to the driver.",
+        "nextNodeId": 31,
+        "metadataImpact": {
+          "boldness": 1,
+          "leadership": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 90,
+        "choiceText": "Back away slowly and hide.",
+        "nextNodeId": 32,
+        "metadataImpact": {
+          "fear": 1,
+          "caution": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "title": "The Whispering Mask",
+    "content": "The mask whispers your name and asks, 'Do you know what you left behind?' Images flash across its surface: a house, a mirror, a scar.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 91,
+        "choiceText": "Say 'yes' and name one of them.",
+        "nextNodeId": 33,
+        "metadataImpact": {
+          "courage": 1,
+          "honesty": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 92,
+        "choiceText": "Say 'no' and ask for more time.",
+        "nextNodeId": 30,
+        "metadataImpact": {
+          "caution": 1,
+          "patience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 93,
+        "choiceText": "Rip the mask from the tree.",
+        "nextNodeId": 37,
+        "metadataImpact": {
+          "aggression": 1,
+          "impulsiveness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "title": "The Clock Tent",
+    "content": "You stumble into a tent filled with clocks, each ticking out of sync. A sign reads: 'Pick your pace or be lost in time.'",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 94,
+        "choiceText": "Pick the fastest-ticking watch.",
+        "nextNodeId": 31,
+        "metadataImpact": {
+          "haste": 1,
+          "impatience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 95,
+        "choiceText": "Pick the slowest one.",
+        "nextNodeId": 32,
+        "metadataImpact": {
+          "patience": 1,
+          "thoughtfulness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 96,
+        "choiceText": "Break them all.",
+        "nextNodeId": 34,
+        "metadataImpact": {
+          "chaos": 1,
+          "rebellion": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "title": "The Unnatural Garden",
+    "content": "A garden blooms in unnatural colors. Each plant seems to sway toward you. A woman in a mask kneels in the center, tending to a blue rose that pulses like a heartbeat.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 97,
+        "choiceText": "Ask her what she's growing.",
+        "nextNodeId": 33,
+        "metadataImpact": {
+          "caution": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 98,
+        "choiceText": "Try to pick the rose.",
+        "nextNodeId": 37,
+        "metadataImpact": {
+          "greed": 1,
+          "impulsiveness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 99,
+        "choiceText": "Offer to help her tend the garden.",
+        "nextNodeId": 34,
+        "metadataImpact": {
+          "patience": 1,
+          "helpfulness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "title": "The Doppelgänger Driver",
+    "content": "The driver turns to reveal your own face beneath the hood. 'We're nearly out of time,' it says. The horses begin to scream like people.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 100,
+        "choiceText": "Jump from the moving coach.",
+        "nextNodeId": 33,
+        "metadataImpact": {
+          "fear": 1,
+          "impulsiveness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 101,
+        "choiceText": "Try to stop the horses.",
+        "nextNodeId": 35,
+        "metadataImpact": {
+          "bravery": 1,
+          "leadership": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 102,
+        "choiceText": "Attack your doppelgänger.",
+        "nextNodeId": 34,
+        "metadataImpact": {
+          "fear": 1,
+          "aggression": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "title": "The Puppet Stall",
+    "content": "You hide beneath a puppet stall, watching legs pass by. One pair stops. A marionette drops beside you and speaks with your voice: 'Why did you run?'",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 103,
+        "choiceText": "Explain your fear.",
+        "nextNodeId": 33,
+        "metadataImpact": {
+          "honesty": 1,
+          "vulnerability": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 104,
+        "choiceText": "Grab the puppet and crush it.",
+        "nextNodeId": 34,
+        "metadataImpact": {
+          "fear": 1,
+          "aggression": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 105,
+        "choiceText": "Apologize and follow it.",
+        "nextNodeId": 35,
+        "metadataImpact": {
+          "remorse": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "title": "The Portrait Hall",
+    "content": "You reach a hallway of portraits—each depicting you, but different: older, wounded, crowned. One frame is empty and warm to the touch.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 106,
+        "choiceText": "Step into the empty frame.",
+        "nextNodeId": 35,
+        "metadataImpact": {
+          "courage": 1,
+          "curiosity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 107,
+        "choiceText": "Smash all the frames.",
+        "nextNodeId": 34,
+        "metadataImpact": {
+          "rebellion": 1,
+          "aggression": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "title": "The Memory Jars",
+    "content": "The air thickens. Whispers echo with things you've never told anyone. You see a child holding your memories in jars.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 108,
+        "choiceText": "Take a jar labeled 'Guilt'.",
+        "nextNodeId": 35,
+        "metadataImpact": {
+          "remorse": 1,
+          "introspection": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 109,
+        "choiceText": "Take a jar labeled 'Hope'.",
+        "nextNodeId": 35,
+        "metadataImpact": {
+          "courage": 1,
+          "optimism": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 110,
+        "choiceText": "Refuse to take any.",
+        "nextNodeId": 37,
+        "metadataImpact": {
+          "independence": 1,
+          "stubbornness": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "title": "The Shimmering Gate",
+    "content": "At last, a shimmering gate pulses before you. The path splits: three shadows wait. One wears your smile. One wears your regret. One wears nothing at all.",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 111,
+        "choiceText": "Approach the smiling shadow.",
+        "nextNodeId": 36,
+        "metadataImpact": {
+          "trust": 1,
+          "optimism": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 112,
+        "choiceText": "Approach the one wearing regret.",
+        "nextNodeId": 36,
+        "metadataImpact": {
+          "remorse": 1,
+          "introspection": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 113,
+        "choiceText": "Walk through the portal alone.",
+        "nextNodeId": 36,
+        "metadataImpact": {
+          "courage": 1,
+          "independence": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 114,
+        "choiceText": "Turn back the way you came.",
+        "nextNodeId": 26,
+        "metadataImpact": {
+          "fear": 1,
+          "caution": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "title": "Portal Entered",
+    "content": "As you step through the shimmering gate, the world around you dissolves into a kaleidoscope of colors and sensations. You feel yourself being pulled forward, transformed, becoming something new yet familiar. The journey has only just begun...",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 115,
+        "choiceText": "Continue your adventure...",
+        "nextNodeId": 37,
+        "metadataImpact": {
+          "completion": 1,
+          "new_beginning": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "title": "The End",
+    "content": "Darkness envelops you as your choices lead to an unfortunate end. But in this realm of stories, death is merely another beginning...",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 116,
+        "choiceText": "Try again from the beginning",
+        "nextNodeId": 20,
+        "metadataImpact": {
+          "learning": 1,
+          "resilience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "title": "Locker Password",
+    "content": "You set a password for your locker. What 4-digit code do you choose?",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 117,
+        "choiceText": "1234 - A simple, easy to remember code",
+        "nextNodeId": 26,
+        "metadataImpact": {
+          "security": -1,
+          "simplicity": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 118,
+        "choiceText": "2222 - Your lucky number repeated",
+        "nextNodeId": 26,
+        "metadataImpact": {
+          "security": -1,
+          "superstition": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 119,
+        "choiceText": "Your birthday - A date you'll never forget",
+        "nextNodeId": 26,
+        "metadataImpact": {
+          "security": -1,
+          "sentimentality": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      },
+      {
+        "id": 120,
+        "choiceText": "A random number - Maximum security",
+        "nextNodeId": 26,
+        "metadataImpact": {
+          "caution": 1,
+          "security": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  }
+]

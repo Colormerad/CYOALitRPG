@@ -114,7 +114,7 @@ const storyPrompts = [
     choices: [
       {
         choiceText: "Tuck your phone along with your clothes into the locker and set your password.",
-        nextNodeId: 19, // Points to the new Password Entry node
+        nextNodeId: 18, // Points to the new Password Entry node ("Locker Password")
         metadataImpact: { rule_following: 1, security: 1 }
       },
       {
@@ -124,7 +124,7 @@ const storyPrompts = [
       },
       {
         choiceText: "Close the locker and set the password. Glance around and tuck your phone into the waist of your outfit. Hopefully it doesn't fall out.",
-        nextNodeId: 19, // Points to the new Password Entry node
+        nextNodeId: 18, // Points to the new Password Entry node ("Locker Password")
         metadataImpact: { rule_following: -1, resourcefulness: 1, anxiety: 1 }
       }
     ]

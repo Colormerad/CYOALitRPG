@@ -1,0 +1,2166 @@
+{
+  "exported_at": "2025-08-13T17:47:21.930Z",
+  "story_nodes": [
+    {
+      "id": 1,
+      "title": "Welcome to MYTHOS",
+      "content": "Yawning from the long drive, you step out of the car and stretch your legs, groaning softly as your back pops. The air smells faintly of hay and funnel cake—strangely comforting. In the distance, the sweeping span of the Renaissance Faire stretches wide and colorful, a jarring contrast to the asphalt parking lot and roaring highway you just pulled off from.\n\tA weathered plywood sign greets you with uneven, hand-painted letters:\n\t\"Welcome to MYTHOS. May you have ye olde time you deserve.\"\n\tFrowning, you scratch your head.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 2,
+      "title": "The Ticket Booth",
+      "content": "You make your way up the gravel path toward the ticket booth.\n\tA portly older gentleman leans over the counter to greet you. His handmade tunic of rumpled linen in various faded hues of grey looks like it's seen a few seasons, and his braided belt jingles faintly with little metal charms.\n\t\"Ah! Welcome, welcome, my dear friend,\" he says with a bright smile and a curious tilt of his head. \"How would you prefer to be addressed today?\"",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 3,
+      "title": "Your Experience",
+      "content": "He nods as you respond, eyes twinkling. \"Perfect, {{prompt2answer}} And here at MYTHOS, you may be anything you want to be.\" He gestures behind him at the towering gates with an almost conspiratorial grin. \"As your journey begins, how experienced do you feel?\"",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 4,
+      "title": "Dress Code",
+      "content": "\"Ah, wonderful. We get all sorts here—fresh squires, seasoned bards, and even a wayward noble or two.\" He leans in slightly, lowering his voice. \"But before you enter through our gates, you'll need to meet our dress code. Dragons, you see, are not particularly fond of machine-crafted garb. Or perhaps...\"He muses a finger lightly brushing his unshaved face. \"-They are too fond of machine-crafted garb. It's really all perspective you see.\"\n\tHe winks. \"Thankfully, your admission includes wardrobe selection. Come along, and choose what suits you best.\"",
+      "nodetype": "outfit_selection",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 5,
+      "title": "Your Possessions",
+      "content": "The outfit fits as if it were hand stitched just for you. You bend and twist surprisingly comfortable in the unfamiliar fabric. A set of lockers sits open along with a sign. Leave ye material possessions at the door. After all, there is no need for them where you are headed. Phones are not permitted inside. You shove your clothes into a locker and begin to tuck your phone into your pocket out of habit when you realize this outfit has no pockets. A small bag is tied to the belt of your outfit and inside you find 5 gold pieces. Uncomfortable you turn to ask the ticketmaster what you should do- but when you turn he has disappeared from view. He must have gone off to help another customer you reassure yourself.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 6,
+      "title": "Crossroads",
+      "content": "You wander in. Colors swirl, people laugh, and the scent of roasting meats and distant flute music sweeps you away. A warm, buzzing joy rises in your chest as the energy of the faire wraps around you. Three hand-painted arrows point in different directions. Which way will you go? Before you can make a choice movement out of the corner of your eye catches your attention. Is that? No, it can’t be them… can it?",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 7,
+      "title": "Crossroads 2",
+      "content": "You hurry along, glancing over your shoulder. A strange pressure prickles at your spine—as if you’re missing something important. A flash of movement ahead. You’re confident you recognize them.”",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 8,
+      "title": "Knights Barracks",
+      "content": "Canvas banners flutter above a roped-off arena. Laughter and the sound of clashing wooden swords fill the air. A young page gestures toward a rack of training gear.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 9,
+      "title": "The Shoppes",
+      "content": "Rows of open stalls wind beneath bright flags. The smell of spiced meats and woodsmoke drifts between displays of jewelry, trinkets, potions, and handmade goods. Something glimmers just out of sight.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 10,
+      "title": "Entertainment Quarter",
+      "content": "Music swells like a tide crashing into your chest. A juggling act gives way to a shrieking mime, and nearby, a lanky man swallows a sword to a roar of applause. This part of the faire hums with spectacle—and secrets.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 11,
+      "title": "Mystery Chase",
+      "content": "The figure vanishes behind a puppet stall, just as a breeze kicks up streamers and silk. You dart after them, heart racing. Your feet pound the dirt path as you weave between startled guests.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 12,
+      "title": "The Fortune Teller",
+      "content": "You slip past a velvet curtain into dim candlelight. A woman with cloudy eyes beckons you forward. Incense curls in the air. Her voice rasps like dry leaves. \"I see threads converging. What shall we pull first, hm?\"",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 13,
+      "title": "Training Grounds",
+      "content": "You grip a wooden sword and face your opponent in the dirt-ringed arena. A crowd watches. The air smells of sweat and trampled grass. Your pulse quickens as the drillmaster shouts, \"Begin!\"",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 14,
+      "title": "Food Stall",
+      "content": "A warm scent hits you—charred meats, sweet breads, and bubbling cider. A plump vendor beckons with a greasy grin. “One bite, and you’ll forget you ever ate before.”",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 15,
+      "title": "Trinket Stall",
+      "content": "Glittering oddities cover every inch of the wooden booth: skull-shaped candles, carved animal figurines, a tiny music box that plays a single note.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 16,
+      "title": "Jewelry Stall",
+      "content": "Delicate pieces glitter under the sun: rings, necklaces, anklets—each humming faintly when held. The vendor watches you carefully, eyes narrowing at each touch.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 17,
+      "title": "Potion Stall",
+      "content": "Tiny bottles clink and bubble on uneven wooden shelves. The vendor doesn’t speak, just raises an eyebrow as you approach and taps a hand-painted sign: 'One gold each. Effects not guaranteed.'",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 18,
+      "title": "Mystery Chase 2",
+      "content": "Your pursuit winds past a puppet show and under a sagging banner that reads 'Ye Olde Pickle Toss.' The figure darts through the crowd—faster than anyone should be in a velvet cloak. You press on, breath short and heart racing.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 19,
+      "title": "Mystery Chase 3",
+      "content": "The tent is dim, filled with colorful cushions and masked performers rehearsing in silence. The figure is gone again—but not entirely. A glint of light catches your eye from behind a curtain.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 20,
+      "title": "Mystery Chase 4",
+      "content": "You wander into an alleyway between food tents. Someone turns. This is not who you thought it was. A tall magnificent figure stares back at you. Flawless skin and eyes deeper than the ocean bore into your soul. An inhuman grins spreads across their face as they say, 'Yes {{prompt2answer}} can I help you?'",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 21,
+      "title": "Mystery Chase 5",
+      "content": "The stranger chuckles and offers you a vial of shimmering liquid and a pouch that clinks with coin. 'You look like you could use a little magic,' they say. They turn around setting several vials on the table before them and the pouch of gold.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 22,
+      "title": "The Screaming",
+      "content": "A shriek tears through the fairgrounds—high, guttural, not entirely human. Patrons turn. Some drop their turkey legs. A tear in the air begins to open nearby, glowing and loud. A child trips skinning their knee and begins shrieking nearby. The tear expands revealing an ever growing swirling vortex.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 23,
+      "title": "The Stranger’s Wrath",
+      "content": "Your voice rises in demand. 'That's it?' you scoff. The stranger's smile fades. Their eyes darken—not with shadow, but with something... *other*. In one motion, they're behind you, whispering in a tongue that curls your ears like burning paper. 'You do not know who you demand from.'",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 24,
+      "title": "The End – Dream or Awakening?",
+      "content": "Your vision fades to white. Your body, weightless. The smell of hay and incense dissolves into sterile linen. You wake in your bed, morning sun bleeding through blinds. But the faint imprint of something warm clutches your wrist—like a bracelet once worn. The Faire is gone. Or was it ever truly there?",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 25,
+      "title": "Talisman Ignition",
+      "content": "As the stranger’s claws curl toward your throat, your talisman flashes a violent blue. A shriek erupts from them, guttural and inhuman. They recoil, writhing in a mess of light and vapor. Your limbs unfreeze.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 26,
+      "title": "The Screams Draw Closer",
+      "content": "The air thickens. Screams—some human, some not—spike behind you. The faire itself ripples like a mirage, colors bleeding out of the banners and into the sky. You don’t have long to decide.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 27,
+      "title": "The Faire Rejects You",
+      "content": "You sprint deeper into the fairegrounds. Every turn bends wrong, every tent flutters away like smoke. Suddenly, the earth groans. You glance back. It’s too late. The portal, now a huge raging mouth pulls at you, inhaling. You’re lifted from the ground. The last thing you see is a girl in antlers, watching.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 28,
+      "title": "The Portal Crossing",
+      "content": "The world blurs as you step into the portal. It isn’t like walking through a doorway—it’s like being unmade. Your skin tingles, your breath catches, and somewhere deep in your chest, a memory you never lived flickers and fades.\n\nThe noise vanishes. There is only wind, and then not even that. A sensation like being stretched across time, folded inward, unraveled.\n\nAnd then—stillness.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 29,
+      "title": "You draw your weapon—or a stick you pretend is one—and decla",
+      "content": "You draw your weapon—or a stick you pretend is one—and declare a challenge to the portal. A few nearby pigeons flap away nervously. The portal hums ominously, but makes no move to defend itself.\n\nYou jab. The portal ripples. You yell something heroic. The portal yawns wider, utterly unimpressed.\n\nA gust of wind pulls your feet out from under you as if the universe itself is tired of your nonsense.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 30,
+      "title": "She places a hand on your forehead and closes her eyes.",
+      "content": "She places a hand on your forehead and closes her eyes.\n\n'A shadow moves beside you. A secret buried in your past is already rewriting your future,' she murmurs. 'You will either become a savior… or a spark for something monstrous.'\n\nHer eyes open, blazing gold for a heartbeat.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 31,
+      "title": "The fortune teller beckons you toward a cracked mirror. Your",
+      "content": "The fortune teller beckons you toward a cracked mirror. Your reflection shifts, revealing shimmering stats written in glowing script hovering over your shoulder.\n\n'You are more than flesh and thoughts,' she whispers. 'You are potential in motion.'",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 32,
+      "title": "You sit across from the fortune teller as she lays out a cri",
+      "content": "You sit across from the fortune teller as she lays out a crimson velvet cloth. She fans a deck of tarot cards between you with long, practiced fingers. 'Choose three,' she says, her voice low, smoky, and charged with meaning. You hesitate, then draw.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 33,
+      "title": "The crowd roars as you face off with a stranger in garb far ",
+      "content": "The crowd roars as you face off with a stranger in garb far too fancy for this sort of game. A whistle blows—sparring begins.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 34,
+      "title": "Your disarm attempt works—for a moment. The opponent recover",
+      "content": "Your disarm attempt works—for a moment. The opponent recovers, lunging toward you with a grin. It's clear this is no longer a staged spar.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 35,
+      "title": "You bolt out of the ring to boos and laughter. But as you du",
+      "content": "You bolt out of the ring to boos and laughter. But as you duck behind a tent, you hear something—a humming, unnatural noise. A tear in the air shimmers nearby.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 36,
+      "title": "The fortune teller raises an eyebrow at your cards. 'You cha",
+      "content": "The fortune teller raises an eyebrow at your cards. 'You chase wonders blindly, but beware: illusions and chaos follow.' A gust of wind scatters the cards. When you look up, she is gone.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 37,
+      "title": "She gazes at your cards. 'A great transformation lies ahead.",
+      "content": "She gazes at your cards. 'A great transformation lies ahead. You will wield power, but stars only shine after darkness.' Her eyes seem to glow as she leans closer. 'Your time is soon.'",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 38,
+      "title": "The teller’s smile sharpens. 'Your desires will be tested. Y",
+      "content": "The teller’s smile sharpens. 'Your desires will be tested. Your bonds and battles will shape the path.' Her voice echoes, though her lips no longer move. You blink—and she’s gone.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 39,
+      "title": "'You carry the weight of reflection,' she murmurs. 'Patience",
+      "content": "'You carry the weight of reflection,' she murmurs. 'Patience and sacrifice will be your strength. Answers will come at cost.' The room dims briefly before returning to normal.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 40,
+      "title": "With a final flourish, you strike a clean blow and your oppo",
+      "content": "With a final flourish, you strike a clean blow and your opponent stumbles back, laughing. The crowd claps and hoots in approval. Someone hands you a small token — gold coins with a swirling emblem. In the distance, you hear a faint humming sound, but the celebration drowns it out.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 41,
+      "title": "The blow catches you off guard, and you stumble into the dir",
+      "content": "The blow catches you off guard, and you stumble into the dirt. Your opponent offers you a hand with a gracious grin. As you stand, a chill breeze brushes past your ear, carrying with it a strange, low hum that no one else seems to notice.",
+      "nodetype": "standard",
+      "requiresinput": false,
+      "inputtype": null,
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    }
+  ],
+  "story_choices": [
+    {
+      "id": 1,
+      "storynodeid": 1,
+      "choicetext": "\"What a weird sign,\" you mutter, glancing around.\n\tYou were supposed to meet someone here, but you don't see them or— anyone out here. You check your phone. No signal. Of course. And you're already fifteen minutes late.\n\tMaybe they're inside.",
+      "nextnodeid": 2,
+      "metadataimpact": {
+        "curiosity": -1,
+        "personality": "cautious"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 2,
+      "storynodeid": 1,
+      "choicetext": "You tug your hoodie tighter against a sudden breeze and take a hesitant step toward the fairgrounds. The gates yawn open, unmanned. There's no ticket booth, no staff, just… music. Faint flute and drumbeats drift on the wind. \"Maybe they're already inside,\" you murmur, trying not to feel like you're walking into a trap.",
+      "nextnodeid": 2,
+      "metadataimpact": {
+        "anxiety": 1,
+        "personality": "adventurous"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 3,
+      "storynodeid": 1,
+      "choicetext": "You circle the sign, half-expecting a prank camera crew or a bored medieval LARPer to jump out yelling \"Gotcha!\" But there's nothing—just that odd silence you only notice when it's unnatural. Your shoes crunch gravel as you walk a little further in. You pass through the gates before you can talk yourself out of it.",
+      "nextnodeid": 2,
+      "metadataimpact": {
+        "curiosity": 1,
+        "personality": "skeptical"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 4,
+      "storynodeid": 1,
+      "choicetext": "You reach out and touch the sign. The wood feels oddly warm. As you pull your hand back, a shimmer runs down the painted letters like rippling water. You blink. The fairgrounds seem… closer than they were before. Larger. Brighter. You take one cautious step forward, nervous but glad you decided to do this on your own.",
+      "nextnodeid": 2,
+      "metadataimpact": {
+        "personality": "mystical",
+        "magic_affinity": 1
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 5,
+      "storynodeid": 2,
+      "choicetext": "My good sir",
+      "nextnodeid": 3,
+      "metadataimpact": {
+        "formality": 1,
+        "gender_preference": "masculine"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 6,
+      "storynodeid": 2,
+      "choicetext": "Dearest madam",
+      "nextnodeid": 3,
+      "metadataimpact": {
+        "formality": 1,
+        "gender_preference": "feminine"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 7,
+      "storynodeid": 2,
+      "choicetext": "Friend is fine, thank you.",
+      "nextnodeid": 3,
+      "metadataimpact": {
+        "formality": 0,
+        "gender_preference": "neutral"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 8,
+      "storynodeid": 2,
+      "choicetext": "...",
+      "nextnodeid": 3,
+      "metadataimpact": {
+        "social": -1,
+        "personality": "reserved"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 9,
+      "storynodeid": 3,
+      "choicetext": "Young",
+      "nextnodeid": 4,
+      "metadataimpact": {
+        "experience": -1,
+        "age_preference": "young"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 10,
+      "storynodeid": 3,
+      "choicetext": "Wisened",
+      "nextnodeid": 4,
+      "metadataimpact": {
+        "wisdom": 1,
+        "experience": 1,
+        "age_preference": "old"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 11,
+      "storynodeid": 3,
+      "choicetext": "Somewhere in between",
+      "nextnodeid": 4,
+      "metadataimpact": {
+        "experience": 0,
+        "age_preference": "middle"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 12,
+      "storynodeid": 3,
+      "choicetext": "...",
+      "nextnodeid": 4,
+      "metadataimpact": {
+        "social": -1,
+        "personality": "mysterious"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 13,
+      "storynodeid": 4,
+      "choicetext": "Random Outfit 1 Placeholder",
+      "nextnodeid": 5,
+      "metadataimpact": {
+        "outfit_style": "random1"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 14,
+      "storynodeid": 4,
+      "choicetext": "Random Outfit 2 Placeholder",
+      "nextnodeid": 5,
+      "metadataimpact": {
+        "outfit_style": "random2"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 15,
+      "storynodeid": 4,
+      "choicetext": "Random Outfit 3 Placeholder",
+      "nextnodeid": 5,
+      "metadataimpact": {
+        "outfit_style": "random3"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 16,
+      "storynodeid": 4,
+      "choicetext": "Random Outfit 4 Placeholder",
+      "nextnodeid": 5,
+      "metadataimpact": {
+        "outfit_style": "random4"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 17,
+      "storynodeid": 4,
+      "choicetext": "Show me more options",
+      "nextnodeid": 5,
+      "metadataimpact": {
+        "outfit_style": "refresh"
+      },
+      "effects": {},
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 18,
+      "storynodeid": 5,
+      "choicetext": "Tuck your phone along with your clothes into the locker and set your password.",
+      "nextnodeid": 19,
+      "metadataimpact": {
+        "security": 1,
+        "rule_following": 1
+      },
+      "effects": {
+        "gold_add": 5
+      },
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 19,
+      "storynodeid": 5,
+      "choicetext": "Grab your clothes back out of the locker and redress- this is silly. I'm wearing my own clothes and turn to head into the faire wearing your street clothes.",
+      "nextnodeid": 7,
+      "metadataimpact": {
+        "modern": 1,
+        "stubbornness": 1,
+        "rule_following": -1
+      },
+      "effects": {
+        "gold_add": 5,
+        "inventory_add": [
+          {
+            "name": "street clothes",
+            "quantity": 1
+          },
+          {
+            "name": "smart phone",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-07-31T20:16:04.447Z",
+      "updatedat": "2025-07-31T20:16:04.447Z"
+    },
+    {
+      "id": 20,
+      "storynodeid": 5,
+      "choicetext": "Close the locker and set the password. Glance around and tuck your phone into the waist of your outfit. Hopefully it doesn't fall out.",
+      "nextnodeid": 19,
+      "metadataimpact": {
+        "anxiety": 1,
+        "rule_following": -1,
+        "resourcefulness": 1
+      },
+      "effects": {
+        "gold_add": 5,
+        "inventory_add": [
+          {
+            "name": "smart phone",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 21,
+      "storynodeid": 6,
+      "choicetext": "Head to the knights barracks",
+      "nextnodeid": 8,
+      "metadataimpact": {
+        "bravery": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 22,
+      "storynodeid": 6,
+      "choicetext": "Head to the shoppes",
+      "nextnodeid": 9,
+      "metadataimpact": {
+        "curiosity": 1,
+        "goodevilaxis": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 23,
+      "storynodeid": 6,
+      "choicetext": "Head to the entertainment area",
+      "nextnodeid": 10,
+      "metadataimpact": {
+        "socialpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 24,
+      "storynodeid": 6,
+      "choicetext": "Keep looking",
+      "nextnodeid": 7,
+      "metadataimpact": {
+        "mystery": 1,
+        "puzzlepreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 25,
+      "storynodeid": 7,
+      "choicetext": "Holler for them and give chase, trying to catch up",
+      "nextnodeid": 11,
+      "metadataimpact": {
+        "curiosity": 1,
+        "socialpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 26,
+      "storynodeid": 7,
+      "choicetext": "Duck into a fortune teller's tent",
+      "nextnodeid": 12,
+      "metadataimpact": {
+        "magicaffinity": 1,
+        "curiosity": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 27,
+      "storynodeid": 8,
+      "choicetext": "Line up alongside other patrons and take a wooden sword and shield",
+      "nextnodeid": 13,
+      "metadataimpact": {
+        "bravery": 1,
+        "combatpreference": 1
+      },
+      "effects": {
+        "inventory_add": [
+          {
+            "name": "wooden sword",
+            "quantity": 1
+          },
+          {
+            "name": "wooden shield",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 28,
+      "storynodeid": 8,
+      "choicetext": "Run away",
+      "nextnodeid": 20,
+      "metadataimpact": {
+        "fear": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 29,
+      "storynodeid": 8,
+      "choicetext": "Push to the front of the line with a sword and shield",
+      "nextnodeid": 13,
+      "metadataimpact": {
+        "confidence": 1,
+        "goodevilaxis": 1,
+        "combatpreference": 1
+      },
+      "effects": {
+        "inventory_add": [
+          {
+            "name": "wooden sword",
+            "quantity": 1
+          },
+          {
+            "name": "wooden shield",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 30,
+      "storynodeid": 8,
+      "choicetext": "Refuse to participate",
+      "nextnodeid": 7,
+      "metadataimpact": {
+        "empathy": 1,
+        "combatpreference": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 31,
+      "storynodeid": 9,
+      "choicetext": "Get food",
+      "nextnodeid": 14,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 32,
+      "storynodeid": 9,
+      "choicetext": "View jewelry",
+      "nextnodeid": 16,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 33,
+      "storynodeid": 9,
+      "choicetext": "View trinkets",
+      "nextnodeid": 15,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 34,
+      "storynodeid": 9,
+      "choicetext": "Visit potion stall",
+      "nextnodeid": 17,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 35,
+      "storynodeid": 9,
+      "choicetext": "That figure again—you spot them and give chase",
+      "nextnodeid": 11,
+      "metadataimpact": {
+        "puzzlepreference": 1,
+        "socialpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 36,
+      "storynodeid": 10,
+      "choicetext": "Watch the sword eater's performance",
+      "nextnodeid": 18,
+      "metadataimpact": {
+        "curiosity": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 37,
+      "storynodeid": 10,
+      "choicetext": "Join the crowd dancing to a strange, hypnotic band",
+      "nextnodeid": 19,
+      "metadataimpact": {
+        "curiosity": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 38,
+      "storynodeid": 10,
+      "choicetext": "Slip into the crooked entrance of the Hall of Mirrors",
+      "nextnodeid": 20,
+      "metadataimpact": {
+        "curiosity": 1,
+        "puzzlepreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 39,
+      "storynodeid": 10,
+      "choicetext": "Spot that strange figure again and give chase",
+      "nextnodeid": 11,
+      "metadataimpact": {
+        "puzzlepreference": 1,
+        "socialpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 40,
+      "storynodeid": 11,
+      "choicetext": "Follow them into a narrow alleyway between tents",
+      "nextnodeid": 21,
+      "metadataimpact": {
+        "bravery": 1,
+        "puzzlepreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 41,
+      "storynodeid": 11,
+      "choicetext": "Lose sight of them and end up near the sword eater again",
+      "nextnodeid": 18,
+      "metadataimpact": {
+        "puzzlepreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 42,
+      "storynodeid": 11,
+      "choicetext": "Ask a vendor if they saw someone run past",
+      "nextnodeid": 18,
+      "metadataimpact": {
+        "puzzlepreference": 1,
+        "socialpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 43,
+      "storynodeid": 11,
+      "choicetext": "Stop running and collect your bearings",
+      "nextnodeid": 10,
+      "metadataimpact": {
+        "puzzlepreference": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 44,
+      "storynodeid": 12,
+      "choicetext": "Ask about a prophecy tied to your fate",
+      "nextnodeid": 30,
+      "metadataimpact": {
+        "bravery": 1,
+        "curiosity": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 45,
+      "storynodeid": 12,
+      "choicetext": "Ask to see how your character fares",
+      "nextnodeid": 31,
+      "metadataimpact": {
+        "bravery": 1,
+        "curiosity": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 46,
+      "storynodeid": 12,
+      "choicetext": "Request a tarot reading",
+      "nextnodeid": 32,
+      "metadataimpact": {
+        "curiosity": 1,
+        "magicaffinity": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 47,
+      "storynodeid": 12,
+      "choicetext": "Politely decline and leave the tent",
+      "nextnodeid": 6,
+      "metadataimpact": {
+        "magicaffinity": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 48,
+      "storynodeid": 13,
+      "choicetext": "Engage in the spar confidently",
+      "nextnodeid": 33,
+      "metadataimpact": {
+        "combat": 2,
+        "confidence": 1
+      },
+      "effects": {
+        "inventory_use": [
+          "wooden sword",
+          "wooden shield"
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 49,
+      "storynodeid": 13,
+      "choicetext": "Try to disarm your opponent without hurting them",
+      "nextnodeid": 34,
+      "metadataimpact": {
+        "kindness": 1,
+        "precision": 1
+      },
+      "effects": {
+        "inventory_use": [
+          "wooden sword",
+          "wooden shield"
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 50,
+      "storynodeid": 13,
+      "choicetext": "Throw the match to avoid drawing attention",
+      "nextnodeid": 35,
+      "metadataimpact": {
+        "stealth": 1,
+        "subtlety": 1
+      },
+      "effects": {
+        "inventory_use": [
+          "wooden sword",
+          "wooden shield"
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 51,
+      "storynodeid": 13,
+      "choicetext": "Refuse to fight",
+      "nextnodeid": 6,
+      "metadataimpact": {
+        "combatpreference": -2
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 52,
+      "storynodeid": 14,
+      "choicetext": "Buy a turkey leg and head back toward the crossroads (1g)",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 1,
+        "inventory_add": [
+          {
+            "name": "Turkey leg",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 53,
+      "storynodeid": 14,
+      "choicetext": "Buy boba tea and head back toward the crossroads (1g)",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 1,
+        "inventory_add": [
+          {
+            "name": "Boba tea",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 54,
+      "storynodeid": 14,
+      "choicetext": "Buy mead and head back toward the crossroads (1g)",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 1,
+        "inventory_add": [
+          {
+            "name": "Mead",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 55,
+      "storynodeid": 14,
+      "choicetext": "Leave the stall without buying",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 56,
+      "storynodeid": 15,
+      "choicetext": "Buy a scented candle (1g) and return to the crossroads",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 1,
+        "inventory_add": [
+          {
+            "name": "Scented candle",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 57,
+      "storynodeid": 15,
+      "choicetext": "Buy a handmade charm (1g) and return to the crossroads",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 1,
+        "inventory_add": [
+          {
+            "name": "Charm bracelet",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 58,
+      "storynodeid": 15,
+      "choicetext": "Buy a crooked wand (1g) and return to the crossroads",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 1,
+        "inventory_add": [
+          {
+            "name": "Crooked fake wand",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 59,
+      "storynodeid": 15,
+      "choicetext": "Leave without buying",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 60,
+      "storynodeid": 16,
+      "choicetext": "Buy the glowing talisman (5g) and return to the crossroads",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 5,
+        "inventory_add": [
+          {
+            "name": "Glowing Talisman",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 61,
+      "storynodeid": 16,
+      "choicetext": "Buy a shell necklace (1g) and return to the crossroads",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 1,
+        "inventory_add": [
+          {
+            "name": "Shell necklace",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 62,
+      "storynodeid": 16,
+      "choicetext": "Buy a ring (1g) and return to the crossroads",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 1,
+        "inventory_add": [
+          {
+            "name": "Silver ring",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 63,
+      "storynodeid": 16,
+      "choicetext": "Leave the stall without buying",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 64,
+      "storynodeid": 17,
+      "choicetext": "Buy the red potion (1g) and return to the crossroads",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 1,
+        "inventory_add": [
+          {
+            "name": "Health potion",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 65,
+      "storynodeid": 17,
+      "choicetext": "Buy the blue potion (1g) and return to the crossroads",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 1,
+        "inventory_add": [
+          {
+            "name": "Mana potion",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 66,
+      "storynodeid": 17,
+      "choicetext": "Buy the yellow potion (1g) and return to the crossroads",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {
+        "gold_spent": 1,
+        "inventory_add": [
+          {
+            "name": "Haste potion",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 67,
+      "storynodeid": 17,
+      "choicetext": "Leave the stall without buying",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 68,
+      "storynodeid": 18,
+      "choicetext": "Turn sharply into a quiet tent filled with incense",
+      "nextnodeid": 19,
+      "metadataimpact": {
+        "curiosity": 1,
+        "puzzlepreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 69,
+      "storynodeid": 18,
+      "choicetext": "Vault a fence and cut through the jousting prep area",
+      "nextnodeid": 11,
+      "metadataimpact": {
+        "combatpreference": 1,
+        "dexterityexp": 1,
+        "explorationpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 70,
+      "storynodeid": 18,
+      "choicetext": "Climb a viewing platform for a better look",
+      "nextnodeid": 18,
+      "metadataimpact": {
+        "cleverness": 1,
+        "puzzlepreference": 1,
+        "explorationpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 71,
+      "storynodeid": 18,
+      "choicetext": "Turn back—this is too weird. Let them go.",
+      "nextnodeid": 20,
+      "metadataimpact": {
+        "puzzlepreference": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 72,
+      "storynodeid": 19,
+      "choicetext": "Duck behind the curtain without hesitation",
+      "nextnodeid": 11,
+      "metadataimpact": {
+        "bravery": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 73,
+      "storynodeid": 19,
+      "choicetext": "Ask one of the masked figures if they saw anything",
+      "nextnodeid": 20,
+      "metadataimpact": {
+        "social": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 74,
+      "storynodeid": 19,
+      "choicetext": "Crawl beneath the stage to search",
+      "nextnodeid": 21,
+      "metadataimpact": {
+        "curiosity": 1,
+        "puzzlepreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 75,
+      "storynodeid": 19,
+      "choicetext": "Sit and mimic the performers",
+      "nextnodeid": 21,
+      "metadataimpact": {
+        "curiosity": 1,
+        "puzzlepreference": 1,
+        "social": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 76,
+      "storynodeid": 20,
+      "choicetext": "Laugh it off and walk away, embarrassed",
+      "nextnodeid": 22,
+      "metadataimpact": {
+        "empathy": 1,
+        "socialpreference": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 77,
+      "storynodeid": 20,
+      "choicetext": "Apologize and say they looked like someone you knew",
+      "nextnodeid": 22,
+      "metadataimpact": {
+        "empathy": 1,
+        "goodevilaxis": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 78,
+      "storynodeid": 20,
+      "choicetext": "Double down and accuse them of playing tricks on you",
+      "nextnodeid": 21,
+      "metadataimpact": {
+        "goodevilaxis": -1,
+        "socialpreference": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 79,
+      "storynodeid": 20,
+      "choicetext": "Flip them off and walk away muttering",
+      "nextnodeid": 22,
+      "metadataimpact": {
+        "goodevilaxis": -1,
+        "socialpreference": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 80,
+      "storynodeid": 21,
+      "choicetext": "Thank them and take only what was offered",
+      "nextnodeid": 9,
+      "metadataimpact": {
+        "goodevilaxis": 1,
+        "orderchaosaxis": 1
+      },
+      "effects": {
+        "gold_add": 5,
+        "inventory_add": [
+          {
+            "name": "greater health potion",
+            "quantity": 1
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 81,
+      "storynodeid": 21,
+      "choicetext": "Demand more",
+      "nextnodeid": 23,
+      "metadataimpact": {
+        "goodevilaxis": -1,
+        "orderchaosaxis": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 82,
+      "storynodeid": 21,
+      "choicetext": "Take two vials quickly and bolt",
+      "nextnodeid": 22,
+      "metadataimpact": {
+        "goodevilaxis": -1,
+        "orderchaosaxis": -1
+      },
+      "effects": {
+        "gold_add": 5,
+        "inventory_add": [
+          {
+            "name": "greater health potion",
+            "quantity": 2
+          }
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 83,
+      "storynodeid": 21,
+      "choicetext": "Refuse both and walk away silently",
+      "nextnodeid": 22,
+      "metadataimpact": {
+        "goodevilaxis": 1,
+        "orderchaosaxis": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 84,
+      "storynodeid": 22,
+      "choicetext": "Help the child find their parents in the chaos",
+      "nextnodeid": 24,
+      "metadataimpact": {
+        "empathy": 1,
+        "goodevilaxis": 1,
+        "socialpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 85,
+      "storynodeid": 22,
+      "choicetext": "Step through the portal without hesitation",
+      "nextnodeid": 28,
+      "metadataimpact": {
+        "curiosity": 1,
+        "caution": -1,
+        "socialpreference": -1,
+        "explorationpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 86,
+      "storynodeid": 22,
+      "choicetext": "Challenge the portal to a duel with your new sword",
+      "nextnodeid": 29,
+      "metadataimpact": {
+        "combatpreference": 2,
+        "caution": -1,
+        "socialpreference": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 87,
+      "storynodeid": 22,
+      "choicetext": "Scream back at the portal and run",
+      "nextnodeid": 26,
+      "metadataimpact": {
+        "bravery": -1,
+        "caution": 1,
+        "socialpreference": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 88,
+      "storynodeid": 23,
+      "choicetext": "Black out, overcome by their presence",
+      "nextnodeid": 24,
+      "metadataimpact": {
+        "bravery": -1,
+        "combatpreference": -1,
+        "socialpreference": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 89,
+      "storynodeid": 23,
+      "choicetext": "challenge the stranger to a duel",
+      "nextnodeid": 24,
+      "metadataimpact": {
+        "bravery": 1,
+        "combatpreference": 2
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 90,
+      "storynodeid": 23,
+      "choicetext": "You reach into your pocket and grab the glowing talisman you purchased",
+      "nextnodeid": 25,
+      "metadataimpact": {
+        "explorationpreference": 2
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 91,
+      "storynodeid": 24,
+      "choicetext": "Roll over and go back to sleep",
+      "nextnodeid": null,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 92,
+      "storynodeid": 24,
+      "choicetext": "Check your arm for marks",
+      "nextnodeid": null,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 93,
+      "storynodeid": 24,
+      "choicetext": "Reach under your bed and find your borrowed faire outfit",
+      "nextnodeid": null,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 94,
+      "storynodeid": 25,
+      "choicetext": "Run for the portal while they're stunned",
+      "nextnodeid": 22,
+      "metadataimpact": {
+        "combatpreference": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 95,
+      "storynodeid": 25,
+      "choicetext": "Turn and fight",
+      "nextnodeid": 24,
+      "metadataimpact": {
+        "combatpreference": 2
+      },
+      "effects": {
+        "inventory_remove": [
+          "Glowing Talisman"
+        ]
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 96,
+      "storynodeid": 26,
+      "choicetext": "Run deeper into the faire",
+      "nextnodeid": 27,
+      "metadataimpact": {
+        "bravery": 1,
+        "explorationpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 97,
+      "storynodeid": 26,
+      "choicetext": "Bolt for the parking lot",
+      "nextnodeid": 24,
+      "metadataimpact": {
+        "explorationpreference": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 98,
+      "storynodeid": 26,
+      "choicetext": "Screw it—jump into the portal",
+      "nextnodeid": 28,
+      "metadataimpact": {
+        "explorationpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 99,
+      "storynodeid": 27,
+      "choicetext": "Take a deep breath and close your eyes",
+      "nextnodeid": 28,
+      "metadataimpact": {},
+      "effects": {
+        "status": "transported"
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 100,
+      "storynodeid": 28,
+      "choicetext": "Open your eyes and take a breath",
+      "nextnodeid": null,
+      "metadataimpact": {
+        "portalCrossed": true
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 101,
+      "storynodeid": 29,
+      "choicetext": "Lunge dramatically into the rift with a war cry",
+      "nextnodeid": 28,
+      "metadataimpact": {
+        "orderchaosaxis": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 102,
+      "storynodeid": 29,
+      "choicetext": "Apologize to the portal. Then get sucked in anyway.",
+      "nextnodeid": 28,
+      "metadataimpact": {
+        "goodevilaxis": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 103,
+      "storynodeid": 29,
+      "choicetext": "Stand your ground until the portal takes you by force.",
+      "nextnodeid": 28,
+      "metadataimpact": {
+        "caution": -1,
+        "orderchaosaxis": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 104,
+      "storynodeid": 30,
+      "choicetext": "Ask her what the shadow is",
+      "nextnodeid": 32,
+      "metadataimpact": {
+        "curiosity": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 105,
+      "storynodeid": 30,
+      "choicetext": "Stay silent and nod",
+      "nextnodeid": 6,
+      "metadataimpact": {
+        "bravery": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 106,
+      "storynodeid": 30,
+      "choicetext": "Laugh it off. You don’t believe in fate.",
+      "nextnodeid": 7,
+      "metadataimpact": {
+        "curiosity": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 107,
+      "storynodeid": 31,
+      "choicetext": "Inspect your Bravery, Wit, and Magicaffinity",
+      "nextnodeid": 6,
+      "metadataimpact": {
+        "statReveal": true
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 108,
+      "storynodeid": 31,
+      "choicetext": "Ask how to improve your stats",
+      "nextnodeid": 30,
+      "metadataimpact": {
+        "curiosity": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 109,
+      "storynodeid": 31,
+      "choicetext": "Smash the mirror. No one defines you.",
+      "nextnodeid": 7,
+      "metadataimpact": {
+        "orderchaosaxis": -1,
+        "goodevilaxis": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 110,
+      "storynodeid": 32,
+      "choicetext": "You draw The Fool, The Tower, and The Moon.",
+      "nextnodeid": 36,
+      "metadataimpact": {
+        "curiosity": 1,
+        "magicaffinity": 1,
+        "caution": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 111,
+      "storynodeid": 32,
+      "choicetext": "You draw Death, The Star, and The Magician.",
+      "nextnodeid": 37,
+      "metadataimpact": {
+        "bravery": 1,
+        "magicaffinity": 1,
+        "orderchaosaxis": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 112,
+      "storynodeid": 32,
+      "choicetext": "You draw The Devil, The Lovers, and The Chariot.",
+      "nextnodeid": 38,
+      "metadataimpact": {
+        "goodevilaxis": -1,
+        "socialpreference": 1,
+        "combatpreference": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 113,
+      "storynodeid": 32,
+      "choicetext": "You draw Temperance, The Hermit, and The Hanged Man.",
+      "nextnodeid": 39,
+      "metadataimpact": {
+        "puzzlepreference": 1,
+        "empathy": 1,
+        "caution": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 114,
+      "storynodeid": 33,
+      "choicetext": "Attack.",
+      "nextnodeid": null,
+      "metadataimpact": {
+        "combatpreference": 1,
+        "bravery": 1
+      },
+      "effects": {
+        "onWin": {
+          "nextPromptId": 40
+        },
+        "onLose": {
+          "nextPromptId": 41
+        },
+        "experienceGain": {
+          "strength": 5,
+          "dexterity": 5,
+          "constitution": 5
+        }
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 115,
+      "storynodeid": 33,
+      "choicetext": "Use an item.",
+      "nextnodeid": null,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 116,
+      "storynodeid": 33,
+      "choicetext": "Run away.",
+      "nextnodeid": 35,
+      "metadataimpact": {
+        "caution": 2,
+        "bravery": -1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 117,
+      "storynodeid": 34,
+      "choicetext": "Defend yourself seriously.",
+      "nextnodeid": 33,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 118,
+      "storynodeid": 34,
+      "choicetext": "Step back and try to explain you didn’t mean to fight.",
+      "nextnodeid": 35,
+      "metadataimpact": {
+        "socialpreference": 1,
+        "caution": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 119,
+      "storynodeid": 35,
+      "choicetext": "Examine the tear.",
+      "nextnodeid": 22,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 120,
+      "storynodeid": 35,
+      "choicetext": "Pretend you didn’t see it and walk back to the crossroads.",
+      "nextnodeid": 22,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 121,
+      "storynodeid": 36,
+      "choicetext": "Contemplate the warning and wander back toward the crossroads.",
+      "nextnodeid": 6,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 122,
+      "storynodeid": 37,
+      "choicetext": "Feel energized and follow a sudden pull toward the portal.",
+      "nextnodeid": 22,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 123,
+      "storynodeid": 38,
+      "choicetext": "Shake off the unease and return to the shoppes.",
+      "nextnodeid": 9,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 124,
+      "storynodeid": 39,
+      "choicetext": "Thank her quietly and head toward the entertainment tents.",
+      "nextnodeid": 10,
+      "metadataimpact": {},
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 125,
+      "storynodeid": 40,
+      "choicetext": "Pocket the coin and head toward the noise.",
+      "nextnodeid": 22,
+      "metadataimpact": {
+        "bravery": 1,
+        "curiosity": 1,
+        "combatpreference": 1
+      },
+      "effects": {
+        "gold_add": 5
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 126,
+      "storynodeid": 40,
+      "choicetext": "Smile, thank the crowd, and wander back toward the tents.",
+      "nextnodeid": 6,
+      "metadataimpact": {
+        "socialpreference": 1,
+        "bravery": 1
+      },
+      "effects": {
+        "gold_add": 5
+      },
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 127,
+      "storynodeid": 41,
+      "choicetext": "Shake off the weird feeling and follow the sound.",
+      "nextnodeid": 22,
+      "metadataimpact": {
+        "caution": 1,
+        "curiosity": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    },
+    {
+      "id": 128,
+      "storynodeid": 41,
+      "choicetext": "Accept the loss with grace and head back to the crossroads.",
+      "nextnodeid": 6,
+      "metadataimpact": {
+        "empathy": 1,
+        "orderchaosaxis": 1
+      },
+      "effects": {},
+      "createdat": "2025-08-13T17:47:21.929Z",
+      "updatedat": "2025-08-13T17:47:21.929Z"
+    }
+  ]
+}
