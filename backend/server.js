@@ -283,12 +283,12 @@ app.get('/api/characters/:id/inventory', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await pool.query(`
-      SELECT ci.*, i.Name as ItemName, i.Description as ItemDescription, 
-             i.Value, i.Rarity, it.Name as ItemTypeName
-      FROM CharacterInventory ci 
-      JOIN Item i ON ci.ItemId = i.Id 
-      JOIN ItemType it ON i.ItemTypeId = it.Id
-      WHERE ci.CharacterId = $1
+      SELECT ci.*, i.name as ItemName, i.description as ItemDescription, 
+             i.value, i.rarity, it.name as ItemTypeName
+      FROM characterinventory ci 
+      JOIN item i ON ci.itemid = i.id 
+      JOIN itemtype it ON i.itemtypeid = it.id
+      WHERE ci.characterid = $1
     `, [id]);
     
     res.json(result.rows);
@@ -480,10 +480,10 @@ app.get('/api/demo/character', async (req, res) => {
     
     // Get character inventory
     const inventoryResult = await pool.query(`
-      SELECT ci.*, i.Name as ItemName, i.Rarity 
-      FROM CharacterInventory ci 
-      JOIN Item i ON ci.ItemId = i.Id 
-      WHERE ci.CharacterId = 1
+      SELECT ci.*, i.name as ItemName, i.rarity 
+      FROM characterinventory ci 
+      JOIN item i ON ci.itemid = i.id 
+      WHERE ci.characterid = 1
     `);
     
     res.json({

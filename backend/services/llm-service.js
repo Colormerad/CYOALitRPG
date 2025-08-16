@@ -102,10 +102,10 @@ class LlmService {
           
           // Get character inventory
           const inventoryResult = await client.query(
-            `SELECT ci.*, i.Name as ItemName, i.Description as ItemDescription
-             FROM CharacterInventory ci
-             JOIN Item i ON ci.ItemId = i.Id
-             WHERE ci.CharacterId = $1`,
+            `SELECT ci.*, i.name as itemname, i.description as itemdescription
+             FROM characterinventory ci
+             JOIN item i ON ci.itemid = i.id
+             WHERE ci.characterid = $1`,
             [context.characterId]
           );
           
@@ -113,17 +113,25 @@ class LlmService {
         }
       }
       
-      // Get previous story nodes from choice history
+      // Get previous story nodes from choice history (defensive against missing nodeId)
       if (context.choiceHistory && Array.isArray(context.choiceHistory)) {
-        const nodeIds = [...new Set(context.choiceHistory.map(choice => choice.nodeId))];
-        
+        const nodeIds = [
+          ...new Set(
+            context.choiceHistory
+              .map(c => Number(c.nodeId ?? c.NodeId ?? c.node_id))
+              .filter(n => Number.isFinite(n))
+          )
+        ];
+
         if (nodeIds.length > 0) {
+          // Use parameterized ANY() to avoid building an IN () list and to prevent SQL issues
           const nodesResult = await client.query(
-            `SELECT * FROM StoryNode WHERE Id IN (${nodeIds.join(',')})
-             ORDER BY Id`
+            'SELECT * FROM StoryNode WHERE Id = ANY($1::int[]) ORDER BY Id',
+            [nodeIds]
           );
-          
           fullContext.previousNodes = nodesResult.rows;
+        } else {
+          fullContext.previousNodes = [];
         }
       }
       

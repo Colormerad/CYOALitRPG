@@ -44,6 +44,7 @@ class NodeFormatterService {
         text: `${outfit.classname}: ${outfit.outfitdescription}`,
         nextNodeId: choicesRows[index]?.nextnodeid || null,
         metadataImpact: choicesRows[index]?.metadataimpact || {},
+        effects: choicesRows[index]?.effects || null,
         classId: outfit.classid,
         outfitId: outfit.outfitid
       })).concat([
@@ -53,7 +54,8 @@ class NodeFormatterService {
             id: choice.id,
             text: choice.choicetext,
             nextNodeId: choice.nextnodeid,
-            metadataImpact: choice.metadataimpact
+            metadataImpact: choice.metadataimpact,
+            effects: choice.effects || null
           }))
       ])
     };
@@ -74,7 +76,8 @@ class NodeFormatterService {
         id: choice.id,
         text: choice.choicetext,
         nextNodeId: choice.nextnodeid,
-        metadataImpact: choice.metadataimpact
+        metadataImpact: choice.metadataimpact,
+        effects: choice.effects || null
       }))
     };
   }

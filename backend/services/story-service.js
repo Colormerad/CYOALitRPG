@@ -223,12 +223,26 @@ class StoryService {
     }
     const choiceHistory = progress.choicehistory || [];
     const currentNode = await this.getStoryNode(progress.currentnodeid, choiceHistory);
+    // Read gold from CharacterProfile.AdditionalTraits->>'gold'
+    let gold = 0;
+    try {
+      const goldRes = await pool.query(
+        "SELECT COALESCE((additionaltraits->>'gold')::int, 0) AS gold FROM characterprofile WHERE characterid = $1",
+        [characterId]
+      );
+      if (goldRes.rows && goldRes.rows.length > 0) {
+        gold = goldRes.rows[0].gold || 0;
+      }
+    } catch (e) {
+      console.warn('[getPlayerProgress] Failed to fetch gold, defaulting to 0:', e?.message || e);
+    }
     return {
       id: progress.id,
       characterId: progress.characterid,
       currentNode,
       choiceHistory,
       metadata: progress.metadata || {},
+      gold,
     };
   }
   
@@ -244,12 +258,14 @@ class StoryService {
     }
     const progress = await progressRepo.insertInitial(characterId, firstNodeId);
     const currentNode = await this.getStoryNode(progress.currentnodeid);
+    // On first init, no gold yet; provide 0
     return {
       id: progress.id,
       characterId: progress.characterid,
       currentNode,
       choiceHistory: progress.choicehistory || [],
       metadata: progress.metadata || {},
+      gold: 0,
     };
   }
   
@@ -293,6 +309,26 @@ class StoryService {
     if (metadataDelta && Object.keys(metadataDelta).length > 0) {
       metadata = { ...metadata, ...metadataDelta };
       await profileService.updateCharacterProfile(characterId, metadataDelta);
+    }
+
+    // Apply currency effects (gold) if present under choice effects (supports both casings)
+    try {
+      const effects = choice.effects || choice.Effects || null;
+      if (effects && typeof effects === 'object') {
+        const goldAddRaw = effects.gold_add ?? effects.goldAdd ?? 0;
+        const goldSpentRaw = effects.gold_spent ?? effects.goldSpent ?? effects.gold_remove ?? effects.goldRemove ?? 0;
+        const goldAdd = parseInt(goldAddRaw || 0, 10) || 0;
+        const goldSpent = parseInt(goldSpentRaw || 0, 10) || 0;
+        if (goldAdd !== 0 || goldSpent !== 0) {
+          const currencyImpact = {};
+          if (goldAdd) currencyImpact.gold_add = goldAdd;
+          if (goldSpent) currencyImpact.gold_spent = goldSpent; // treated as removal in profile-service
+          console.log('[makeChoice] Applying currency impact from effects:', currencyImpact);
+          await profileService.updateCharacterProfile(characterId, currencyImpact);
+        }
+      }
+    } catch (currencyErr) {
+      console.warn('[makeChoice] Failed to apply currency effects:', currencyErr?.message || currencyErr);
     }
 
     // If outfit selection assigned class, update character and metadata
@@ -447,6 +483,41 @@ class StoryService {
     }
     
     return this.makeChoice(characterId, choiceId, password);
+  }
+
+  /**
+   * Advance progress directly to a specific node (e.g., after a battle outcome),
+   * and optionally apply experience gains to the character profile.
+   * @param {number} characterId
+   * @param {number} nextNodeId
+   * @param {{ experienceGain?: Object|null, choiceId?: number }} options
+   */
+  async advanceProgress(characterId, nextNodeId, options = {}) {
+    const progress = await progressRepo.getByCharacterId(characterId);
+    if (!progress) throw new Error(`No progress found for character with ID ${characterId}`);
+
+    // Optionally apply experience gains to the character profile
+    if (options.experienceGain && typeof options.experienceGain === 'object') {
+      try {
+        await profileService.updateCharacterProfile(characterId, options.experienceGain);
+      } catch (e) {
+        console.warn('[advanceProgress] Failed to apply experienceGain:', e?.message || e);
+      }
+    }
+
+    // Append a synthetic choice record if provided
+    const choiceHistory = Array.isArray(progress.choicehistory) ? [...progress.choicehistory] : (progress.choicehistory ? [...progress.choicehistory] : []);
+    if (options.choiceId) {
+      choiceHistory.push({ id: options.choiceId, at: new Date().toISOString(), via: 'advance' });
+    }
+
+    const metadata = { ...(progress.metadata || {}) };
+
+    // Update progress to the specified next node
+    await progressRepo.updateProgress(progress.id, nextNodeId, choiceHistory, metadata);
+
+    // Return updated snapshot
+    return this.getPlayerProgress(characterId);
   }
   
   /**

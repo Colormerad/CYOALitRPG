@@ -17,8 +17,8 @@ async function clearAllCharacters() {
     console.log(`[clear] Found ${ids.length} characters to delete.`);
 
     // Delete dependent rows first to satisfy FKs
-    const delInv = await client.query('DELETE FROM CharacterInventory WHERE CharacterId = ANY($1::int[])', [ids]);
-    console.log(`[clear] Deleted CharacterInventory rows: ${delInv.rowCount}`);
+    const delInv = await client.query('DELETE FROM characterinventory WHERE characterid = ANY($1::int[])', [ids]);
+    console.log(`[clear] Deleted characterinventory rows: ${delInv.rowCount}`);
 
     const delProf = await client.query('DELETE FROM CharacterProfile WHERE CharacterId = ANY($1::int[])', [ids]);
     console.log(`[clear] Deleted CharacterProfile rows: ${delProf.rowCount}`);

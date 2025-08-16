@@ -188,7 +188,35 @@ export class GamePage implements OnInit, AfterViewInit {
 
   makeChoice(choiceId: number, choice?: Choice): void {
     this.loading = true;
-    
+
+    // If this choice initiates a battle, route to BattlePage with outcome wiring
+    const effects: any = (choice as any)?.effects || (choice as any)?.Effects || {};
+    const battle = effects?.battle || effects?.Battle || effects; // allow effects with onWin/onLose at top-level
+    const hasBattleSignals = !!(battle?.onWin || battle?.on_win || battle?.onLose || battle?.on_lose);
+    if (battle && hasBattleSignals) {
+      this.loading = false;
+      const npc = battle.opponent || battle.npc || effects.npc || 'sir-sebastian';
+      const onWin = battle.onWin || battle.on_win || {};
+      const onLose = battle.onLose || battle.on_lose || {};
+      const winNextRaw = (onWin.nextNodeId ?? onWin.next_node_id ?? onWin.nextPromptId ?? onWin.next_prompt_id);
+      const loseNextRaw = (onLose.nextNodeId ?? onLose.next_node_id ?? onLose.nextPromptId ?? onLose.next_prompt_id);
+      const winNext = Number(winNextRaw);
+      const loseNext = Number(loseNextRaw);
+      this.databaseService.setCurrentCharacter({ id: this.characterId, name: '', classId: undefined } as any);
+      this.router.navigate(['/battle'], {
+        queryParams: {
+          characterId: this.characterId,
+          npc,
+          choiceId: choiceId,
+          nextOnWin: Number.isFinite(winNext) ? winNext : undefined,
+          nextOnLose: Number.isFinite(loseNext) ? loseNext : undefined,
+          expOnWin: onWin.experienceGain ? JSON.stringify(onWin.experienceGain) : undefined,
+          expOnLose: onLose.experienceGain ? JSON.stringify(onLose.experienceGain) : undefined,
+        }
+      });
+      return;
+    }
+
     // Check if this is an outfit selection choice with a classId
     const classId = choice?.classId;
     const outfitStyle = choice?.outfitStyle;

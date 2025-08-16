@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const inventoryRepo = require('../repositories/inventory.repository');
 
 // Get the pool from server.js instead of creating a new one
 const pool = require('../db-connection');
@@ -382,6 +383,82 @@ router.get('/:id/legacy', async (req, res) => {
   } catch (err) {
     console.error('Error getting character legacy:', err);
     res.status(500).json({ error: 'Failed to get character legacy data' });
+  }
+});
+
+/**
+ * Get a character's inventory
+ */
+router.get('/:id/inventory', async (req, res) => {
+  try {
+    const characterId = parseInt(req.params.id);
+    if (!Number.isFinite(characterId)) {
+      return res.status(400).json({ error: 'Invalid character id' });
+    }
+    const result = await pool.query(
+      `SELECT 
+         ci.characterid as characterid,
+         ci.itemid as itemid,
+         ci.quantity as quantity,
+         ci.isequipped as isequipped,
+         i.name as itemname,
+         i.description as itemdescription,
+         i.value as value,
+         i.isconsumable as isconsumable,
+         it.name as itemtypename
+       FROM characterinventory ci
+       JOIN item i ON i.id = ci.itemid
+       LEFT JOIN itemtype it ON it.id = i.itemtypeid
+       WHERE ci.characterid = $1
+       ORDER BY i.name`,
+      [characterId]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting character inventory:', err);
+    res.status(500).json({ error: 'Failed to get character inventory' });
+  }
+});
+
+/**
+ * Use an inventory item (consumable): decrement quantity for character
+ */
+router.post('/:id/inventory/:itemId/use', async (req, res) => {
+  try {
+    const characterId = parseInt(req.params.id);
+    const itemId = parseInt(req.params.itemId);
+    const amount = Math.max(1, Number(req.body?.amount || 1));
+
+    if (!Number.isFinite(characterId) || !Number.isFinite(itemId)) {
+      return res.status(400).json({ error: 'Invalid character or item id' });
+    }
+
+    // Verify the item belongs to character and is consumable
+    const invRes = await pool.query(
+      `SELECT ci.quantity, i.isconsumable, it.name as itemtypename
+       FROM characterinventory ci
+       JOIN item i ON i.id = ci.itemid
+       LEFT JOIN itemtype it ON it.id = i.itemtypeid
+       WHERE ci.characterid = $1 AND ci.itemid = $2`,
+      [characterId, itemId]
+    );
+
+    if (!invRes.rows.length) {
+      return res.status(404).json({ error: 'Item not found in character inventory' });
+    }
+
+    const row = invRes.rows[0];
+    const isConsumable = !!row.isconsumable || (row.itemtypename || '').toLowerCase() === 'consumable';
+
+    if (!isConsumable) {
+      return res.status(400).json({ error: 'Item is not consumable' });
+    }
+
+    const result = await inventoryRepo.decrementItemQuantity(characterId, itemId, amount);
+    return res.json({ itemId, quantity: result.quantity, removed: result.removed });
+  } catch (err) {
+    console.error('Error using inventory item:', err);
+    return res.status(500).json({ error: 'Failed to use item', details: err.message });
   }
 });
 

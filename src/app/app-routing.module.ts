@@ -42,6 +42,10 @@ const routes: Routes = [
     loadComponent: () => import('./pages/inventory/inventory.page').then(m => m.InventoryPage)
   },
   {
+    path: 'battle',
+    loadComponent: () => import('./pages/battle/battle.page').then(m => m.BattlePage)
+  },
+  {
     path: '',
     redirectTo: 'select-character',
     pathMatch: 'full'

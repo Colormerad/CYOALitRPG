@@ -36,6 +36,14 @@ export class DatabaseService {
     return this.http.post<User>(`${this.apiUrl}/users`, user, this.httpOptions);
   }
 
+  useInventoryItem(characterId: number, itemId: number, amount: number = 1): Observable<{ itemId: number; quantity: number; removed: boolean }> {
+    return this.http.post<{ itemId: number; quantity: number; removed: boolean }>(
+      `${this.apiUrl}/characters/${characterId}/inventory/${itemId}/use`,
+      { amount },
+      this.httpOptions
+    );
+  }
+
   getUser(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/users/${id}`);
   }
@@ -168,6 +176,14 @@ export class DatabaseService {
 
   getCurrentStoryNode(): StoryNode | null {
     return this.currentStoryNodeSubject.value;
+  }
+
+  // Advance progress explicitly (e.g., after battle outcome)
+  advanceProgress(characterId: number, nextNodeId: number, options?: { choiceId?: number; experienceGain?: any }): Observable<PlayerProgress> {
+    const payload: any = { nextNodeId };
+    if (options?.choiceId != null) payload.choiceId = options.choiceId;
+    if (options?.experienceGain) payload.experienceGain = options.experienceGain;
+    return this.http.post<PlayerProgress>(`${this.apiUrl}/story/progress/${characterId}/advance`, payload, this.httpOptions);
   }
 
   // Legacy game mechanics - renamed to avoid conflict with the new makeChoice method

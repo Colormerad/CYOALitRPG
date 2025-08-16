@@ -12,22 +12,22 @@ function inferItemType(description) {
 module.exports = {
   async getOrCreateItemType(client, name) {
     const typeName = name;
-    const res = await client.query('SELECT Id FROM ItemType WHERE Name = $1', [typeName]);
+    const res = await client.query('SELECT id FROM itemtype WHERE name = $1', [typeName]);
     if (res.rows.length) return res.rows[0].id;
     const ins = await client.query(
-      'INSERT INTO ItemType (Name, Description) VALUES ($1, $2) RETURNING Id',
+      'INSERT INTO itemtype (name, description) VALUES ($1, $2) RETURNING id',
       [typeName, `${typeName} items`]
     );
     return ins.rows[0].id;
   },
 
   async getOrCreateItemByName(client, name, typeName) {
-    const res = await client.query('SELECT Id FROM Item WHERE Name = $1', [name]);
+    const res = await client.query('SELECT id FROM item WHERE name = $1', [name]);
     if (res.rows.length) return res.rows[0].id;
     const itemTypeId = await this.getOrCreateItemType(client, typeName);
     const ins = await client.query(
-      `INSERT INTO Item (Name, Description, ItemTypeId, RequiredLevel, Value, IsConsumable, UseDescription, Rarity)
-       VALUES ($1, $2, $3, 1, 0, FALSE, $4, 'Common') RETURNING Id`,
+      `INSERT INTO item (name, description, itemtypeid, requiredlevel, value, isconsumable, usedescription, rarity)
+       VALUES ($1, $2, $3, 1, 0, FALSE, $4, 'Common') RETURNING id`,
       [name, name, itemTypeId, '']
     );
     return ins.rows[0].id;
@@ -35,9 +35,9 @@ module.exports = {
 
   async addItemToInventory(client, characterId, itemId, quantity = 1) {
     await client.query(
-      `INSERT INTO CharacterInventory (CharacterId, ItemId, Quantity, IsEquipped)
+      `INSERT INTO characterinventory (characterid, itemid, quantity, isequipped)
        VALUES ($1, $2, $3, FALSE)
-       ON CONFLICT (CharacterId, ItemId) DO UPDATE SET Quantity = CharacterInventory.Quantity + EXCLUDED.Quantity`,
+       ON CONFLICT (characterid, itemid) DO UPDATE SET quantity = characterinventory.quantity + EXCLUDED.quantity`,
       [characterId, itemId, quantity]
     );
   },
@@ -76,6 +76,44 @@ module.exports = {
       await this.addItemToInventory(client, characterId, itemId, quantity);
       await client.query('COMMIT');
       return { itemId, name, typeName, quantity };
+    } catch (e) {
+      await client.query('ROLLBACK');
+      throw e;
+    } finally {
+      client.release();
+    }
+  },
+
+  async decrementItemQuantity(characterId, itemId, amount = 1) {
+    if (!characterId || !itemId || amount <= 0) throw new Error('Invalid parameters for decrementItemQuantity');
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      const res = await client.query(
+        'SELECT quantity FROM characterinventory WHERE characterid = $1 AND itemid = $2 FOR UPDATE',
+        [characterId, itemId]
+      );
+      if (!res.rows.length) {
+        await client.query('ROLLBACK');
+        return { quantity: 0, removed: false };
+      }
+      const current = Number(res.rows[0].quantity || 0);
+      const nextQty = Math.max(0, current - amount);
+      if (nextQty === 0) {
+        await client.query(
+          'DELETE FROM characterinventory WHERE characterid = $1 AND itemid = $2',
+          [characterId, itemId]
+        );
+        await client.query('COMMIT');
+        return { quantity: 0, removed: true };
+      } else {
+        await client.query(
+          'UPDATE characterinventory SET quantity = $3 WHERE characterid = $1 AND itemid = $2',
+          [characterId, itemId, nextQty]
+        );
+        await client.query('COMMIT');
+        return { quantity: nextQty, removed: false };
+      }
     } catch (e) {
       await client.query('ROLLBACK');
       throw e;

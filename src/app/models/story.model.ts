@@ -24,4 +24,5 @@ export interface Choice {
   inputType?: string;
   inputPrompt?: string;
   inputDescription?: string;
+  effects?: any; // optional structured effects (onWin/onLose/experienceGain, inventory_add, etc.)
 }

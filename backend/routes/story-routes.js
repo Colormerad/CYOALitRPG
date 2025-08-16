@@ -16,6 +16,25 @@ router.get('/nodes/:id', async (req, res) => {
   }
 });
 
+// Advance progress directly (e.g., after battle outcome)
+router.post('/progress/:characterId/advance', async (req, res) => {
+  try {
+    const characterId = parseInt(req.params.characterId);
+    const { nextNodeId, experienceGain, choiceId } = req.body || {};
+    if (!characterId || !nextNodeId) {
+      return res.status(400).json({ error: 'characterId and nextNodeId are required' });
+    }
+    const progress = await storyService.advanceProgress(characterId, parseInt(nextNodeId), {
+      experienceGain: experienceGain || null,
+      choiceId: choiceId ? parseInt(choiceId) : undefined,
+    });
+    res.json(progress);
+  } catch (err) {
+    console.error('Error advancing progress:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Refresh outfit options for a node
 router.get('/nodes/:id/refresh-outfits', async (req, res) => {
   try {

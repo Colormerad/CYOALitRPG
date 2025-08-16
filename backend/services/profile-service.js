@@ -209,7 +209,23 @@ class ProfileService {
         values.push(parseInt(metadataImpact.order_chaos));
         paramIndex++;
       }
-      
+
+      // Process currency: gold_add / gold_remove / gold_spent (supports snake_case and camelCase)
+      const goldAddRaw = metadataImpact.gold_add ?? metadataImpact.goldAdd ?? 0;
+      const goldRemoveRaw = metadataImpact.gold_remove ?? metadataImpact.goldRemove ?? metadataImpact.gold_spent ?? metadataImpact.goldSpent ?? 0;
+      const goldDelta = (parseInt(goldAddRaw || 0) || 0) - (parseInt(goldRemoveRaw || 0) || 0);
+      if (goldDelta !== 0) {
+        updates.push(
+          `AdditionalTraits = jsonb_set(` +
+            `COALESCE(AdditionalTraits, '{}'::jsonb), ` +
+            `'{gold}', ` +
+            `to_jsonb(GREATEST(0, COALESCE((AdditionalTraits->>'gold')::int, 0) + $${paramIndex})), ` +
+            `true)`
+        );
+        values.push(goldDelta);
+        paramIndex++;
+      }
+
       // Process story preferences
       if (metadataImpact.combat_preference) {
         updates.push(`CombatPreference = GREATEST(0, LEAST(100, CombatPreference + $${paramIndex}))`);
@@ -275,7 +291,9 @@ class ProfileService {
               'strength_exp', 'dexterity_exp', 'constitution_exp', 'intelligence_exp', 'wisdom_exp', 'charisma_exp',
               'good_evil', 'order_chaos', 'combat_preference', 'exploration_preference',
               'social_preference', 'puzzle_preference', 'caution', 'bravery', 'curiosity',
-              'empathy', 'magic_affinity'].includes(key)) {
+              'empathy', 'magic_affinity',
+              // currency keys should not be merged as-is
+              'gold_add', 'gold_remove', 'gold_spent', 'goldAdd', 'goldRemove', 'goldSpent'].includes(key)) {
           additionalTraits[key] = metadataImpact[key];
         }
       });

@@ -60,7 +60,7 @@ class ChoiceDomainService {
   analyzeNextNode(nextNode) {
     if (!nextNode) return { isDeathNode: false };
     const title = (nextNode.title || '').toLowerCase();
-    return { isDeathNode: title === 'the end' };
+    return { isDeathNode: title.startsWith('the end') };
   }
 }
 

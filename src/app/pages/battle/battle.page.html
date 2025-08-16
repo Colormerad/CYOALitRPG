@@ -1,0 +1,80 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Battle</ion-title>
+  </ion-toolbar>
+</ion-header>
+<audio #backgroundMusic src="assets/audio/music/Boss-Level_10.wav" loop></audio>
+
+<ion-content [fullscreen]="true">
+  <div class="battle-container">
+    <div class="entity">
+      <div class="name">{{ playerName }}</div>
+      <div class="hpbar">
+        <div class="hp" [style.width.%]="playerHpPct * 100"></div>
+      </div>
+      <div class="hptext">HP: {{ playerHp() }} / {{ maxPlayerHp }}</div>
+    </div>
+
+    <div class="entity enemy">
+      <div class="name">{{ enemyName }}</div>
+      <div class="hpbar">
+        <div class="hp enemy" [style.width.%]="enemyHpPct * 100"></div>
+      </div>
+      <div class="hptext">HP: {{ enemyHp() }} / {{ maxEnemyHp }}</div>
+    </div>
+
+    <div class="actions" *ngIf="isPlayerTurn(); else enemyTurn">
+      <ion-button expand="block" color="primary" (click)="onAttack()">Attack</ion-button>
+      <ion-button expand="block" color="medium" (click)="onDefend()">Defend</ion-button>
+      <ion-button expand="block" color="tertiary" (click)="onItem()">Item</ion-button>
+      <ion-button expand="block" color="danger" (click)="onRun()">Run</ion-button>
+    </div>
+    <ng-template #enemyTurn>
+      <div class="turn-indicator">Enemy is taking a turn...</div>
+    </ng-template>
+
+    <!-- Inventory Panel -->
+    <div *ngIf="showInventory()" class="inventory-panel">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Inventory</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ng-container *ngFor="let item of inventory">
+              <ion-item *ngIf="!isArmor(item) && (item.quantity || 0) > 0" detail="false" lines="inset">
+                <ion-label>
+                  <h2>{{ item.name }}</h2>
+                  <p>{{ item.description }}</p>
+                  <p>Qty: {{ item.quantity }} • Type: {{ item.type }}</p>
+                </ion-label>
+                <ion-button size="small" (click)="useItem(item)">Use</ion-button>
+              </ion-item>
+            </ng-container>
+          </ion-list>
+          <ion-button expand="block" fill="clear" (click)="showInventory.set(false)">Close</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div class="log">
+      <div class="log-title">Battle Log</div>
+      <div class="log-entries">
+        <div class="entry" *ngFor="let line of battleLog">{{ line }}</div>
+      </div>
+    </div>
+
+    <!-- Outcome Panel -->
+    <div *ngIf="outcome" class="outcome-overlay">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ outcome === 'win' ? 'Victory!' : 'Defeat' }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p *ngIf="awardedExp?.amount">You gained {{ awardedExp.amount }} XP.</p>
+          <ion-button expand="block" (click)="finalizeOutcome()">Continue</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
