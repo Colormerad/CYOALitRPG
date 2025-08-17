@@ -384,20 +384,35 @@ class StoryService {
     // Determine next node
     let nextNodeId = initialNextNodeId;
     console.log(`Choice ID: ${choiceId}, Choice text: ${choice.choicetext}, Next Node ID from choice: ${nextNodeId}`);
+    // Check if current node itself is a death node (e.g., 'The End' node with choices)
+    let isDeathNode = false;
+    try {
+      const { isDeathNode: currIsDeath } = choiceDomain.analyzeNextNode(node);
+      if (currIsDeath) {
+        isDeathNode = true;
+        // Keep player on current node; do NOT attempt LLM generation
+        if (!nextNodeId) {
+          nextNodeId = progress.currentnodeid;
+          console.log('Current node is a DEATH node; nextNodeId is null so staying on current node and marking death.');
+        }
+      }
+    } catch (_) {}
       
       // Check if the next node exists in the database
     let nextNodeExists = false;
-    let isDeathNode = false;
     if (nextNodeId) {
       console.log(`Checking if node ID ${nextNodeId} exists in database...`);
       const nextNode = await storyNodeRepo.getById(nextNodeId);
       nextNodeExists = !!nextNode;
-      if (nextNodeExists && nextNode.title && nextNode.title.toLowerCase() === 'the end') {
-        isDeathNode = true;
-        console.log(`Node ID ${nextNodeId} is a death node with title '${nextNode.title}'`);
-        console.log('This should mark the character as dead');
-      } else if (nextNodeExists) {
-        console.log(`Node ID ${nextNodeId} is NOT a death node. Title: '${nextNode.title}'`);
+      if (nextNodeExists) {
+        const { isDeathNode: deathFlag } = choiceDomain.analyzeNextNode(nextNode);
+        isDeathNode = !!deathFlag;
+        if (isDeathNode) {
+          console.log(`Node ID ${nextNodeId} is a DEATH node with title '${nextNode.title}'`);
+          console.log('This should mark the character as dead');
+        } else {
+          console.log(`Node ID ${nextNodeId} is NOT a death node. Title: '${nextNode.title}'`);
+        }
       }
       console.log(`Node ID ${nextNodeId} exists: ${nextNodeExists}`);
     } else {
