@@ -1911,5 +1911,53 @@
         "updatedAt": "2025-08-13T19:28:44.296Z"
       }
     ]
+  },
+  {
+    "id": 39,
+    "title": "The End",
+    "content": "Darkness envelops you as your choices lead to an unfortunate end. But in this realm of stories, death is merely another beginning...",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 121,
+        "choiceText": "Try again from the beginning",
+        "nextNodeId": 1,
+        "metadataImpact": {
+          "learning": 1,
+          "resilience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },  
+  {
+    "id": 40,
+    "title": "More Coming Soon",
+    "content": "Stay tuned for more stories!",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 122,
+        "choiceText": "Try again from the beginning",
+        "nextNodeId": 1,
+        "metadataImpact": {
+          "learning": 1,
+          "resilience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
   }
 ]

@@ -260,13 +260,13 @@
       {
         "id": 18,
         "choiceText": "Tuck your phone along with your clothes into the locker and set your password.",
-        "nextNodeId": 19,
+        "nextNodeId": 7,
         "metadataImpact": {
           "security": 1,
           "rule_following": 1
         },
         "effects": {
-"gold_add": 5
+          "gold_add": 5
         },
         "createdAt": "2025-07-31T20:16:04.447Z",
         "updatedAt": "2025-07-31T20:16:04.447Z"
@@ -281,13 +281,15 @@
           "rule_following": -1
         },
         "effects": {
-	"gold_add": 5,
+          "gold_add": 5,
           "inventory_add": [
             {
-              "name": "street clothes","quantity": 1
+              "name": "street clothes",
+              "quantity": 1
             },
             {
-              "name": "smart phone","quantity": 1
+              "name": "smart phone",
+              "quantity": 1
             }
           ]
         },
@@ -304,14 +306,14 @@
           "resourcefulness": 1
         },
         "effects": {
-"gold_add": 5,
+          "gold_add": 5,
           "inventory_add": [
             {
-              "name": "smart phone","quantity": 1
+              "name": "smart phone",
+              "quantity": 1
             }
           ]
         }
-       
       }
     ]
   },
@@ -349,1176 +351,1631 @@
         "choiceText": "Keep looking",
         "nextNodeId": 7,
         "metadataImpact": {
-          "mystery": 1, 
-          "puzzlepreference": 1 },"effects": {}
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "title": "Crossroads 2",
-      "text": "You hurry along, glancing over your shoulder. A strange pressure prickles at your spine—as if you’re missing something important. A flash of movement ahead. You’re confident you recognize them.”",
-      "options": [
-        {
-          "choiceText": "Holler for them and give chase, trying to catch up",
-          "nextNodeId": 11,
-          "metadataImpact": {
-            "curiosity": 1,
-            "socialpreference": 1
-          },
-          "effects": {}
+          "mystery": 1,
+          "puzzlepreference": 1
         },
-        {
-          "choiceText": "Duck into a fortune teller's tent",
-          "nextNodeId": 12,
-          "metadataImpact": {
-            "magicaffinity": 1,
-            "curiosity": 1
-          },
-          "effects": {}
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "title": "Knights Barracks",
-      "text": "Canvas banners flutter above a roped-off arena. Laughter and the sound of clashing wooden swords fill the air. A young page gestures toward a rack of training gear.",
-      "options": [
-        {
-          "choiceText": "Line up alongside other patrons and take a wooden sword and shield",
-          "nextNodeId": 13,
-          "metadataImpact": {
-            "bravery": 1,
-            "combatpreference": 1
-          },
-          "effects": {
-            "inventory_add": [
-              {
-                "name": "wooden sword",
-                "quantity": 1
-              },
-              {
-                "name": "wooden shield",
-                "quantity": 1
-              }
-            ]
-          }
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Crossroads 2",
+    "text": "You hurry along, glancing over your shoulder. A strange pressure prickles at your spine—as if you’re missing something important. A flash of movement ahead. You’re confident you recognize them.”",
+    "options": [
+      {
+        "choiceText": "Holler for them and give chase, trying to catch up",
+        "nextNodeId": 11,
+        "metadataImpact": {
+          "curiosity": 1,
+          "socialpreference": 1
         },
-        {
-          "choiceText": "Run away",
-          "nextNodeId": 20,
-          "metadataImpact": {
-            "fear": 1
-          },
-          "effects": {}
+        "effects": {}
+      },
+      {
+        "choiceText": "Duck into a fortune teller's tent",
+        "nextNodeId": 12,
+        "metadataImpact": {
+          "magicaffinity": 1,
+          "curiosity": 1
         },
-        {
-          "choiceText": "Push to the front of the line with a sword and shield",
-          "nextNodeId": 13,
-          "metadataImpact": {
-            "confidence": 1,
-            "goodevilaxis": 1,
-            "combatpreference": 1
-          },
-          "effects": {
-            "inventory_add": [
-              {
-                "name": "wooden sword",
-                "quantity": 1
-              },
-              {
-                "name": "wooden shield",
-                "quantity": 1
-              }
-            ]
-          }
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Knights Barracks",
+    "text": "Canvas banners flutter above a roped-off arena. Laughter and the sound of clashing wooden swords fill the air. A young page gestures toward a rack of training gear.",
+    "options": [
+      {
+        "choiceText": "Line up alongside other patrons and take a wooden sword and shield",
+        "nextNodeId": 13,
+        "metadataImpact": {
+          "bravery": 1,
+          "combatpreference": 1
         },
-        {
-          "choiceText": "Refuse to participate",
-          "nextNodeId": 7,
-          "metadataImpact": {
-            "empathy": 1,
-            "combatpreference": -1
-          },
-          "effects": {}
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "title": "The Shoppes",
-      "text": "Rows of open stalls wind beneath bright flags. The smell of spiced meats and woodsmoke drifts between displays of jewelry, trinkets, potions, and handmade goods. Something glimmers just out of sight.",
-      "options": [
-        {
-          "choiceText": "Get food",
-          "nextNodeId": 14,
-          "metadataImpact": {},
-          "effects": {}
-        },
-        {
-          "choiceText": "View jewelry",
-          "nextNodeId": 16,
-          "metadataImpact": {},
-          "effects": {}
-        },
-        {
-          "choiceText": "View trinkets",
-          "nextNodeId": 15,
-          "metadataImpact": {},
-          "effects": {}
-        },
-        {
-          "choiceText": "Visit potion stall",
-          "nextNodeId": 17,
-          "metadataImpact": {},
-          "effects": {}
-        },
-        {
-          "choiceText": "That figure again—you spot them and give chase",
-          "nextNodeId": 11,
-          "metadataImpact": {
-            "puzzlepreference": 1, "socialpreference": 1
-          },
-          "effects": {}
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "title": "Entertainment Quarter",
-      "text": "Music swells like a tide crashing into your chest. A juggling act gives way to a shrieking mime, and nearby, a lanky man swallows a sword to a roar of applause. This part of the faire hums with spectacle—and secrets.",
-      "options": [
-        {
-          "choiceText": "Watch the sword eater's performance",
-          "nextNodeId": 18,
-          "metadataImpact": {
-            "curiosity": 1
-          },
-          "effects": {}
-        },
-        {
-          "choiceText": "Join the crowd dancing to a strange, hypnotic band",
-          "nextNodeId": 19,
-          "metadataImpact": {
-            "curiosity": 1
-          },
-          "effects": {}
-        },
-        {
-          "choiceText": "Slip into the crooked entrance of the Hall of Mirrors",
-          "nextNodeId": 20,
-          "metadataImpact": {
-            "curiosity": 1, "puzzlepreference": 1
-          },
-          "effects": {}
-        },
-        {
-          "choiceText": "Spot that strange figure again and give chase",
-          "nextNodeId": 11,
-          "metadataImpact": {
-            "puzzlepreference": 1, "socialpreference": 1
-          },
-          "effects": {}
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "title": "Mystery Chase",
-      "text": "The figure vanishes behind a puppet stall, just as a breeze kicks up streamers and silk. You dart after them, heart racing. Your feet pound the dirt path as you weave between startled guests.",
-      "options": [
-        {
-          "choiceText": "Follow them into a narrow alleyway between tents",
-          "nextNodeId": 21,
-          "metadataImpact": {
-            "bravery": 1,
-            "puzzlepreference": 1
-          },
-          "effects": {}
-        },
-        {
-          "choiceText": "Lose sight of them and end up near the sword eater again",
-          "nextNodeId": 18,
-          "metadataImpact": {
-            "puzzlepreference": 1
-          },
-          "effects": {}
-        },
-        {
-          "choiceText": "Ask a vendor if they saw someone run past",
-          "nextNodeId": 18,
-          "metadataImpact": {
-            "puzzlepreference": 1, "socialpreference": 1
-          },
-          "effects": {}
-        },
-        {
-          "choiceText": "Stop running and collect your bearings",
-          "nextNodeId": 10,
-          "metadataImpact": {
-            "puzzlepreference": -1
-          },
-          "effects": {}
-        }
-      ]
-    },
-    {
-      "id": 12,
-      "title": "The Fortune Teller",
-      "text": "You slip past a velvet curtain into dim candlelight. A woman with cloudy eyes beckons you forward. Incense curls in the air. Her voice rasps like dry leaves. \"I see threads converging. What shall we pull first, hm?\"",
-      "options": [
-        {
-          "choiceText": "Ask about a prophecy tied to your fate",
-          "nextNodeId": 30,
-          "metadataImpact": { "bravery": 1, "curiosity":1 },
-          "effects": {}
-          },
-          {
-            "choiceText": "Ask to see how your character fares",
-            "nextNodeId": 31,
-            "metadataImpact": { "bravery": 1, "curiosity":1 },
-            "effects": {}
-          },
-          {
-            "choiceText": "Request a tarot reading",
-            "nextNodeId": 32,
-            "metadataImpact": { "curiosity": 1, "magicaffinity":1 },
-            "effects": {}
+        "effects": {
+          "inventory_add": [
+            {
+              "name": "wooden sword",
+              "quantity": 1
             },
             {
-              "choiceText": "Politely decline and leave the tent",
-              "nextNodeId": 6,
-              "metadataImpact": { "magicaffinity": -1 },
-              "effects": {}
+              "name": "wooden shield",
+              "quantity": 1
             }
           ]
+        }
+      },
+      {
+        "choiceText": "Run away",
+        "nextNodeId": 20,
+        "metadataImpact": {
+          "fear": 1
         },
-        {
-          "id": 13,
-          "title": "Training Grounds",
-          "text": "You grip a wooden sword and face your opponent in the dirt-ringed arena. A crowd watches. The air smells of sweat and trampled grass. Your pulse quickens as the drillmaster shouts, \"Begin!\"",
-          "options": [
+        "effects": {}
+      },
+      {
+        "choiceText": "Push to the front of the line with a sword and shield",
+        "nextNodeId": 13,
+        "metadataImpact": {
+          "confidence": 1,
+          "goodevilaxis": 1,
+          "combatpreference": 1
+        },
+        "effects": {
+          "inventory_add": [
             {
-              "choiceText": "Engage in the spar confidently",
-              "nextNodeId": 33,
-              "metadataImpact": {
-                "combat": 2,
-                "confidence": 1
-              },
-              "effects": {
-                "inventory_use": [
-                  "wooden sword",
-                  "wooden shield"
-                ]
-              }
+              "name": "wooden sword",
+              "quantity": 1
             },
             {
-              "choiceText": "Try to disarm your opponent without hurting them",
-              "nextNodeId": 34,
-              "metadataImpact": {
-                "kindness": 1,
-                "precision": 1
-              },
-              "effects": {
-                "inventory_use": [
-                  "wooden sword",
-                  "wooden shield"
-                ]
-              }
-            },
-            {
-              "choiceText": "Throw the match to avoid drawing attention",
-              "nextNodeId": 35,
-              "metadataImpact": {
-                "stealth": 1,
-                "subtlety": 1
-              },
-              "effects": {
-                "inventory_use": [
-                  "wooden sword",
-                  "wooden shield"
-                ]
-              }
-            },
-            {
-              "choiceText": "Refuse to fight",
-              "nextNodeId": 6,
-              "metadataImpact": {
-                "combatpreference": -2
-              },
-              "effects": {}
+              "name": "wooden shield",
+              "quantity": 1
             }
           ]
+        }
+      },
+      {
+        "choiceText": "Refuse to participate",
+        "nextNodeId": 7,
+        "metadataImpact": {
+          "empathy": 1,
+          "combatpreference": -1
         },
-        {
-          "id": 14,
-          "title": "Food Stall",
-          "text": "A warm scent hits you—charred meats, sweet breads, and bubbling cider. A plump vendor beckons with a greasy grin. “One bite, and you’ll forget you ever ate before.”",
-          "options": [
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "The Shoppes",
+    "text": "Rows of open stalls wind beneath bright flags. The smell of spiced meats and woodsmoke drifts between displays of jewelry, trinkets, potions, and handmade goods. Something glimmers just out of sight.",
+    "options": [
+      {
+        "choiceText": "Get food",
+        "nextNodeId": 14,
+        "metadataImpact": {},
+        "effects": {}
+      },
+      {
+        "choiceText": "View jewelry",
+        "nextNodeId": 16,
+        "metadataImpact": {},
+        "effects": {}
+      },
+      {
+        "choiceText": "View trinkets",
+        "nextNodeId": 15,
+        "metadataImpact": {},
+        "effects": {}
+      },
+      {
+        "choiceText": "Visit potion stall",
+        "nextNodeId": 17,
+        "metadataImpact": {},
+        "effects": {}
+      },
+      {
+        "choiceText": "That figure again—you spot them and give chase",
+        "nextNodeId": 11,
+        "metadataImpact": {
+          "puzzlepreference": 1,
+          "socialpreference": 1
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Entertainment Quarter",
+    "text": "Music swells like a tide crashing into your chest. A juggling act gives way to a shrieking mime, and nearby, a lanky man swallows a sword to a roar of applause. This part of the faire hums with spectacle—and secrets.",
+    "options": [
+      {
+        "choiceText": "Watch the sword eater's performance",
+        "nextNodeId": 18,
+        "metadataImpact": {
+          "curiosity": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Join the crowd dancing to a strange, hypnotic band",
+        "nextNodeId": 19,
+        "metadataImpact": {
+          "curiosity": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Slip into the crooked entrance of the Hall of Mirrors",
+        "nextNodeId": 20,
+        "metadataImpact": {
+          "curiosity": 1,
+          "puzzlepreference": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Spot that strange figure again and give chase",
+        "nextNodeId": 11,
+        "metadataImpact": {
+          "puzzlepreference": 1,
+          "socialpreference": 1
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Mystery Chase",
+    "text": "The figure vanishes behind a puppet stall, just as a breeze kicks up streamers and silk. You dart after them, heart racing. Your feet pound the dirt path as you weave between startled guests.",
+    "options": [
+      {
+        "choiceText": "Follow them into a narrow alleyway between tents",
+        "nextNodeId": 21,
+        "metadataImpact": {
+          "bravery": 1,
+          "puzzlepreference": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Lose sight of them and end up near the sword eater again",
+        "nextNodeId": 18,
+        "metadataImpact": {
+          "puzzlepreference": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Ask a vendor if they saw someone run past. Stopping over at the food stalls",
+        "nextNodeId": 9,
+        "metadataImpact": {
+          "puzzlepreference": 1,
+          "socialpreference": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Stop running and collect your bearings heading back toward the crossroads",
+        "nextNodeId": 6,
+        "metadataImpact": {
+          "puzzlepreference": -1
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "The Fortune Teller",
+    "text": "You slip past a velvet curtain into dim candlelight. A woman with cloudy eyes beckons you forward. Incense curls in the air. Her voice rasps like dry leaves. \"I see threads converging. What shall we pull first, hm?\"",
+    "options": [
+      {
+        "choiceText": "Ask about a prophecy tied to your fate",
+        "nextNodeId": 30,
+        "metadataImpact": {
+          "bravery": 1,
+          "curiosity": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Ask to see how your character fares",
+        "nextNodeId": 31,
+        "metadataImpact": {
+          "bravery": 1,
+          "curiosity": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Request a tarot reading",
+        "nextNodeId": 32,
+        "metadataImpact": {
+          "curiosity": 1,
+          "magicaffinity": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Politely decline and leave the tent",
+        "nextNodeId": 6,
+        "metadataImpact": {
+          "magicaffinity": -1
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Training Grounds",
+    "text": "You grip a wooden sword and face your opponent in the dirt-ringed arena. A crowd watches. The air smells of sweat and trampled grass. Your pulse quickens as the drillmaster shouts, \"Begin!\"",
+    "options": [
+      {
+        "choiceText": "Engage in the spar confidently",
+        "nextNodeId": 33,
+        "metadataImpact": {
+          "combat": 2,
+          "confidence": 1
+        },
+        "effects": {
+          "inventory_use": [
+            "wooden sword",
+            "wooden shield"
+          ]
+        }
+      },
+      {
+        "choiceText": "Try to disarm your opponent without hurting them",
+        "nextNodeId": 34,
+        "metadataImpact": {
+          "kindness": 1,
+          "precision": 1
+        },
+        "effects": {
+          "inventory_use": [
+            "wooden sword",
+            "wooden shield"
+          ]
+        }
+      },
+      {
+        "choiceText": "Throw the match to avoid drawing attention",
+        "nextNodeId": 35,
+        "metadataImpact": {
+          "stealth": 1,
+          "subtlety": 1
+        },
+        "effects": {
+          "inventory_use": [
+            "wooden sword",
+            "wooden shield"
+          ]
+        }
+      },
+      {
+        "choiceText": "Refuse to fight",
+        "nextNodeId": 6,
+        "metadataImpact": {
+          "combatpreference": -2
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Food Stall",
+    "text": "A warm scent hits you—charred meats, sweet breads, and bubbling cider. A plump vendor beckons with a greasy grin. “One bite, and you’ll forget you ever ate before.”",
+    "options": [
+      {
+        "choiceText": "Buy a turkey leg and head back toward the crossroads (1g)",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 1,
+          "inventory_add": [
             {
-              "choiceText": "Buy a turkey leg and head back toward the crossroads (1g)",
-              "nextNodeId": 6,
-              "metadataImpact": {},
-              "effects": {
-                "gold_spent": 1,
-                "inventory_add": [
-                  {
-                    "name": "Turkey leg",
-                    "quantity": 1
-                  }
-                ]
-              }
-            },
-              {
-                "choiceText": "Buy boba tea and head back toward the crossroads (1g)",
-                "nextNodeId": 6,
-                "metadataImpact": {},
-                "effects": {
-                  "gold_spent": 1,
-                  "inventory_add": [
-                    {
-                      "name": "Boba tea",
-                      "quantity": 1
-                    }
-                  ]
-                }
-              },
-              {
-                "choiceText": "Buy mead and head back toward the crossroads (1g)",
-                "nextNodeId": 6,
-                "metadataImpact": {},
-                "effects": {
-                  "gold_spent": 1,
-                  "inventory_add": [
-                    {
-                      "name": "Mead",
-                      "quantity": 1
-                    }
-                  ]
-                }
-              },
-              {
-                "choiceText": "Leave the stall without buying",
-                "nextNodeId": 6,
-                "metadataImpact": {},
-                "effects": {}
-              }
-            ]
-          },
-          {
-            "id": 15,
-            "title": "Trinket Stall",
-            "text": "Glittering oddities cover every inch of the wooden booth: skull-shaped candles, carved animal figurines, a tiny music box that plays a single note.",
-            "options": [
-              {
-                "choiceText": "Buy a scented candle (1g) and return to the crossroads",
-                "nextNodeId": 6,
-                "metadataImpact": {},
-                "effects": {
-                  "gold_spent": 1,
-                  "inventory_add": [
-                    {
-                      "name": "Scented candle",
-                      "quantity": 1
-                    }
-                  ]
-                }
-              },
-              {
-                "choiceText": "Buy a handmade charm (1g) and return to the crossroads",
-                "nextNodeId": 6,
-                "metadataImpact": {},
-                    "effects": {
-                      "gold_spent": 1,
-                      "inventory_add": [
-                        {
-                          "name": "Charm bracelet",
-                          "quantity": 1
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "choiceText": "Buy a crooked wand (1g) and return to the crossroads",
-                    "nextNodeId": 6,
-                    "metadataImpact": {},
-                        "effects": {
-                          "gold_spent": 1,
-                          "inventory_add": [
-                            {
-                              "name": "Crooked fake wand",
-                              "quantity": 1
-                            }
-                          ]
-                        }},
-                        {
-                          "choiceText": "Leave without buying",
-                          "nextNodeId": 6,
-                          "metadataImpact": {},
-                          "effects": {}
-                        }
-                      ]
-                    },
-                    {
-                      "id": 16,
-                      "title": "Jewelry Stall",
-                          "text": "Delicate pieces glitter under the sun: rings, necklaces, anklets—each humming faintly when held. The vendor watches you carefully, eyes narrowing at each touch.",
-                          "options": [
-                            {
-                              "choiceText": "Buy the glowing talisman (5g) and return to the crossroads",
-                              "nextNodeId": 6,
-                              "metadataImpact": {},
-                              "effects": {
-                                "gold_spent": 5,
-                                "inventory_add": [
-                                  {
-                                    "name": "Glowing Talisman",
-                                    "quantity": 1
-                                  }
-                                ]
-                              }
-                            },
-                            {
-                            "choiceText": "Buy a shell necklace (1g) and return to the crossroads",
-                            "nextNodeId": 6,
-                            "metadataImpact": {},
-                            "effects": {
-                              "gold_spent": 1,
-                              "inventory_add": [
-                                {
-                                  "name": "Shell necklace",
-                                  "quantity": 1
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "choiceText": "Buy a ring (1g) and return to the crossroads",
-                            "nextNodeId": 6,
-                            "metadataImpact": {},
-                            "effects": {
-                              "gold_spent": 1,
-                              "inventory_add": [
-                                {
-                                  "name": "Silver ring",
-                                  "quantity": 1
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "choiceText": "Leave the stall without buying",
-                                    "nextNodeId": 6,
-                                    "metadataImpact": {},
-                                    "effects": {}
-                                  }
-                                ]
-                              },
-                              {
-                                "id": 17,
-                                "title": "Potion Stall",
-                                "text": "Tiny bottles clink and bubble on uneven wooden shelves. The vendor doesn’t speak, just raises an eyebrow as you approach and taps a hand-painted sign: 'One gold each. Effects not guaranteed.'",
-                                "options": [
-                                  {
-                                    "choiceText": "Buy the red potion (1g) and return to the crossroads",
-                                    "nextNodeId": 6,
-                                    "metadataImpact": {},
-                                    "effects": {
-                                      "gold_spent": 1,
-                                      "inventory_add": [
-                                        {
-                                          "name": "Health potion",
-                                          "quantity": 1
-                                        }
-                                      ]
-                                    }
-                                  },
-                                  {
-                                    "choiceText": "Buy the blue potion (1g) and return to the crossroads",
-                                    "nextNodeId": 6,
-                                    "metadataImpact": {},
-                                    "effects": {
-                                      "gold_spent": 1,
-                                      "inventory_add": [
-                                        {
-                                          "name": "Mana potion",
-                                          "quantity": 1
-                                        }
-                                      ]
-                                    }
-                                  },
-                                  {
-                                    "choiceText": "Buy the yellow potion (1g) and return to the crossroads",
-                                            "nextNodeId": 6,
-                                            "metadataImpact": {},
-                                            "effects": {
-                                              "gold_spent": 1,
-                                              "inventory_add": [
-                                                {
-                                                  "name": "Haste potion",
-                                                  "quantity": 1
-                                                }
-                                              ]
-                                            }
-                                          },
-                                          {
-                                            "choiceText": "Leave the stall without buying",
-                                                "nextNodeId": 6,
-                                                "metadataImpact": {},
-                                                "effects": {}
-                                              }
-                                            ]
-                                          },
-                                          {
-                                            "id": 18,
-                                            "title": "Mystery Chase 2",
-                                            "text": "Your pursuit winds past a puppet show and under a sagging banner that reads 'Ye Olde Pickle Toss.' The figure darts through the crowd—faster than anyone should be in a velvet cloak. You press on, breath short and heart racing.",
-                                            "options": [
-                                              {
-                                                "choiceText": "Turn sharply into a quiet tent filled with incense",
-                                                "nextNodeId": 19,
-                                                "metadataImpact": {
-                                                  "curiosity": 1,
-                                                  "puzzlepreference": 1
-                                                },
-                                                "effects": {}
-                                              },
-                                              {
-                                                "choiceText": "Vault a fence and cut through the jousting prep area",
-                                                "nextNodeId": 11,
-                                                "metadataImpact": {
-                                                  "combatpreference": 1,
-                                                  "dexterityexp": 1,
-                                                  "explorationpreference": 1
-                                                },
-                                                "effects": {}
-                                              },
-                                              {
-                                                "choiceText": "Climb a viewing platform for a better look",
-                                                "nextNodeId": 18,
-                                                "metadataImpact": {
-                                                  "cleverness": 1,
-                                                  "puzzlepreference": 1,
-                                                  "explorationpreference": 1
-                                                },
-                                                "effects": {}
-                                              },
-                                              {
-                                                "choiceText": "Turn back—this is too weird. Let them go.",
-                                                "nextNodeId": 20,
-                                                "metadataImpact": { "puzzlepreference": -1 },
-                                                "effects": {}
-                                              }
-                                            ]
-                                          },
-                                          {
-                                            "id": 19,
-                                            "title": "Mystery Chase 3",
-                                            "text": "The tent is dim, filled with colorful cushions and masked performers rehearsing in silence. The figure is gone again—but not entirely. A glint of light catches your eye from behind a curtain.",
-                                            "options": [
-                                              {
-                                                "choiceText": "Duck behind the curtain without hesitation",
-                                                "nextNodeId": 11,
-                                                "metadataImpact": {
-                                                  "bravery": 1
-                                                },
-                                                "effects": {}
-                                              },
-                                              {
-                                                "choiceText": "Ask one of the masked figures if they saw anything",
-                                                "nextNodeId": 20,
-                                                "metadataImpact": {
-                                                  "social": 1
-                                                },
-                                                "effects": {}
-                                              },
-                                              {
-                                                "choiceText": "Crawl beneath the stage to search",
-                                                "nextNodeId": 21,
-                                                "metadataImpact": {
-                                                  "curiosity": 1,
-                                                  "puzzlepreference": 1
-                                                },
-                                                "effects": {}
-                                              },
-                                              {
-                                                "choiceText": "Sit and mimic the performers",
-                                                "nextNodeId": 21,
-                                                "metadataImpact": {
-                                                  "curiosity": 1,
-                                                  "puzzlepreference": 1,
-                                                  "social": 1
-                                                },
-                                                "effects": {}
-                                              }
-                                            ]
-                                          },
-                                            {
-                                              "id": 20,
-                                              "title": "Mystery Chase 4",
-                                              "text": "You wander into an alleyway between food tents. Someone turns. This is not who you thought it was. A tall magnificent figure stares back at you. Flawless skin and eyes deeper than the ocean bore into your soul. An inhuman grins spreads across their face as they say, 'Yes {{prompt2answer}} can I help you?'",
-                                              "options": [
-                                                {
-                                                  "choiceText": "Laugh it off and walk away, embarrassed",
-                                                  "nextNodeId": 22,
-                                                  "metadataImpact": {
-                                                    "empathy": 1,
-                                                    "socialpreference": -1
-                                                  },
-                                                  "effects": {}
-                                                },
-                                                {
-                                                  "choiceText": "Apologize and say they looked like someone you knew",
-                                                  "nextNodeId": 22,
-                                                  "metadataImpact": {
-                                                    "empathy": 1,
-                                                    "goodevilaxis": 1
-                                                  },
-                                                  "effects": {}
-                                                },
-                                                {
-                                                  "choiceText": "Double down and accuse them of playing tricks on you",
-                                                  "nextNodeId": 21,
-                                                  "metadataImpact": {
-                                                    "goodevilaxis": -1,
-                                                    "socialpreference": -1
-                                                  },
-                                                  "effects": {}
-                                                },
-                                                {
-                                                  "choiceText": "Flip them off and walk away muttering",
-                                                  "nextNodeId": 22,
-                                                  "metadataImpact": {
-                                                    "goodevilaxis": -1,
-                                                    "socialpreference": -1
-                                                  },
-                                                  "effects": {}
-                                                }
-                                              ]
-                                            },
-                                            {
-                                              "id": 21,
-                                              "title": "Mystery Chase 5",
-                                              "text": "The stranger chuckles and offers you a vial of shimmering liquid and a pouch that clinks with coin. 'You look like you could use a little magic,' they say. They turn around setting several vials on the table before them and the pouch of gold.",
-                                              "options": [
-                                                {
-                                                  "choiceText": "Thank them and take only what was offered",
-                                                  "nextNodeId": 9,
-                                                  "metadataImpact": {
-                                                    "goodevilaxis": 1,
-                                                    "orderchaosaxis": 1
-                                                  },
-                                                  "effects": {
+              "name": "Turkey leg",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Buy boba tea and head back toward the crossroads (1g)",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 1,
+          "inventory_add": [
+            {
+              "name": "Boba tea",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Buy mead and head back toward the crossroads (1g)",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 1,
+          "inventory_add": [
+            {
+              "name": "Mead",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Leave the stall without buying",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Trinket Stall",
+    "text": "Glittering oddities cover every inch of the wooden booth: skull-shaped candles, carved animal figurines, a tiny music box that plays a single note.",
+    "options": [
+      {
+        "choiceText": "Buy a scented candle (1g) and return to the crossroads",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 1,
+          "inventory_add": [
+            {
+              "name": "Scented candle",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Buy a handmade charm (1g) and return to the crossroads",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 1,
+          "inventory_add": [
+            {
+              "name": "Charm bracelet",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Buy a crooked wand (1g) and return to the crossroads",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 1,
+          "inventory_add": [
+            {
+              "name": "Crooked fake wand",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Leave without buying",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "title": "Jewelry Stall",
+    "text": "Delicate pieces glitter under the sun: rings, necklaces, anklets—each humming faintly when held. The vendor watches you carefully, eyes narrowing at each touch.",
+    "options": [
+      {
+        "choiceText": "Buy the glowing talisman (5g) and return to the crossroads",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 5,
+          "inventory_add": [
+            {
+              "name": "Glowing Talisman",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Buy a shell necklace (1g) and return to the crossroads",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 1,
+          "inventory_add": [
+            {
+              "name": "Shell necklace",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Buy a ring (1g) and return to the crossroads",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 1,
+          "inventory_add": [
+            {
+              "name": "Silver ring",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Leave the stall without buying",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Potion Stall",
+    "text": "Tiny bottles clink and bubble on uneven wooden shelves. The vendor doesn’t speak, just raises an eyebrow as you approach and taps a hand-painted sign: 'One gold each. Effects not guaranteed.'",
+    "options": [
+      {
+        "choiceText": "Buy the red potion (1g) and return to the crossroads",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 1,
+          "inventory_add": [
+            {
+              "name": "Health potion",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Buy the blue potion (1g) and return to the crossroads",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 1,
+          "inventory_add": [
+            {
+              "name": "Mana potion",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Buy the yellow potion (1g) and return to the crossroads",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {
+          "gold_spent": 1,
+          "inventory_add": [
+            {
+              "name": "Haste potion",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Leave the stall without buying",
+        "nextNodeId": 6,
+        "metadataImpact": {},
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Mystery Chase 2",
+    "text": "Your pursuit winds past a puppet show and under a sagging banner that reads 'Ye Olde Pickle Toss.' The figure darts through the crowd—faster than anyone should be in a velvet cloak. You press on, breath short and heart racing.",
+    "options": [
+      {
+        "choiceText": "Turn sharply into a quiet tent filled with incense",
+        "nextNodeId": 12
+        ,
+        "metadataImpact": {
+          "curiosity": 1,
+          "puzzlepreference": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Vault a fence and cut through the jousting prep area",
+        "nextNodeId": 8,
+        "metadataImpact": {
+          "combatpreference": 1,
+          "dexterityexp": 1,
+          "explorationpreference": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Climb a viewing platform for a better look",
+        "nextNodeId": 19,
+        "metadataImpact": {
+          "cleverness": 1,
+          "puzzlepreference": 1,
+          "explorationpreference": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Turn back—this is too weird. Let them go.",
+        "nextNodeId": 20,
+        "metadataImpact": {
+          "puzzlepreference": -1
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "title": "Mystery Chase 3",
+    "text": "The tent is dim, filled with colorful cushions and masked performers rehearsing in silence. The figure is gone again—but not entirely. A glint of light catches your eye from behind a curtain.",
+    "options": [
+      {
+        "choiceText": "Duck behind the curtain without hesitation",
+        "nextNodeId": 12,
+        "metadataImpact": {
+          "bravery": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Ask one of the masked figures if they saw anything",
+        "nextNodeId": 20,
+        "metadataImpact": {
+          "social": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Crawl beneath the stage to search",
+        "nextNodeId": 21,
+        "metadataImpact": {
+          "curiosity": 1,
+          "puzzlepreference": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Sit and mimic the performers",
+        "nextNodeId": 21,
+        "metadataImpact": {
+          "curiosity": 1,
+          "puzzlepreference": 1,
+          "social": 1
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "title": "Mystery Chase 4",
+    "text": "You wander into an alleyway between food tents. Someone turns. This is not who you thought it was. A tall magnificent figure stares back at you. Flawless skin and eyes deeper than the ocean bore into your soul. An inhuman grins spreads across their face as they say, 'Yes {{prompt2answer}} can I help you?'",
+    "options": [
+      {
+        "choiceText": "Laugh it off and walk away, embarrassed",
+        "nextNodeId": 22,
+        "metadataImpact": {
+          "empathy": 1,
+          "socialpreference": -1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Apologize and say they looked like someone you knew",
+        "nextNodeId": 22,
+        "metadataImpact": {
+          "empathy": 1,
+          "goodevilaxis": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Double down and accuse them of playing tricks on you",
+        "nextNodeId": 21,
+        "metadataImpact": {
+          "goodevilaxis": -1,
+          "socialpreference": -1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Flip them off and walk away muttering",
+        "nextNodeId": 22,
+        "metadataImpact": {
+          "goodevilaxis": -1,
+          "socialpreference": -1
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "title": "Mystery Chase 5",
+    "text": "The stranger chuckles and offers you a vial of shimmering liquid and a pouch that clinks with coin. 'You look like you could use a little magic,' they say. They turn around setting several vials on the table before them and the pouch of gold.",
+    "options": [
+      {
+        "choiceText": "Thank them and take only what was offered",
+        "nextNodeId": 9,
+        "metadataImpact": {
+          "goodevilaxis": 1,
+          "orderchaosaxis": 1
+        },
+        "effects": {
           "gold_add": "5",
-          "inventory_add": [{"name": "greater health potion", "quantity": 1}] 
-                                                    }
-                                                  } ,
-                                                  {
-                                                    "choiceText": "Demand more",
-                                                    "nextNodeId": 23,
-                                                    "metadataImpact": {
-                                                      "goodevilaxis": -1,
-                                                      "orderchaosaxis": 1
-                                                    },
-                                                    "effects": {}
-                                                  },
-                                                  {
-                                                    "choiceText": "Take two vials quickly and bolt",
-                                                    "nextNodeId": 22,
-                                                    "metadataImpact": {
-                                                      "goodevilaxis": -1,
-                                                      "orderchaosaxis": -1
-                                                    },
-                                                    "effects": {
-                                                      "gold_add": 5,
-                                                      "inventory_add": [{"name": "greater health potion", "quantity": 2}]
-                                                    }
-                                                  },
-                                                  {
-                                                    "choiceText": "Refuse both and walk away silently",
-                                                          "nextNodeId": 22,
-                                                          "metadataImpact": {
-                                                            "goodevilaxis": 1,
-                                                            "orderchaosaxis": 1
-                                                          },
-                                                          "effects": {}
-                                                        }
-                                                      ]
-                                                    },
-                                                    {
-                                                      "id": 22,
-                                                      "title": "The Screaming",
-                                                      "text": "A shriek tears through the fairgrounds—high, guttural, not entirely human. Patrons turn. Some drop their turkey legs. A tear in the air begins to open nearby, glowing and loud. A child trips skinning their knee and begins shrieking nearby. The tear expands revealing an ever growing swirling vortex.",
-                                                      "options": [
-                                                        {
-                                                          "choiceText": "Help the child find their parents in the chaos",
-                                                          "nextNodeId": 24,
-                                                          "metadataImpact": {
-                                                            "empathy": 1,
-                                                            "goodevilaxis": 1,
-                                                            "socialpreference": 1
-                                                          },
-                                                          "effects": {}
-                                                        },
-                                                        {
-                                                          "choiceText": "Step through the portal without hesitation",
-                                                          "nextNodeId": 28,
-                                                          "metadataImpact": {
-                                                            "curiosity": 1,
-                                                            "caution": -1,
-                                                            "socialpreference": -1,
-                                                            "explorationpreference": 1
-                                                          },
-                                                          "effects": {}
-                                                        },
-                                                        {
-                                                          "choiceText": "Challenge the portal to a duel with your new sword",
-                                                          "nextNodeId": 29,
-                                                          "metadataImpact": {
-                                                            "combatpreference": 2,
-                                                            "caution": -1,
-                                                            "socialpreference": -1
-                                                          },
-                                                          "effects": {}
-                                                        },
-                                                        {
-                                                          "choiceText": "Scream back at the portal and run",
-                                                          "nextNodeId": 26,
-                                                          "metadataImpact": {
-                                                            "bravery": -1,
-                                                            "caution": 1,
-                                                            "socialpreference": -1
-                                                          },
-                                                          "effects": {}
-                                                        }
-                                                      ]
-                                                    },
-                                                    {
-                                                      "id": 23,
-                                                      "title": "The Stranger’s Wrath",
-                                                      "text": "Your voice rises in demand. 'That's it?' you scoff. The stranger's smile fades. Their eyes darken—not with shadow, but with something... *other*. In one motion, they're behind you, whispering in a tongue that curls your ears like burning paper. 'You do not know who you demand from.'",
-                                                      "options": [
-                                                        {
-                                                          "choiceText": "Black out, overcome by their presence",
-                                                          "nextNodeId": 24,
-                                                          "metadataImpact": {
-                                                            "bravery": -1,
-                                                            "combatpreference": -1,
-                                                            "socialpreference": -1
-                                                          },
-                                                          "effects": {}
-                                                        },
-                                                        {
-                                                          "choiceText": "challenge the stranger to a duel",
-                                                          "nextNodeId": 24,
-                                                          "metadataImpact": {
-                                                            "bravery": 1,
-                                                            "combatpreference": 2
-                                                          },
-                                                          "effects": {}
-                                                        },
-                                                        {
-                                                          "choiceText": "You reach into your pocket and grab the glowing talisman you purchased",
-                                                          "nextNodeId": 25,
-                                                          "metadataRequirement": {
-                                                            "inventoryHas": [
-                                                              "Glowing Talisman"
-                                                            ]
-                                                          },
-                                                          "metadataImpact": {
-                                                            "explorationpreference": 2
-                                                          },
-                                                          "effects": {}
-                                                        }
-                                                      ]
-                                                    },
-                                                    {
-                                                      "id": 24,
-                                                      "title": "The End – Dream or Awakening?",
-                                                      "text": "Your vision fades to white. Your body, weightless. The smell of hay and incense dissolves into sterile linen. You wake in your bed, morning sun bleeding through blinds. But the faint imprint of something warm clutches your wrist—like a bracelet once worn. The Faire is gone. Or was it ever truly there?",
-                                                      "options": [
-                                                        {
-                                                          "choiceText": "Roll over and go back to sleep",
-                                                          "nextNodeId": "END",
-                                                          "metadataImpact": {},
-                                                          "effects": {}
-                                                        },
-                                                        {
-                                                          "choiceText": "Check your arm for marks",
-                                                          "nextNodeId": "END",
-                                                          "metadataImpact": {},
-                                                          "effects": {}
-                                                        },
-                                                        {
-                                                          "choiceText": "Reach under your bed and find your borrowed faire outfit",
-                                                          "nextNodeId": "END",
-                                                          "metadataImpact": {},
-                                                          "effects": {}
-                                                        }
-                                                      ]
-                                                    },
-                                                    {
-                                                      "id": 25,
-                                                      "title": "Talisman Ignition",
-                                                      "text": "As the stranger’s claws curl toward your throat, your talisman flashes a violent blue. A shriek erupts from them, guttural and inhuman. They recoil, writhing in a mess of light and vapor. Your limbs unfreeze.",
-                                                      "options": [
-                                                        {
-                                                          "choiceText": "Run for the portal while they're stunned",
-                                                          "nextNodeId": 22,
-                                                          "metadataImpact": {
-                                                            "combatpreference": -1
-                                                          },
-                                                          "effects": {}
-                                                        },
-                                                        {
-                                                          "choiceText": "Turn and fight",
-                                                          "nextNodeId": 24,
-                                                          "metadataImpact": {
-                                                            "combatpreference": 2
-                                                          },
-                                                          "effects": {
-                                                            "inventory_remove": ["Glowing Talisman"]
-                                                          }
-                                                        }
-                                                      ]
-                                                  },
-                                                  {
-                                                    "id": 26,
-                                                    "title": "The Screams Draw Closer",
-                                                    "text": "The air thickens. Screams—some human, some not—spike behind you. The faire itself ripples like a mirage, colors bleeding out of the banners and into the sky. You don’t have long to decide.",
-                                                    "options": [
-                                                      {
-                                                        "choiceText": "Run deeper into the faire",
-                                                        "nextNodeId": 27,
-                                                        "metadataImpact": {
-                                                          "bravery": 1,
-                                                          "explorationpreference": 1
-                                                        },
-                                                        "effects": {}
-                                                      },
-                                                      {
-                                                        "choiceText": "Bolt for the parking lot",
-                                                        "nextNodeId": 24,
-                                                        "metadataImpact": {
-                                                          "explorationpreference": -1
-                                                        },
-                                                        "effects": {}
-                                                      },
-                                                      {
-                                                        "choiceText": "Screw it—jump into the portal",
-                                                        "nextNodeId": 28,
-                                                        "metadataImpact": {
-                                                          "explorationpreference": 1
-                                                        },
-                                                        "effects": {}
-                                                      }
-                                                    ]
-                                                  },
-                                                  {
-                                                    "id": 27,
-                                                    "title": "The Faire Rejects You",
-                                                    "text": "You sprint deeper into the fairegrounds. Every turn bends wrong, every tent flutters away like smoke. Suddenly, the earth groans. You glance back. It’s too late. The portal, now a huge raging mouth pulls at you, inhaling. You’re lifted from the ground. The last thing you see is a girl in antlers, watching.",
-                                                    "options": [
-                                                      {
-                                                        "choiceText": "Take a deep breath and close your eyes",
-                                                        "nextNodeId": 28,
-                                                        "metadataImpact": {},
-                                                        "effects": {
-                                                          "status": "transported"
-                                                        }
-                                                      }
-                                                    ]
-                                                  },
-                                                  {
-                                                    "id": 28,
-                                                    "title": "The Portal Crossing",
-                                                    "text": "The world blurs as you step into the portal. It isn’t like walking through a doorway—it’s like being unmade. Your skin tingles, your breath catches, and somewhere deep in your chest, a memory you never lived flickers and fades.\n\nThe noise vanishes. There is only wind, and then not even that. A sensation like being stretched across time, folded inward, unraveled.\n\nAnd then—stillness.",
-                                                    "options": [
-                                                      {
-                                                        "choiceText": "Open your eyes and take a breath",
-                                                        "nextNodeId": "PORTAL_ENTERED",
-                                                        "metadataImpact": {
-                                                          "portalCrossed": true
-                                                        },
-                                                        "effects": {}
-                                                      }
-                                                    ]
-                                                  },
-                                                  {
-                                                    "id": 29,
-                                                    "text": "You draw your weapon—or a stick you pretend is one—and declare a challenge to the portal. A few nearby pigeons flap away nervously. The portal hums ominously, but makes no move to defend itself.\n\nYou jab. The portal ripples. You yell something heroic. The portal yawns wider, utterly unimpressed.\n\nA gust of wind pulls your feet out from under you as if the universe itself is tired of your nonsense.",
-                                                    "options": [
-                                                      {
-                                                        "choiceText": "Lunge dramatically into the rift with a war cry",
-                                                        "nextPromptId": 28,
-                                                        "metadataImpact": {
-                                                          "orderchaosaxis": -1
-                                                        }
-                                                      },
-                                                      {
-                                                        "choiceText": "Apologize to the portal. Then get sucked in anyway.",
-                                                        "nextPromptId": 28,
-                                                        "metadataImpact": {
-                                                          "goodevilaxis": 1
-                                                        }
-                                                      },
-                                                      {
-                                                        "choiceText": "Stand your ground until the portal takes you by force.",
-                                                        "nextPromptId": 28,
-                                                        "metadataImpact": {
-                                                          "caution": -1,
-                                                          "orderchaosaxis": -1
-                                                        }
-                                                      }
-                                                    ]
-                                                  },
-                                                  {
-                                                    "id": 30,
-                                                    "text": "She places a hand on your forehead and closes her eyes.\n\n'A shadow moves beside you. A secret buried in your past is already rewriting your future,' she murmurs. 'You will either become a savior… or a spark for something monstrous.'\n\nHer eyes open, blazing gold for a heartbeat.",
-                                                    "options": [
-                                                      {
-                                                        "choiceText": "Ask her what the shadow is",
-                                                        "nextPromptId": 32,
-                                                        "metadataImpact": {
-                                                          "curiosity": 1
-                                                        }
-                                                      },
-                                                      {
-                                                        "choiceText": "Stay silent and nod",
-                                                        "nextPromptId": 6,
-                                                        "metadataImpact": {
-                                                          "bravery": -1
-                                                        }
-                                                      },
-                                                      {
-                                                        "choiceText": "Laugh it off. You don’t believe in fate.",
-                                                        "nextPromptId": 7,
-                                                        "metadataImpact": {
-                                                          "curiosity": -1
-                                                        }
-                                                      }
-                                                    ]
-                                                  },
-                                                  {
-                                                    "id": 31,
-                                                    "text": "The fortune teller beckons you toward a cracked mirror. Your reflection shifts, revealing shimmering stats written in glowing script hovering over your shoulder.\n\n'You are more than flesh and thoughts,' she whispers. 'You are potential in motion.'",
-                                                    "options": [
-                                                      {
-                                                        "choiceText": "Inspect your Bravery, Wit, and Magicaffinity",
-                                                        "nextPromptId": 6,
-                                                        "metadataImpact": { "statReveal": true }
-                                                      },
-                                                      {
-                                                        "choiceText": "Ask how to improve your stats",
-                                                        "nextPromptId": 30,
-                                                        "metadataImpact": { "curiosity": 1 }
-                                                      },
-                                                      {
-                                                        "choiceText": "Smash the mirror. No one defines you.",
-                                                        "nextPromptId": 7,
-                                                        "metadataImpact": { "orderchaosaxis": -1, "goodevilaxis": -1 }
-                                                      }
-                                                    ]
-                                                  },
-                                                  {
-                                                    "promptId": 32,
-                                                          "text": "You sit across from the fortune teller as she lays out a crimson velvet cloth. She fans a deck of tarot cards between you with long, practiced fingers. 'Choose three,' she says, her voice low, smoky, and charged with meaning. You hesitate, then draw.",
-                                                          "options": [
-                                                            {
-                                                              "choiceText": "You draw The Fool, The Tower, and The Moon.",
-                                                              "nextPromptId": 36,
-                                                              "metadataImpact": { "curiosity": 1, "magicaffinity": 1, "caution": -1}
-                                                              },
-                                                              {
-                                                                "choiceText": "You draw Death, The Star, and The Magician.",
-                                                                "nextPromptId": 37,
-                                                                "metadataImpact": { "bravery": 1, "magicaffinity": 1, "orderchaosaxis": 1}
-                                                                },
-                                                                {
-                                                                  "choiceText": "You draw The Devil, The Lovers, and The Chariot.",
-                                                                  "nextPromptId": 38,
-                                                                  "metadataImpact": {"goodevilaxis": -1, "socialpreference": 1, "combatpreference": 1}
-                                                                },
-                                                                {
-                                                                  "choiceText": "You draw Temperance, The Hermit, and The Hanged Man.",
-                                                                  "nextPromptId": 39,
-                                                                  "metadataImpact": {"puzzlepreference": 1, "empathy": 1, "caution": 1}
-                                                                }
-                                                              ]
-                                                            },
-                                                            {
-                                                              "promptId": 33,
-                                                              "text": "The crowd roars as you face off with a stranger in garb far too fancy for this sort of game. A whistle blows—sparring begins.",
-                                                              "options": [
-                                                                {
-                                                                  "choiceText": "Attack.",
-                                                                  "nextPromptId": null,
-                                                                  "metadataImpact": {
-                                                                    "combatpreference": 1,
-                                                                    "bravery": 1
-                                                                  },
-                                                                  "effects": {
-                                                                    "onWin": {
-                                                                      "nextPromptId": 40
-                                                                    },
-                                                                    "onLose": {
-                                                                      "nextPromptId": 41
-                                                                    },
-                                                                    "experienceGain": {
-                                                                      "strength": 5,
-                                                                      "dexterity": 5,
-                                                                      "constitution": 5
-                                                                    }
-                                                                  }
-                                                                },
-                                                                {
-                                                                  "choiceText": "Use an item.",
-                                                                  "nextPromptId": null
-                                                                },
-                                                                {
-                                                                  "choiceText": "Run away.",
-                                                                  "nextPromptId": 35,
-                                                                  "metadataImpact": {
-                                                                    "caution": 2,
-                                                                    "bravery": -1
-                                                                  }
-                                                                }
-                                                              ]
-                                                            },
-  { 
-                                                              "promptId": 34,
-                                                              "text": "Your disarm attempt works—for a moment. The opponent recovers, lunging toward you with a grin. It's clear this is no longer a staged spar.",
-                                                              "options": [
-                                                                {
-                                                                  "choiceText": "Defend yourself seriously.",
-                                                                  "nextPromptId": 33,
-                                                                  "metadata": {
-                                                                    "combatpreference": 1,
-                                                                    "bravery": 1
-                                                                  }
-                                                                },
-                                                                {
-                                                                  "choiceText": "Step back and try to explain you didn’t mean to fight.",
-                                                                  "nextPromptId": 35,
-                                                                  "metadataImpact": {
-                                                                    "socialpreference": 1,
-                                                                    "caution": 1
-                                                                  }
-                                                                }
-                                                              ]
-                                                            },
-                                                            {
-                                                              "promptId": 35,
-                                                              "text": "You bolt out of the ring to boos and laughter. But as you duck behind a tent, you hear something—a humming, unnatural noise. A tear in the air shimmers nearby.",
-                                                              "options": [
-                                                                {
-                                                                  "choiceText": "Examine the tear.",
-                                                                  "nextPromptId": 22,
-                                                                  "metadata": {
-                                                                    "curiosity": 1,
-                                                                    "magicaffinity": 1
-                                                                  }
-                                                                },
-                                                                {
-                                                                  "choiceText": "Pretend you didn’t see it and walk back to the crossroads.",
-                                                                  "nextPromptId": 22,
-                                                                  "metadata": {
-                                                                    "caution": 1,
-                                                                    "bravery": -1
-                                                                  }
-                                                                }
-                                                              ]
-                                                            }
-                                                        ,
-                                                          {
-                                                              "promptId": 36,
-                                                              "text": "The fortune teller raises an eyebrow at your cards. 'You chase wonders blindly, but beware: illusions and chaos follow.' A gust of wind scatters the cards. When you look up, she is gone.",
-                                                              "options": [
-                                                                {
-                                                                  "choiceText": "Contemplate the warning and wander back toward the crossroads.",
-                                                                  "nextPromptId": 6
-                                                                }
-                                                              ]
-                                                            },
-                                                            {
-                                                              "promptId": 37,
-                                                              "text": "She gazes at your cards. 'A great transformation lies ahead. You will wield power, but stars only shine after darkness.' Her eyes seem to glow as she leans closer. 'Your time is soon.'",
-                                                              "options": [
-                                                                {
-                                                                  "choiceText": "Feel energized and follow a sudden pull toward the portal.",
-                                                                  "nextPromptId": 22
-                                                                }
-                                                              ]
-                                                            },
-                                                            {
-                                                              "promptId": 38,
-                                                              "text": "The teller’s smile sharpens. 'Your desires will be tested. Your bonds and battles will shape the path.' Her voice echoes, though her lips no longer move. You blink—and she’s gone.",
-                                                              "options": [
-                                                                {
-                                                                  "choiceText": "Shake off the unease and return to the shoppes.",
-                                                                  "nextPromptId": 9
-                                                                }
-                                                              ]
-                                                            },
-                                                            {
-                                                              "promptId": 39,
-                                                              "text": "'You carry the weight of reflection,' she murmurs. 'Patience and sacrifice will be your strength. Answers will come at cost.' The room dims briefly before returning to normal.",
-                                                              "options": [
-                                                                {
-                                                                  "choiceText": "Thank her quietly and head toward the entertainment tents.",
-                                                                  "nextPromptId": 10
-                                                                }
-                                                              ]
-                                                            },
-                                                            {
-                                                              "promptId": 40,
-                                                              "text": "With a final flourish, you strike a clean blow and your opponent stumbles back, laughing. The crowd claps and hoots in approval. Someone hands you a small token — gold coins with a swirling emblem. In the distance, you hear a faint humming sound, but the celebration drowns it out.",
-                                                              "options": [
-                                                                {
-                                                                  "choiceText": "Pocket the coin and head toward the noise.",
-                                                                  "nextPromptId": 22,
-                                                                  "metadataImpact": {
-                                                                    "bravery": 1,
-                                                                    "curiosity": 1,
-                                                                    "combatpreference": 1
-                                                                  },
-                                                                  "effects": {
-                                                                    "gold_add": 5
-                                                                  }
-                                                                },
-                                                                {
-                                                                  "choiceText": "Smile, thank the crowd, and wander back toward the tents.",
-                                                                  "nextPromptId": 6,
-                                                                  "metadataImpact": {
-                                                                    "socialpreference": 1,
-                                                                    "bravery": 1
-                                                                  },
-                                                                  "effects": {
-                                                                    "gold_add": 5
-                                                                  }
-                                                                }
-                                                              ]
-                                                            },
-                                                            {
-                                                              "promptId": 41,
-                                                              "text": "The blow catches you off guard, and you stumble into the dirt. Your opponent offers you a hand with a gracious grin. As you stand, a chill breeze brushes past your ear, carrying with it a strange, low hum that no one else seems to notice.",
-                                                              "options": [
-                                                                {
-                                                                  "choiceText": "Shake off the weird feeling and follow the sound.",
-                                                                  "nextPromptId": 22,
-                                                                  "metadataImpact": {
-                                                                    "caution": 1,
-                                                                    "curiosity": 1
-                                                                  }
-                                                                },
-                                                                {
-                                                                  "choiceText": "Accept the loss with grace and head back to the crossroads.",
-                                                                  "nextPromptId": 6,
-                                                                  "metadataImpact": {
-                                                                    "empathy": 1,
-                                                                    "orderchaosaxis": 1
-                                                                  }
-                                                                }
-                                                              ]
-                                                            }
-                                                          ]
+          "inventory_add": [
+            {
+              "name": "greater health potion",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Demand more",
+        "nextNodeId": 23,
+        "metadataImpact": {
+          "goodevilaxis": -1,
+          "orderchaosaxis": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Take two vials quickly and bolt",
+        "nextNodeId": 22,
+        "metadataImpact": {
+          "goodevilaxis": -1,
+          "orderchaosaxis": -1
+        },
+        "effects": {
+          "gold_add": 5,
+          "inventory_add": [
+            {
+              "name": "greater health potion",
+              "quantity": 2
+            }
+          ]
+        }
+      },
+      {
+        "choiceText": "Refuse both and walk away silently",
+        "nextNodeId": 22,
+        "metadataImpact": {
+          "goodevilaxis": 1,
+          "orderchaosaxis": 1
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "title": "The Screaming",
+    "text": "A shriek tears through the fairgrounds—high, guttural, not entirely human. Patrons turn. Some drop their turkey legs. A tear in the air begins to open nearby, glowing and loud. A child trips skinning their knee and begins shrieking nearby. The tear expands revealing an ever growing swirling vortex.",
+    "options": [
+      {
+        "choiceText": "Help the child find their parents in the chaos",
+        "nextNodeId": 24,
+        "metadataImpact": {
+          "empathy": 1,
+          "goodevilaxis": 1,
+          "socialpreference": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Step through the portal without hesitation",
+        "nextNodeId": 28,
+        "metadataImpact": {
+          "curiosity": 1,
+          "caution": -1,
+          "socialpreference": -1,
+          "explorationpreference": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Challenge the portal to a duel with your new sword",
+        "nextNodeId": 29,
+        "metadataImpact": {
+          "combatpreference": 2,
+          "caution": -1,
+          "socialpreference": -1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Scream back at the portal and run",
+        "nextNodeId": 26,
+        "metadataImpact": {
+          "bravery": -1,
+          "caution": 1,
+          "socialpreference": -1
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "title": "The Stranger’s Wrath",
+    "text": "Your voice rises in demand. 'That's it?' you scoff. The stranger's smile fades. Their eyes darken—not with shadow, but with something... *other*. In one motion, they're behind you, whispering in a tongue that curls your ears like burning paper. 'You do not know who you demand from.'",
+    "options": [
+      {
+        "choiceText": "Black out, overcome by their presence",
+        "nextNodeId": 24,
+        "metadataImpact": {
+          "bravery": -1,
+          "combatpreference": -1,
+          "socialpreference": -1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "challenge the stranger to a duel",
+        "nextNodeId": 24,
+        "metadataImpact": {
+          "bravery": 1,
+          "combatpreference": 2
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "You reach into your pocket and grab the glowing talisman you purchased",
+        "nextNodeId": 25,
+        "metadataRequirement": {
+          "inventoryHas": [
+            "Glowing Talisman"
+          ]
+        },
+        "metadataImpact": {
+          "explorationpreference": 2
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "title": "The End – Dream or Awakening?",
+    "text": "Your vision fades to white. Your body, weightless. The smell of hay and incense dissolves into sterile linen. You wake in your bed, morning sun bleeding through blinds. But the faint imprint of something warm clutches your wrist—like a bracelet once worn. The Faire is gone. Or was it ever truly there?",
+    "options": [
+      {
+        "choiceText": "Roll over and go back to sleep",
+        "nextNodeId": "42",
+        "metadataImpact": {},
+        "effects": {}
+      },
+      {
+        "choiceText": "Check your arm for marks",
+        "nextNodeId": "42",
+        "metadataImpact": {},
+        "effects": {}
+      },
+      {
+        "choiceText": "Reach under your bed and find your borrowed faire outfit",
+        "nextNodeId": "42",
+        "metadataImpact": {},
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "title": "Talisman Ignition",
+    "text": "As the stranger’s claws curl toward your throat, your talisman flashes a violent blue. A shriek erupts from them, guttural and inhuman. They recoil, writhing in a mess of light and vapor. Your limbs unfreeze.",
+    "options": [
+      {
+        "choiceText": "Run for the portal while they're stunned",
+        "nextNodeId": 22,
+        "metadataImpact": {
+          "combatpreference": -1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Turn and fight",
+        "nextNodeId": 24,
+        "metadataImpact": {
+          "combatpreference": 2
+        },
+        "effects": {
+          "inventory_remove": [
+            "Glowing Talisman"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "title": "The Screams Draw Closer",
+    "text": "The air thickens. Screams—some human, some not—spike behind you. The faire itself ripples like a mirage, colors bleeding out of the banners and into the sky. You don’t have long to decide.",
+    "options": [
+      {
+        "choiceText": "Run deeper into the faire",
+        "nextNodeId": 27,
+        "metadataImpact": {
+          "bravery": 1,
+          "explorationpreference": 1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Bolt for the parking lot",
+        "nextNodeId": 24,
+        "metadataImpact": {
+          "explorationpreference": -1
+        },
+        "effects": {}
+      },
+      {
+        "choiceText": "Screw it—jump into the portal",
+        "nextNodeId": 28,
+        "metadataImpact": {
+          "explorationpreference": 1
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "title": "The Faire Rejects You",
+    "text": "You sprint deeper into the fairegrounds. Every turn bends wrong, every tent flutters away like smoke. Suddenly, the earth groans. You glance back. It’s too late. The portal, now a huge raging mouth pulls at you, inhaling. You’re lifted from the ground. The last thing you see is a girl in antlers, watching.",
+    "options": [
+      {
+        "choiceText": "Take a deep breath and close your eyes",
+        "nextNodeId": 28,
+        "metadataImpact": {},
+        "effects": {
+          "status": "transported"
+        }
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "title": "The Portal Crossing",
+    "text": "The world blurs as you step into the portal. It isn’t like walking through a doorway—it’s like being unmade. Your skin tingles, your breath catches, and somewhere deep in your chest, a memory you never lived flickers and fades.\n\nThe noise vanishes. There is only wind, and then not even that. A sensation like being stretched across time, folded inward, unraveled.\n\nAnd then—stillness.",
+    "options": [
+      {
+        "choiceText": "Open your eyes and take a breath",
+        "nextNodeId": "43",
+        "metadataImpact": {
+          "portalCrossed": true
+        },
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "text": "You draw your weapon—or a stick you pretend is one—and declare a challenge to the portal. A few nearby pigeons flap away nervously. The portal hums ominously, but makes no move to defend itself.\n\nYou jab. The portal ripples. You yell something heroic. The portal yawns wider, utterly unimpressed.\n\nA gust of wind pulls your feet out from under you as if the universe itself is tired of your nonsense.",
+    "options": [
+      {
+        "choiceText": "Lunge dramatically into the rift with a war cry",
+        "nextPromptId": 28,
+        "metadataImpact": {
+          "orderchaosaxis": -1
+        }
+      },
+      {
+        "choiceText": "Apologize to the portal. Then get sucked in anyway.",
+        "nextPromptId": 28,
+        "metadataImpact": {
+          "goodevilaxis": 1
+        }
+      },
+      {
+        "choiceText": "Stand your ground until the portal takes you by force.",
+        "nextPromptId": 28,
+        "metadataImpact": {
+          "caution": -1,
+          "orderchaosaxis": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "text": "She places a hand on your forehead and closes her eyes.\n\n'A shadow moves beside you. A secret buried in your past is already rewriting your future,' she murmurs. 'You will either become a savior… or a spark for something monstrous.'\n\nHer eyes open, blazing gold for a heartbeat.",
+    "options": [
+      {
+        "choiceText": "Ask her what the shadow is",
+        "nextPromptId": 32,
+        "metadataImpact": {
+          "curiosity": 1
+        }
+      },
+      {
+        "choiceText": "Stay silent and nod",
+        "nextPromptId": 6,
+        "metadataImpact": {
+          "bravery": -1
+        }
+      },
+      {
+        "choiceText": "Laugh it off. You don’t believe in fate.",
+        "nextPromptId": 7,
+        "metadataImpact": {
+          "curiosity": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "text": "The fortune teller beckons you toward a cracked mirror. Your reflection shifts, revealing shimmering stats written in glowing script hovering over your shoulder.\n\n'You are more than flesh and thoughts,' she whispers. 'You are potential in motion.'",
+    "options": [
+      {
+        "choiceText": "Inspect your Bravery, Wit, and Magicaffinity",
+        "nextPromptId": 6,
+        "metadataImpact": {
+          "statReveal": true
+        }
+      },
+      {
+        "choiceText": "Ask how to improve your stats",
+        "nextPromptId": 30,
+        "metadataImpact": {
+          "curiosity": 1
+        }
+      },
+      {
+        "choiceText": "Smash the mirror. No one defines you.",
+        "nextPromptId": 7,
+        "metadataImpact": {
+          "orderchaosaxis": -1,
+          "goodevilaxis": -1
+        }
+      }
+    ]
+  },
+  {
+    "promptId": 32,
+    "text": "You sit across from the fortune teller as she lays out a crimson velvet cloth. She fans a deck of tarot cards between you with long, practiced fingers. 'Choose three,' she says, her voice low, smoky, and charged with meaning. You hesitate, then draw.",
+    "options": [
+      {
+        "choiceText": "You draw The Fool, The Tower, and The Moon.",
+        "nextPromptId": 36,
+        "metadataImpact": {
+          "curiosity": 1,
+          "magicaffinity": 1,
+          "caution": -1
+        }
+      },
+      {
+        "choiceText": "You draw Death, The Star, and The Magician.",
+        "nextPromptId": 37,
+        "metadataImpact": {
+          "bravery": 1,
+          "magicaffinity": 1,
+          "orderchaosaxis": 1
+        }
+      },
+      {
+        "choiceText": "You draw The Devil, The Lovers, and The Chariot.",
+        "nextPromptId": 38,
+        "metadataImpact": {
+          "goodevilaxis": -1,
+          "socialpreference": 1,
+          "combatpreference": 1
+        }
+      },
+      {
+        "choiceText": "You draw Temperance, The Hermit, and The Hanged Man.",
+        "nextPromptId": 39,
+        "metadataImpact": {
+          "puzzlepreference": 1,
+          "empathy": 1,
+          "caution": 1
+        }
+      }
+    ]
+  },
+  {
+    "promptId": 33,
+    "text": "The crowd roars as you face off with a stranger in garb far too fancy for this sort of game. A whistle blows—sparring begins.",
+    "options": [
+      {
+        "choiceText": "Attack.",
+        "nextPromptId": null,
+        "metadataImpact": {
+          "combatpreference": 1,
+          "bravery": 1
+        },
+        "effects": {
+          "onWin": {
+            "nextPromptId": 40
+          },
+          "onLose": {
+            "nextPromptId": 41
+          },
+          "experienceGain": {
+            "strength": 5,
+            "dexterity": 5,
+            "constitution": 5
+          }
+        }
+      },
+      {
+        "choiceText": "Use an item.",
+        "nextPromptId": null
+      },
+      {
+        "choiceText": "Run away.",
+        "nextPromptId": 35,
+        "metadataImpact": {
+          "caution": 2,
+          "bravery": -1
+        }
+      }
+    ]
+  },
+  {
+    "promptId": 34,
+    "text": "Your disarm attempt works—for a moment. The opponent recovers, lunging toward you with a grin. It's clear this is no longer a staged spar.",
+    "options": [
+      {
+        "choiceText": "Defend yourself seriously.",
+        "nextPromptId": 33,
+        "metadata": {
+          "combatpreference": 1,
+          "bravery": 1
+        }
+      },
+      {
+        "choiceText": "Step back and try to explain you didn’t mean to fight.",
+        "nextPromptId": 35,
+        "metadataImpact": {
+          "socialpreference": 1,
+          "caution": 1
+        }
+      }
+    ]
+  },
+  {
+    "promptId": 35,
+    "text": "You bolt out of the ring to boos and laughter. But as you duck behind a tent, you hear something—a humming, unnatural noise. A tear in the air shimmers nearby.",
+    "options": [
+      {
+        "choiceText": "Examine the tear.",
+        "nextPromptId": 22,
+        "metadata": {
+          "curiosity": 1,
+          "magicaffinity": 1
+        }
+      },
+      {
+        "choiceText": "Pretend you didn’t see it and walk back to the crossroads.",
+        "nextPromptId": 6,
+        "metadata": {
+          "caution": 1,
+          "bravery": -1
+        }
+      }
+    ]
+  },
+  {
+    "promptId": 36,
+    "text": "The fortune teller raises an eyebrow at your cards. 'You chase wonders blindly, but beware: illusions and chaos follow.' A gust of wind scatters the cards. When you look up, she is gone.",
+    "options": [
+      {
+        "choiceText": "Contemplate the warning and wander back toward the crossroads.",
+        "nextPromptId": 6
+      }
+    ]
+  },
+  {
+    "promptId": 37,
+    "text": "She gazes at your cards. 'A great transformation lies ahead. You will wield power, but stars only shine after darkness.' Her eyes seem to glow as she leans closer. 'Your time is soon.'",
+    "options": [
+      {
+        "choiceText": "Feel energized and follow a sudden pull toward a tear in the fabric of the world.",
+        "nextPromptId": "35"
+      }
+    ]
+  },
+  {
+    "promptId": 38,
+    "text": "The teller’s smile sharpens. 'Your desires will be tested. Your bonds and battles will shape the path.' Her voice echoes, though her lips no longer move. You blink—and she’s gone.",
+    "options": [
+      {
+        "choiceText": "Shake off the unease and return to the shoppes.",
+        "nextPromptId": 9
+      }
+    ]
+  },
+  {
+    "promptId": 39,
+    "text": "'You carry the weight of reflection,' she murmurs. 'Patience and sacrifice will be your strength. Answers will come at cost.' The room dims briefly before returning to normal.",
+    "options": [
+      {
+        "choiceText": "Thank her quietly and head toward the entertainment tents.",
+        "nextPromptId": 10
+      }
+    ]
+  },
+  {
+    "promptId": 40,
+    "text": "With a final flourish, you strike a clean blow and your opponent stumbles back, laughing. The crowd claps and hoots in approval. Someone hands you a small token — gold coins with a swirling emblem. In the distance, you hear a faint humming sound, but the celebration drowns it out.",
+    "options": [
+      {
+        "choiceText": "Pocket the coin and head toward the noise.",
+        "nextPromptId": 22,
+        "metadataImpact": {
+          "bravery": 1,
+          "curiosity": 1,
+          "combatpreference": 1
+        },
+        "effects": {
+          "gold_add": 5
+        }
+      },
+      {
+        "choiceText": "Smile, thank the crowd, and wander back toward the tents.",
+        "nextPromptId": 6,
+        "metadataImpact": {
+          "socialpreference": 1,
+          "bravery": 1
+        },
+        "effects": {
+          "gold_add": 5
+        }
+      }
+    ]
+  },
+  {
+    "promptId": 41,
+    "text": "The blow catches you off guard, and you stumble into the dirt. Your opponent offers you a hand with a gracious grin. As you stand, a chill breeze brushes past your ear, carrying with it a strange, low hum that no one else seems to notice.",
+    "options": [
+      {
+        "choiceText": "Shake off the weird feeling and follow the sound.",
+        "nextPromptId": 22,
+        "metadataImpact": {
+          "caution": 1,
+          "curiosity": 1
+        }
+      },
+      {
+        "choiceText": "Accept the loss with grace and head back to the crossroads.",
+        "nextPromptId": 6,
+        "metadataImpact": {
+          "empathy": 1,
+          "orderchaosaxis": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "title": "The End",
+    "content": "Darkness envelops you as your choices lead to an unfortunate end. But in this realm of stories, death is merely another beginning...",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 121,
+        "choiceText": "Try again from the beginning",
+        "nextNodeId": 1,
+        "metadataImpact": {
+          "learning": 1,
+          "resilience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },  
+  {
+    "id": 43,
+    "title": "More Coming Soon",
+    "content": "Stay tuned for more stories!",
+    "nodeType": "standard",
+    "requiresInput": false,
+    "inputType": null,
+    "createdAt": "2025-08-13T19:28:44.296Z",
+    "updatedAt": "2025-08-13T19:28:44.296Z",
+    "choices": [
+      {
+        "id": 122,
+        "choiceText": "Try again from the beginning",
+        "nextNodeId": 1,
+        "metadataImpact": {
+          "learning": 1,
+          "resilience": 1
+        },
+        "effects": {},
+        "createdAt": "2025-08-13T19:28:44.296Z",
+        "updatedAt": "2025-08-13T19:28:44.296Z"
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "title": "Sword Eater",
+    "text": "The Sword Eater towers on a small stage, his throat crosshatched with old scars. He lowers a gleaming blade, breathes, and swallows—inch by inch—before drawing it out to a breathless hush and a rakish bow.",
+    "options": [
+      {
+        "choiceText": "Applaud and toss a coin",
+        "nextNodeId": 45,
+        "metadataImpact": { "empathy": 1, "bravery": 1 }
+      },
+      {
+        "choiceText": "Ask how the trick works",
+        "nextNodeId": 46,
+        "metadataImpact": { "curiosity": 1 }
+      },
+      {
+        "choiceText": "Call it fake",
+        "nextNodeId": 47,
+        "metadataImpact": { "socialpreference": -1 }
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "title": "Tip of the Blade",
+    "text": "He nods gruffly at your coin. Nearby, a fire breather snaps a spark to life, drawing a circle of onlookers as orange light ripples across canvas tents.",
+    "options": [
+      {
+        "choiceText": "Watch the fire breather",
+        "nextNodeId": 48,
+        "metadataImpact": { "curiosity": 1 }
+      },
+      {
+        "choiceText": "Follow the distant music",
+        "nextNodeId": 49,
+        "metadataImpact": { "socialpreference": 1 }
+      },
+      {
+        "choiceText": "Urge the Sword Eater to attempt something riskier",
+        "nextNodeId": 50,
+        "metadataImpact": { "bravery": 1, "caution": -1 }
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "title": "Trade Secret",
+    "text": "He taps the hilt and smiles. “Some mysteries taste better unsolved.” A juggler drifts over, idly flipping three knives while whistling a cheeky tune.",
+    "options": [
+      {
+        "choiceText": "Chat with the juggler",
+        "nextNodeId": 51,
+        "metadataImpact": { "curiosity": 1, "socialpreference": 1 }
+      },
+      {
+        "choiceText": "Try to catch a knife midair",
+        "nextNodeId": 52,
+        "metadataImpact": { "bravery": 1, "caution": -1 }
+      },
+      {
+        "choiceText": "Head to the Hall of Mirrors",
+        "nextNodeId": 53,
+        "metadataImpact": { "curiosity": 1 }
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "title": "Bad Form",
+    "text": "Your jeer turns a few heads. The Sword Eater’s smile thins. A drummer picks up a lively beat from the bandstand, offering you an easy exit.",
+    "options": [
+      {
+        "choiceText": "Slip away toward the band",
+        "nextNodeId": 49,
+        "metadataImpact": { "curiosity": 1 }
+      },
+      {
+        "choiceText": "Double down and heckle",
+        "nextNodeId": 24,
+        "metadataImpact": { "goodevilaxis": -1 }
+      },
+      {
+        "choiceText": "Leave quietly",
+        "nextNodeId": 6,
+        "metadataImpact": { "caution": 1 }
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "title": "Fire’s Kiss",
+    "text": "A plume of flame blooms, warm and dazzling. The crowd oohs as heat brushes your face and the performer bows with theatrical flourish.",
+    "options": [
+      {
+        "choiceText": "Cheer and toss a tip",
+        "nextNodeId": 6,
+        "metadataImpact": { "empathy": 1, "socialpreference": 1 }
+      },
+      {
+        "choiceText": "Edge closer to feel the heat",
+        "nextNodeId": 55,
+        "metadataImpact": { "bravery": 1, "caution": -1 }
+      },
+      {
+        "choiceText": "Look up—did the air just ripple?",
+        "nextNodeId": 22,
+        "metadataImpact": { "curiosity": 1 }
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "title": "One Step Too Far",
+    "text": "The Sword Eater sets his jaw and attempts a reckless flourish. The crowd gasps; he jerks back, eyes watering, and waves off the stunt.",
+    "options": [
+      {
+        "choiceText": "Help calm the crowd and move on",
+        "nextNodeId": 6,
+        "metadataImpact": { "empathy": 1 }
+      },
+      {
+        "choiceText": "Shout for a healer",
+        "nextNodeId": 22,
+        "metadataImpact": { "socialpreference": 1, "curiosity": 1 }
+      },
+      {
+        "choiceText": "This is too much—leave the faire",
+        "nextNodeId": 24,
+        "metadataImpact": { "caution": 1 }
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "title": "Knifework Banter",
+    "text": "The juggler grins, describing ‘rhythm and respect’ as the twin secrets of not getting cut. A drum roll swells somewhere nearby.",
+    "options": [
+      {
+        "choiceText": "Ask for a quick lesson",
+        "nextNodeId": 52,
+        "metadataImpact": { "curiosity": 1, "bravery": 1 }
+      },
+      {
+        "choiceText": "Thank them and follow the music",
+        "nextNodeId": 49,
+        "metadataImpact": { "socialpreference": 1 }
+      },
+      {
+        "choiceText": "Excuse yourself to the Hall of Mirrors",
+        "nextNodeId": 53,
+        "metadataImpact": { "curiosity": 1 }
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "title": "Fumble or Flourish",
+    "text": "Steel flashes. Your timing is… ambitious. The handle slaps your palm; a blade nicks your sleeve before clattering safely into the juggler’s boot.",
+    "options": [
+      {
+        "choiceText": "Laugh it off and bow",
+        "nextNodeId": 6,
+        "metadataImpact": { "socialpreference": 1, "bravery": 1 }
+      },
+      {
+        "choiceText": "Look around—did the lights just dim?",
+        "nextNodeId": 22,
+        "metadataImpact": { "curiosity": 1 }
+      },
+      {
+        "choiceText": "Decide this place isn’t for you",
+        "nextNodeId": 24,
+        "metadataImpact": { "caution": 1 }
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "title": "Renaissance Band",
+    "text": "Under pennants and lanterns, a band weaves lutes, drum, and hurdy-gurdy into a bright reel. Dancers spin, boots thumping to the beat.",
+    "options": [
+      {
+        "choiceText": "Join the dance",
+        "nextNodeId": 56,
+        "metadataImpact": { "bravery": 1, "socialpreference": 1 }
+      },
+      {
+        "choiceText": "Close your eyes and listen",
+        "nextNodeId": 57,
+        "metadataImpact": { "curiosity": 1 }
+      },
+      {
+        "choiceText": "Complain to the steward about the noise",
+        "nextNodeId": 58,
+        "metadataImpact": { "goodevilaxis": -1 }
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "title": "Circle Step",
+    "text": "Hands link; you whirl through a simple step and catch your breath laughing. When the reel ends, the crowd parts—and the air hums oddly.",
+    "options": [
+      {
+        "choiceText": "Bow out and explore elsewhere",
+        "nextNodeId": 6,
+        "metadataImpact": { "socialpreference": 1 }
+      },
+      {
+        "choiceText": "Follow the hum",
+        "nextNodeId": 22,
+        "metadataImpact": { "curiosity": 1 }
+      },
+      {
+        "choiceText": "Overdo it—stumble into the steward",
+        "nextNodeId": 24,
+        "metadataImpact": { "caution": -1 }
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "title": "Second Verse",
+    "text": "The melody softens, threading through memory. A lantern flickers; somewhere a child laughs—then the sound warps, as if the air stretched.",
+    "options": [
+      {
+        "choiceText": "Shake it off and move on",
+        "nextNodeId": 6,
+        "metadataImpact": { "caution": 1 }
+      },
+      {
+        "choiceText": "Track the strange sound",
+        "nextNodeId": 22,
+        "metadataImpact": { "curiosity": 1 }
+      },
+      {
+        "choiceText": "Leave the grounds to clear your head",
+        "nextNodeId": 24,
+        "metadataImpact": { "caution": 1 }
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "title": "Killjoy",
+    "text": "The steward arches a brow. “It’s a faire, friend.” A final drumbeat lands like a stamp—followed by a distant, unsettling rip in the air.",
+    "options": [
+      {
+        "choiceText": "Mutter an apology and depart",
+        "nextNodeId": 6,
+        "metadataImpact": { "goodevilaxis": 1 }
+      },
+      {
+        "choiceText": "Investigate that rippling sound",
+        "nextNodeId": 22,
+        "metadataImpact": { "curiosity": 1 }
+      },
+      {
+        "choiceText": "Announce you’re done with this place",
+        "nextNodeId": 24,
+        "metadataImpact": { "socialpreference": -1 }
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "title": "Hall of Mirrors",
+    "text": "Gilded frames rise in a corridor of reflections. Lanternlight splinters into a hundred versions of you, each a heartbeat out of step.",
+    "options": [
+      {
+        "choiceText": "Step inside without hesitation",
+        "nextNodeId": 59,
+        "metadataImpact": { "bravery": 1 }
+      },
+      {
+        "choiceText": "Test the nearest mirror with your palm",
+        "nextNodeId": 60,
+        "metadataImpact": { "caution": 1 }
+      },
+      {
+        "choiceText": "Think better of it and step away",
+        "nextNodeId": 6,
+        "metadataImpact": { "caution": 1 }
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "title": "Offset Reflection",
+    "text": "You move; your reflection lags, then smiles before you do. A faint wind stirs from deeper in the hall, carrying a distant, rising wail.",
+    "options": [
+      {
+        "choiceText": "Press deeper into the mirrors",
+        "nextNodeId": 22,
+        "metadataImpact": { "curiosity": 1, "bravery": 1 }
+      },
+      {
+        "choiceText": "Backtrack carefully",
+        "nextNodeId": 6,
+        "metadataImpact": { "caution": 1 }
+      },
+      {
+        "choiceText": "Panic and bolt for the exit",
+        "nextNodeId": 24,
+        "metadataImpact": { "caution": -1, "bravery": -1 }
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "title": "Cold Glass",
+    "text": "Your hand meets chill glass. For a moment the surface dimples—then steadies. In a far panel, a lantern gutter-flashes violet.",
+    "options": [
+      {
+        "choiceText": "Touch the warped pane again",
+        "nextNodeId": 22,
+        "metadataImpact": { "curiosity": 1 }
+      },
+      {
+        "choiceText": "Withdraw and regroup outside",
+        "nextNodeId": 6,
+        "metadataImpact": { "caution": 1 }
+      },
+      {
+        "choiceText": "Declare the exhibit unsafe and leave the grounds",
+        "nextNodeId": 24,
+        "metadataImpact": { "goodevilaxis": -1 }
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "title": "Too Close to the Flame",
+    "text": "Heat licks your brow as the performer exhales a roaring arc. Your eyes water and the world seems to shimmer at the edges.",
+    "options": [
+      {
+        "choiceText": "Step back, clap, and move along",
+        "nextNodeId": 6,
+        "metadataImpact": { "caution": 1, "empathy": 1 }
+      },
+      {
+        "choiceText": "Peer into that shimmer",
+        "nextNodeId": 22,
+        "metadataImpact": { "curiosity": 1 }
+      },
+      {
+        "choiceText": "Decide you’ve had enough for one day",
+        "nextNodeId": 24,
+        "metadataImpact": { "caution": 1 }
+      }
+    ]
+  }
+]

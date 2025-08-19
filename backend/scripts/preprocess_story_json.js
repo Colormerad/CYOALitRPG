@@ -72,10 +72,16 @@ function normalize(input) {
 
   // Pre-scan to get max choice id if present
   let maxChoiceId = 0;
-  // Pre-scan to get max node id if present
+  // Pre-scan to get max node id if present (consider id or promptId aliases)
   let maxNodeId = 0;
   for (const n of nodesInput) {
-    if (typeof n.id === 'number') maxNodeId = Math.max(maxNodeId, n.id);
+    if (typeof n.id === 'number') {
+      maxNodeId = Math.max(maxNodeId, n.id);
+    } else if (typeof n.promptId === 'number') {
+      maxNodeId = Math.max(maxNodeId, n.promptId);
+    } else if (isNumericString(n.promptId)) {
+      maxNodeId = Math.max(maxNodeId, Number(n.promptId));
+    }
     const arr = Array.isArray(n.choices)
       ? n.choices
       : Array.isArray(n.options)
@@ -88,8 +94,17 @@ function normalize(input) {
   let nextChoiceId = maxChoiceId + 1;
 
   for (const n of nodesInput) {
-    // Assign a numeric node id if missing
-    const nodeId = (typeof n.id === 'number') ? n.id : (++maxNodeId);
+    // Assign a numeric node id if missing. Prefer promptId alias if present.
+    let nodeId;
+    if (typeof n.id === 'number') {
+      nodeId = n.id;
+    } else if (typeof n.promptId === 'number') {
+      nodeId = n.promptId;
+    } else if (isNumericString(n.promptId)) {
+      nodeId = Number(n.promptId);
+    } else {
+      nodeId = (++maxNodeId);
+    }
     // Derive a safe title if missing
     const rawTitle = n.title;
     const rawContent = (n.content != null ? n.content : n.text != null ? n.text : null) || '';
