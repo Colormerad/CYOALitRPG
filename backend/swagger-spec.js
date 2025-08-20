@@ -180,5 +180,46 @@ module.exports = {
         responses: { '200': { description: 'Progress updated' } },
       },
     },
+    '/story/choices': {
+      get: {
+        summary: 'Get all choices and their options',
+        description: 'Returns all story choices organized by their parent story nodes',
+        responses: { 
+          '200': { 
+            description: 'List of all choices grouped by story node',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      nodeId: { type: 'integer', description: 'ID of the story node' },
+                      nodeTitle: { type: 'string', description: 'Title of the story node' },
+                      choices: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {
+                            id: { type: 'integer', description: 'Choice ID' },
+                            choicetext: { type: 'string', description: 'Text of the choice' },
+                            targetnodeid: { type: 'integer', description: 'Target node ID this choice leads to' },
+                            storynodeid: { type: 'integer', description: 'Parent story node ID' },
+                            requirespassword: { type: 'boolean', description: 'Whether this choice requires a password' },
+                            requiresinput: { type: 'boolean', description: 'Whether this choice requires input' },
+                            requiresclass: { type: 'boolean', description: 'Whether this choice requires a class selection' }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          '500': { description: 'Server error' }
+        },
+      },
+    },
   },
 };

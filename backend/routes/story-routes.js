@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const storyService = require('../services/story-service');
+const storyNodeRepo = require('../repositories/story-node.repository');
 
 // Get a story node by ID
 router.get('/nodes/:id', async (req, res) => {
@@ -147,6 +148,17 @@ router.post('/character/set-class', async (req, res) => {
     res.json(progress);
   } catch (err) {
     console.error('Error setting character class:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get all choices and their options
+router.get('/choices', async (req, res) => {
+  try {
+    const choices = await storyNodeRepo.getAllChoicesWithOptions();
+    res.json(choices);
+  } catch (err) {
+    console.error('Error fetching all choices:', err);
     res.status(500).json({ error: err.message });
   }
 });

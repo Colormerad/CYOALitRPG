@@ -52,5 +52,38 @@ module.exports = {
     } finally {
       client.release();
     }
+  },
+
+  async getAllChoicesWithOptions() {
+    const client = await pool.connect();
+    try {
+      // First, get all choices
+      const choicesRes = await client.query(
+        'SELECT sc.*, sn.title as node_title FROM storychoice sc ' +
+        'JOIN storynode sn ON sc.storynodeid = sn.id ' +
+        'ORDER BY sc.storynodeid, sc.id'
+      );
+      
+      // Group choices by their story node
+      const choicesByNode = {};
+      for (const choice of choicesRes.rows) {
+        const nodeId = choice.storynodeid;
+        if (!choicesByNode[nodeId]) {
+          choicesByNode[nodeId] = {
+            nodeId,
+            nodeTitle: choice.node_title,
+            choices: []
+          };
+        }
+        
+        // Remove node_title from choice object as it's now in the parent object
+        const { node_title, ...choiceData } = choice;
+        choicesByNode[nodeId].choices.push(choiceData);
+      }
+      
+      return Object.values(choicesByNode);
+    } finally {
+      client.release();
+    }
   }
 };
