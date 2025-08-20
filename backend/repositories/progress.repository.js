@@ -4,7 +4,7 @@ module.exports = {
   async getByCharacterId(characterId) {
     const client = await pool.connect();
     try {
-      const res = await client.query('SELECT * FROM PlayerProgress WHERE CharacterId = $1', [characterId]);
+      const res = await client.query('SELECT * FROM playerprogress WHERE characterid = $1', [characterId]);
       return res.rows[0] || null;
     } finally {
       client.release();

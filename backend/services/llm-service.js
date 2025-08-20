@@ -80,10 +80,10 @@ class LlmService {
           
           // Get character stats
           const statsResult = await client.query(
-            `SELECT cs.*, s.Name as StatName, s.Description as StatDescription
-             FROM CharacterStat cs
-             JOIN Stat s ON cs.StatId = s.Id
-             WHERE cs.CharacterId = $1`,
+            `SELECT cs.*, s.name as statname, s.description as statdescription
+             FROM characterstat cs
+             JOIN stat s ON cs.statid = s.id
+             WHERE cs.characterid = $1`,
             [context.characterId]
           );
           
@@ -91,10 +91,10 @@ class LlmService {
           
           // Get character skills
           const skillsResult = await client.query(
-            `SELECT cs.*, s.Name as SkillName, s.Description as SkillDescription
-             FROM CharacterSkill cs
-             JOIN Skill s ON cs.SkillId = s.Id
-             WHERE cs.CharacterId = $1`,
+            `SELECT cs.*, s.name as skillname, s.description as skilldescription
+             FROM characterskill cs
+             JOIN skill s ON cs.skillid = s.id
+             WHERE cs.characterid = $1`,
             [context.characterId]
           );
           
@@ -126,7 +126,7 @@ class LlmService {
         if (nodeIds.length > 0) {
           // Use parameterized ANY() to avoid building an IN () list and to prevent SQL issues
           const nodesResult = await client.query(
-            'SELECT * FROM StoryNode WHERE Id = ANY($1::int[]) ORDER BY Id',
+            'SELECT * FROM storynode WHERE id = ANY($1::int[]) ORDER BY id',
             [nodeIds]
           );
           fullContext.previousNodes = nodesResult.rows;
@@ -137,7 +137,7 @@ class LlmService {
       
       // Get all story prompts to understand the story style and flow
       const allPromptsResult = await client.query(
-        'SELECT * FROM StoryNode ORDER BY Id LIMIT 10'
+        'SELECT * FROM storynode ORDER BY id LIMIT 10'
       );
       
       fullContext.storyStyle = allPromptsResult.rows;

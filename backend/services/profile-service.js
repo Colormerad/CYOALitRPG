@@ -21,7 +21,7 @@ class ProfileService {
     try {
       // Check if profile exists
       const result = await client.query(
-        'SELECT * FROM CharacterProfile WHERE CharacterId = $1',
+        'SELECT * FROM characterprofile WHERE characterid = $1',
         [characterId]
       );
       
@@ -60,7 +60,7 @@ class ProfileService {
       if (attrs.charisma !== undefined) { updates.push(`Charisma = $${i}`); values.push(clamp(attrs.charisma)); i++; }
       updates.push('UpdatedAt = CURRENT_TIMESTAMP');
       if (updates.length > 0) {
-        const sql = `UPDATE CharacterProfile SET ${updates.join(', ')} WHERE CharacterId = $1 RETURNING *`;
+        const sql = `UPDATE characterprofile SET ${updates.join(', ')} WHERE characterid = $1 RETURNING *`;
         console.log('[ProfileService.setCharacterAttributes] updates:', updates, 'values:', values);
         const res = await client.query(sql, values);
         await client.query('COMMIT');
@@ -87,8 +87,8 @@ class ProfileService {
     try {
       // Create initial profile with default values
       const result = await client.query(
-        `INSERT INTO CharacterProfile 
-         (CharacterId, Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma) 
+        `INSERT INTO characterprofile 
+         (characterid, strength, dexterity, constitution, intelligence, wisdom, charisma) 
          VALUES ($1, 10, 10, 10, 10, 10, 10) 
          RETURNING *`,
         [characterId]
@@ -312,9 +312,9 @@ class ProfileService {
         console.log('[ProfileService.updateCharacterProfile] updates:', updates);
         console.log('[ProfileService.updateCharacterProfile] values:', values);
         const updateQuery = `
-          UPDATE CharacterProfile 
+          UPDATE characterprofile 
           SET ${updates.join(', ')} 
-          WHERE CharacterId = $1 
+          WHERE characterid = $1 
           RETURNING *
         `;
         

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBase: 'http://localhost:3000/api'
+  apiBase: 'https://api.mythosgame.app/api'
 };
 
 /*

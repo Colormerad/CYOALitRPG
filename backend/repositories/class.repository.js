@@ -5,10 +5,10 @@ module.exports = {
     const client = await pool.connect();
     try {
       const res = await client.query(
-        `SELECT c.Id AS ClassId, c.Name AS ClassName, c.Description AS ClassDescription, 
-                o.Id AS OutfitId, o.Description AS OutfitDescription
-         FROM Class c
-         JOIN ClassOutfit o ON c.Id = o.ClassId
+        `SELECT c.id AS classid, c.name AS classname, c.description AS classdescription, 
+                o.id AS outfitid, o.description AS outfitdescription
+         FROM class c
+         JOIN classoutfit o ON c.id = o.classid
          ORDER BY RANDOM()
          LIMIT $1`,
         [count]
@@ -22,7 +22,7 @@ module.exports = {
   async getById(classId) {
     const client = await pool.connect();
     try {
-      const res = await client.query('SELECT * FROM Class WHERE Id = $1', [classId]);
+      const res = await client.query('SELECT * FROM class WHERE id = $1', [classId]);
       return res.rows[0] || null;
     } finally {
       client.release();
@@ -32,7 +32,7 @@ module.exports = {
   async getStartingEquipment(classId) {
     const client = await pool.connect();
     try {
-      const res = await client.query('SELECT * FROM ClassStartingEquipment WHERE ClassId = $1', [classId]);
+      const res = await client.query('SELECT * FROM classstartingequipment WHERE classid = $1', [classId]);
       return res.rows;
     } finally {
       client.release();

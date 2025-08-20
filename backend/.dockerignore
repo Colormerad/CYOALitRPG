@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log*
+yarn-error.log
+.pnpm-store
+.cache
+.git
+.gitignore
+Dockerfile
+Dockerfile.*
+.dockerignore
+.env
+.env.*
+dist
+build
+coverage
+.tmp
+.eslintcache

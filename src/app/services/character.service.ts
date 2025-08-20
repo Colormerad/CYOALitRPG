@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CharacterService {
-  private apiBase = environment.apiBase || 'http://localhost:3000/api';
+  private apiBase = environment.apiBase;
 
   constructor(private http: HttpClient) {}
 

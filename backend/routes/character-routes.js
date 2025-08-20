@@ -12,7 +12,7 @@ router.get('/user/:userId', async (req, res) => {
   try {
     const userId = parseInt(req.params.userId);
     const result = await pool.query(
-      'SELECT c.*, cls.Name as "className" FROM "character" c LEFT JOIN Class cls ON cls.Id = c.ClassId WHERE c.AccountId = $1 ORDER BY c.id',
+      'SELECT c.*, cls.name as "className" FROM character c LEFT JOIN class cls ON cls.id = c.classid WHERE c.accountid = $1 ORDER BY c.id',
       [userId]
     );
     res.json(result.rows);
@@ -163,12 +163,12 @@ router.delete('/:id', async (req, res) => {
     const characterId = parseInt(req.params.id);
     
     // Delete related records first (foreign key constraints)
-    await pool.query('DELETE FROM PlayerProgress WHERE character_id = $1', [characterId]);
-    await pool.query('DELETE FROM CharacterProfile WHERE character_id = $1', [characterId]);
+    await pool.query('DELETE FROM playerprogress WHERE character_id = $1', [characterId]);
+    await pool.query('DELETE FROM characterprofile WHERE character_id = $1', [characterId]);
     
     // Then delete the character
     const result = await pool.query(
-      'DELETE FROM "character" WHERE id = $1 RETURNING id',
+      'DELETE FROM character WHERE id = $1 RETURNING id',
       [characterId]
     );
     
@@ -253,7 +253,7 @@ router.get('/:id/legacy', async (req, res) => {
     
     // Get player progress to determine prompts survived
     const progressResult = await pool.query(
-      'SELECT COUNT(*) as prompt_count FROM PlayerProgress WHERE characterid = $1',
+      'SELECT COUNT(*) as prompt_count FROM playerprogress WHERE characterid = $1',
       [characterId]
     );
     
@@ -261,7 +261,7 @@ router.get('/:id/legacy', async (req, res) => {
 
     // Fetch the most recent player progress to get metadata and choice history
     const latestProgressResult = await pool.query(
-      'SELECT * FROM PlayerProgress WHERE characterid = $1 ORDER BY id DESC LIMIT 1',
+      'SELECT * FROM playerprogress WHERE characterid = $1 ORDER BY id DESC LIMIT 1',
       [characterId]
     );
 
@@ -305,7 +305,7 @@ router.get('/:id/legacy', async (req, res) => {
     if (lastChoiceId != null) {
       try {
         const choiceRes = await pool.query(
-          'SELECT Id as id, ChoiceText as "choiceText" FROM StoryChoice WHERE Id = $1',
+          'SELECT id as id, choicetext as "choiceText" FROM storychoice WHERE id = $1',
           [lastChoiceId]
         );
         if (choiceRes.rows.length) {
@@ -321,7 +321,7 @@ router.get('/:id/legacy', async (req, res) => {
       const nodeId = latestProgress.nodeid ?? latestProgress.nodeId;
       try {
         const nodeRes = await pool.query(
-          'SELECT id, title, content, isdeathnode FROM StoryNode WHERE id = $1',
+          'SELECT id, title, content, isdeathnode FROM storynode WHERE id = $1',
           [nodeId]
         );
         if (nodeRes.rows.length) {
@@ -341,7 +341,7 @@ router.get('/:id/legacy', async (req, res) => {
     let profile = null;
     try {
       const profRes = await pool.query(
-        'SELECT * FROM CharacterProfile WHERE characterid = $1 LIMIT 1',
+        'SELECT * FROM characterprofile WHERE characterid = $1 LIMIT 1',
         [characterId]
       );
       if (profRes.rows.length) {
@@ -357,7 +357,7 @@ router.get('/:id/legacy', async (req, res) => {
     // If className is still missing but we have classId, look up the class name
     if (!className && classId != null) {
       try {
-        const classRes = await pool.query('SELECT Name FROM Class WHERE Id = $1', [classId]);
+        const classRes = await pool.query('SELECT name FROM class WHERE id = $1', [classId]);
         if (classRes.rows.length) {
           className = classRes.rows[0].name || classRes.rows[0].Name || null;
         }

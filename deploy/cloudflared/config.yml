@@ -1,0 +1,14 @@
+# Cloudflare Tunnel configuration
+# 1) Create a tunnel in Cloudflare Zero Trust and download its credentials JSON
+# 2) Save the JSON as ./deploy/cloudflared/<TUNNEL_ID>.json
+# 3) Fill values below (or use environment variables)
+
+tunnel: ${CLOUDFLARE_TUNNEL_ID}
+credentials-file: /etc/cloudflared/${CLOUDFLARE_TUNNEL_ID}.json
+
+ingress:
+  - hostname: api.yourdomain.com
+    service: http://backend:3000
+  - hostname: db.yourdomain.com
+    service: http://pgadmin:80
+  - service: http_status:404

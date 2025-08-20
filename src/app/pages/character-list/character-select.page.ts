@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-character-select',
@@ -56,7 +57,7 @@ export class CharacterSelectPage implements OnInit, OnDestroy {
    */
   private loadCharacters(accountId: number) {
     // Use full API URL to prevent 404 errors
-    this.http.get(`http://localhost:3000/api/characters/user/${accountId}`).subscribe({
+    this.http.get(`${environment.apiBase}/characters/user/${accountId}`).subscribe({
       next: (data: any) => {
         this.characters = data;
         this.loading = false;
@@ -104,7 +105,7 @@ export class CharacterSelectPage implements OnInit, OnDestroy {
     // Confirm deletion
     if (confirm(`Are you sure you want to delete ${character.name}? This character will be marked as dead.`)) {
       // Mark character as dead
-      this.http.put(`http://localhost:3000/api/characters/${character.id}/mark-dead`, {})
+      this.http.put(`${environment.apiBase}/characters/${character.id}/mark-dead`, {})
         .subscribe({
           next: () => {
             // Update character in the local array

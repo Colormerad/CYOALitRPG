@@ -5,6 +5,9 @@ const pool = require('./db-connection');
 const storyRoutes = require('./routes/story-routes');
 const profileRoutes = require('./routes/profile-routes');
 const characterRoutes = require('./routes/character-routes');
+// Swagger/OpenAPI
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger-spec');
 
 const app = express();
 const port = 3000;
@@ -12,6 +15,13 @@ const port = 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Swagger docs
+app.get('/api/docs.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
 
 // Routes
 app.use('/api/story', storyRoutes);
@@ -53,14 +63,14 @@ app.post('/api/auth/register', async (req, res) => {
     }
     
     // Check if account already exists
-    const existingAccount = await pool.query('SELECT Id FROM Account WHERE Email = $1', [email]);
+    const existingAccount = await pool.query('SELECT id FROM account WHERE email = $1', [email]);
     if (existingAccount.rows.length > 0) {
       return res.status(409).json({ error: 'Account with this email already exists' });
     }
     
     // Check if username is already taken (if provided)
     if (username) {
-      const existingUsername = await pool.query('SELECT Id FROM Account WHERE Username = $1', [username]);
+      const existingUsername = await pool.query('SELECT id FROM account WHERE username = $1', [username]);
       if (existingUsername.rows.length > 0) {
         return res.status(409).json({ error: 'Username is already taken' });
       }
@@ -72,7 +82,7 @@ app.post('/api/auth/register', async (req, res) => {
     const usernameValue = username || null;
     
     const result = await pool.query(
-      'INSERT INTO Account (Email, PasswordHash, Username) VALUES ($1, $2, $3) RETURNING Id, Email, Username, CreatedAt',
+      'INSERT INTO account (email, passwordhash, username) VALUES ($1, $2, $3) RETURNING id, email, username, createdat',
       [email, passwordHash, usernameValue]
     );
     
@@ -90,28 +100,61 @@ app.post('/api/auth/register', async (req, res) => {
 
 app.post('/api/auth/login', async (req, res) => {
   try {
+    console.log('Login attempt received:', { email: req.body.email });
     const { email, password } = req.body;
     
     // Validate input
     if (!email || !password) {
+      console.log('Login validation failed: missing email or password');
       return res.status(400).json({ error: 'Email and password are required' });
     }
     
-    // Find account
-    const result = await pool.query('SELECT * FROM Account WHERE Email = $1', [email]);
+    // Find account with explicit aliases to avoid column case issues
+    console.log('Querying database for account with email:', email);
+    let result;
+    try {
+      result = await pool.query(
+        'SELECT id, email, passwordhash, username, createdat FROM account WHERE email = $1',
+        [email]
+      );
+      console.log('Query result rows:', result.rows.length);
+    } catch (dbError) {
+      console.error('Database query error:', dbError);
+      return res.status(500).json({ error: 'Database error', details: dbError.message });
+    }
+    
     if (result.rows.length === 0) {
+      console.log('No account found with email:', email);
       return res.status(401).json({ error: 'Invalid email or password' });
     }
     
     const account = result.rows[0];
-    
+    console.log('Account found:', { id: account.id, email: account.email, hasPasswordHash: !!account.passwordhash });
+
+    // Ensure password hash exists
+    if (!account.passwordhash || typeof account.passwordhash !== 'string') {
+      console.warn('Login attempt for account without password hash:', { email });
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
     // Verify password
-    const isValidPassword = await bcrypt.compare(password, account.passwordhash);
+    console.log('Verifying password...');
+    let isValidPassword;
+    try {
+      isValidPassword = await bcrypt.compare(password, account.passwordhash);
+      console.log('Password verification result:', isValidPassword);
+    } catch (bcryptError) {
+      console.error('bcrypt comparison error:', bcryptError);
+      return res.status(500).json({ error: 'Password verification error', details: bcryptError.message });
+    }
+    
     if (!isValidPassword) {
+      console.log('Invalid password for account:', { email });
       return res.status(401).json({ error: 'Invalid email or password' });
     }
     
     // Return account info (without password hash)
+    console.log('Login successful for account:', { id: account.id, email: account.email });
     res.json({
       success: true,
       message: 'Login successful',
@@ -124,7 +167,7 @@ app.post('/api/auth/login', async (req, res) => {
     });
   } catch (err) {
     console.error('Error during login:', err);
-    res.status(500).json({ error: 'Login failed' });
+    res.status(500).json({ error: 'Login failed', details: err.message });
   }
 });
 
@@ -138,7 +181,7 @@ app.post('/api/accounts', async (req, res) => {
     const usernameValue = username || null;
     
     const result = await pool.query(
-      'INSERT INTO Account (Email, PasswordHash, Username) VALUES ($1, $2, $3) RETURNING *',
+      'INSERT INTO account (email, passwordhash, username) VALUES ($1, $2, $3) RETURNING *',
       [email, passwordHash, usernameValue]
     );
     
@@ -154,7 +197,8 @@ app.post('/api/accounts', async (req, res) => {
 app.get('/api/accounts/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query('SELECT Id, Email, Username, CreatedAt FROM Account WHERE Id = $1', [id]);
+    
+    const result = await pool.query('SELECT id, email, username, createdat FROM account WHERE id = $1', [id]);
     
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Account not found' });
@@ -179,54 +223,54 @@ app.put('/api/accounts/:id', async (req, res) => {
     }
     
     // Check if account exists
-    const accountCheck = await pool.query('SELECT * FROM Account WHERE Id = $1', [id]);
+    const accountCheck = await pool.query('SELECT * FROM account WHERE id = $1', [id]);
     if (accountCheck.rows.length === 0) {
       return res.status(404).json({ error: 'Account not found' });
     }
     
-    // Check email uniqueness if email is being updated
+    // Check if email is already taken by another account
     if (email) {
-      const emailCheck = await pool.query('SELECT Id FROM Account WHERE Email = $1 AND Id != $2', [email, id]);
+      const emailCheck = await pool.query('SELECT id FROM account WHERE email = $1 AND id != $2', [email, id]);
       if (emailCheck.rows.length > 0) {
-        return res.status(409).json({ error: 'Email is already in use' });
+        return res.status(409).json({ error: 'Email is already in use by another account' });
       }
     }
     
-    // Check username uniqueness if username is being updated
+    // Check if username is already taken by another account
     if (username) {
-      const usernameCheck = await pool.query('SELECT Id FROM Account WHERE Username = $1 AND Id != $2', [username, id]);
+      const usernameCheck = await pool.query('SELECT id FROM account WHERE username = $1 AND id != $2', [username, id]);
       if (usernameCheck.rows.length > 0) {
-        return res.status(409).json({ error: 'Username is already in use' });
+        return res.status(409).json({ error: 'Username is already taken by another account' });
       }
     }
     
     // Build the update query dynamically based on provided fields
-    let updateQuery = 'UPDATE Account SET ';
+    let updateQuery = 'UPDATE account SET ';
     const updateValues = [];
     const updateFields = [];
     let paramIndex = 1;
     
-    if (username) {
-      updateFields.push(`Username = $${paramIndex}`);
-      updateValues.push(username);
+    if (email) {
+      updateFields.push(`email = $${paramIndex}`);
+      updateValues.push(email);
       paramIndex++;
     }
     
-    if (email) {
-      updateFields.push(`Email = $${paramIndex}`);
-      updateValues.push(email);
+    if (username) {
+      updateFields.push(`username = $${paramIndex}`);
+      updateValues.push(username);
       paramIndex++;
     }
     
     if (password) {
       const passwordHash = await bcrypt.hash(password, 10);
-      updateFields.push(`PasswordHash = $${paramIndex}`);
+      updateFields.push(`passwordhash = $${paramIndex}`);
       updateValues.push(passwordHash);
       paramIndex++;
     }
     
     updateQuery += updateFields.join(', ');
-    updateQuery += ` WHERE Id = $${paramIndex} RETURNING Id, Email, Username, CreatedAt`;
+    updateQuery += ` WHERE id = $${paramIndex} RETURNING id, email, username, createdat`;
     updateValues.push(id);
     
     const result = await pool.query(updateQuery, updateValues);
@@ -248,10 +292,10 @@ app.get('/api/characters/:id/stats', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await pool.query(`
-      SELECT cs.*, s.Name as StatName, s.Description as StatDescription 
-      FROM CharacterStat cs 
-      JOIN Stat s ON cs.StatId = s.Id 
-      WHERE cs.CharacterId = $1
+      SELECT cs.*, s.name as statname, s.description as statdescription 
+      FROM characterstat cs 
+      JOIN stat s ON cs.statid = s.id 
+      WHERE cs.characterid = $1
     `, [id]);
     
     res.json(result.rows);
@@ -265,11 +309,11 @@ app.get('/api/characters/:id/skills', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await pool.query(`
-      SELECT cs.*, s.Name as SkillName, s.Description as SkillDescription, sc.Name as CategoryName
-      FROM CharacterSkill cs 
-      JOIN Skill s ON cs.SkillId = s.Id 
-      JOIN SkillCategory sc ON s.SkillCategoryId = sc.Id
-      WHERE cs.CharacterId = $1
+      SELECT cs.*, s.name as skillname, s.description as skilldescription, sc.name as categoryname
+      FROM characterskill cs 
+      JOIN skill s ON cs.skillid = s.id 
+      JOIN skillcategory sc ON s.skillcategoryid = sc.id
+      WHERE cs.characterid = $1
     `, [id]);
     
     res.json(result.rows);
@@ -301,7 +345,7 @@ app.get('/api/characters/:id/inventory', async (req, res) => {
 app.get('/api/accounts/:accountId/characters', async (req, res) => {
   try {
     const { accountId } = req.params;
-    const result = await pool.query('SELECT * FROM Character WHERE AccountId = $1', [accountId]);
+    const result = await pool.query('SELECT * FROM character WHERE accountid = $1', [accountId]);
     res.json(result.rows);
   } catch (err) {
     console.error('Error fetching account characters:', err);
@@ -312,7 +356,7 @@ app.get('/api/accounts/:accountId/characters', async (req, res) => {
 // Stats endpoints
 app.get('/api/stats', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM Stat ORDER BY Id');
+    const result = await pool.query('SELECT * FROM stat ORDER BY id');
     res.json(result.rows);
   } catch (err) {
     console.error('Error fetching stats:', err);
@@ -324,10 +368,10 @@ app.get('/api/stats', async (req, res) => {
 app.get('/api/skills', async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT s.*, sc.Name as CategoryName 
-      FROM Skill s 
-      JOIN SkillCategory sc ON s.SkillCategoryId = sc.Id 
-      ORDER BY sc.Id, s.Id
+      SELECT s.*, sc.name as categoryname 
+      FROM skill s 
+      JOIN skillcategory sc ON s.skillcategoryid = sc.id 
+      ORDER BY sc.id, s.id
     `);
     res.json(result.rows);
   } catch (err) {
@@ -340,10 +384,10 @@ app.get('/api/skills', async (req, res) => {
 app.get('/api/items', async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT i.*, it.Name as ItemTypeName 
-      FROM Item i 
-      JOIN ItemType it ON i.ItemTypeId = it.Id 
-      ORDER BY i.Id
+      SELECT i.*, it.name as itemtypename 
+      FROM item i 
+      JOIN itemtype it ON i.itemtypeid = it.id 
+      ORDER BY i.id
     `);
     res.json(result.rows);
   } catch (err) {
@@ -356,10 +400,10 @@ app.get('/api/items/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await pool.query(`
-      SELECT i.*, it.Name as ItemTypeName 
-      FROM Item i 
-      JOIN ItemType it ON i.ItemTypeId = it.Id 
-      WHERE i.Id = $1
+      SELECT i.*, it.name as itemtypename 
+      FROM item i 
+      JOIN itemtype it ON i.itemtypeid = it.id 
+      WHERE i.id = $1
     `, [id]);
     
     if (result.rows.length === 0) {
@@ -377,10 +421,10 @@ app.get('/api/items/:id', async (req, res) => {
 app.get('/api/spells', async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT s.*, sc.Name as CategoryName 
-      FROM Spell s 
-      JOIN SpellCategory sc ON s.SpellCategoryId = sc.Id 
-      ORDER BY sc.Id, s.Id
+      SELECT s.*, sc.name as categoryname 
+      FROM spell s 
+      JOIN spellcategory sc ON s.spellcategoryid = sc.id 
+      ORDER BY sc.id, s.id
     `);
     res.json(result.rows);
   } catch (err) {
@@ -395,7 +439,7 @@ app.post('/api/characters/:id/level-up', async (req, res) => {
     const { id } = req.params;
     
     // Get character
-    const characterResult = await pool.query('SELECT * FROM Character WHERE Id = $1', [id]);
+    const characterResult = await pool.query('SELECT * FROM character WHERE id = $1', [id]);
     if (characterResult.rows.length === 0) {
       return res.status(404).json({ error: 'Character not found' });
     }
@@ -455,7 +499,7 @@ app.post('/api/characters/:id/add-experience', async (req, res) => {
 app.get('/api/demo/character', async (req, res) => {
   try {
     // Get the demo character with all related data
-    const characterResult = await pool.query('SELECT * FROM Character WHERE Id = 1');
+    const characterResult = await pool.query('SELECT * FROM character WHERE id = 1');
     if (characterResult.rows.length === 0) {
       return res.status(404).json({ error: 'Demo character not found' });
     }
@@ -464,18 +508,18 @@ app.get('/api/demo/character', async (req, res) => {
     
     // Get character stats
     const statsResult = await pool.query(`
-      SELECT cs.*, s.Name as StatName 
-      FROM CharacterStat cs 
-      JOIN Stat s ON cs.StatId = s.Id 
-      WHERE cs.CharacterId = 1
+      SELECT cs.*, s.name as statname 
+      FROM characterstat cs 
+      JOIN stat s ON cs.statid = s.id 
+      WHERE cs.characterid = 1
     `);
     
     // Get character skills
     const skillsResult = await pool.query(`
-      SELECT cs.*, s.Name as SkillName 
-      FROM CharacterSkill cs 
-      JOIN Skill s ON cs.SkillId = s.Id 
-      WHERE cs.CharacterId = 1
+      SELECT cs.*, s.name as skillname 
+      FROM characterskill cs 
+      JOIN skill s ON cs.skillid = s.id 
+      WHERE cs.characterid = 1
     `);
     
     // Get character inventory

@@ -4,7 +4,7 @@ module.exports = {
   async getById(id) {
     const client = await pool.connect();
     try {
-      const res = await client.query('SELECT * FROM StoryNode WHERE Id = $1', [id]);
+      const res = await client.query('SELECT * FROM storynode WHERE id = $1', [id]);
       return res.rows[0] || null;
     } finally {
       client.release();
@@ -14,7 +14,7 @@ module.exports = {
   async getFirstId() {
     const client = await pool.connect();
     try {
-      const res = await client.query('SELECT Id FROM StoryNode ORDER BY Id LIMIT 1');
+      const res = await client.query('SELECT id FROM storynode ORDER BY id LIMIT 1');
       return res.rows[0]?.id ?? null;
     } finally {
       client.release();
@@ -25,7 +25,7 @@ module.exports = {
     const client = await pool.connect();
     try {
       const res = await client.query(
-        'SELECT * FROM StoryChoice WHERE StoryNodeId = $1 ORDER BY Id',
+        'SELECT * FROM storychoice WHERE storynodeid = $1 ORDER BY id',
         [nodeId]
       );
       return res.rows;
@@ -37,7 +37,7 @@ module.exports = {
   async getChoiceById(choiceId) {
     const client = await pool.connect();
     try {
-      const res = await client.query('SELECT * FROM StoryChoice WHERE Id = $1', [choiceId]);
+      const res = await client.query('SELECT * FROM storychoice WHERE id = $1', [choiceId]);
       return res.rows[0] || null;
     } finally {
       client.release();
@@ -47,7 +47,7 @@ module.exports = {
   async getChoiceTextById(choiceId) {
     const client = await pool.connect();
     try {
-      const res = await client.query('SELECT ChoiceText FROM StoryChoice WHERE Id = $1', [choiceId]);
+      const res = await client.query('SELECT choicetext FROM storychoice WHERE id = $1', [choiceId]);
       return res.rows[0]?.choicetext ?? null;
     } finally {
       client.release();
