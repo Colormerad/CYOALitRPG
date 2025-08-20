@@ -156,9 +156,124 @@ router.post('/character/set-class', async (req, res) => {
 router.get('/choices', async (req, res) => {
   try {
     const choices = await storyNodeRepo.getAllChoicesWithOptions();
-    res.json(choices);
+    return res.json(choices);
   } catch (err) {
-    console.error('Error fetching all choices:', err);
+    console.error('Error fetching choices:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get option by ID
+router.get('/choices/:id', async (req, res) => {
+  try {
+    const choiceId = parseInt(req.params.id);
+    const choice = await storyNodeRepo.getChoiceById(choiceId);
+    
+    if (!choice) {
+      return res.status(404).json({ error: 'Choice not found' });
+    }
+    
+    res.json(choice);
+  } catch (err) {
+    console.error('Error fetching choice:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Update story node by ID
+router.put('/nodes/:id', async (req, res) => {
+  try {
+    const nodeId = parseInt(req.params.id);
+    const nodeData = req.body;
+    
+    // Validate required fields
+    if (!nodeData.title || !nodeData.content) {
+      return res.status(400).json({ error: 'Title and content are required' });
+    }
+    
+    // Check if node exists
+    const existingNode = await storyNodeRepo.getById(nodeId);
+    if (!existingNode) {
+      return res.status(404).json({ error: 'Story node not found' });
+    }
+    
+    const updatedNode = await storyNodeRepo.updateStoryNode(nodeId, nodeData);
+    res.json(updatedNode);
+  } catch (err) {
+    console.error('Error updating story node:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Update option by ID
+router.put('/choices/:id', async (req, res) => {
+  try {
+    const choiceId = parseInt(req.params.id);
+    const choiceData = req.body;
+    
+    // Validate required fields
+    if (!choiceData.choicetext || !choiceData.targetnodeid || !choiceData.storynodeid) {
+      return res.status(400).json({ error: 'Choice text, target node ID, and story node ID are required' });
+    }
+    
+    // Check if choice exists
+    const existingChoice = await storyNodeRepo.getChoiceById(choiceId);
+    if (!existingChoice) {
+      return res.status(404).json({ error: 'Choice not found' });
+    }
+    
+    const updatedChoice = await storyNodeRepo.updateChoice(choiceId, choiceData);
+    res.json(updatedChoice);
+  } catch (err) {
+    console.error('Error updating choice:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Create new story node
+router.post('/nodes', async (req, res) => {
+  try {
+    const nodeData = req.body;
+    
+    // Validate required fields
+    if (!nodeData.title || !nodeData.content) {
+      return res.status(400).json({ error: 'Title and content are required' });
+    }
+    
+    const newNode = await storyNodeRepo.createStoryNode(nodeData);
+    res.status(201).json(newNode);
+  } catch (err) {
+    console.error('Error creating story node:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Create new option
+router.post('/choices', async (req, res) => {
+  try {
+    const choiceData = req.body;
+    
+    // Validate required fields
+    if (!choiceData.choicetext || !choiceData.targetnodeid || !choiceData.storynodeid) {
+      return res.status(400).json({ error: 'Choice text, target node ID, and story node ID are required' });
+    }
+    
+    // Check if target node exists
+    const targetNode = await storyNodeRepo.getById(choiceData.targetnodeid);
+    if (!targetNode) {
+      return res.status(400).json({ error: 'Target node does not exist' });
+    }
+    
+    // Check if story node exists
+    const storyNode = await storyNodeRepo.getById(choiceData.storynodeid);
+    if (!storyNode) {
+      return res.status(400).json({ error: 'Story node does not exist' });
+    }
+    
+    const newChoice = await storyNodeRepo.createChoice(choiceData);
+    res.status(201).json(newChoice);
+  } catch (err) {
+    console.error('Error creating choice:', err);
     res.status(500).json({ error: err.message });
   }
 });

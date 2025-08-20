@@ -10,6 +10,34 @@ module.exports = {
       client.release();
     }
   },
+  
+  async updateStoryNode(id, nodeData) {
+    const client = await pool.connect();
+    try {
+      const { title, content, imageurl, backgroundurl } = nodeData;
+      const res = await client.query(
+        'UPDATE storynode SET title = $1, content = $2, imageurl = $3, backgroundurl = $4, updated_at = NOW() WHERE id = $5 RETURNING *',
+        [title, content, imageurl, backgroundurl, id]
+      );
+      return res.rows[0] || null;
+    } finally {
+      client.release();
+    }
+  },
+  
+  async createStoryNode(nodeData) {
+    const client = await pool.connect();
+    try {
+      const { title, content, imageurl, backgroundurl } = nodeData;
+      const res = await client.query(
+        'INSERT INTO storynode (title, content, imageurl, backgroundurl, created_at, updated_at) VALUES ($1, $2, $3, $4, NOW(), NOW()) RETURNING *',
+        [title, content, imageurl || null, backgroundurl || null]
+      );
+      return res.rows[0];
+    } finally {
+      client.release();
+    }
+  },
 
   async getFirstId() {
     const client = await pool.connect();
@@ -39,6 +67,40 @@ module.exports = {
     try {
       const res = await client.query('SELECT * FROM storychoice WHERE id = $1', [choiceId]);
       return res.rows[0] || null;
+    } finally {
+      client.release();
+    }
+  },
+
+  async updateChoice(choiceId, choiceData) {
+    const client = await pool.connect();
+    try {
+      const { choicetext, targetnodeid, storynodeid, requirespassword, requiresinput, requiresclass } = choiceData;
+      const res = await client.query(
+        `UPDATE storychoice 
+         SET choicetext = $1, targetnodeid = $2, storynodeid = $3, 
+             requirespassword = $4, requiresinput = $5, requiresclass = $6 
+         WHERE id = $7 RETURNING *`,
+        [choicetext, targetnodeid, storynodeid, requirespassword, requiresinput, requiresclass, choiceId]
+      );
+      return res.rows[0] || null;
+    } finally {
+      client.release();
+    }
+  },
+
+  async createChoice(choiceData) {
+    const client = await pool.connect();
+    try {
+      const { choicetext, targetnodeid, storynodeid, requirespassword, requiresinput, requiresclass } = choiceData;
+      const res = await client.query(
+        `INSERT INTO storychoice 
+         (choicetext, targetnodeid, storynodeid, requirespassword, requiresinput, requiresclass) 
+         VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+        [choicetext, targetnodeid, storynodeid, 
+         requirespassword || false, requiresinput || false, requiresclass || false]
+      );
+      return res.rows[0];
     } finally {
       client.release();
     }
