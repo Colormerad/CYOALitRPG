@@ -9,6 +9,32 @@ module.exports = {
     { url: 'https://api.mythosgame.app/api', description: 'Cloudflare Tunnel' },
     { url: 'http://localhost:3000/api', description: 'Local' },
   ],
+  components: {
+    schemas: {
+      StoryNode: {
+        type: 'object',
+        properties: {
+          id: { type: 'integer', description: 'Story node ID' },
+          title: { type: 'string', description: 'Title of the story node' },
+          content: { type: 'string', description: 'Content/text of the story node' },
+          imageurl: { type: 'string', description: 'URL to the image for this node' },
+          backgroundurl: { type: 'string', description: 'URL to the background image for this node' }
+        }
+      },
+      Choice: {
+        type: 'object',
+        properties: {
+          id: { type: 'integer', description: 'Choice ID' },
+          choicetext: { type: 'string', description: 'Text of the choice' },
+          targetnodeid: { type: 'integer', description: 'Target node ID this choice leads to' },
+          storynodeid: { type: 'integer', description: 'Parent story node ID' },
+          requirespassword: { type: 'boolean', description: 'Whether this choice requires a password' },
+          requiresinput: { type: 'boolean', description: 'Whether this choice requires input' },
+          requiresclass: { type: 'boolean', description: 'Whether this choice requires a class selection' }
+        }
+      }
+    }
+  },
   paths: {
     '/health': {
       get: {
@@ -122,6 +148,42 @@ module.exports = {
           '404': { description: 'Not found' },
         },
       },
+      put: {
+        summary: 'Update story node by ID',
+        description: 'Updates an existing story node',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+            description: 'Story node ID'
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  title: { type: 'string', description: 'Title of the story node' },
+                  content: { type: 'string', description: 'Content/text of the story node' },
+                  imageurl: { type: 'string', description: 'URL to the image for this node' },
+                  backgroundurl: { type: 'string', description: 'URL to the background image for this node' }
+                },
+                required: ['title', 'content']
+              }
+            }
+          }
+        },
+        responses: {
+          '200': { description: 'Story node updated successfully' },
+          '400': { description: 'Invalid request data' },
+          '404': { description: 'Story node not found' },
+          '500': { description: 'Server error' }
+        }
+      }
     },
     '/story/progress/{characterId}': {
       get: {
@@ -220,8 +282,36 @@ module.exports = {
           '500': { description: 'Server error' }
         },
       },
+      post: {
+        summary: 'Create new option',
+        description: 'Creates a new choice/option',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  choicetext: { type: 'string', description: 'Text of the choice' },
+                  targetnodeid: { type: 'integer', description: 'Target node ID this choice leads to' },
+                  storynodeid: { type: 'integer', description: 'Parent story node ID' },
+                  requirespassword: { type: 'boolean', description: 'Whether this choice requires a password' },
+                  requiresinput: { type: 'boolean', description: 'Whether this choice requires input' },
+                  requiresclass: { type: 'boolean', description: 'Whether this choice requires a class selection' }
+                },
+                required: ['choicetext', 'targetnodeid', 'storynodeid']
+              }
+            }
+          }
+        },
+        responses: {
+          '201': { description: 'Choice created successfully' },
+          '400': { description: 'Invalid request data' },
+          '500': { description: 'Server error' }
+        }
+      }
     },
-    '/story/choices/:id': {
+    '/story/choices/{id}': {
       get: {
         summary: 'Get option by ID',
         description: 'Returns a specific choice/option by its ID',
@@ -297,36 +387,7 @@ module.exports = {
         }
       }
     },
-    '/story/choices': {
-      post: {
-        summary: 'Create new option',
-        description: 'Creates a new choice/option',
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  choicetext: { type: 'string', description: 'Text of the choice' },
-                  targetnodeid: { type: 'integer', description: 'Target node ID this choice leads to' },
-                  storynodeid: { type: 'integer', description: 'Parent story node ID' },
-                  requirespassword: { type: 'boolean', description: 'Whether this choice requires a password' },
-                  requiresinput: { type: 'boolean', description: 'Whether this choice requires input' },
-                  requiresclass: { type: 'boolean', description: 'Whether this choice requires a class selection' }
-                },
-                required: ['choicetext', 'targetnodeid', 'storynodeid']
-              }
-            }
-          }
-        },
-        responses: {
-          '201': { description: 'Choice created successfully' },
-          '400': { description: 'Invalid request data' },
-          '500': { description: 'Server error' }
-        }
-      }
-    },
+
     '/story/nodes': {
       post: {
         summary: 'Create new story node',
@@ -355,43 +416,6 @@ module.exports = {
         }
       }
     },
-    '/story/nodes/:id': {
-      put: {
-        summary: 'Update story node by ID',
-        description: 'Updates an existing story node',
-        parameters: [
-          {
-            name: 'id',
-            in: 'path',
-            required: true,
-            schema: { type: 'integer' },
-            description: 'Story node ID'
-          }
-        ],
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  title: { type: 'string', description: 'Title of the story node' },
-                  content: { type: 'string', description: 'Content/text of the story node' },
-                  imageurl: { type: 'string', description: 'URL to the image for this node' },
-                  backgroundurl: { type: 'string', description: 'URL to the background image for this node' }
-                },
-                required: ['title', 'content']
-              }
-            }
-          }
-        },
-        responses: {
-          '200': { description: 'Story node updated successfully' },
-          '400': { description: 'Invalid request data' },
-          '404': { description: 'Story node not found' },
-          '500': { description: 'Server error' }
-        }
-      }
-    },
+
   },
 };
