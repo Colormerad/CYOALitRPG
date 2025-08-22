@@ -1,14 +1,6 @@
 const axios = require('axios');
-const { Pool } = require('pg');
-
-// PostgreSQL connection
-const pool = new Pool({
-  user: 'cyoa_user',
-  host: 'localhost',
-  database: 'cyoa_litrpg',
-  password: 'cyoa_password',
-  port: 5432,
-});
+// Use centralized database connection
+const pool = require('../db-connection');
 
 // LM Studio API configuration
 const LLM_CONFIG = {
