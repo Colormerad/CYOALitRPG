@@ -7,7 +7,7 @@ const profileRoutes = require('./routes/profile-routes');
 const characterRoutes = require('./routes/character-routes');
 // Swagger/OpenAPI
 const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./swagger-spec');
+// Don't cache swagger-spec at startup to allow for dynamic reloading
 
 const app = express();
 const port = 3000;
@@ -16,12 +16,22 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Swagger docs
+// Swagger docs - optimized for Cloudflare Tunnels
 app.get('/api/docs.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerSpec);
+  // Force reload swagger spec to avoid caching issues
+  delete require.cache[require.resolve('./swagger-spec')];
+  const freshSwaggerSpec = require('./swagger-spec');
+  
+  // Cloudflare-friendly headers
+  res.type('application/json');
+  res.set('Cache-Control', 'no-store');
+  res.json(freshSwaggerSpec);
 });
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
+
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(null, {
+  swaggerUrl: '/api/docs.json',
+  explorer: true
+}));
 
 // Routes
 app.use('/api/story', storyRoutes);

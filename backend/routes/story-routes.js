@@ -212,8 +212,18 @@ router.put('/choices/:id', async (req, res) => {
     const choiceData = req.body;
     
     // Validate required fields
-    if (!choiceData.choicetext || !choiceData.targetnodeid || !choiceData.storynodeid) {
+    if (!choiceData.choicetext || !choiceData.nextnodeid || !choiceData.storynodeid) {
       return res.status(400).json({ error: 'Choice text, target node ID, and story node ID are required' });
+    }
+    
+    // Validate metadata impact format if provided
+    if (choiceData.metadataimpact && typeof choiceData.metadataimpact !== 'object') {
+      return res.status(400).json({ error: 'Metadata impact must be an object' });
+    }
+    
+    // Validate effects format if provided
+    if (choiceData.effects && typeof choiceData.effects !== 'object') {
+      return res.status(400).json({ error: 'Effects must be an object' });
     }
     
     // Check if choice exists
@@ -240,6 +250,30 @@ router.post('/nodes', async (req, res) => {
       return res.status(400).json({ error: 'Title and content are required' });
     }
     
+    // Validate choices if provided
+    if (nodeData.choices) {
+      if (!Array.isArray(nodeData.choices)) {
+        return res.status(400).json({ error: 'Choices must be an array' });
+      }
+      
+      for (let i = 0; i < nodeData.choices.length; i++) {
+        const choice = nodeData.choices[i];
+        if (!choice.choicetext) {
+          return res.status(400).json({ error: `Choice ${i + 1} must have choicetext` });
+        }
+        
+        // Validate metadata impact format if provided
+        if (choice.metadataimpact && typeof choice.metadataimpact !== 'object') {
+          return res.status(400).json({ error: `Choice ${i + 1} metadataimpact must be an object` });
+        }
+        
+        // Validate effects format if provided
+        if (choice.effects && typeof choice.effects !== 'object') {
+          return res.status(400).json({ error: `Choice ${i + 1} effects must be an object` });
+        }
+      }
+    }
+    
     const newNode = await storyNodeRepo.createStoryNode(nodeData);
     res.status(201).json(newNode);
   } catch (err) {
@@ -254,12 +288,22 @@ router.post('/choices', async (req, res) => {
     const choiceData = req.body;
     
     // Validate required fields
-    if (!choiceData.choicetext || !choiceData.targetnodeid || !choiceData.storynodeid) {
+    if (!choiceData.choicetext || !choiceData.nextnodeid || !choiceData.storynodeid) {
       return res.status(400).json({ error: 'Choice text, target node ID, and story node ID are required' });
     }
     
+    // Validate metadata impact format if provided
+    if (choiceData.metadataimpact && typeof choiceData.metadataimpact !== 'object') {
+      return res.status(400).json({ error: 'Metadata impact must be an object' });
+    }
+    
+    // Validate effects format if provided
+    if (choiceData.effects && typeof choiceData.effects !== 'object') {
+      return res.status(400).json({ error: 'Effects must be an object' });
+    }
+    
     // Check if target node exists
-    const targetNode = await storyNodeRepo.getById(choiceData.targetnodeid);
+    const targetNode = await storyNodeRepo.getById(choiceData.nextnodeid);
     if (!targetNode) {
       return res.status(400).json({ error: 'Target node does not exist' });
     }
@@ -274,6 +318,25 @@ router.post('/choices', async (req, res) => {
     res.status(201).json(newChoice);
   } catch (err) {
     console.error('Error creating choice:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Delete choice
+router.delete('/choices/:id', async (req, res) => {
+  try {
+    const choiceId = parseInt(req.params.id);
+    
+    // Check if choice exists
+    const existingChoice = await storyNodeRepo.getChoiceById(choiceId);
+    if (!existingChoice) {
+      return res.status(404).json({ error: 'Choice not found' });
+    }
+    
+    const deletedChoice = await storyNodeRepo.deleteChoice(choiceId);
+    res.json({ message: 'Choice deleted successfully', choice: deletedChoice });
+  } catch (err) {
+    console.error('Error deleting choice:', err);
     res.status(500).json({ error: err.message });
   }
 });

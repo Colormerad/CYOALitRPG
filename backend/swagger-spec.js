@@ -3,11 +3,11 @@ module.exports = {
   info: {
     title: 'CYOA LitRPG API',
     version: '1.0.0',
-    description: 'API documentation for the CYOA LitRPG backend',
+    description: 'API documentation for the CYOA LitRPG backend'
   },
   servers: [
     { url: 'https://api.mythosgame.app/api', description: 'Cloudflare Tunnel' },
-    { url: 'http://localhost:3000/api', description: 'Local' },
+    { url: 'http://localhost:3000/api', description: 'Local' }
   ],
   components: {
     schemas: {
@@ -17,8 +17,9 @@ module.exports = {
           id: { type: 'integer', description: 'Story node ID' },
           title: { type: 'string', description: 'Title of the story node' },
           content: { type: 'string', description: 'Content/text of the story node' },
-          imageurl: { type: 'string', description: 'URL to the image for this node' },
-          backgroundurl: { type: 'string', description: 'URL to the background image for this node' }
+          nodetype: { type: 'string', description: 'Type of the story node', default: 'standard' },
+          requiresinput: { type: 'boolean', description: 'Whether this node requires input', default: false },
+          inputtype: { type: 'string', description: 'Type of input required (if any)' }
         }
       },
       Choice: {
@@ -41,9 +42,9 @@ module.exports = {
         summary: 'Health check',
         responses: {
           '200': { description: 'Service is healthy' },
-          '500': { description: 'Service is unhealthy' },
-        },
-      },
+          '500': { description: 'Service is unhealthy' }
+        }
+      }
     },
     '/auth/register': {
       post: {
@@ -57,19 +58,19 @@ module.exports = {
                 properties: {
                   email: { type: 'string' },
                   password: { type: 'string' },
-                  username: { type: 'string' },
+                  username: { type: 'string' }
                 },
-                required: ['email', 'password'],
-              },
-            },
-          },
+                required: ['email', 'password']
+              }
+            }
+          }
         },
         responses: {
           '201': { description: 'Account created' },
           '409': { description: 'Account exists' },
-          '400': { description: 'Validation error' },
-        },
-      },
+          '400': { description: 'Validation error' }
+        }
+      }
     },
     '/auth/login': {
       post: {
@@ -82,18 +83,18 @@ module.exports = {
                 type: 'object',
                 properties: {
                   email: { type: 'string' },
-                  password: { type: 'string' },
+                  password: { type: 'string' }
                 },
-                required: ['email', 'password'],
-              },
-            },
-          },
+                required: ['email', 'password']
+              }
+            }
+          }
         },
         responses: {
           '200': { description: 'Login successful' },
-          '401': { description: 'Invalid credentials' },
-        },
-      },
+          '401': { description: 'Invalid credentials' }
+        }
+      }
     },
     '/characters': {
       post: {
@@ -106,47 +107,47 @@ module.exports = {
                 type: 'object',
                 properties: {
                   accountId: { type: 'integer' },
-                  name: { type: 'string' },
+                  name: { type: 'string' }
                 },
-                required: ['accountId', 'name'],
-              },
-            },
-          },
+                required: ['accountId', 'name']
+              }
+            }
+          }
         },
         responses: {
           '201': { description: 'Character created' },
-          '400': { description: 'Validation error' },
-        },
-      },
+          '400': { description: 'Validation error' }
+        }
+      }
     },
     '/characters/{id}': {
       get: {
         summary: 'Get character by id',
         parameters: [
-          { in: 'path', name: 'id', required: true, schema: { type: 'integer' } },
+          { in: 'path', name: 'id', required: true, schema: { type: 'integer' } }
         ],
         responses: {
           '200': { description: 'Character' },
-          '404': { description: 'Not found' },
-        },
-      },
+          '404': { description: 'Not found' }
+        }
+      }
     },
     '/story/start': {
       get: {
         summary: 'Get first story node',
-        responses: { '200': { description: 'Node' } },
-      },
+        responses: { '200': { description: 'Node' } }
+      }
     },
     '/story/nodes/{id}': {
       get: {
         summary: 'Get story node by id',
         parameters: [
-          { in: 'path', name: 'id', required: true, schema: { type: 'integer' } },
+          { in: 'path', name: 'id', required: true, schema: { type: 'integer' } }
         ],
         responses: {
           '200': { description: 'Node' },
-          '404': { description: 'Not found' },
-        },
+          '404': { description: 'Not found' }
+        }
       },
       put: {
         summary: 'Update story node by ID',
@@ -169,8 +170,9 @@ module.exports = {
                 properties: {
                   title: { type: 'string', description: 'Title of the story node' },
                   content: { type: 'string', description: 'Content/text of the story node' },
-                  imageurl: { type: 'string', description: 'URL to the image for this node' },
-                  backgroundurl: { type: 'string', description: 'URL to the background image for this node' }
+                  nodetype: { type: 'string', description: 'Type of the story node', default: 'standard' },
+                  requiresinput: { type: 'boolean', description: 'Whether this node requires input', default: false },
+          inputtype: { type: 'string', description: 'Type of input required (if any)' }
                 },
                 required: ['title', 'content']
               }
@@ -189,10 +191,10 @@ module.exports = {
       get: {
         summary: 'Get player progress',
         parameters: [
-          { in: 'path', name: 'characterId', required: true, schema: { type: 'integer' } },
+          { in: 'path', name: 'characterId', required: true, schema: { type: 'integer' } }
         ],
-        responses: { '200': { description: 'Progress' } },
-      },
+        responses: { '200': { description: 'Progress' } }
+      }
     },
     '/story/choice': {
       post: {
@@ -207,21 +209,21 @@ module.exports = {
                   characterId: { type: 'integer' },
                   choiceId: { type: 'integer' },
                   inputValue: { type: 'string' },
-                  classId: { type: 'integer' },
+                  classId: { type: 'integer' }
                 },
-                required: ['characterId', 'choiceId'],
-              },
-            },
-          },
+                required: ['characterId', 'choiceId']
+              }
+            }
+          }
         },
-        responses: { '200': { description: 'Progress updated' } },
-      },
+        responses: { '200': { description: 'Progress updated' } }
+      }
     },
     '/story/progress/{characterId}/advance': {
       post: {
         summary: 'Advance progress explicitly',
         parameters: [
-          { in: 'path', name: 'characterId', required: true, schema: { type: 'integer' } },
+          { in: 'path', name: 'characterId', required: true, schema: { type: 'integer' } }
         ],
         requestBody: {
           required: true,
@@ -232,22 +234,22 @@ module.exports = {
                 properties: {
                   nextNodeId: { type: 'integer' },
                   experienceGain: { type: 'integer' },
-                  choiceId: { type: 'integer' },
+                  choiceId: { type: 'integer' }
                 },
-                required: ['nextNodeId'],
-              },
-            },
-          },
+                required: ['nextNodeId']
+              }
+            }
+          }
         },
-        responses: { '200': { description: 'Progress updated' } },
-      },
+        responses: { '200': { description: 'Progress updated' } }
+      }
     },
     '/story/choices': {
       get: {
         summary: 'Get all choices and their options',
         description: 'Returns all story choices organized by their parent story nodes',
-        responses: { 
-          '200': { 
+        responses: {
+          '200': {
             description: 'List of all choices grouped by story node',
             content: {
               'application/json': {
@@ -280,11 +282,11 @@ module.exports = {
             }
           },
           '500': { description: 'Server error' }
-        },
+        }
       },
       post: {
-        summary: 'Create new option',
-        description: 'Creates a new choice/option',
+        summary: 'Create new choice/option',
+        description: 'Creates a new choice/option for a story node with metadata impacts and effects',
         requestBody: {
           required: true,
           content: {
@@ -334,11 +336,18 @@ module.exports = {
                   properties: {
                     id: { type: 'integer', description: 'Choice ID' },
                     choicetext: { type: 'string', description: 'Text of the choice' },
-                    targetnodeid: { type: 'integer', description: 'Target node ID this choice leads to' },
+                    nextnodeid: { type: 'integer', description: 'Target node ID this choice leads to' },
                     storynodeid: { type: 'integer', description: 'Parent story node ID' },
-                    requirespassword: { type: 'boolean', description: 'Whether this choice requires a password' },
-                    requiresinput: { type: 'boolean', description: 'Whether this choice requires input' },
-                    requiresclass: { type: 'boolean', description: 'Whether this choice requires a class selection' }
+                    metadataimpact: { 
+                      type: 'object', 
+                      description: 'JSONB object describing character metadata changes',
+                      additionalProperties: true
+                    },
+                    effects: { 
+                      type: 'object', 
+                      description: 'JSONB object describing game effects',
+                      additionalProperties: true
+                    }
                   }
                 }
               }
@@ -387,11 +396,10 @@ module.exports = {
         }
       }
     },
-
     '/story/nodes': {
       post: {
         summary: 'Create new story node',
-        description: 'Creates a new story node',
+        description: 'Creates a new story node with optional choices, metadata impacts, and effects',
         requestBody: {
           required: true,
           content: {
@@ -401,8 +409,9 @@ module.exports = {
                 properties: {
                   title: { type: 'string', description: 'Title of the story node' },
                   content: { type: 'string', description: 'Content/text of the story node' },
-                  imageurl: { type: 'string', description: 'URL to the image for this node' },
-                  backgroundurl: { type: 'string', description: 'URL to the background image for this node' }
+                  nodetype: { type: 'string', description: 'Type of the story node', default: 'standard' },
+                  requiresinput: { type: 'boolean', description: 'Whether this node requires input', default: false },
+          inputtype: { type: 'string', description: 'Type of input required (if any)' }
                 },
                 required: ['title', 'content']
               }
@@ -410,12 +419,44 @@ module.exports = {
           }
         },
         responses: {
-          '201': { description: 'Story node created successfully' },
+          '201': { 
+            description: 'Story node created successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    id: { type: 'integer', description: 'ID of the created story node' },
+                    title: { type: 'string', description: 'Title of the story node' },
+                    content: { type: 'string', description: 'Content of the story node' },
+                    nodetype: { type: 'string', description: 'Type of the story node' },
+                    requiresinput: { type: 'boolean', description: 'Whether this node requires input' },
+                    inputtype: { type: 'string', description: 'Type of input required' },
+                    createdat: { type: 'string', format: 'date-time', description: 'Creation timestamp' },
+                    updatedat: { type: 'string', format: 'date-time', description: 'Last update timestamp' },
+                    choices: {
+                      type: 'array',
+                      description: 'Array of choices created with this story node',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          id: { type: 'integer', description: 'Choice ID' },
+                          choicetext: { type: 'string', description: 'Text of the choice' },
+                          nextnodeid: { type: 'integer', description: 'ID of the next story node' },
+                          metadataimpact: { type: 'object', description: 'Character metadata changes' },
+                          effects: { type: 'object', description: 'Game effects' }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           '400': { description: 'Invalid request data' },
           '500': { description: 'Server error' }
         }
       }
-    },
-
-  },
+    }
+  }
 };

@@ -28,12 +28,65 @@ module.exports = {
   async createStoryNode(nodeData) {
     const client = await pool.connect();
     try {
-      const { title, content, nodetype, requiresinput, inputtype } = nodeData;
-      const res = await client.query(
+      await client.query('BEGIN');
+      
+      const { title, content, nodetype, requiresinput, inputtype, choices } = nodeData;
+      
+      // Create the story node
+      const nodeRes = await client.query(
         'INSERT INTO storynode (title, content, nodetype, requiresinput, inputtype, createdat, updatedat) VALUES ($1, $2, $3, $4, $5, NOW(), NOW()) RETURNING *',
         [title, content, nodetype || 'standard', requiresinput || false, inputtype || null]
       );
-      return res.rows[0];
+      
+      const newNode = nodeRes.rows[0];
+      
+      // If choices are provided, create them with metadata and effects
+      if (choices && Array.isArray(choices) && choices.length > 0) {
+        for (const choice of choices) {
+          const { choicetext, nextnodeid, metadataimpact, effects } = choice;
+          await client.query(
+            `INSERT INTO storychoice 
+             (storynodeid, choicetext, nextnodeid, metadataimpact, effects, createdat, updatedat) 
+             VALUES ($1, $2, $3, $4, $5, NOW(), NOW())`,
+            [
+              newNode.id,
+              choicetext,
+              nextnodeid || null,
+              metadataimpact ? JSON.stringify(metadataimpact) : null,
+              effects ? JSON.stringify(effects) : null
+            ]
+          );
+        }
+      }
+      
+      await client.query('COMMIT');
+      
+      // Return the created node with its choices
+      const fullNodeRes = await client.query(
+        `SELECT sn.*, 
+                COALESCE(
+                  json_agg(
+                    json_build_object(
+                      'id', sc.id,
+                      'choicetext', sc.choicetext,
+                      'nextnodeid', sc.nextnodeid,
+                      'metadataimpact', sc.metadataimpact,
+                      'effects', sc.effects
+                    ) ORDER BY sc.id
+                  ) FILTER (WHERE sc.id IS NOT NULL), 
+                  '[]'
+                ) as choices
+         FROM storynode sn
+         LEFT JOIN storychoice sc ON sn.id = sc.storynodeid
+         WHERE sn.id = $1
+         GROUP BY sn.id`,
+        [newNode.id]
+      );
+      
+      return fullNodeRes.rows[0];
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
     } finally {
       client.release();
     }
@@ -80,7 +133,14 @@ module.exports = {
         `UPDATE storychoice 
          SET choicetext = $1, nextnodeid = $2, storynodeid = $3, metadataimpact = $4, effects = $5, updatedat = CURRENT_TIMESTAMP
          WHERE id = $6 RETURNING *`,
-        [choicetext, nextnodeid, storynodeid, metadataimpact, effects, choiceId]
+        [
+          choicetext,
+          nextnodeid,
+          storynodeid,
+          metadataimpact ? JSON.stringify(metadataimpact) : null,
+          effects ? JSON.stringify(effects) : null,
+          choiceId
+        ]
       );
       return res.rows[0] || null;
     } finally {
@@ -94,9 +154,15 @@ module.exports = {
       const { choicetext, nextnodeid, storynodeid, metadataimpact, effects } = choiceData;
       const res = await client.query(
         `INSERT INTO storychoice 
-         (choicetext, nextnodeid, storynodeid, metadataimpact, effects) 
-         VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-        [choicetext, nextnodeid, storynodeid, metadataimpact, effects]
+         (choicetext, nextnodeid, storynodeid, metadataimpact, effects, createdat, updatedat) 
+         VALUES ($1, $2, $3, $4, $5, NOW(), NOW()) RETURNING *`,
+        [
+          choicetext,
+          nextnodeid,
+          storynodeid,
+          metadataimpact ? JSON.stringify(metadataimpact) : null,
+          effects ? JSON.stringify(effects) : null
+        ]
       );
       return res.rows[0];
     } finally {
@@ -109,6 +175,16 @@ module.exports = {
     try {
       const res = await client.query('SELECT choicetext FROM storychoice WHERE id = $1', [choiceId]);
       return res.rows[0]?.choicetext ?? null;
+    } finally {
+      client.release();
+    }
+  },
+
+  async deleteChoice(choiceId) {
+    const client = await pool.connect();
+    try {
+      const res = await client.query('DELETE FROM storychoice WHERE id = $1 RETURNING *', [choiceId]);
+      return res.rows[0] || null;
     } finally {
       client.release();
     }

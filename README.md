@@ -316,7 +316,97 @@ Edit the character creation in `backend/server.js` or modify the database schema
 
 MIT License - feel free to use this project as a starting point for your own games!
 
-## Future Enhancements
+## Backend Deployment & Swagger UI Updates
+
+### Quick Backend Restart
+
+When you make changes to backend code (API routes, repository functions, Swagger specifications), you need to restart the backend container to see the changes reflected in production.
+
+#### Method 1: Using the Deployment Script (Recommended)
+
+```bash
+cd deploy
+./deploy-backend.sh
+```
+
+#### Method 2: Manual Docker Commands
+
+If the deployment script fails due to Docker CLI path issues, use these commands:
+
+```bash
+cd deploy
+
+# Add Docker to PATH (if needed)
+export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
+
+# Quick restart (uses cache)
+docker compose up --build -d backend
+
+# Force rebuild (no cache - use when code changes aren't reflected)
+docker compose build --no-cache backend && docker compose up -d backend
+```
+
+### Ensuring Swagger UI Updates
+
+The Swagger UI is served at `https://api.mythosgame.app/api/docs` and the JSON specification at `https://api.mythosgame.app/api/docs.json`.
+
+#### When to Force a No-Cache Rebuild
+
+Use the no-cache rebuild when:
+- New API endpoints aren't appearing in Swagger UI
+- Swagger documentation changes aren't reflected
+- Repository function changes aren't working (e.g., database schema mismatches)
+- Getting 500 errors that should be fixed
+
+#### Verifying the Update
+
+After deployment, verify the changes:
+
+```bash
+# Check if Swagger JSON is serving correctly (should return full JSON)
+curl -s https://api.mythosgame.app/api/docs.json | wc -c
+
+# Test a specific endpoint (example: story node creation)
+curl -s -X POST https://api.mythosgame.app/api/story/nodes \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Test Node", "content": "Test content"}'
+```
+
+#### Troubleshooting Common Issues
+
+**Issue: Docker command not found**
+```bash
+# Solution: Add Docker to PATH
+export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
+```
+
+**Issue: Changes not reflected after restart**
+```bash
+# Solution: Force no-cache rebuild
+docker compose build --no-cache backend && docker compose up -d backend
+```
+
+**Issue: Swagger UI shows truncated or missing endpoints**
+- Check Cloudflare Tunnel settings (disable chunked encoding if needed)
+- Verify no duplicate path keys in `swagger-spec.js`
+- Force browser cache refresh (Ctrl+Shift+R or Cmd+Shift+R)
+
+**Issue: Database connection errors (ECONNREFUSED)**
+- Ensure `DATABASE_URL` in `.env` points to correct database
+- Verify `DOCKER_CONTAINER=true` is set in `docker-compose.yml`
+- Check that all services use centralized `db-connection.js` instead of hardcoded connections
+
+### Database Schema Alignment
+
+When adding new API endpoints, ensure:
+
+1. **Repository functions** match actual database schema columns
+2. **Swagger specification** documents the correct fields
+3. **API routes** validate the right parameters
+
+Example: If database has `nextnodeid` but code uses `targetnodeid`, you'll get column errors.
+
+## Future Features
 
 - [ ] User authentication and registration
 - [ ] Multiple character slots per user
