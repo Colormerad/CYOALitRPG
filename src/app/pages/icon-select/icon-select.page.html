@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Choose Profile Icon</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" (click)="onBackgroundClick($event)">
+  <div class="icon-grid">
+    <button
+      class="icon-tile"
+      *ngFor="let icon of icons; trackBy: trackByKey"
+      [class.selected]="icon.key === selectedKey()"
+      (click)="select(icon)"
+    >
+      <div class="sprite-frame-2x">
+        <span class="sprite-2x-center" [ngClass]="'icon-' + icon.key"></span>
+      </div>
+      <!-- Play icon overlay for selected icon -->
+      <div *ngIf="icon.key === selectedKey()" 
+           class="character-play-overlay"
+           (click)="onPlayOverlayClick($event)"
+           aria-label="Confirm icon selection">
+        <div class="play-icon"></div>
+      </div>
+    </button>
+  </div>
+
+  <div class="actions">
+    <ion-button size="default" (click)="cancel()" fill="clear">Cancel</ion-button>
+    <ion-button size="default" color="primary" [disabled]="!selectedKey()" (click)="save()">Save</ion-button>
+  </div>
+  <div class="bottom-spacer" style="height: 100px; width: 100%;"></div>
+
+</ion-content>

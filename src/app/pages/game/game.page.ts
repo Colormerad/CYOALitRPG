@@ -28,6 +28,7 @@ export class GamePage implements OnInit, AfterViewInit {
   characterProfile: CharacterProfile | null = null;
   characterData: Character | null = null;
   isDeathScreen: boolean = false;
+  selectedChoice: Choice | null = null;
   
   // Helper for template
   objectKeys = Object.keys;
@@ -186,6 +187,22 @@ export class GamePage implements OnInit, AfterViewInit {
     });
   }
 
+  onChoiceClick(choice: Choice): void {
+    if (this.selectedChoice && this.selectedChoice.id === choice.id) {
+      this.selectedChoice = null;
+    } else {
+      this.selectedChoice = choice;
+    }
+  }
+
+  onPlayIconClick(choice: Choice, event: Event): void {
+    // Prevent the choice card click event from firing
+    event.stopPropagation();
+    
+    // Make the choice immediately
+    this.makeChoice(choice.id || 0, choice);
+  }
+
   makeChoice(choiceId: number, choice?: Choice): void {
     this.loading = true;
 
@@ -312,7 +329,7 @@ export class GamePage implements OnInit, AfterViewInit {
   }
 
   goToCharacterSelect(): void {
-    this.router.navigate(['/character-select']);
+    this.router.navigate(['/select-character']);
   }
   
   goToInventory(): void {

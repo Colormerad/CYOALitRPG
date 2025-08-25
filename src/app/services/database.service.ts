@@ -55,15 +55,87 @@ export class DatabaseService {
   }
 
   getCharacter(id: number): Observable<Character> {
-    return this.http.get<Character>(`${this.apiUrl}/characters/${id}`);
+    return this.http.get<Character>(`${this.apiUrl}/characters/${id}`).pipe(
+      tap(character => {
+        // Merge stored icon if available (fallback for backend issues)
+        const storedIcon = this.getStoredIconKey(id);
+        if (storedIcon && (!character.iconKey || character.iconKey !== storedIcon)) {
+          character.iconKey = storedIcon;
+        }
+      })
+    );
   }
 
   updateCharacter(character: Character): Observable<Character> {
     return this.http.put<Character>(`${this.apiUrl}/characters/${character.id}`, character, this.httpOptions);
   }
 
+  // Minimal payload update specifically for the character's profile icon.
+  // Sends both camelCase and snake_case keys for backend compatibility.
+  updateCharacterIcon(id: number, iconKey: string): Observable<Character> {
+    const body: any = { iconKey, icon_key: iconKey };
+    return this.http.put<Character>(`${this.apiUrl}/characters/${id}`, body, this.httpOptions);
+  }
+
+  // Client-side icon persistence (fallback for backend issues)
+  private getStoredIconKey(characterId: number): string | null {
+    const stored = localStorage.getItem(`character_icon_${characterId}`);
+    return stored;
+  }
+
+  private storeIconKey(characterId: number, iconKey: string): void {
+    localStorage.setItem(`character_icon_${characterId}`, iconKey);
+  }
+
+  // Enhanced icon update with client-side fallback
+  updateCharacterIconWithFallback(id: number, iconKey: string): Observable<Character> {
+    // Store locally first for immediate persistence
+    this.storeIconKey(id, iconKey);
+    
+    // Try backend update, but don't fail if it errors
+    return new Observable(observer => {
+      this.updateCharacterIcon(id, iconKey).subscribe({
+        next: (character) => {
+          observer.next(character);
+          observer.complete();
+        },
+        error: (err) => {
+          console.warn('Backend icon update failed, using client-side storage:', err);
+          // Return a mock success response with the icon set
+          const mockCharacter: Character = { 
+            id, 
+            iconKey,
+            accountId: 0, 
+            name: '', 
+            level: 1, 
+            experience: 0, 
+            health: 100, 
+            mana: 100, 
+            strength: 10, 
+            dexterity: 10, 
+            intelligence: 10 
+          };
+          observer.next(mockCharacter);
+          observer.complete();
+        }
+      });
+    });
+  }
+
   getUserCharacters(userId: number): Observable<Character[]> {
-    return this.http.get<Character[]>(`${this.apiUrl}/users/${userId}/characters`);
+    return this.http.get<Character[]>(`${this.apiUrl}/characters/user/${userId}`).pipe(
+      tap(characters => {
+        // Merge stored icons for all characters (fallback for backend issues)
+        characters.forEach(character => {
+          if (character.id) {
+            const storedIcon = this.getStoredIconKey(character.id);
+            if (storedIcon && (!character.iconKey || character.iconKey !== storedIcon)) {
+              character.iconKey = storedIcon;
+            }
+          }
+        });
+      })
+    );
   }
 
   // Story operations

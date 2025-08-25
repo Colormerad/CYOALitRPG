@@ -17,7 +17,7 @@
     <!-- Grave view -->
     <div *ngIf="!loading && !error && character" class="grave-view">
       <div class="grave-header">
-        <div class="grave-icon">✝</div>
+        <span class="icon-grave sprite-2x"></span>
         <div class="character-name">{{ character.name }}</div>
         <div class="character-dates">
           <span>Level {{ character.level || 1 }} {{ getClassDisplay() }}</span>

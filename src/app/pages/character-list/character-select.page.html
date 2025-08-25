@@ -1,4 +1,4 @@
-<ion-content class="retro-content scanlines" [fullscreen]="true">
+<ion-content class="retro-content scanlines" [fullscreen]="true" (click)="onBackgroundClick($event)">
   <div class="pixel-container" style="padding-bottom: 150px; margin-bottom: 50px;">
     <h1 class="retro-header">Character Select</h1>
     <div class="welcome-message retro-text">Welcome, {{username}}!</div>
@@ -40,6 +40,8 @@
           <button class="pixel-button delete-btn" (click)="deleteCharacter(selectedCharacter)">Kill</button>
         </ng-container>
         <ng-container *ngIf="selectedCharacter.is_dead">
+         
+         
           <button class="pixel-button grave-btn" (click)="viewGrave(selectedCharacter)">View Grave</button>
         </ng-container>
       </div>
@@ -51,6 +53,38 @@
           <div class="pixel-art-container">
             <div class="pixel-art-character" 
                  [ngClass]="[(character.className || character.class || 'Warrior')?.toLowerCase(), character.is_dead ? 'dead' : '']"></div>
+
+            <!-- Profile icon overlay: alive shows character.iconKey if present; dead shows skullcrossbones; centered within a 2x frame -->
+            <div class="character-icon-overlay">
+              <!-- Alive with an assigned icon -->
+              <ng-container *ngIf="!character.is_dead && character.iconKey">
+                <div class="sprite-center-abs sprite-frame-2x" style="--sprite-nudge-x: 2px;">
+                  <span class="sprite-2x-center" [ngClass]="'icon-' + character.iconKey"></span>
+                </div>
+              </ng-container>
+              <!-- Dead shows skullcrossbones -->
+              <ng-container *ngIf="character.is_dead">
+                <div class="sprite-center-abs sprite-frame-2x" style="--sprite-nudge-x: 2px;">
+                  <span class="icon-skullcrossbones sprite-2x-center"></span>
+                </div>
+              </ng-container>
+            </div>
+
+            <!-- Play icon overlay for selected living characters -->
+            <div *ngIf="selectedCharacter?.id === character.id && !character.is_dead" 
+                 class="character-play-overlay"
+                 (click)="onPlayIconClick(character, $event)">
+              <div class="play-icon"></div>
+            </div>
+            
+            <!-- Grave icon overlay for selected dead characters -->
+            <div *ngIf="selectedCharacter?.id === character.id && character.is_dead" 
+                 class="character-grave-overlay"
+                 (click)="onGraveIconClick(character, $event)">
+                 <div class="grave-header center-children">
+                  <span class="icon-grave sprite-2x-center"></span>
+                </div>               
+               </div>
           </div>
           <div class="character-info">
             <div class="character-name">{{ character.name }}</div>

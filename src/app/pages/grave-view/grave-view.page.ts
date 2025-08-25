@@ -290,6 +290,6 @@ export class GraveViewPage implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/character-select']);
+    this.router.navigate(['/select-character']);
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { DatabaseService } from '../../services/database.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -25,7 +26,8 @@ export class CharacterSelectPage implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private db: DatabaseService
   ) {}
 
   ngOnInit() {
@@ -51,13 +53,22 @@ export class CharacterSelectPage implements OnInit, OnDestroy {
       this.loadCharacters(account.id);
     });
   }
+
+  ionViewWillEnter() {
+    // Refresh character data every time we navigate back to this page
+    // This ensures localStorage-cached icons are always up to date
+    const currentAccount = this.authService.getCurrentAccount();
+    if (currentAccount) {
+      this.loadCharacters(currentAccount.id);
+    }
+  }
   
   /**
    * Load characters for the given account ID
    */
   private loadCharacters(accountId: number) {
-    // Use full API URL to prevent 404 errors
-    this.http.get(`${environment.apiBase}/characters/user/${accountId}`).subscribe({
+    // Use DatabaseService to get characters with localStorage icon merging
+    this.db.getUserCharacters(accountId).subscribe({
       next: (data: any) => {
         this.characters = data;
         this.loading = false;
@@ -87,9 +98,37 @@ export class CharacterSelectPage implements OnInit, OnDestroy {
     }
   }
 
+  onPlayIconClick(character: any, event: Event) {
+    // Prevent the character card click event from firing
+    event.stopPropagation();
+    
+    // Start the game with the selected character
+    this.playCharacter(character);
+  }
+
+  onBackgroundClick(event: Event) {
+    const target = event.target as HTMLElement;
+    // If click originated inside a character card or overlay controls, ignore
+    if (target.closest('.character-card') || target.closest('.character-play-overlay') || target.closest('.character-grave-overlay')) {
+      return;
+    }
+    // Otherwise clear selection
+    this.selectedCharacter = null;
+  }
+
+  onGraveIconClick(character: any, event: Event) {
+    // Prevent the character card click event from firing
+    event.stopPropagation();
+    
+    // Navigate to the character's grave
+    this.viewGrave(character);
+  }
+
   playCharacter(character: any) {
     // Navigate to the game page with the character ID
     if (character && character.id) {
+      // Store the active character ID in localStorage for smart navigation
+      localStorage.setItem('activeCharacterId', character.id.toString());
       this.router.navigate(['/game', character.id]);
     } else {
       this.error = 'Invalid character selection';
@@ -113,6 +152,12 @@ export class CharacterSelectPage implements OnInit, OnDestroy {
             if (index !== -1) {
               this.characters[index].is_dead = true;
               this.selectedCharacter = null; // Deselect the character
+              
+              // Clear active character from localStorage if this was the active character
+              const activeCharacterId = localStorage.getItem('activeCharacterId');
+              if (activeCharacterId === character.id.toString()) {
+                localStorage.removeItem('activeCharacterId');
+              }
             }
           },
           error: err => {

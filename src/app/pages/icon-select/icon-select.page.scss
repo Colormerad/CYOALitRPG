@@ -1,0 +1,40 @@
+:host { display: block; }
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 12px;
+}
+
+.icon-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: var(--retro-green-dark, #0f2d1f);
+  border: 2px solid var(--retro-border, #2a5a3f);
+  color: var(--retro-text, #e6f5e6);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative; /* needed for absolute play overlay */
+  overflow: hidden;   /* hide overlay bleed */
+}
+
+.icon-tile.selected {
+  border-color: var(--retro-accent, #77ff77);
+  box-shadow: 0 0 8px rgba(119, 255, 119, 0.5);
+}
+
+.icon-label {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}

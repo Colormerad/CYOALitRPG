@@ -218,5 +218,11 @@ export class ProfilePage implements OnInit {
            confirmPassword !== '';
   }
 
+  /**
+   * Navigate to theme select page
+   */
+  goToThemeSelect(): void {
+    this.router.navigate(['/theme-select']);
+  }
 
 }

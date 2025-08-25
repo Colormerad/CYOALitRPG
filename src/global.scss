@@ -30,6 +30,9 @@
 @import "./theme/retro-ionic-overrides.scss";
 @import "./theme/scrolling-fix.scss";
 
+/* Import Global Component Styles */
+@import "./styles/global-components.scss";
+
 /* Import Pixel Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
@@ -43,3 +46,119 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/* ========================================
+   GLOBAL PAGE CONSISTENCY
+   ======================================== */
+
+/* Ensure all pages have consistent dark green background */
+html, body {
+  background-color: var(--retro-bg) !important;
+  color: var(--retro-text) !important;
+  font-family: 'VT323', monospace !important;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* Override Ionic's default backgrounds */
+ion-app {
+  background-color: var(--retro-bg) !important;
+}
+
+ion-content {
+  --background: var(--retro-bg) !important;
+  --color: var(--retro-text) !important;
+  font-family: 'VT323', monospace !important;
+  --padding-start: 1.5rem !important;
+  --padding-end: 1.5rem !important;
+  --padding-top: 1.5rem !important;
+  --padding-bottom: 1.5rem !important;
+}
+
+ion-router-outlet {
+  background-color: var(--retro-bg) !important;
+}
+
+/* Ensure all page containers have consistent styling */
+ion-content .scroll-content {
+  background-color: var(--retro-bg) !important;
+}
+
+/* Global page wrapper for consistent layout */
+.page-wrapper {
+  min-height: 100vh;
+  background-color: var(--retro-bg);
+  color: var(--retro-text);
+  font-family: 'VT323', monospace;
+  padding: 0;
+  margin: 0;
+}
+
+/* Override any white backgrounds that might appear */
+.ion-page {
+  background-color: var(--retro-bg) !important;
+}
+
+/* Ensure modals and overlays also use the retro theme */
+ion-modal, ion-popover, ion-action-sheet, ion-alert {
+  --background: var(--retro-bg) !important;
+  --color: var(--retro-text) !important;
+  
+  .modal-wrapper, .popover-wrapper, .action-sheet-wrapper, .alert-wrapper {
+    background-color: var(--retro-green-dark) !important;
+    border: 2px solid var(--retro-border) !important;
+    color: var(--retro-text) !important;
+  }
+}
+
+/* Ensure input elements maintain theme */
+ion-input, ion-textarea, ion-select, ion-checkbox, ion-radio, ion-toggle {
+  --background: var(--retro-input-bg) !important;
+  --color: var(--retro-input-text) !important;
+  --border-color: var(--retro-border) !important;
+}
+
+/* Ensure buttons maintain theme */
+ion-button {
+  --background: var(--retro-button-bg) !important;
+  --color: var(--retro-button-text) !important;
+  --border-color: var(--retro-border) !important;
+  font-family: 'VT323', monospace !important;
+}
+
+/* Ensure cards and items maintain theme */
+ion-card, ion-item, ion-list {
+  --background: var(--retro-green-dark) !important;
+  --color: var(--retro-text) !important;
+  --border-color: var(--retro-border) !important;
+}
+
+/* Ensure headers maintain theme */
+ion-header, ion-toolbar, ion-title {
+  --background: var(--retro-green-dark) !important;
+  --color: var(--retro-text) !important;
+  --border-color: var(--retro-border) !important;
+  font-family: 'Press Start 2P', 'VT323', monospace !important;
+}
+
+/* Remove any default Ionic shadows and borders that don't fit the pixel art theme */
+ion-card, ion-button, ion-item {
+  box-shadow: none !important;
+}
+
+/* Ensure consistent scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: var(--retro-green-darkest);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--retro-green-medium);
+  border: 1px solid var(--retro-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--retro-green-light);
+}

@@ -62,7 +62,7 @@
           <ion-col size="4">
             <div class="stat-item">
               <ion-icon name="walk" color="secondary"></ion-icon>
-              <span>{{ currentCharacter.agility }}</span>
+              <span>{{ currentCharacter.dexterity }}</span>
             </div>
           </ion-col>
           <ion-col size="4">
@@ -103,7 +103,7 @@
       (click)="makeChoice(choice)"
       [disabled]="isLoading">
       <ion-icon name="arrow-forward" slot="end"></ion-icon>
-      {{ choice.choice_text }}
+      {{ choice.text }}
     </ion-button>
   </div>
 

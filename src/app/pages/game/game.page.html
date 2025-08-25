@@ -68,10 +68,20 @@
     <div *ngIf="!currentNode.requiresInput" class="choices">
       <h3>What will you do?</h3>
       <div class="choice-list">
-        <div *ngFor="let choice of choices" class="choice-item">
-          <button (click)="makeChoice(choice.id || 0, choice)" class="choice-button">
-            {{ choice.text }}
-          </button>
+        <div *ngFor="let choice of choices" 
+             class="choice-item" 
+             [class.selected]="selectedChoice?.id === choice.id"
+             (click)="onChoiceClick(choice)">
+          <div class="choice-content">
+            <div class="choice-text">{{ choice.text }}</div>
+            
+            <!-- Play icon overlay for selected choice -->
+            <div *ngIf="selectedChoice?.id === choice.id" 
+                 class="choice-play-overlay"
+                 (click)="onPlayIconClick(choice, $event)">
+              <div class="play-icon"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

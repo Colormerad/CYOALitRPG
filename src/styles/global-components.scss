@@ -1,0 +1,1423 @@
+/*
+ * Global Component Styles
+ * ----------------------------------------------------------------------------
+ * Consolidated styles for all UI components across the application
+ * This file contains all reusable component styles to maintain consistency
+ */
+
+/* ========================================
+   RESPONSIVE LAYOUT COMPONENTS
+   ======================================== */
+
+/* Universal page container - ensures all pages look the same */
+.page-container {
+  min-height: 100vh;
+  background-color: var(--retro-bg) !important;
+  color: var(--retro-text) !important;
+  font-family: 'VT323', monospace !important;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  
+}
+
+/* Responsive app container - adapts to screen size */
+.app-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(15px, 4vw, 30px);
+  font-family: 'VT323', monospace;
+  background-color: var(--retro-bg);
+  color: var(--retro-text);
+  min-height: 100vh;
+  height: auto;
+  overflow-y: auto;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Flexible content container */
+.content-container {
+  width: 100%;
+  padding: clamp(10px, 3vw, 20px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 2vw, 16px);
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'VT323', monospace;
+  background-color: var(--retro-bg);
+  color: var(--retro-text);
+  min-height: 100vh;
+  position: relative;
+  box-sizing: border-box;
+  padding: 1.5rem;
+}
+
+/* Responsive centered container */
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: clamp(10px, 3vw, 20px);
+  background-color: var(--retro-bg);
+  font-family: 'VT323', monospace;
+ color: var(--retro-text);
+  box-sizing: border-box;
+}
+
+/* Full-width container for pages that need the entire screen */
+.full-width-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--retro-bg);
+  color: var(--retro-text);
+  font-family: 'VT323', monospace;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* ========================================
+   SPRITE ICON UTILITIES
+   ======================================== */
+
+// Default sprite sheet location and cell size. Override via mixin args if needed.
+// Use absolute /assets path so webpack doesn't rewrite relative to this file.
+$sprite-src: '/assets/icons/icon-atlas.png';
+// Exact cell size based on a 512px atlas split into 21 columns/rows
+$sprite-cell: (512px / 21);
+
+// Common pixel-art rendering for sprites
+.sprite-base {
+  display: inline-block;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+// Usage: @include sprite-icon($row, $col, $cell: $sprite-cell, $src: $sprite-src);
+// Example: .heart { @include sprite-icon(0, 1); }
+// Default cell size is 512/21 ≈ 24.380952px per your atlas grid.
+@mixin sprite-icon($row, $col, $cell: 24px, $src: $sprite-src) {
+  @extend .sprite-base;
+  width: $cell;
+  height: $cell;
+  background-image: url(#{$src});   
+  // Avoid strict-unary deprecation by multiplying by -1 explicitly
+  background-position: ($col * -$cell - 5 ) ($row * -$cell - 5) ;
+}   
+
+// Convenience size variants when upscaling icons
+.sprite-2x { transform: scale(2); transform-origin: center; }
+.sprite-3x { transform: scale(3); transform-origin: center; }
+.sprite-4x { transform: scale(4); transform-origin: center; }
+
+// Exact-size frames matching scaled sprite dimensions; helps avoid visual offset
+.sprite-frame-1x { position: relative; width: $sprite-cell; height: $sprite-cell; }
+.sprite-frame-2x { position: relative; width: ($sprite-cell * 2); height: ($sprite-cell * 2); }
+.sprite-frame-3x { position: relative; width: ($sprite-cell * 3); height: ($sprite-cell * 3); }
+.sprite-frame-4x { position: relative; width: ($sprite-cell * 4); height: ($sprite-cell * 4); }
+
+// Absolute-centering helpers (works with scaling)
+.sprite-center-abs {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+}
+
+.sprite-2x-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center;
+  transform: translate(calc(-50% + var(--sprite-nudge-x, 0px)), calc(-50% + var(--sprite-nudge-y, 0px))) scale(2);
+}
+
+.sprite-3x-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center;
+  transform: translate(calc(-50% + var(--sprite-nudge-x, 0px)), calc(-50% + var(--sprite-nudge-y, 0px))) scale(3);
+}
+
+.sprite-4x-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center;
+  transform: translate(calc(-50% + var(--sprite-nudge-x, 0px)), calc(-50% + var(--sprite-nudge-y, 0px))) scale(4);
+}
+
+// Flex container centering helper
+.center-children {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Nudge utilities (use with *.sprite-*-center). Example: add .sprite-nudge-right-1 to push 1px right
+.sprite-nudge-right-1 { --sprite-nudge-x: 1px; }
+.sprite-nudge-right-2 { --sprite-nudge-x: 2px; }
+.sprite-nudge-left-1 { --sprite-nudge-x: -1px; }
+.sprite-nudge-left-2 { --sprite-nudge-x: -2px; }
+.sprite-nudge-down-1 { --sprite-nudge-y: 1px; }
+.sprite-nudge-down-2 { --sprite-nudge-y: 2px; }
+.sprite-nudge-up-1 { --sprite-nudge-y: -1px; }
+.sprite-nudge-up-2 { --sprite-nudge-y: -2px; }
+
+/* Overlay to show selected profile icon on alive characters */
+.character-icon-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* let card clicks pass through */
+}
+
+// Named icon registry (0-based rows/cols). Add entries here to generate `.icon-<name>` classes automatically.
+$sprite-icons: (
+  'grave': (row: 15, col: 15),
+  'skullcrossbones': (row: 16, col: 16),
+
+  'guy1': (row: 0, col: 0),
+  'guy2': (row: 0, col: 1),
+  'guy3': (row: 0, col: 2),
+  'rabbit': (row: 0, col: 3),
+  'pegicorn': (row: 0, col: 4),
+  'pegicorn2': (row: 0, col: 5),
+  'muscleGuy': (row: 0, col: 6),
+  'longHair': (row: 0, col: 7),
+  'creature': (row: 0, col: 8),
+  'gunner': (row: 0, col: 9),
+  'sunglassGuy': (row: 0, col: 10),
+  'guy4': (row: 0, col: 11),
+  'mouse': (row: 0, col: 12),
+  'bear': (row: 0, col: 13),
+  'owl': (row: 0, col: 14),
+  'construction': (row: 0, col: 15),
+  'cat': (row: 0, col: 16),
+  'rabbit2': (row: 0, col: 17),
+  'guy5': (row: 1, col: 0),
+  'girl1': (row: 1, col: 1),
+  'girl2': (row: 1, col: 2),
+  'owlbear': (row: 1, col: 3),
+  'pig': (row: 1, col: 4),
+  'pig2': (row: 1, col: 5),
+  'girl3': (row: 1, col: 6),
+  'coatPerson': (row: 1, col: 7),
+  'dripGuy': (row: 1, col: 8),
+  'pirateSkeleton': (row: 1, col: 9),
+  'demon': (row: 1, col: 10),
+  'person1': (row: 1, col: 11),
+  'sneak': (row: 1, col: 12),
+  'foxguy': (row: 1, col: 13),
+  'bear2': (row: 1, col: 14),
+  'rabbit3': (row: 1, col: 15),
+  'frog': (row: 1, col: 16),
+  'foxguy2': (row: 1, col: 17),
+  'girl4': (row: 2, col: 0),
+  'person2': (row: 2, col: 1),
+  'mohawkGuy': (row: 2, col: 2),
+  'hedgehog': (row: 2, col: 3),
+  'mouse2': (row: 2, col: 4),
+  'dog': (row: 2, col: 5),
+  'person3': (row: 2, col: 6),
+  'person4': (row: 2, col: 7), 
+  'demon2': (row: 2, col: 8),
+  'person5': (row: 2, col: 9),
+  'person6': (row: 2, col: 10),
+  'person7': (row: 2, col: 11),
+  'person8': (row: 2, col: 12),
+  'dog2': (row: 2, col: 13),
+  'raccoon': (row: 2, col: 14),
+  'person9': (row: 2, col: 15),
+  'heart': (row: 2, col: 16),
+  'alien': (row: 2, col: 17),
+
+
+
+
+
+  );
+
+
+@each $name, $pos in $sprite-icons {
+  $r: map-get($pos, row);
+  $c: map-get($pos, col);
+  .icon-#{$name} { @include sprite-icon($r, $c); }
+}
+
+// Auto-generate utility classes for all grid cells: .icon-r<row>-c<col>
+// Uses 0-based indexing, 21x21 grid by default.
+@for $r from 0 through 20 {
+  @for $c from 0 through 20 {
+    .icon-r#{$r}-c#{$c} { @include sprite-icon($r, $c); }
+  }
+}
+
+/* Container with bottom padding to account for navigation menu */
+.nav-padded-container {
+  padding-bottom: clamp(70px, 10vh, 100px); /* Responsive space for bottom navigation */
+  min-height: calc(100vh - clamp(70px, 10vh, 100px));
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Responsive grid container */
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(12px, 2vw, 20px);
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* Flexible row container */
+.responsive-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(8px, 1.5vw, 16px);
+  width: 100%;
+  align-items: stretch;
+}
+
+/* Responsive column that adapts to content */
+.responsive-col {
+  flex: 1;
+  min-width: 0; /* Allows flex items to shrink below content size */
+  box-sizing: border-box;
+}
+
+/* ========================================
+   HEADER COMPONENTS
+   ======================================== */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  
+  h1, h2 {
+    margin: 0;
+    color: var(--retro-green-brightest, var(--retro-green-lightest));
+    font-size: 2.2rem;
+    font-family: 'Press Start 2P', 'VT323', monospace;
+    text-shadow: 0 0 5px var(--retro-green-medium);
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+  }
+}
+
+.section-header {
+  margin-bottom: 20px;
+  
+  h3 {
+    color: var(--retro-green-light);
+    font-family: 'Press Start 2P', 'VT323', monospace;
+    font-size: 1.4rem;
+    margin: 0 0 10px 0;
+    text-shadow: 0 0 3px var(--retro-green-medium);
+  }
+}
+
+/* ========================================
+   BUTTON COMPONENTS
+   ======================================== */
+
+.btn-primary {
+  padding: 12px 20px;
+  background-color: var(--retro-button-bg);
+  color: var(--retro-button-text);
+  border: 2px solid var(--retro-border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: 'VT323', monospace;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: var(--retro-green-medium);
+    color: var(--retro-green-lightest);
+    text-shadow: 0 0 3px var(--retro-green-darkest);
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+      background-color: var(--retro-button-bg);
+    }
+  }
+}
+
+.btn-secondary {
+  @extend .btn-primary;
+  background-color: var(--retro-green-dark);
+  border-color: var(--retro-green-medium);
+  
+  &:hover {
+    background-color: var(--retro-green-light);
+    color: var(--retro-green-darkest);
+  }
+}
+
+.btn-danger {
+  @extend .btn-primary;
+  background-color: #7a2a2a;
+  border-color: #a03a3a;
+  
+  &:hover {
+    background-color: #a03a3a;
+    color: var(--retro-green-lightest);
+  }
+}
+
+.btn-small {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.btn-large {
+  padding: 16px 24px;
+  font-size: 1.3rem;
+}
+
+.btn-block {
+  width: 100%;
+  display: block;
+}
+
+.back-button {
+  @extend .btn-secondary;
+  padding: 10px 16px;
+}
+
+/* ========================================
+   FORM COMPONENTS
+   ======================================== */
+
+.form-group {
+  margin-bottom: 20px;
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--retro-green-light);
+    font-family: 'Press Start 2P', 'VT323', monospace;
+    font-size: 0.9rem;
+  }
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--retro-input-bg);
+  color: var(--retro-input-text);
+  border: 2px solid var(--retro-border);
+  border-radius: 4px;
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  
+  &:focus {
+    outline: none;
+    border-color: var(--retro-green-light);
+    box-shadow: 0 0 5px var(--retro-green-medium);
+  }
+  
+  &::placeholder {
+    color: var(--retro-green-medium);
+    opacity: 0.7;
+  }
+}
+
+.form-textarea {
+  @extend .form-input;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-select {
+  @extend .form-input;
+  cursor: pointer;
+}
+
+/* ========================================
+   RESPONSIVE CARD COMPONENTS
+   ======================================== */
+
+.card {
+  background-color: var(--retro-green-dark);
+  border: 2px solid var(--retro-border);
+  border-radius: 8px;
+  padding: clamp(12px, 2.5vw, 20px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  margin-bottom: clamp(12px, 2vw, 16px);
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0; /* Allows cards to shrink */
+}
+
+.card-header {
+  margin-bottom: 12px;
+  
+  .card-title {
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: var(--retro-green-lightest);
+    font-family: 'Press Start 2P', 'VT323', monospace;
+    text-shadow: 0 0 3px var(--retro-green-medium);
+    font-size: 1.2rem;
+  }
+}
+
+.card-body {
+  line-height: 1.4;
+}
+
+.card-footer {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--retro-border);
+}
+
+/* ========================================
+   ENTITY/CHARACTER COMPONENTS
+   ======================================== */
+
+.entity-card {
+  @extend .card;
+  
+  .entity-name {
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--retro-green-lightest);
+    font-family: 'Press Start 2P', 'VT323', monospace;
+    text-shadow: 0 0 3px var(--retro-green-medium);
+  }
+  
+  .entity-stats {
+    display: flex;
+    gap: 16px;
+    margin: 12px 0;
+    
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
+      .stat-label {
+        font-size: 0.8rem;
+        color: var(--retro-green-medium);
+        margin-bottom: 4px;
+      }
+      
+      .stat-value {
+        font-weight: bold;
+        color: var(--retro-green-lightest);
+        font-family: 'Press Start 2P', 'VT323', monospace;
+      }
+    }
+  }
+}
+
+/* ========================================
+   CHARACTER SELECT COMPONENTS
+   ======================================== */
+
+.character-card {
+  @extend .card;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: visible;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 0 var(--retro-green-darkest), 0 0 15px rgba(139, 188, 15, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 var(--retro-green-darkest);
+  }
+  
+  &.selected {
+    border: 3px solid var(--retro-green-light);
+    box-shadow: 
+      0 6px 0 var(--retro-green-darkest),
+      0 0 20px var(--retro-green-light),
+      inset 0 0 20px rgba(139, 188, 15, 0.2);
+    transform: translateY(-6px) scale(1.05);
+    animation: selectedPulse 2s infinite;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border: 2px solid var(--retro-green-light);
+      border-radius: 8px;
+      opacity: 0.6;
+      animation: selectedGlow 2s infinite;
+    }
+  }
+}
+
+.character-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background-color: var(--retro-green-light);
+  border: 3px solid var(--retro-green-lightest);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 15px var(--retro-green-light);
+  animation: playIconPulse 1.5s infinite;
+  
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    background-color: var(--retro-green-lightest);
+    box-shadow: 0 0 25px var(--retro-green-light);
+  }
+  
+  &:active {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  
+  .play-icon {
+    width: 0;
+    height: 0;
+    border-left: 20px solid var(--retro-green-darkest);
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    margin-left: 4px; // Center the triangle
+  }
+}
+
+.character-grave-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background-color: #666;
+  border: 3px solid #888;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 15px rgba(102, 102, 102, 0.5);
+  animation: graveIconPulse 2s infinite;
+  
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    background-color: #777;
+    box-shadow: 0 0 25px rgba(102, 102, 102, 0.7);
+  }
+  
+  &:active {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  
+  .grave-icon {
+    // Use sprite sheet icon (row 16, col 16)
+    @include sprite-icon(16, 16);
+    display: inline-block;
+    // Upscale for better visibility inside 60x60 overlay
+    transform: scale(2);
+    transform-origin: center;
+  }
+}
+
+.pixel-art-container {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  background-color: var(--retro-green-darkest);
+  border: 2px solid var(--retro-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.pixel-art-character {
+  width: 64px;
+  height: 64px;
+  background-color: var(--retro-green-medium);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  position: relative;
+  
+  &.empty-slot {
+    background-color: transparent;
+    border: 2px dashed var(--retro-border);
+    
+    &::after {
+      content: '+';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--retro-green-medium);
+      font-size: 32px;
+      font-family: 'Press Start 2P', 'VT323', monospace;
+    }
+  }
+}
+
+.character-info {
+  text-align: center;
+  
+  .character-name {
+    font-weight: bold;
+    color: var(--retro-green-lightest);
+    font-family: 'Press Start 2P', 'VT323', monospace;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    text-shadow: 0 0 3px var(--retro-green-medium);
+  }
+  
+  .character-details {
+    font-size: 0.8rem;
+    color: var(--retro-green-medium);
+    display: flex;
+    justify-content: space-between;
+    
+    span {
+      font-family: 'VT323', monospace;
+    }
+  }
+}
+
+.characters-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Default: 2 columns on mobile */
+  gap: clamp(12px, 3vw, 24px);
+  padding: clamp(10px, 2vw, 20px) 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ========================================
+   CHARACTER SELECT ANIMATIONS
+   ======================================== */
+
+@keyframes selectedPulse {
+  0%, 100% {
+    box-shadow: 
+      0 6px 0 var(--retro-green-darkest),
+      0 0 20px var(--retro-green-light),
+      inset 0 0 20px rgba(139, 188, 15, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 6px 0 var(--retro-green-darkest),
+      0 0 30px var(--retro-green-light),
+      inset 0 0 30px rgba(139, 188, 15, 0.3);
+  }
+}
+
+@keyframes selectedGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes playIconPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px var(--retro-green-light);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 25px var(--retro-green-light);
+    opacity: 0.9;
+  }
+}
+
+@keyframes graveIconPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(102, 102, 102, 0.5);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(102, 102, 102, 0.7);
+    opacity: 0.8;
+  }
+}
+
+/* ========================================
+   GAME PAGE CONTAINERS
+   ======================================== */
+
+.game-container, .game-page-content {
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* ========================================
+   GAME PAGE CHOICE SELECTION
+   ======================================== */
+
+.choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 2vw, 15px);
+  margin-top: clamp(15px, 3vw, 25px);
+}
+
+.choice-item {
+  position: relative;
+  background: var(--retro-green-dark);
+  border: 2px solid var(--retro-green-medium);
+  border-radius: 8px;
+  padding: clamp(12px, 3vw, 20px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  
+  &:hover {
+    border-color: var(--retro-green-light);
+    background: var(--retro-green-medium);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  &.selected {
+    border-color: var(--retro-green-lightest);
+    background: var(--retro-green-medium);
+    box-shadow: 0 0 20px var(--retro-green-light);
+    transform: scale(1.02);
+    animation: choiceSelectionPulse 1.5s infinite;
+  }
+}
+
+.choice-content {
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.choice-text {
+  color: var(--retro-green-lightest);
+  font-size: clamp(10px, 2.5vw, 14px);
+  line-height: 1.4;
+  text-shadow: 1px 1px 0 var(--retro-green-darkest);
+  flex: 1;
+  padding-right: 20px; // Space for play icon
+}
+
+.choice-play-overlay {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background-color: var(--retro-green-light);
+  border: 3px solid var(--retro-green-lightest);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 15px var(--retro-green-light);
+  animation: playIconPulse 1.5s infinite;
+  
+  &:hover {
+    transform: translateY(-50%) scale(1.1);
+    background-color: var(--retro-green-lightest);
+    box-shadow: 0 0 25px var(--retro-green-light);
+  }
+  
+  &:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+  
+  .play-icon {
+    width: 0;
+    height: 0;
+    border-left: 16px solid var(--retro-green-darkest);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    margin-left: 3px; // Center the triangle
+  }
+}
+
+@keyframes choiceSelectionPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--retro-green-light);
+  }
+  50% {
+    box-shadow: 0 0 30px var(--retro-green-light);
+  }
+}
+
+// Responsive adjustments for mobile
+@media (max-width: 768px) {
+  .choice-item {
+    padding: clamp(10px, 4vw, 16px);
+  }
+  
+  .choice-play-overlay {
+    width: 45px;
+    height: 45px;
+    right: 10px;
+    
+    .play-icon {
+      border-left-width: 14px;
+      border-top-width: 9px;
+      border-bottom-width: 9px;
+    }
+  }
+  
+  .choice-text {
+    font-size: clamp(9px, 3vw, 12px);
+    padding-right: 15px;
+  }
+}
+
+/* ========================================
+   PROGRESS BARS
+   ======================================== */
+
+.progress-bar {
+  position: relative;
+  width: 100%;
+  height: 14px;
+  background: var(--retro-green-darkest);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--retro-border);
+  margin: 8px 0;
+  
+  .progress-fill {
+    height: 100%;
+    background: var(--retro-green-light);
+    transition: width 200ms ease-in-out;
+    
+    &.health {
+      background: var(--retro-green-light);
+    }
+    
+    &.enemy-health {
+      background: #7a2a2a;
+    }
+    
+    &.mana {
+      background: #4a6fa5;
+    }
+    
+    &.experience {
+      background: var(--retro-green-medium);
+    }
+  }
+  
+  .progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    color: var(--retro-text);
+    text-shadow: 1px 1px 0 var(--retro-green-darkest);
+    font-family: 'VT323', monospace;
+  }
+}
+
+/* ========================================
+   LIST COMPONENTS
+   ======================================== */
+
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list-item {
+  background-color: var(--retro-green-dark);
+  border: 1px solid var(--retro-border);
+  border-radius: 4px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: var(--retro-green-medium);
+    transform: translateX(4px);
+  }
+  
+  &.selected {
+    background-color: var(--retro-green-light);
+    color: var(--retro-green-darkest);
+    border-color: var(--retro-green-lightest);
+  }
+  
+  .item-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: var(--retro-green-lightest);
+  }
+  
+  .item-description {
+    font-size: 0.9rem;
+    color: var(--retro-green-medium);
+    line-height: 1.3;
+  }
+}
+
+/* ========================================
+   LOADING STATES
+   ======================================== */
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.4rem;
+  color: var(--retro-green-light);
+  animation: pulse 2s infinite;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--retro-green-medium);
+  border-radius: 50%;
+  border-top-color: var(--retro-green-light);
+  animation: spin 1s ease-in-out infinite;
+}
+
+/* ========================================
+   RESPONSIVE PAGE TEMPLATE UTILITIES
+   ======================================== */
+
+/* Standard page template with header and content */
+.standard-page {
+  @extend .page-container;
+  
+  .page-content {
+    @extend .app-container;
+    padding-bottom: clamp(80px, 12vh, 120px); /* Responsive space for bottom nav */
+  }
+}
+
+/* Auth pages (login, register) template */
+.auth-page {
+  @extend .centered-container;
+  
+  .auth-card {
+    @extend .card;
+    max-width: min(400px, 90vw);
+    width: 100%;
+    padding: clamp(20px, 4vw, 30px);
+  }
+}
+
+/* Game pages template with full content area */
+.game-page {
+  @extend .content-container;
+  padding-bottom: clamp(80px, 12vh, 120px); /* Responsive space for bottom nav */
+}
+
+/* List pages template (character select, inventory, etc.) */
+.list-page {
+  @extend .app-container;
+  
+  .list-header {
+    @extend .page-header;
+    margin-bottom: clamp(20px, 4vw, 30px);
+  }
+  
+  .list-content {
+    flex: 1;
+    padding-bottom: clamp(80px, 12vh, 120px); /* Responsive space for bottom nav */
+  }
+}
+
+/* Profile/settings pages template */
+.profile-page {
+  @extend .app-container;
+  
+  .profile-header {
+    @extend .section-header;
+    text-align: center;
+    margin-bottom: clamp(20px, 4vw, 30px);
+  }
+  
+  .profile-content {
+    max-width: min(600px, 95vw);
+    margin: 0 auto;
+    padding-bottom: clamp(80px, 12vh, 120px); /* Responsive space for bottom nav */
+  }
+}
+
+/* Ensure consistent background for all page types */
+.standard-page,
+.auth-page,
+.game-page,
+.list-page,
+.profile-page {
+  background-color: var(--retro-bg) !important;
+  color: var(--retro-text) !important;
+  font-family: 'VT323', monospace !important;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mb-small {
+  margin-bottom: 8px;
+}
+
+.mb-medium {
+  margin-bottom: 16px;
+}
+
+.mb-large {
+  margin-bottom: 24px;
+}
+
+.mt-small {
+  margin-top: 8px;
+}
+
+.mt-medium {
+  margin-top: 16px;
+}
+
+.mt-large {
+  margin-top: 24px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-small {
+  gap: 8px;
+}
+
+.gap-medium {
+  gap: 16px;
+}
+
+.gap-large {
+  gap: 24px;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* ========================================
+   COMPREHENSIVE RESPONSIVE DESIGN
+   ======================================== */
+
+/* Mobile-first approach with fluid scaling */
+:root {
+  --container-padding: clamp(10px, 3vw, 20px);
+  --content-gap: clamp(8px, 2vw, 16px);
+  --border-radius: clamp(4px, 1vw, 8px);
+  --font-size-small: clamp(0.8rem, 2vw, 0.9rem);
+  --font-size-base: clamp(1rem, 2.5vw, 1.1rem);
+  --font-size-large: clamp(1.2rem, 3vw, 1.4rem);
+  --font-size-xl: clamp(1.4rem, 4vw, 2.2rem);
+}
+
+/* Responsive typography */
+.responsive-text {
+  font-size: var(--font-size-base);
+  line-height: 1.4;
+}
+
+.responsive-text-small {
+  font-size: var(--font-size-small);
+  line-height: 1.3;
+}
+
+.responsive-text-large {
+  font-size: var(--font-size-large);
+  line-height: 1.3;
+}
+
+.responsive-text-xl {
+  font-size: var(--font-size-xl);
+  line-height: 1.2;
+}
+
+/* Responsive spacing utilities */
+.responsive-padding {
+  padding: var(--container-padding);
+}
+
+.responsive-margin {
+  margin: var(--content-gap);
+}
+
+.responsive-gap {
+  gap: var(--content-gap);
+}
+
+/* Enhanced mobile responsiveness */
+@media (max-width: 768px) {
+  .app-container,
+  .content-container {
+    padding: clamp(8px, 2vw, 15px);
+    max-width: 100%;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    gap: clamp(12px, 3vw, 16px);
+    text-align: center;
+    padding: var(--container-padding);
+    
+    h1, h2 {
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      margin: 0;
+    }
+  }
+  
+  .entity-stats {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(8px, 2vw, 12px);
+  }
+  
+  .btn-large {
+    padding: clamp(10px, 2.5vw, 14px) clamp(12px, 3vw, 18px);
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .characters-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on tablet */
+    gap: clamp(10px, 2.5vw, 16px);
+  }
+  
+  .character-card {
+    min-height: auto;
+    padding: clamp(8px, 2vw, 12px);
+  }
+  
+  .responsive-row {
+    flex-direction: column;
+    
+    .responsive-col {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1,
+  .page-header h2 {
+    font-size: clamp(1.2rem, 5vw, 1.6rem);
+  }
+  
+  .card {
+    padding: clamp(8px, 2vw, 12px);
+    margin-bottom: clamp(8px, 2vw, 12px);
+  }
+  
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 16px);
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    width: 100%;
+    max-width: none;
+  }
+  
+  .characters-grid {
+    grid-template-columns: repeat(2, 1fr); /* Keep 2 columns on small mobile */
+    gap: clamp(8px, 2vw, 12px);
+  }
+  
+  .form-input,
+  .form-textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .pixel-art-container {
+    height: clamp(80px, 15vw, 100px);
+  }
+  
+  .character-play-overlay {
+    width: clamp(40px, 10vw, 60px);
+    height: clamp(40px, 10vw, 60px);
+    
+    .play-icon {
+      border-left-width: clamp(12px, 3vw, 20px);
+      border-top-width: clamp(8px, 2vw, 12px);
+      border-bottom-width: clamp(8px, 2vw, 12px);
+    }
+  }
+}
+
+/* Desktop optimizations - 4 columns */
+@media (min-width: 900px) {
+  .characters-grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 columns on desktop */
+  }
+}
+
+/* Large screen optimizations - 5 columns */
+@media (min-width: 1200px) {
+  .app-container,
+  .content-container {
+    max-width: 1400px;
+  }
+  
+  .characters-grid {
+    grid-template-columns: repeat(5, 1fr); /* 5 columns on large screens */
+  }
+  
+  .responsive-row {
+    .responsive-col {
+      max-width: calc(50% - var(--content-gap));
+    }
+  }
+}
+
+/* Ultra-wide screen support - 6 columns max */
+@media (min-width: 1600px) {
+  .app-container,
+  .content-container {
+    max-width: 1600px;
+  }
+  
+  .characters-grid {
+    grid-template-columns: repeat(6, 1fr); /* 6 columns max on ultra-wide */
+  }
+}

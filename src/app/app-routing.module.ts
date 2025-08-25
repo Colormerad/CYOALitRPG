@@ -26,6 +26,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
+    path: 'theme-select',
+    loadComponent: () => import('./pages/theme-select/theme-select.page').then(m => m.ThemeSelectPage)
+  },
+  {
     path: 'game/:id',
     loadComponent: () => import('./pages/game/game.page').then(m => m.GamePage)
   },
@@ -40,6 +44,10 @@ const routes: Routes = [
   {
     path: 'inventory/:id',
     loadComponent: () => import('./pages/inventory/inventory.page').then(m => m.InventoryPage)
+  },
+  {
+    path: 'icon-select/:id',
+    loadComponent: () => import('./pages/icon-select/icon-select.page').then(m => m.IconSelectPage)
   },
   {
     path: 'battle',

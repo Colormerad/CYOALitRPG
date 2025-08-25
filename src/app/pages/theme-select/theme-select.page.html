@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar class="retro-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profile" class="pixel-button"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="retro-header">Theme Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="retro-content scanlines">
+  <div class="theme-select-container standard-page">
+    <div class="page-header">
+      <h1 class="retro-header">Choose Your Theme</h1>
+      <p class="retro-text">Select a visual theme to customize your adventure experience</p>
+    </div>
+    
+    <div class="theme-grid">
+      <div *ngFor="let theme of themes" 
+           class="theme-card" 
+           [class.selected]="selectedTheme?.id === theme.id"
+           (click)="onThemeClick(theme)">
+        
+        <div class="theme-preview" 
+             [style.background-color]="theme.backgroundColor"
+             [style.border-color]="theme.primaryColor">
+          <div class="preview-content">
+            <div class="preview-header" [style.color]="theme.primaryColor">
+              {{ theme.name }}
+            </div>
+            <div class="preview-text" [style.color]="theme.primaryColor">
+              Sample text in this theme
+            </div>
+            <div class="preview-button" 
+                 [style.background-color]="theme.primaryColor"
+                 [style.color]="theme.backgroundColor">
+              Button
+            </div>
+          </div>
+        </div>
+        
+        <div class="theme-info">
+          <h3 class="theme-name">{{ theme.name }}</h3>
+          <p class="theme-description">{{ theme.description }}</p>
+          <p class="theme-preview-text">{{ theme.preview }}</p>
+        </div>
+        
+        <!-- Apply theme icon overlay for selected theme -->
+        <div *ngIf="selectedTheme?.id === theme.id" 
+             class="theme-apply-overlay"
+             (click)="onApplyTheme(theme, $event)">
+          <div class="apply-icon">✓</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="theme-actions">
+      <button class="btn-secondary" (click)="goBack()">
+        Back to Profile
+      </button>
+    </div>
+  </div>
+</ion-content>

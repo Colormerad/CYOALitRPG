@@ -1,0 +1,65 @@
+export interface IconEntry {
+  key: string;
+  row: number;
+  col: number;
+}
+
+// Keep this in sync with the SCSS $sprite-icons map in styles/global-components.scss
+export const ICON_ENTRIES: IconEntry[] = [
+  
+  { key: 'guy1', row: 0, col: 0 },
+  { key: 'guy2', row: 0, col: 1 },
+  { key: 'guy3', row: 0, col: 2 },
+  { key: 'rabbit', row: 0, col: 3 },
+  { key: 'pegicorn', row: 0, col: 4 },
+  { key: 'pegicorn2', row: 0, col: 5 },
+  { key: 'muscleGuy', row: 0, col: 6 },
+  { key: 'longHair', row: 0, col: 7 },
+  { key: 'creature', row: 0, col: 8 },
+  { key: 'gunner', row: 0, col: 9 },
+  { key: 'sunglassGuy', row: 0, col: 10 },
+  // Add more as you extend the SCSS map
+  { key: 'guy4', row: 0, col: 11 },
+  { key: 'mouse', row: 0, col: 12 },
+  { key: 'bear', row: 0, col: 13 },
+  { key: 'owl', row: 0, col: 14 },
+  { key: 'construction', row: 0, col: 15 },
+  { key: 'cat', row: 0, col: 16 },
+  { key: 'rabbit2', row: 0, col: 17 },
+  { key: 'guy5', row: 1, col: 0 },
+  { key: 'girl1', row: 1, col: 1 },
+  { key: 'girl2', row: 1, col: 2 },
+  { key: 'owlbear', row: 1, col: 3 },
+  { key: 'pig', row: 1, col: 4 },
+  { key: 'pig2', row: 1, col: 5 },
+  { key: 'girl3', row: 1, col: 6 },
+  { key: 'coatPerson', row: 1, col: 7 },
+  { key: 'dripGuy', row: 1, col: 8 },
+  { key: 'pirateSkeleton', row: 1, col: 9 },
+  { key: 'demon', row: 1, col: 10 },
+  { key: 'person1', row: 1, col: 11 },
+  { key: 'sneak', row: 1, col: 12 },
+  { key: 'foxguy', row: 1, col: 13 },
+  { key: 'bear2', row: 1, col: 14 },
+  { key: 'rabbit3', row: 1, col: 15 },
+  { key: 'frog', row: 1, col: 16 },
+  { key: 'foxguy2', row: 1, col: 17 },
+  { key: 'girl4', row: 2, col: 0 },
+  { key: 'person2', row: 2, col: 1 },
+  { key: 'mohawkGuy', row: 2, col: 2 },
+  { key: 'hedgehog', row: 2, col: 3 },
+  { key: 'mouse2', row: 2, col: 4 },
+  { key: 'dog', row: 2, col: 5 },
+  { key: 'person3', row: 2, col: 6 },
+  { key: 'person4', row: 2, col: 7 },
+  { key: 'demon2', row: 2, col: 8 },
+  { key: 'person5', row: 2, col: 9 },
+  { key: 'person6', row: 2, col: 10 },
+  { key: 'person7', row: 2, col: 11 },
+  { key: 'person8', row: 2, col: 12 },
+  { key: 'dog2', row: 2, col: 13 },
+  { key: 'raccoon', row: 2, col: 14 },
+  { key: 'person9', row: 2, col: 15 },
+  { key: 'heart', row: 2, col: 16 },
+  { key: 'alien', row: 2, col: 17 }
+];

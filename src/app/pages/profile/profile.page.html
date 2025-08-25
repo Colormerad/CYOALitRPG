@@ -88,6 +88,9 @@
           <button *ngIf="editMode" type="button" class="pixel-button cancel-btn" (click)="cancelEdit()">
             Cancel
           </button>
+          <button *ngIf="!editMode" type="button" class="pixel-button theme-btn" (click)="goToThemeSelect()">
+            Theme Settings
+          </button>
           <button type="button" class="pixel-button logout-btn" (click)="this.logout()">
             Logout
           </button>
