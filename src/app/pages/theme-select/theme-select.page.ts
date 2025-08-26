@@ -105,6 +105,12 @@ export class ThemeSelectPage implements OnInit {
     }
   ];
 
+  // Preview helper: readable text color per theme on cards
+  themeTextColor(theme: Theme): string {
+    if (theme.id === 'mario-classic') return '#9b371a';
+    return theme.primaryColor;
+  }
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -115,9 +121,14 @@ export class ThemeSelectPage implements OnInit {
 
   // Provide CSS variables to preview each theme's border frame on the card itself
   themeFrameVars(theme: Theme) {
+    const frameUrl = theme.id === 'castlevania-gothic'
+      ? `url('/assets/frames/32/frame-32/full.png')`
+      : theme.id === 'mario-classic'
+        ? `url('/assets/frames/32/frame-21/full.png')`
+        : `url('/assets/frames/32/frame-22/full.png')`;
     return {
       // Use the default 32x32 4x4-slice frame unless a theme specifies otherwise
-      '--frame-image-url': `url('/assets/frames/32/frame-22/full.png')`,
+      '--frame-image-url': frameUrl,
       '--slice-top': 8,
       '--slice-right': 8,
       '--slice-bottom': 8,
@@ -125,7 +136,7 @@ export class ThemeSelectPage implements OnInit {
       '--frame-border-width': '8px',
       // Tint and background per theme preview
       '--frame-tint-color': theme.primaryColor,
-      '--frame-tint-opacity': 0.25,
+      '--frame-tint-opacity': 1,
       '--frame-background': theme.backgroundColor,
     } as any;
   }
@@ -163,6 +174,9 @@ export class ThemeSelectPage implements OnInit {
         root.style.setProperty('--retro-green-medium', '#8bac0f');
         root.style.setProperty('--retro-green-light', '#9bbc0f');
         root.style.setProperty('--retro-green-lightest', '#c4d626');
+        // Frame tint to match theme
+        root.style.setProperty('--frame-tint-color', '#9bbc0f');
+        root.style.setProperty('--frame-tint-opacity', '1');
         break;
       case 'zelda-classic':
         root.style.setProperty('--retro-bg', '#2d4a22');
@@ -172,6 +186,8 @@ export class ThemeSelectPage implements OnInit {
         root.style.setProperty('--retro-green-medium', '#ccaa00');
         root.style.setProperty('--retro-green-light', '#ffd700');
         root.style.setProperty('--retro-green-lightest', '#ffff66');
+        root.style.setProperty('--frame-tint-color', '#ffd700');
+        root.style.setProperty('--frame-tint-opacity', '1');
         break;
       case 'mario-classic':
         root.style.setProperty('--retro-bg', '#5c94fc');
@@ -181,6 +197,17 @@ export class ThemeSelectPage implements OnInit {
         root.style.setProperty('--retro-green-medium', '#ff5544');
         root.style.setProperty('--retro-green-light', '#ff6b47');
         root.style.setProperty('--retro-green-lightest', '#ff8866');
+        // Improve readability: set default text color for this theme
+        root.style.setProperty('--retro-text', '#9b371a');
+        // Use frame-21 for Mushroom Kingdom
+        root.style.setProperty('--frame-image-url', `url('/assets/frames/32/frame-21/full.png')`);
+        root.style.setProperty('--slice-top', '8');
+        root.style.setProperty('--slice-right', '8');
+        root.style.setProperty('--slice-bottom', '8');
+        root.style.setProperty('--slice-left', '8');
+        root.style.setProperty('--frame-border-width', '8px');
+        root.style.setProperty('--frame-tint-color', '#ff6b47');
+        root.style.setProperty('--frame-tint-opacity', '1');
         break;
       case 'metroid-space':
         root.style.setProperty('--retro-bg', '#1a1a2e');
@@ -190,6 +217,8 @@ export class ThemeSelectPage implements OnInit {
         root.style.setProperty('--retro-green-medium', '#ee3333');
         root.style.setProperty('--retro-green-light', '#ff4444');
         root.style.setProperty('--retro-green-lightest', '#ff6666');
+        root.style.setProperty('--frame-tint-color', '#ff4444');
+        root.style.setProperty('--frame-tint-opacity', '1');
         break;
       case 'castlevania-gothic':
         root.style.setProperty('--retro-bg', '#2d1b69');
@@ -199,6 +228,15 @@ export class ThemeSelectPage implements OnInit {
         root.style.setProperty('--retro-green-medium', '#aa7700');
         root.style.setProperty('--retro-green-light', '#cc9900');
         root.style.setProperty('--retro-green-lightest', '#ffcc33');
+        // Use frame-32 for Dracula's Castle
+        root.style.setProperty('--frame-image-url', `url('/assets/frames/32/frame-32/full.png')`);
+        root.style.setProperty('--slice-top', '8');
+        root.style.setProperty('--slice-right', '8');
+        root.style.setProperty('--slice-bottom', '8');
+        root.style.setProperty('--slice-left', '8');
+        root.style.setProperty('--frame-border-width', '8px');
+        root.style.setProperty('--frame-tint-color', '#cc9900');
+        root.style.setProperty('--frame-tint-opacity', '1');
         break;
       case 'megaman-electric':
         root.style.setProperty('--retro-bg', '#1a1a3a');
@@ -208,6 +246,8 @@ export class ThemeSelectPage implements OnInit {
         root.style.setProperty('--retro-green-medium', '#00aadd');
         root.style.setProperty('--retro-green-light', '#00ccff');
         root.style.setProperty('--retro-green-lightest', '#66ddff');
+        root.style.setProperty('--frame-tint-color', '#00ccff');
+        root.style.setProperty('--frame-tint-opacity', '1');
         break;
       case 'contra-military':
         root.style.setProperty('--retro-bg', '#0d2818');
@@ -217,6 +257,8 @@ export class ThemeSelectPage implements OnInit {
         root.style.setProperty('--retro-green-medium', '#44cc44');
         root.style.setProperty('--retro-green-light', '#66ff66');
         root.style.setProperty('--retro-green-lightest', '#99ff99');
+        root.style.setProperty('--frame-tint-color', '#66ff66');
+        root.style.setProperty('--frame-tint-opacity', '1');
         break;
       case 'pac-man-arcade':
         root.style.setProperty('--retro-bg', '#000080');
@@ -226,6 +268,8 @@ export class ThemeSelectPage implements OnInit {
         root.style.setProperty('--retro-green-medium', '#dddd00');
         root.style.setProperty('--retro-green-light', '#ffff00');
         root.style.setProperty('--retro-green-lightest', '#ffff66');
+        root.style.setProperty('--frame-tint-color', '#ffff00');
+        root.style.setProperty('--frame-tint-opacity', '1');
         break;
       case 'retro-amber':
         root.style.setProperty('--retro-bg', '#2b1810');
@@ -235,6 +279,8 @@ export class ThemeSelectPage implements OnInit {
         root.style.setProperty('--retro-green-medium', '#cc8800');
         root.style.setProperty('--retro-green-light', '#ffb000');
         root.style.setProperty('--retro-green-lightest', '#ffd633');
+        root.style.setProperty('--frame-tint-color', '#ffb000');
+        root.style.setProperty('--frame-tint-opacity', '1');
         break;
       case 'retro-purple':
         root.style.setProperty('--retro-bg', '#2d1b3d');
@@ -244,6 +290,8 @@ export class ThemeSelectPage implements OnInit {
         root.style.setProperty('--retro-green-medium', '#8b5fbf');
         root.style.setProperty('--retro-green-light', '#b19cd9');
         root.style.setProperty('--retro-green-lightest', '#d4c4f0');
+        root.style.setProperty('--frame-tint-color', '#b19cd9');
+        root.style.setProperty('--frame-tint-opacity', '1');
         break;
     }
     

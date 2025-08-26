@@ -25,10 +25,10 @@
                [style.background-color]="theme.backgroundColor"
                [style.border-color]="theme.primaryColor">
             <div class="preview-content">
-              <div class="preview-header" [style.color]="theme.primaryColor">
+              <div class="preview-header" [style.color]="themeTextColor(theme)">
                 {{ theme.name }}
               </div>
-              <div class="preview-text" [style.color]="theme.primaryColor">
+              <div class="preview-text" [style.color]="themeTextColor(theme)">
                 Sample text in this theme
               </div>
               <div class="preview-button" 

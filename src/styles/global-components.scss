@@ -92,6 +92,8 @@
   border-image-repeat: round;
   /* No color filter; ::after handles tint via masking */
   z-index: 1;
+  /* Hide the base (white) image so the colored mask defines the border color */
+  opacity: 0;
 }
 
 /* Color overlay masked by the 9-slice PNG so only the border is tinted */
