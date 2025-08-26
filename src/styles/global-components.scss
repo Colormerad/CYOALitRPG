@@ -23,6 +23,117 @@
   
 }
 
+/* ========================================
+   THEMEABLE STORY FRAME
+   ======================================== */
+/*
+  Usage: wrap content with:
+    <div class="story-frame"><div class="story-frame__content">...</div></div>
+
+  Theme variables (override per theme or per element):
+    --frame-border-color: color of border and pixel shadow
+    --frame-background: background of frame panel
+    --frame-padding: inner padding for content area
+    --frame-shadow-size: pixel shadow size for retro effect
+*/
+.story-frame {
+  --frame-border-color: var(--retro-border);
+  --frame-background: var(--retro-green-dark);
+  --frame-padding: 16px;
+  --frame-shadow-size: 2px;
+
+  position: relative;
+  background: var(--frame-background);
+  border: 2px solid var(--frame-border-color);
+  box-shadow: none;
+  border-radius: 0; /* keep pixel-perfect corners */
+}
+
+.story-frame__content {
+  padding: var(--frame-padding);
+}
+
+/* Image-based 9-slice frame using border-image. Provide:
+   --frame-image-url: url('/assets/frames/32/frame-<index>/full.png')
+   --slice-top/right/bottom/left: slice thickness in px (numbers accepted by border-image-slice)
+   --frame-border-width: visual width for the border (px)
+   Example defaults below target 32px tiles with 5px slices.
+*/
+.story-frame--img {
+  /* Drop-shadow tint variables */
+  --frame-ds-offset: 100px;
+  --frame-ds-color: var(--frame-tint-color, #c5e68a);
+  --frame-ds-opacity: 1;
+
+  position: relative;
+  /* No background here; center should be transparent when using 9-slice */
+  background: transparent;
+  /* transparent border to allocate space for border-image */
+  border: none;
+  /* Make sure the pixels stay crisp */
+  image-rendering: pixelated;
+  z-index: 0; /* establish stacking context */
+  overflow: hidden;
+  isolation: isolate; /* make blend modes interact with this element, not the whole page */
+}
+
+.story-frame--img::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Draw the 9-slice border on ::before so we can filter it */
+  border-style: solid;
+  border-color: transparent;
+  border-width: var(--frame-border-width);
+  border-image-source: var(--frame-image-url);
+  border-image-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
+  border-image-width: 1;
+  border-image-repeat: round;
+  /* No color filter; ::after handles tint via masking */
+  z-index: 1;
+}
+
+/* Color overlay masked by the 9-slice PNG so only the border is tinted */
+.story-frame--img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--frame-tint-color, #c5e68a);
+  opacity: var(--frame-tint-opacity, 0.35);
+  /* WebKit 9-slice mask using the same image and slices as the border */
+  -webkit-mask-box-image: var(--frame-image-url);
+  -webkit-mask-box-image-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
+  -webkit-mask-box-image-width: var(--frame-border-width);
+  -webkit-mask-box-image-repeat: stretch;
+  /* Standards fallback (mask-border) */
+  mask-border-source: var(--frame-image-url);
+  mask-border-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
+  mask-border-width: var(--frame-border-width);
+  mask-border-repeat: stretch;
+  z-index: 2;
+}
+
+/* No ::after needed */
+
+/* When using image frame, apply the background to the content area inside the border */
+.story-frame--img > .story-frame__content {
+  position: relative;
+  z-index: 3; /* above both border layers */
+  background: var(--frame-background, transparent);
+}
+
+/* Utility: 32px tiles split into 4x4 (8px slices).
+   Corners and edge strips are 8px; center stays empty (no 'fill'). */
+.story-frame--img.is-32x8 {
+  --slice-top: 8;
+  --slice-right: 8;
+  --slice-bottom: 8;
+  --slice-left: 8;
+  --frame-border-width: 8px; /* matches slice for crisp corners */
+}
+
 /* Responsive app container - adapts to screen size */
 .app-container {
   width: 100%;
@@ -583,6 +694,13 @@ $sprite-icons: (
       opacity: 0.6;
       animation: selectedGlow 2s infinite;
     }
+  }
+  
+  &.empty-slot {
+    background-color: transparent;
+    border: 2px dashed var(--retro-border);
+    width: 96px;
+    height: 96px;
   }
 }
 

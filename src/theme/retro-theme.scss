@@ -26,6 +26,21 @@
   // Accent colors
   --retro-accent: var(--retro-green-light);
   --retro-highlight: var(--retro-green-lightest);
+
+  // Default story frame (image-based 9-slice)
+  // 32x32 tile using a 4x4 grid (8px corners/edges), center empty
+  // Using index 22 => /assets/frames/32/frame-22/full.png
+  --frame-image-url: url('/assets/frames/32/frame-22/full.png');
+  --slice-top: 8;
+  --slice-right: 8;
+  --slice-bottom: 8;
+  --slice-left: 8;
+  --frame-border-width: 8px;
+  /* Frame tint exact target color */
+  --frame-tint-color: #c5e68a;
+  --frame-tint-opacity: 0.20;
+  /* Filter to recolor white PNG toward #c5e68a */
+  --frame-filter: invert(84%) sepia(19%) saturate(744%) hue-rotate(42deg) brightness(95%) contrast(88%);
 }
 
 // Pixel art rendering

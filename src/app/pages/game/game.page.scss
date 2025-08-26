@@ -10,6 +10,20 @@
   100% { opacity: 0.8; }
 }
 
+/* Make the themeable story frame visible when used */
+.story-frame {
+  margin-bottom: 20px; /* keep previous spacing */
+}
+
+.story-frame .story-node {
+  /* neutralize inner panel so the frame styles show */
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+}
+
 .error {
   background-color: var(--retro-green-dark);
   color: var(--retro-green-lightest);

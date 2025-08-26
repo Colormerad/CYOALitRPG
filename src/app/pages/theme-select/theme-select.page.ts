@@ -113,6 +113,23 @@ export class ThemeSelectPage implements OnInit {
     this.selectedTheme = this.themes.find(theme => theme.id === savedTheme) || this.themes[0];
   }
 
+  // Provide CSS variables to preview each theme's border frame on the card itself
+  themeFrameVars(theme: Theme) {
+    return {
+      // Use the default 32x32 4x4-slice frame unless a theme specifies otherwise
+      '--frame-image-url': `url('/assets/frames/32/frame-22/full.png')`,
+      '--slice-top': 8,
+      '--slice-right': 8,
+      '--slice-bottom': 8,
+      '--slice-left': 8,
+      '--frame-border-width': '8px',
+      // Tint and background per theme preview
+      '--frame-tint-color': theme.primaryColor,
+      '--frame-tint-opacity': 0.25,
+      '--frame-background': theme.backgroundColor,
+    } as any;
+  }
+
   onThemeClick(theme: Theme): void {
     if (this.selectedTheme && this.selectedTheme.id === theme.id) {
       this.selectedTheme = null;

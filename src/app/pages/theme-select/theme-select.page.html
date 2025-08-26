@@ -16,32 +16,34 @@
     
     <div class="theme-grid">
       <div *ngFor="let theme of themes" 
-           class="theme-card" 
+           class="theme-card story-frame story-frame--img is-32x8"
            [class.selected]="selectedTheme?.id === theme.id"
+           [ngStyle]="themeFrameVars(theme)"
            (click)="onThemeClick(theme)">
-        
-        <div class="theme-preview" 
-             [style.background-color]="theme.backgroundColor"
-             [style.border-color]="theme.primaryColor">
-          <div class="preview-content">
-            <div class="preview-header" [style.color]="theme.primaryColor">
-              {{ theme.name }}
-            </div>
-            <div class="preview-text" [style.color]="theme.primaryColor">
-              Sample text in this theme
-            </div>
-            <div class="preview-button" 
-                 [style.background-color]="theme.primaryColor"
-                 [style.color]="theme.backgroundColor">
-              Button
+        <div class="story-frame__content">
+          <div class="theme-preview" 
+               [style.background-color]="theme.backgroundColor"
+               [style.border-color]="theme.primaryColor">
+            <div class="preview-content">
+              <div class="preview-header" [style.color]="theme.primaryColor">
+                {{ theme.name }}
+              </div>
+              <div class="preview-text" [style.color]="theme.primaryColor">
+                Sample text in this theme
+              </div>
+              <div class="preview-button" 
+                   [style.background-color]="theme.primaryColor"
+                   [style.color]="theme.backgroundColor">
+                Button
+              </div>
             </div>
           </div>
-        </div>
-        
-        <div class="theme-info">
-          <h3 class="theme-name">{{ theme.name }}</h3>
-          <p class="theme-description">{{ theme.description }}</p>
-          <p class="theme-preview-text">{{ theme.preview }}</p>
+          
+          <div class="theme-info">
+            <h3 class="theme-name">{{ theme.name }}</h3>
+            <p class="theme-description">{{ theme.description }}</p>
+            <p class="theme-preview-text">{{ theme.preview }}</p>
+          </div>
         </div>
         
         <!-- Apply theme icon overlay for selected theme -->

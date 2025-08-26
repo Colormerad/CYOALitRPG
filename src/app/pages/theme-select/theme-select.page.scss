@@ -12,24 +12,21 @@
 
 .theme-card {
   position: relative;
-  background: var(--retro-green-dark);
-  border: 2px solid var(--retro-green-medium);
-  border-radius: 12px;
+  /* Let the story-frame image border show */
+  background: transparent;
+  border: 0;
+  border-radius: 0;
   padding: clamp(15px, 3vw, 20px);
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'Press Start 2P', 'VT323', monospace;
-  
+
   &:hover {
-    border-color: var(--retro-green-light);
-    background: var(--retro-green-medium);
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
   }
-  
+
   &.selected {
-    border-color: var(--retro-green-lightest);
-    background: var(--retro-green-medium);
     box-shadow: 0 0 25px var(--retro-green-light);
     transform: scale(1.02);
     animation: themeSelectionPulse 2s infinite;

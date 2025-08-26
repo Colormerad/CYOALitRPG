@@ -52,9 +52,11 @@
 
   <!-- Regular Game Content -->
   <div *ngIf="!loading && !error && currentNode && !isDeathScreen" class="story-content">
-    <div class="story-node">
-      <h2>{{ currentNode.title }}</h2>
-      <div class="story-text" [innerHTML]="currentNode.content"></div>
+    <div class="story-frame story-frame--img">
+      <div class="story-frame__content story-node">
+        <h2>{{ currentNode.title }}</h2>
+        <div class="story-text" [innerHTML]="currentNode.content"></div>
+      </div>
     </div>
 
     <div *ngIf="currentNode.requiresInput" class="password-input">
