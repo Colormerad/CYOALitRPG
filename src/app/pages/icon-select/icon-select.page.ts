@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICON_ENTRIES, IconEntry } from '../../icons/icon-catalog';
 import { DatabaseService } from '../../services/database.service';
@@ -17,6 +17,7 @@ export class IconSelectPage {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private db = inject(DatabaseService);
+  private toastCtrl = inject(ToastController);
 
   characterId = Number(this.route.snapshot.paramMap.get('id'));
   icons: IconEntry[] = ICON_ENTRIES;
@@ -62,14 +63,56 @@ export class IconSelectPage {
     const updated: Character = { ...this.character, iconKey: key } as Character;
     // Optimistic update for immediate UI feedback
     this.db.setCurrentCharacter(updated);
-    this.db.updateCharacterIconWithFallback(this.character.id, key).subscribe({
-      next: () => {
+    const accountId = (this.character as any)?.accountId;
+    // First attempt: PATCH minimal icon update
+    this.db.updateCharacterIconPatch(this.character.id, key, accountId).subscribe({
+      next: async () => {
+        await this.presentToast('Icon saved', 'success');
+        const active = document.activeElement as HTMLElement | null;
+        if (active && typeof active.blur === 'function') active.blur();
+        try { localStorage.removeItem(`character_icon_${this.character!.id!}`); } catch {}
         this.router.navigate(['/game', this.character!.id!]);
       },
-      error: (err) => {
-        console.error('Unexpected error in icon update fallback:', err);
-        // This should rarely happen since fallback handles backend errors
-        this.router.navigate(['/game', this.character!.id!]);
+      error: async (err) => {
+        console.warn('[IconSelect] PATCH failed, trying minimal icon PUT:', err);
+        this.db.updateCharacterIcon(this.character!.id!, key, accountId).subscribe({
+          next: async () => {
+            await this.presentToast('Icon saved', 'success');
+            const active = document.activeElement as HTMLElement | null;
+            if (active && typeof active.blur === 'function') active.blur();
+            try { localStorage.removeItem(`character_icon_${this.character!.id!}`); } catch {}
+            this.router.navigate(['/game', this.character!.id!]);
+          },
+          error: async (err2) => {
+            console.warn('[IconSelect] Minimal icon PUT failed, trying full PUT:', err2);
+            this.db.updateCharacterWithCompatibility(updated).subscribe({
+              next: async () => {
+                await this.presentToast('Icon saved', 'success');
+                const active = document.activeElement as HTMLElement | null;
+                if (active && typeof active.blur === 'function') active.blur();
+                this.router.navigate(['/game', this.character!.id!]);
+              },
+              error: async (err3) => {
+                console.warn('[IconSelect] Full PUT failed; falling back to local:', err3);
+                this.db.updateCharacterIconWithFallback(this.character!.id!, key, accountId).subscribe({
+                  next: async () => {
+                    await this.presentToast('Icon saved locally (server error)', 'warning');
+                    const active = document.activeElement as HTMLElement | null;
+                    if (active && typeof active.blur === 'function') active.blur();
+                    this.router.navigate(['/game', this.character!.id!]);
+                  },
+                  error: async (fallbackErr) => {
+                    console.error('Unexpected error in icon update fallback:', fallbackErr);
+                    await this.presentToast('Failed to save icon', 'danger');
+                    const active = document.activeElement as HTMLElement | null;
+                    if (active && typeof active.blur === 'function') active.blur();
+                    this.router.navigate(['/game', this.character!.id!]);
+                  }
+                });
+              }
+            });
+          }
+        });
       }
     });
   }
@@ -80,5 +123,16 @@ export class IconSelectPage {
     } else {
       this.router.navigate(['/select-character']);
     }
+  }
+
+  private async presentToast(message: string, color: 'success' | 'warning' | 'danger' | 'primary' = 'primary') {
+    const t = await this.toastCtrl.create({
+      message,
+      duration: 1500,
+      position: 'bottom',
+      color,
+      buttons: [{ text: 'OK', role: 'cancel' }]
+    });
+    await t.present();
   }
 }

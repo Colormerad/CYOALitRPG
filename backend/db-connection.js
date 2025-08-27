@@ -1,4 +1,11 @@
 const { Pool } = require('pg');
+// Load env from backend/.env to support scripts and local server
+try {
+  const path = require('path');
+  require('dotenv').config({ path: path.join(__dirname, '.env') });
+} catch (e) {
+  // dotenv optional; ignore if not available
+}
 
 // PostgreSQL connection
 // Prefer a single DATABASE_URL (provided by Docker Compose) like:
@@ -24,10 +31,12 @@ console.log(`Database connection: Using ${isDocker ? 'Docker' : 'local'} configu
 console.log(`Database host: ${POSTGRES_HOST || defaultHost}`);
 
 let pool;
+const normalizeDollar = (s) => (typeof s === 'string' ? s.replace(/\$\$/g, '$') : s);
+
 if (DATABASE_URL) {
   console.log('Using DATABASE_URL for connection');
   pool = new Pool({
-    connectionString: DATABASE_URL,
+    connectionString: normalizeDollar(DATABASE_URL),
     ssl: process.env.POSTGRES_SSL === 'true',
   });
 } else {
@@ -36,7 +45,7 @@ if (DATABASE_URL) {
     user: POSTGRES_USER || 'mythosAdmin',
     host: POSTGRES_HOST || defaultHost, // Use localhost for local development
     database: POSTGRES_DB || 'mythosDB',
-    password: POSTGRES_PASSWORD || 'p@$$h@ck',
+    password: normalizeDollar(POSTGRES_PASSWORD) || 'p@$$h@ck',
     port: Number(POSTGRES_PORT) || 5432,
     ssl: process.env.POSTGRES_SSL === 'true',
   });

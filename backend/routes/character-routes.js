@@ -12,7 +12,7 @@ router.get('/user/:userId', async (req, res) => {
   try {
     const userId = parseInt(req.params.userId);
     const result = await pool.query(
-      'SELECT c.*, cls.name as "className" FROM character c LEFT JOIN class cls ON cls.id = c.classid WHERE c.accountid = $1 ORDER BY c.id',
+      'SELECT c.*, c.icon_key as "iconKey", cls.name as "className" FROM "character" c LEFT JOIN class cls ON cls.id = c.classid WHERE c.accountid = $1 ORDER BY c.id',
       [userId]
     );
     res.json(result.rows);
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
   try {
     const characterId = parseInt(req.params.id);
     const result = await pool.query(
-      'SELECT c.*, cls.Name as "className" FROM "character" c LEFT JOIN Class cls ON cls.Id = c.ClassId WHERE c.id = $1',
+      'SELECT c.*, c.icon_key as "iconKey", cls.Name as "className" FROM "character" c LEFT JOIN Class cls ON cls.Id = c.ClassId WHERE c.id = $1',
       [characterId]
     );
     
@@ -117,38 +117,95 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const characterId = parseInt(req.params.id);
-    const { name, level, experience, health, mana, strength, agility, intelligence } = req.body;
-    
-    // Check if character exists
-    const checkResult = await pool.query(
-      'SELECT * FROM "character" WHERE id = $1',
-      [characterId]
-    );
-    
+    // Accept multiple casings/aliases from the client
+    const body = req.body || {};
+    const payload = {
+      name: body.name || body.character_name || body.Name || null,
+      level: body.level ?? body.Level ?? null,
+      experience: body.experience ?? body.Experience ?? null,
+      health: body.health ?? body.Health ?? null,
+      mana: body.mana ?? body.Mana ?? null,
+      strength: body.strength ?? body.Strength ?? null,
+      agility: (body.agility ?? body.Agility ?? body.dexterity ?? body.Dexterity) ?? null, // map dexterity->agility
+      intelligence: body.intelligence ?? body.Intelligence ?? null,
+      classid: body.classid ?? body.classId ?? body.ClassId ?? null,
+      icon_key: body.icon_key ?? body.iconKey ?? body.icon ?? null
+    };
+
+    // Check if character exists first
+    const checkResult = await pool.query('SELECT * FROM "character" WHERE id = $1', [characterId]);
     if (checkResult.rows.length === 0) {
       return res.status(404).json({ error: 'Character not found' });
     }
-    
-    const result = await pool.query(
-      `UPDATE "character" 
-       SET name = $1, level = $2, experience = $3, health = $4, 
-           mana = $5, strength = $6, agility = $7, intelligence = $8
-       WHERE id = $9
-       RETURNING *`,
-      [
-        name,
-        level,
-        experience,
-        health,
-        mana,
-        strength,
-        agility,
-        intelligence,
-        characterId
-      ]
-    );
-    
-    res.json(result.rows[0]);
+
+    // Map payload keys to exact DB column names (quoted where necessary)
+    const columnMap = new Map([
+      ['name', '"Name"'],
+      ['level', '"Level"'],
+      ['experience', '"Experience"'],
+      ['health', '"Health"'],
+      ['mana', '"Mana"'],
+      ['strength', '"Strength"'],
+      ['agility', '"Agility"'],
+      ['intelligence', '"Intelligence"'],
+      ['classid', '"ClassId"'],
+      // icon_key was added as lower_snake; keep unquoted identifier
+      ['icon_key', 'icon_key']
+    ]);
+
+    const makeUpdateParts = (omitIconKey = false) => {
+      const setClauses = [];
+      const values = [];
+      let i = 1;
+      for (const [key, val] of Object.entries(payload)) {
+        if (val === null || val === undefined) continue;
+        if (omitIconKey && key === 'icon_key') continue;
+        const col = columnMap.get(key);
+        if (!col) continue; // ignore unknown fields
+        setClauses.push(`${col} = $${i}`);
+        values.push(val);
+        i++;
+      }
+      return { setClauses, values };
+    };
+
+    let { setClauses, values } = makeUpdateParts(false);
+
+    if (setClauses.length === 0) {
+      return res.status(400).json({ error: 'No valid fields provided to update' });
+    }
+
+    let i = values.length + 1;
+    let sql = `UPDATE "character" SET ${setClauses.join(', ')} WHERE id = $${i} RETURNING *`;
+    values.push(characterId);
+
+    try {
+      const result = await pool.query(sql, values);
+      return res.json(result.rows[0]);
+    } catch (err) {
+      // If undefined_column due to icon_key missing in some environments, retry without icon_key
+      const pgCode = err && err.code;
+      const msg = String(err && err.message || '');
+      const attemptedIcon = setClauses.some(c => c.includes('icon_key'));
+      if (attemptedIcon && (pgCode === '42703' || msg.includes('icon_key') || msg.includes('undefined column'))) {
+        const rebuilt = makeUpdateParts(true);
+        if (rebuilt.setClauses.length === 0) {
+          return res.status(400).json({ error: 'No valid fields provided to update (after removing icon_key)' });
+        }
+        let j = rebuilt.values.length + 1;
+        const sql2 = `UPDATE "character" SET ${rebuilt.setClauses.join(', ')} WHERE id = $${j} RETURNING *`;
+        const vals2 = [...rebuilt.values, characterId];
+        try {
+          const result2 = await pool.query(sql2, vals2);
+          return res.json(result2.rows[0]);
+        } catch (err2) {
+          console.error('Error updating character (retry without icon_key):', err2);
+          return res.status(500).json({ error: 'Failed to update character' });
+        }
+      }
+      console.error('Error updating character:', err);
+      return res.status(500).json({ error: 'Failed to update character' });
+    }
   } catch (err) {
     console.error('Error updating character:', err);
     res.status(500).json({ error: 'Failed to update character' });

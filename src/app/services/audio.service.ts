@@ -17,29 +17,61 @@ import { BehaviorSubject } from 'rxjs';
  * - Toggle mute: audioService.toggleMute()
  */
 export class AudioService {
-  private volumeSubject = new BehaviorSubject<number>(0.5); // Default volume
+  // Master/music/sfx individual volume tracks
+  private masterVolumeSubject = new BehaviorSubject<number>(0.5);
+  private musicVolumeSubject = new BehaviorSubject<number>(0.7);
+  private sfxVolumeSubject = new BehaviorSubject<number>(0.8);
   private mutedSubject = new BehaviorSubject<boolean>(false);
 
-  volume$ = this.volumeSubject.asObservable();
+  // Public observables
+  masterVolume$ = this.masterVolumeSubject.asObservable();
+  musicVolume$ = this.musicVolumeSubject.asObservable();
+  sfxVolume$ = this.sfxVolumeSubject.asObservable();
   muted$ = this.mutedSubject.asObservable();
 
   constructor() {}
 
-  setVolume(volume: number) {
-    const clampedVolume = Math.max(0, Math.min(1, volume));
-    this.volumeSubject.next(clampedVolume);
-  }
+  // Backward compatibility: treat single volume as master
+  get volume$() { return this.masterVolume$; }
+  setVolume(volume: number) { this.setMasterVolume(volume); }
+  getVolume() { return this.masterVolumeSubject.value; }
 
+  // Master volume
+  setMasterVolume(volume: number) {
+    const v = this.clamp01(volume);
+    this.masterVolumeSubject.next(v);
+  }
+  getMasterVolume() { return this.masterVolumeSubject.value; }
+
+  // Music volume
+  setMusicVolume(volume: number) {
+    const v = this.clamp01(volume);
+    this.musicVolumeSubject.next(v);
+  }
+  getMusicVolume() { return this.musicVolumeSubject.value; }
+
+  // SFX volume
+  setSfxVolume(volume: number) {
+    const v = this.clamp01(volume);
+    this.sfxVolumeSubject.next(v);
+  }
+  getSfxVolume() { return this.sfxVolumeSubject.value; }
+
+  // Global mute toggles all outputs (sliders remain adjustable)
   toggleMute() {
-    const isMuted = this.mutedSubject.value;
-    this.mutedSubject.next(!isMuted);
+    this.mutedSubject.next(!this.mutedSubject.value);
+  }
+  isMuted() { return this.mutedSubject.value; }
+
+  // Effective outputs can be used by audio engine (master * track, or 0 if muted)
+  getEffectiveMusicVolume() {
+    return this.isMuted() ? 0 : this.getMasterVolume() * this.getMusicVolume();
+  }
+  getEffectiveSfxVolume() {
+    return this.isMuted() ? 0 : this.getMasterVolume() * this.getSfxVolume();
   }
 
-  isMuted() {
-    return this.mutedSubject.value;
-  }
-
-  getVolume() {
-    return this.volumeSubject.value;
+  private clamp01(v: number) {
+    return Math.max(0, Math.min(1, v));
   }
 }

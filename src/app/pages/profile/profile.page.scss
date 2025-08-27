@@ -1,10 +1,13 @@
-// Profile Page Styles
+// Profile Page Styles (lean on global styles)
 
-// Container styling
-.pixel-container {
-  padding: 16px;
-  max-width: 800px;
-  margin: 0 auto;
+/* Make the profile header background transparent and remove border/shadow */
+:host ion-header ion-toolbar.retro-toolbar {
+  --background: transparent !important;
+  background: transparent !important;
+  --ion-background-color: transparent !important;
+  --border-width: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 // Account section
@@ -40,29 +43,14 @@
   background-color: var(--retro-green-dark);
 }
 
-// Form styling
-/*
- * Profile page styles with audio controls section
- * Includes styling for volume slider and mute button
- */
-.profile-page {
+// Form and labels primarily use global styles (.form-group, .form-input, .retro-label)
+// Keep only minor spacing adjustments specific to this page
+.profile-form {
   width: 100%;
-  max-width: 400px;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
-.form-group {
-  margin-bottom: 20px;
-}
-
-.retro-label {
-  display: block;
-  margin-bottom: 8px;
-  font-family: 'Press Start 2P', 'VT323', monospace;
-  font-size: 12px;
-  color: var(--retro-green-lightest);
-}
-
-// Account stats
 .account-stats {
   margin: 20px 0;
   border: 2px solid var(--retro-border);
@@ -80,35 +68,35 @@
   }
 }
 
-// Action buttons
 .action-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 20px;
   justify-content: center;
+  
+  > button {
+    min-width: 180px; /* normalize width so Logout matches others */
+  }
 }
 
-// Button styles
-.edit-btn {
-  background-color: var(--retro-green-medium);
-}
-
-.save-btn {
-  background-color: var(--retro-green-medium);
-}
-
-.cancel-btn {
-  background-color: var(--retro-green-dark);
+/* Full-width action buttons on small screens */
+@media (max-width: 480px) {
+  .action-buttons {
+    width: 100%;
+    > button {
+      width: 100%;
+      min-width: 0; /* allow full shrink to container */
+    }
+  }
 }
 
 .logout-btn {
   background-color: #8b2e2e;
-  margin-top: 10px;
-  width: 100%;
+  margin-top: 0; /* normalize spacing with other buttons; gap controls spacing */
+  width: auto; /* keep consistent sizing alongside other buttons */
 }
 
-// Error text
 .error-text {
   color: #ff6b6b;
   font-family: 'Press Start 2P', 'VT323', monospace;
@@ -116,7 +104,6 @@
   margin-top: 5px;
 }
 
-// Loading container
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -139,7 +126,6 @@
   100% { transform: rotate(360deg); }
 }
 
-// Error container
 .error-container {
   text-align: center;
   padding: 20px;
@@ -150,7 +136,6 @@
   }
 }
 
-// Retro toast
 .retro-toast {
   --background: var(--retro-green-dark);
   --color: var(--retro-green-lightest);

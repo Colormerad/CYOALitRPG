@@ -463,30 +463,38 @@ $sprite-icons: (
   background-clip: padding-box; /* keep background inside */
   image-rendering: pixelated;
   isolation: isolate;
+  /* Gap between outer frame and inner button body */
+  --btn-frame-gap: 1px;
+  /* Button corner radius to match cards (pixel-friendly) */
+  --btn-radius: 8px;
+  border-radius: var(--btn-radius);
+  overflow: hidden; /* clip frame and inner stroke to rounded corners */
+  /* Global button sizing */
+  height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
   &::before {
+    /* Inner stroke (border) with a 1px gap from the outer frame */
     content: '';
     position: absolute;
-    inset: 0;
+    inset: var(--btn-frame-gap);
     pointer-events: none;
-    border-style: solid;
-    border-color: transparent;
-    border-width: var(--frame-border-width, 8px);
-    border-image-source: var(--frame-image-url);
-    border-image-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
-    border-image-width: 1;
-    border-image-repeat: repeat;
-    z-index: 1;
-    opacity: 0; /* base image hidden; ::after applies tint via mask */
+    background: transparent; /* don't cover the label */
+    box-shadow: inset 0 0 0 2px var(--retro-border);
+    border-radius: calc(var(--btn-radius) - var(--btn-frame-gap));
+    z-index: 1; /* sits under the frame (::after) */
   }
 
   &::after {
     content: '';
     position: absolute;
-    inset: 0;
+    inset: 0; /* outer pixel frame hugs the button edge */
     pointer-events: none;
     background: var(--frame-tint-color, #c5e68a);
     opacity: var(--frame-tint-opacity, 1);
+    border-radius: var(--btn-radius);
     -webkit-mask-box-image: var(--frame-image-url);
     -webkit-mask-box-image-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
     -webkit-mask-box-image-width: var(--frame-border-width, 8px);
@@ -495,12 +503,13 @@ $sprite-icons: (
     mask-border-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
     mask-border-width: var(--frame-border-width, 8px);
     mask-border-repeat: repeat;
-    z-index: 2;
+    z-index: 2; /* frame above inner panel */
     /* Pixel drop-shadow applied only to the framed border */
     filter: 
       drop-shadow(var(--frame-ds-x, 3px) var(--frame-ds-y, 3px) 0 rgba(0,0,0, var(--frame-ds-opacity, 0.9)))
       drop-shadow(calc(var(--frame-ds-x, 3px) / 2) calc(var(--frame-ds-y, 3px) / 2) 0 rgba(0,0,0, var(--frame-ds-opacity, 0.7)));
     will-change: filter;
+    margin: 6px;
   }
 }
 
@@ -513,10 +522,12 @@ $sprite-icons: (
 
 .btn-primary {
   padding: 12px 20px;
-  background-color: transparent; /* transparent center */
+  /* Themeable primary fill color (matches app theme); override --btn-primary-bg per theme if needed */
+  background-color: var(--btn-primary-bg, var(--retro-green-medium));
   color: var(--retro-button-text);
   @extend .btn--framed;
-  border-radius: 0; /* pixel-perfect corners for framed border */
+  border-radius: var(--btn-radius);
+  min-width: var(--btn-min-width, 80px);
   cursor: pointer;
   font-size: 1.1rem;
   font-family: 'VT323', monospace;
@@ -547,12 +558,14 @@ $sprite-icons: (
 
 .btn-secondary {
   @extend .btn-primary;
-  background-color: transparent; /* transparent center */
+  /* Themeable secondary fill color; override --btn-secondary-bg per theme */
+  background-color: var(--btn-secondary-bg, var(--retro-green-dark));
   /* border handled by themed frame */
+  min-width: var(--btn-min-width, 80px);
   
   &:hover {
     /* keep background transparent */
-    color: var(--retro-green-light);
+    color: var(--retro-green-lightest);
   }
 }
 
@@ -1616,6 +1629,9 @@ $sprite-icons: (
 .app-scanlines {
   position: relative;
   overflow: hidden;
+  /* Softer defaults to avoid impacting text readability */
+  --scanline-opacity: 0.10; /* was 0.25 */
+  --scanline-size: 6px;     /* was 4px */
 }
 
 .app-scanlines::before {
@@ -1623,12 +1639,12 @@ $sprite-icons: (
   position: fixed; /* cover the viewport regardless of scroll */
   inset: 0;
   pointer-events: none;
-  z-index: 9999; /* above content but below modals if they set higher */
+  z-index: 5; /* keep above backgrounds but below highest overlays */
   opacity: var(--scanline-opacity, 0.25);
   background-image: linear-gradient(
     to bottom,
     transparent 50%,
     rgba(0, 0, 0, 1) 50%
   );
-  background-size: 100% var(--scanline-size, 4px);
+  background-size: 100% var(--scanline-size, 6px);
 }

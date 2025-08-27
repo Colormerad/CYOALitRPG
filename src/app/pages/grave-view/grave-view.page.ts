@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CharacterService } from '../../services/character.service';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { SecondaryBottomTabsComponent } from '../../components/secondary-bottom-tabs/secondary-bottom-tabs.component';
 
 @Component({
   selector: 'app-grave-view',
   templateUrl: './grave-view.page.html',
   styleUrls: ['./grave-view.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule]
+  imports: [CommonModule, IonicModule, SecondaryBottomTabsComponent]
 })
 export class GraveViewPage implements OnInit {
   character: any = null;

@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Account, AuthResponse, LoginRequest, RegisterRequest } from '../models/account.model';
+import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private db: DatabaseService) {
     // Check if user is already logged in (from localStorage)
     this.loadStoredAccount();
   }
@@ -81,6 +82,24 @@ export class AuthService {
     // Update observables
     this.currentAccountSubject.next(account);
     this.isAuthenticatedSubject.next(true);
+
+    // Prime character cache for this user on login
+    if (account?.id != null) {
+      this.db.getUserCharacters(account.id).subscribe({
+        next: (chars) => {
+          try {
+            localStorage.setItem(`user_characters_${account.id}`, JSON.stringify(chars || []));
+          } catch (e) {
+            // eslint-disable-next-line no-console
+            console.warn('[AuthService] Failed to cache user characters:', e);
+          }
+        },
+        error: (err) => {
+          // eslint-disable-next-line no-console
+          console.warn('[AuthService] Failed to prefetch user characters on login:', err);
+        }
+      });
+    }
   }
 
   private clearCurrentAccount(): void {

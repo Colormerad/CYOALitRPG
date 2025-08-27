@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { DatabaseService } from '../../services/database.service';
 import { CharacterProfile } from '../../models/character-profile.model';
 import { Character } from '../../models/character.model';
@@ -16,17 +17,20 @@ import { BottomTabsComponent } from '../../components/bottom-tabs/bottom-tabs.co
   styleUrls: ['./character-editor.page.scss']
 })
 export class CharacterEditorPage implements OnInit {
+  private isRenaming = false;
+  private lastSubmittedName: string | null = null;
+  isSaving = false;
   characterId!: number;
   profile: CharacterProfile | null = null;
   character: Character | null = null;
   alignment = { row: 1, col: 1 }; // 0..2 each; default neutral
   alignmentText = 'Neutral';
   // demographics
-  gender: 'masculine'|'feminine'|'neutral'|'flux' | '' = '';
-  ageBucket: 'very_young'|'young'|'neutral'|'wisened'|'very_old' | '' = '';
+  gender: 'masculine'|'feminine'|'neutral'|'flux'|'unknown'|'' = 'unknown';
+  ageBucket: 'very_young'|'young'|'neutral'|'wisened'|'very_old'|'unknown'|'' = 'unknown';
   name: string = '';
 
-  constructor(private route: ActivatedRoute, private router: Router, private db: DatabaseService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private db: DatabaseService, private toastCtrl: ToastController) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -45,17 +49,22 @@ export class CharacterEditorPage implements OnInit {
 
   onNameCommit(): void {
     if (!this.character || !this.character.id) return;
+    if (this.isRenaming) return;
     const trimmed = (this.name || '').trim();
-    if (!trimmed || trimmed === this.character.name) return;
-    const payload: Character = { ...this.character, name: trimmed };
-    this.db.updateCharacter(payload).subscribe({
+    if (!trimmed || trimmed === this.character.name || trimmed === this.lastSubmittedName) return;
+    this.isRenaming = true;
+    this.lastSubmittedName = trimmed;
+    this.db.updateCharacterNameWithFallback(this.character.id, trimmed, (this.character as Character).accountId)
+      .pipe(finalize(() => { this.isRenaming = false; }))
+      .subscribe({
       next: (updated) => {
         console.log('[CharacterEditor] Name updated:', updated?.name);
-        this.character = updated;
+        // Ensure local state reflects the new name even if backend omits it in response
+        this.character = { ...(this.character as Character), ...(updated || {}), name: updated?.name || trimmed } as Character;
         this.name = updated?.name || trimmed;
       },
       error: (err) => {
-        console.warn('[CharacterEditor] Failed to update name:', err);
+        console.error('[CharacterEditor] Name update failed', err);
       }
     });
   }
@@ -68,8 +77,8 @@ export class CharacterEditorPage implements OnInit {
         this.computeAlignment(); // initial alignment from profile as fallback
         // load extras (frontend persisted)
         const extras = this.db.getProfileExtras(this.characterId);
-        this.gender = (extras.gender || this.profile.gender || '') as any;
-        this.ageBucket = (extras.ageBucket || this.profile.ageBucket || '') as any;
+        this.gender = ((extras.gender || this.profile.gender || '') as any) || 'unknown';
+        this.ageBucket = ((extras.ageBucket || this.profile.ageBucket || '') as any) || 'unknown';
       },
       error: () => {
         // leave defaults
@@ -113,6 +122,31 @@ export class CharacterEditorPage implements OnInit {
     }
   }
 
+  async saveAll(): Promise<void> {
+    if (!this.character || !this.character.id) return;
+    if (this.isSaving) return;
+    this.isSaving = true;
+    const updated: Character = { ...this.character, name: (this.name || '').trim() || this.character.name } as Character;
+    this.db.updateCharacterWithCompatibility(updated)
+      .pipe(finalize(() => { this.isSaving = false; }))
+      .subscribe({
+        next: async (saved) => {
+          // sync local state from server response (fallback to our updated fields)
+          this.character = { ...updated, ...(saved || {}) } as Character;
+          this.name = this.character.name;
+          const t = await this.toastCtrl.create({ message: 'Character saved', duration: 1500, color: 'success', position: 'bottom' });
+          await t.present();
+          const active = document.activeElement as HTMLElement | null;
+          if (active && typeof active.blur === 'function') active.blur();
+        },
+        error: async (err) => {
+          console.warn('[CharacterEditor] Save failed:', err);
+          const t = await this.toastCtrl.create({ message: 'Failed to save to server', duration: 1800, color: 'danger', position: 'bottom' });
+          await t.present();
+        }
+      });
+  }
+
   private loadCharacterMeta(): void {
     this.db.getCharacter(this.characterId).subscribe({
       next: (ch: any) => {
@@ -123,12 +157,15 @@ export class CharacterEditorPage implements OnInit {
         if (meta) {
           const g = meta.gender || meta.Gender || null;
           const a = meta.ageBucket || meta.age_bucket || meta.age || null;
-          if (!this.gender && g && ['masculine','feminine','neutral','flux'].includes(String(g))) {
+          if ((this.gender === '' || this.gender === 'unknown') && g && ['masculine','feminine','neutral','flux'].includes(String(g))) {
             this.gender = g as any;
           }
-          if (!this.ageBucket && a && ['very_young','young','neutral','wisened','very_old'].includes(String(a))) {
+          if ((this.ageBucket === '' || this.ageBucket === 'unknown') && a && ['very_young','young','neutral','wisened','very_old'].includes(String(a))) {
             this.ageBucket = a as any;
           }
+          // Ensure defaults if nothing resolvable
+          if (!this.gender) this.gender = 'unknown';
+          if (!this.ageBucket) this.ageBucket = 'unknown';
         }
       },
       error: (err) => {
@@ -150,14 +187,17 @@ export class CharacterEditorPage implements OnInit {
           // Prepopulate gender and age from metadata preferences
           const g = meta.gender_preference || meta.genderPreference || null;
           const a = meta.age_preference || meta.agePreference || null;
-          if (!this.gender && g && ['masculine','feminine','neutral','flux'].includes(String(g))) {
+          if ((this.gender === '' || this.gender === 'unknown') && g && ['masculine','feminine','neutral','flux'].includes(String(g))) {
             this.gender = g as any;
           }
-          if (!this.ageBucket && a && ['very_young','young','neutral','wisened','very_old','very old','very-old'].includes(String(a))) {
+          if ((this.ageBucket === '' || this.ageBucket === 'unknown') && a && ['very_young','young','neutral','wisened','very_old','very old','very-old'].includes(String(a))) {
             // normalize alternative spellings
             const norm = String(a).replace('very old','very_old').replace('very-old','very_old');
             this.ageBucket = norm as any;
           }
+          // Ensure defaults if nothing resolvable
+          if (!this.gender) this.gender = 'unknown';
+          if (!this.ageBucket) this.ageBucket = 'unknown';
 
           // Compute alignment from metadata axes if present
           this.computeAlignmentFromMeta(meta);
@@ -195,29 +235,49 @@ export class CharacterEditorPage implements OnInit {
     }
   }
 
-  onGenderChange(value: 'masculine'|'feminine'|'neutral'|'flux'): void {
+  onGenderChange(value: 'masculine'|'feminine'|'neutral'|'flux'|'unknown'): void {
     this.gender = value;
-    // Persist into PlayerProgress.metadata as the source of truth
-    this.db.updateProgressMetadata(this.characterId, { gender_preference: value }).subscribe({
-      next: (saved) => console.log('[CharacterEditor] Updated PlayerProgress.metadata (gender_preference):', saved?.metadata),
-      error: (err) => console.warn('[CharacterEditor] Failed to update PlayerProgress.metadata gender_preference:', err)
-    });
+    // Persist into PlayerProgress.metadata only when not 'unknown'
+    if (value !== 'unknown') {
+      const v = value as 'masculine'|'feminine'|'neutral'|'flux';
+      this.db.updateProgressMetadata(this.characterId, { gender_preference: v }).subscribe({
+        next: (saved) => console.log('[CharacterEditor] Updated PlayerProgress.metadata (gender_preference):', saved?.metadata),
+        error: (err) => console.warn('[CharacterEditor] Failed to update PlayerProgress.metadata gender_preference:', err)
+      });
+    } else {
+      this.db.updateProgressMetadata(this.characterId, {}).subscribe({
+        next: () => {},
+        error: () => {}
+      });
+    }
     // Mirror to profile extras for continuity (non-blocking)
-    this.db.updateProfileExtras(this.characterId, { gender: value }).subscribe({
+    const genderExtras: { gender?: 'masculine'|'feminine'|'neutral'|'flux' } =
+      value === 'unknown' ? {} : { gender: value as 'masculine'|'feminine'|'neutral'|'flux' };
+    this.db.updateProfileExtras(this.characterId, genderExtras).subscribe({
       next: () => {},
       error: () => {}
     });
   }
 
-  onAgeBucketChange(value: 'very_young'|'young'|'neutral'|'wisened'|'very_old'): void {
+  onAgeBucketChange(value: 'very_young'|'young'|'neutral'|'wisened'|'very_old'|'unknown'): void {
     this.ageBucket = value;
-    // Persist into PlayerProgress.metadata as the source of truth
-    this.db.updateProgressMetadata(this.characterId, { age_preference: value }).subscribe({
-      next: (saved) => console.log('[CharacterEditor] Updated PlayerProgress.metadata (age_preference):', saved?.metadata),
-      error: (err) => console.warn('[CharacterEditor] Failed to update PlayerProgress.metadata age_preference:', err)
-    });
+    // Persist into PlayerProgress.metadata only when not 'unknown'
+    if (value !== 'unknown') {
+      const v = value as 'very_young'|'young'|'neutral'|'wisened'|'very_old';
+      this.db.updateProgressMetadata(this.characterId, { age_preference: v }).subscribe({
+        next: (saved) => console.log('[CharacterEditor] Updated PlayerProgress.metadata (age_preference):', saved?.metadata),
+        error: (err) => console.warn('[CharacterEditor] Failed to update PlayerProgress.metadata age_preference:', err)
+      });
+    } else {
+      this.db.updateProgressMetadata(this.characterId, {}).subscribe({
+        next: () => {},
+        error: () => {}
+      });
+    }
     // Mirror to profile extras for continuity (non-blocking)
-    this.db.updateProfileExtras(this.characterId, { ageBucket: value }).subscribe({
+    const ageExtras: { ageBucket?: 'very_young'|'young'|'neutral'|'wisened'|'very_old' } =
+      value === 'unknown' ? {} : { ageBucket: value as 'very_young'|'young'|'neutral'|'wisened'|'very_old' };
+    this.db.updateProfileExtras(this.characterId, ageExtras).subscribe({
       next: () => {},
       error: () => {}
     });

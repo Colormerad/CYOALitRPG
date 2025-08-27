@@ -6,6 +6,7 @@ import { DatabaseService } from '../../services/database.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { SecondaryBottomTabsComponent } from '../../components/secondary-bottom-tabs/secondary-bottom-tabs.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -13,7 +14,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './character-select.page.html',
   styleUrls: ['./character-select.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule]
+  imports: [CommonModule, IonicModule, SecondaryBottomTabsComponent]
 })
 export class CharacterSelectPage implements OnInit, OnDestroy {
   characters: any[] = [];

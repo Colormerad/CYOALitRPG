@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { SecondaryBottomTabsComponent } from '../../components/secondary-bottom-tabs/secondary-bottom-tabs.component';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { DatabaseService } from '../../services/database.service';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AudioService } from '../../services/audio.service';
@@ -12,7 +14,7 @@ import { AudioService } from '../../services/audio.service';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule]
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, SecondaryBottomTabsComponent]
 })
 /*
  * ProfilePage component with audio controls
@@ -27,7 +29,10 @@ export class ProfilePage implements OnInit {
   editMode = false;
   accountCreatedDate = '';
   characterCount = 0;
-  volume = 0.5;
+  // Audio volumes
+  masterVolume = 0.5;
+  musicVolume = 0.7;
+  sfxVolume = 0.8;
   isMuted = false;
 
   constructor(
@@ -35,7 +40,8 @@ export class ProfilePage implements OnInit {
     private authService: AuthService,
     private router: Router,
     private toastController: ToastController,
-    private audioService: AudioService
+    private audioService: AudioService,
+    private databaseService: DatabaseService
   ) {
     // Initialize the form
     this.profileForm = this.formBuilder.group({
@@ -50,8 +56,14 @@ export class ProfilePage implements OnInit {
     this.loadAccountData();
     
     // Subscribe to audio service changes
-    this.audioService.volume$.subscribe(volume => {
-      this.volume = volume;
+    this.audioService.masterVolume$.subscribe(v => {
+      this.masterVolume = v;
+    });
+    this.audioService.musicVolume$.subscribe(v => {
+      this.musicVolume = v;
+    });
+    this.audioService.sfxVolume$.subscribe(v => {
+      this.sfxVolume = v;
     });
     
     this.audioService.muted$.subscribe(muted => {
@@ -83,11 +95,23 @@ export class ProfilePage implements OnInit {
         });
       }
       
-      // For now, we'll set a placeholder character count
-      // In a real app, you would fetch this from a character service
-      this.characterCount = 1;
-      
-      this.loading = false;
+      // Fetch all characters for this user and use that count
+      if (typeof currentAccount.id === 'number') {
+        this.databaseService.getUserCharacters(currentAccount.id).subscribe({
+          next: (chars) => {
+            this.characterCount = Array.isArray(chars) ? chars.length : 0;
+            this.loading = false;
+          },
+          error: (err) => {
+            console.error('Failed to load user characters for count:', err);
+            this.characterCount = 0;
+            this.loading = false;
+          }
+        });
+      } else {
+        this.characterCount = 0;
+        this.loading = false;
+      }
     } else {
       this.error = 'Unable to load account data';
       this.loading = false;
@@ -115,12 +139,19 @@ export class ProfilePage implements OnInit {
   /**
    * Set the audio volume
    */
-  setVolume(value: number | { lower: number; upper: number }) {
-    if (typeof value === 'object') {
-      this.audioService.setVolume(value.lower);
-    } else {
-      this.audioService.setVolume(value);
-    }
+  setMasterVolume(value: number | { lower: number; upper: number }) {
+    const v = typeof value === 'object' ? value.lower : value;
+    this.audioService.setMasterVolume(v);
+  }
+
+  setMusicVolume(value: number | { lower: number; upper: number }) {
+    const v = typeof value === 'object' ? value.lower : value;
+    this.audioService.setMusicVolume(v);
+  }
+
+  setSfxVolume(value: number | { lower: number; upper: number }) {
+    const v = typeof value === 'object' ? value.lower : value;
+    this.audioService.setSfxVolume(v);
   }
 
   /**

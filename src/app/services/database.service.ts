@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
 
 // Import models from their own files
@@ -26,6 +27,11 @@ export class DatabaseService {
   // Current game state
   private currentCharacterSubject = new BehaviorSubject<Character | null>(null);
   public currentCharacter$ = this.currentCharacterSubject.asObservable();
+
+  // Feature flag: disable network rename until backend contract is clarified
+  private allowCharacterRenameNetwork = false;
+  // Feature flag: disable network icon update until backend contract is clarified
+  private allowCharacterIconNetwork = false;
 
   private currentStoryNodeSubject = new BehaviorSubject<StoryNode | null>(null);
   public currentStoryNode$ = this.currentStoryNodeSubject.asObservable();
@@ -79,6 +85,11 @@ export class DatabaseService {
         if (storedIcon && (!character.iconKey || character.iconKey !== storedIcon)) {
           character.iconKey = storedIcon;
         }
+        // Merge stored name if available (fallback for backend issues)
+        const storedName = this.getStoredName(id);
+        if (storedName && character.name !== storedName) {
+          character.name = storedName;
+        }
       })
     );
   }
@@ -87,11 +98,97 @@ export class DatabaseService {
     return this.http.put<Character>(`${this.apiUrl}/characters/${character.id}`, character, this.httpOptions);
   }
 
-  // Minimal payload update specifically for the character's profile icon.
-  // Sends both camelCase and snake_case keys for backend compatibility.
-  updateCharacterIcon(id: number, iconKey: string): Observable<Character> {
-    const body: any = { iconKey, icon_key: iconKey };
+  // Full update with compatibility keys duplicated for backends expecting snake_case
+  updateCharacterWithCompatibility(character: Character): Observable<Character> {
+    const body: any = { ...character };
+    // Duplicate common fields in snake_case for compatibility
+    if (character.name != null) body.character_name = character.name;
+    if ((character as any).iconKey != null) body.icon_key = (character as any).iconKey;
+    if (character.accountId != null) body.account_id = character.accountId;
+    // Prune undefined to avoid sending extraneous undefineds
+    Object.keys(body).forEach(k => body[k] === undefined && delete body[k]);
+    return this.http.put<Character>(`${this.apiUrl}/characters/${character.id}`, body, this.httpOptions);
+  }
+
+  // Minimal payload update specifically for the character's name.
+  // Sends both camelCase and alternative key for backend compatibility.
+  updateCharacterName(id: number, name: string, accountId?: number): Observable<Character> {
+    // Provide multiple keys for compatibility and include identifiers
+    const body: any = {
+      id,
+      name,
+      character_name: name,
+      accountId: accountId ?? undefined,
+      account_id: accountId ?? undefined
+    };
     return this.http.put<Character>(`${this.apiUrl}/characters/${id}`, body, this.httpOptions);
+  }
+
+  // Name update with fallback strategies for differing backend implementations
+  updateCharacterNameWithFallback(id: number, name: string, accountId?: number): Observable<Character> {
+    // If network rename disabled, do optimistic local update only
+    if (!this.allowCharacterRenameNetwork) {
+      const current = this.getCurrentCharacter();
+      if (current && current.id === id) {
+        const updated: Character = { ...current, name };
+        this.storeName(id, name);
+        this.setCurrentCharacter(updated);
+        return of(updated);
+      }
+      // Persist name locally so future fetch merges apply
+      this.storeName(id, name);
+      return of({ id, name } as Character);
+    }
+
+    // Single attempt: minimal body; on error, fallback locally without further retries
+    const body: any = { name };
+    return this.http.put<Character>(`${this.apiUrl}/characters/${id}`, body, this.httpOptions).pipe(
+      catchError((err: any) => {
+        // eslint-disable-next-line no-console
+        console.error('[updateCharacterNameWithFallback] PUT failed; applying local fallback', {
+          status: err?.status,
+          statusText: err?.statusText,
+          url: err?.url,
+          body: err?.error ?? err
+        });
+        const current = this.getCurrentCharacter();
+        if (current && current.id === id) {
+          const updated: Character = { ...current, name };
+          this.storeName(id, name);
+          this.setCurrentCharacter(updated);
+          return of(updated);
+        }
+        this.storeName(id, name);
+        return of({ id, name } as Character);
+      })
+    );
+  }
+
+  // Minimal payload update specifically for the character's profile icon.
+  // Sends both camelCase and snake_case keys and identifiers for backend compatibility.
+  updateCharacterIcon(id: number, iconKey: string, accountId?: number): Observable<Character> {
+    const body: any = {
+      iconKey,
+      icon_key: iconKey,
+      accountId: accountId ?? undefined,
+      account_id: accountId ?? undefined
+    };
+    // eslint-disable-next-line no-console
+    console.debug('[DatabaseService] PUT /characters/:id (icon) body:', body);
+    return this.http.put<Character>(`${this.apiUrl}/characters/${id}`, body, this.httpOptions);
+  }
+
+  // Partial update via PATCH for backends that support field-specific updates
+  updateCharacterIconPatch(id: number, iconKey: string, accountId?: number): Observable<Character> {
+    const body: any = {
+      iconKey,
+      icon_key: iconKey,
+      accountId: accountId ?? undefined,
+      account_id: accountId ?? undefined
+    };
+    // eslint-disable-next-line no-console
+    console.debug('[DatabaseService] PATCH /characters/:id (icon) body:', body);
+    return this.http.patch<Character>(`${this.apiUrl}/characters/${id}`, body, this.httpOptions);
   }
 
   // Client-side icon persistence (fallback for backend issues)
@@ -104,39 +201,53 @@ export class DatabaseService {
     localStorage.setItem(`character_icon_${characterId}`, iconKey);
   }
 
-  // Enhanced icon update with client-side fallback
-  updateCharacterIconWithFallback(id: number, iconKey: string): Observable<Character> {
-    // Store locally first for immediate persistence
-    this.storeIconKey(id, iconKey);
-    
-    // Try backend update, but don't fail if it errors
-    return new Observable(observer => {
-      this.updateCharacterIcon(id, iconKey).subscribe({
-        next: (character) => {
-          observer.next(character);
-          observer.complete();
-        },
-        error: (err) => {
-          console.warn('Backend icon update failed, using client-side storage:', err);
-          // Return a mock success response with the icon set
-          const mockCharacter: Character = { 
-            id, 
-            iconKey,
-            accountId: 0, 
-            name: '', 
-            level: 1, 
-            experience: 0, 
-            health: 100, 
-            mana: 100, 
-            strength: 10, 
-            dexterity: 10, 
-            intelligence: 10 
-          };
-          observer.next(mockCharacter);
-          observer.complete();
+  // Client-side name persistence (fallback for backend issues)
+  private getStoredName(characterId: number): string | null {
+    const stored = localStorage.getItem(`character_name_${characterId}`);
+    return stored;
+  }
+
+  private storeName(characterId: number, name: string): void {
+    localStorage.setItem(`character_name_${characterId}`, name);
+  }
+
+  // Icon update with fallback strategies mirroring name update
+  updateCharacterIconWithFallback(id: number, iconKey: string, accountId?: number): Observable<Character> {
+    // If network icon update disabled, do optimistic local update only
+    if (!this.allowCharacterIconNetwork) {
+      const current = this.getCurrentCharacter();
+      if (current && current.id === id) {
+        const updated: Character = { ...current, iconKey } as Character;
+        this.storeIconKey(id, iconKey);
+        this.setCurrentCharacter(updated);
+        return of(updated);
+      }
+      // Persist icon locally so future fetch merges apply
+      this.storeIconKey(id, iconKey);
+      return of({ id, iconKey } as Character);
+    }
+
+    // Single attempt: minimal body; on error, fallback locally without further retries
+    const bodyCall$ = this.updateCharacterIcon(id, iconKey, accountId).pipe(
+      catchError((err: any) => {
+        // eslint-disable-next-line no-console
+        console.error('[updateCharacterIconWithFallback] PUT failed; applying local fallback', {
+          status: err?.status,
+          statusText: err?.statusText,
+          url: err?.url,
+          body: err?.error ?? err
+        });
+        const current = this.getCurrentCharacter();
+        this.storeIconKey(id, iconKey);
+        if (current && current.id === id) {
+          const updated: Character = { ...current, iconKey } as Character;
+          this.setCurrentCharacter(updated);
+          return of(updated);
         }
-      });
-    });
+        return of({ id, iconKey } as Character);
+      })
+    );
+    return bodyCall$;
   }
 
   getUserCharacters(userId: number): Observable<Character[]> {
@@ -148,6 +259,10 @@ export class DatabaseService {
             const storedIcon = this.getStoredIconKey(character.id);
             if (storedIcon && (!character.iconKey || character.iconKey !== storedIcon)) {
               character.iconKey = storedIcon;
+            }
+            const storedName = this.getStoredName(character.id);
+            if (storedName && character.name !== storedName) {
+              character.name = storedName;
             }
           }
         });

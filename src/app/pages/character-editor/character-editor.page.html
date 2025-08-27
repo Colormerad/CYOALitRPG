@@ -39,6 +39,7 @@
       <div class="form-group">
         <label class="retro-text" for="gender">Gender</label>
         <select id="gender" class="form-input" [(ngModel)]="gender" (ngModelChange)="onGenderChange($event)">
+          <option [ngValue]="'unknown'">Unknown</option>
           <option [ngValue]="''" disabled>Select gender</option>
           <option [ngValue]="'masculine'">Masculine</option>
           <option [ngValue]="'feminine'">Feminine</option>
@@ -50,6 +51,7 @@
       <div class="form-group">
         <label class="retro-text" for="age">Age</label>
         <select id="age" class="form-input" [(ngModel)]="ageBucket" (ngModelChange)="onAgeBucketChange($event)">
+          <option [ngValue]="'unknown'">Unknown</option>
           <option [ngValue]="''" disabled>Select age</option>
           <option [ngValue]="'very_young'">Very Young</option>
           <option [ngValue]="'young'">Young</option>
@@ -62,6 +64,7 @@
       <div class="actions" style="margin-top: 16px; display: flex; gap: 12px;">
         <button class="btn-secondary" (click)="goBack()">Back to Game</button>
         <a class="btn-primary" [routerLink]="['/icon-select', characterId]">Change Profile Icon</a>
+        <button class="btn-primary" [disabled]="isSaving" (click)="saveAll()">Save</button>
         <a class="btn-secondary" [routerLink]="['/last-time', characterId]">Last Time...</a>
       </div>
     </div>
