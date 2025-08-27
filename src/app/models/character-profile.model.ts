@@ -27,6 +27,9 @@ export interface CharacterProfile {
   additionalTraits: any;
   createdAt: string;
   updatedAt: string;
+  // Optional demographics (frontend-visible; backend may or may not persist yet)
+  gender?: 'masculine' | 'feminine' | 'neutral' | 'flux';
+  ageBucket?: 'very_young' | 'young' | 'neutral' | 'wisened' | 'very_old';
 }
 
 export interface CharacterAlignment {

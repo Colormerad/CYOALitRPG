@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DatabaseService } from '../../services/database.service';
+import { BottomTabsComponent } from '../../components/bottom-tabs/bottom-tabs.component';
 import { StoryNode, Choice } from '../../models/story.model';
 import { PlayerProgress } from '../../models/player-progress.model';
 import { CharacterProfile } from '../../models/character-profile.model';
@@ -12,7 +13,7 @@ import { AudioService } from '../../services/audio.service';
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BottomTabsComponent],
   templateUrl: './game.page.html',
   styleUrls: ['./game.page.scss']
 })
@@ -330,6 +331,12 @@ export class GamePage implements OnInit, AfterViewInit {
 
   goToCharacterSelect(): void {
     this.router.navigate(['/select-character']);
+  }
+  
+  goToCharacterEditor(): void {
+    if (this.characterId) {
+      this.router.navigate(['/character-editor', this.characterId]);
+    }
   }
   
   goToInventory(): void {

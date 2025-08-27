@@ -74,7 +74,8 @@ ion-content {
   --padding-start: 1.5rem !important;
   --padding-end: 1.5rem !important;
   --padding-top: 1.5rem !important;
-  --padding-bottom: 1.5rem !important;
+  /* Add extra space for bottom nav */
+  --padding-bottom: calc(1.5rem + 60px) !important;
 }
 
 ion-router-outlet {

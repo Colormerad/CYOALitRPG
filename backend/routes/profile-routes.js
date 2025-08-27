@@ -58,4 +58,20 @@ router.get('/:characterId/preferences', async (req, res) => {
   }
 });
 
+/**
+ * Update profile extras (stored in AdditionalTraits), e.g., gender and ageBucket
+ */
+router.post('/:characterId/extras', async (req, res) => {
+  try {
+    const characterId = parseInt(req.params.characterId);
+    const payload = req.body || {};
+    // Pass arbitrary keys to updateCharacterProfile to merge into AdditionalTraits
+    const updated = await profileService.updateCharacterProfile(characterId, payload);
+    res.json(updated);
+  } catch (err) {
+    console.error('Error updating profile extras:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

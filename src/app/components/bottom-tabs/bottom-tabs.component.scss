@@ -1,0 +1,15 @@
+.app-bottom-tabs {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  --background: var(--retro-green-darkest);
+  border-top: 2px solid var(--retro-border);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+ion-tab-button {
+  --color: var(--retro-text);
+  --color-selected: var(--retro-accent, #9cff57);
+}

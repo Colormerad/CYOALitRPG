@@ -10,6 +10,26 @@
   100% { opacity: 0.8; }
 }
 
+/* Character header (icon + name) */
+.game-character-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  .avatar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .character-name {
+    margin: 0;
+    line-height: 1;
+  }
+}
+
 /* Make the themeable story frame visible when used */
 .story-frame {
   margin-bottom: 20px; /* keep previous spacing */

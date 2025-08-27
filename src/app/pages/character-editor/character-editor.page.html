@@ -1,0 +1,73 @@
+<ion-content>
+<div class="content-container standard-page">
+  <div class="page-header">
+    <h1 class="retro-header">Character</h1>
+  </div>
+
+  <div class="card" style="margin-bottom: 16px;">
+    <div class="form-group">
+      <label class="retro-text" for="charName">Name</label>
+      <input id="charName" class="form-input" type="text" [(ngModel)]="name" placeholder="Enter character name"
+             (keyup.enter)="onNameCommit()" (blur)="onNameCommit()" />
+    </div>
+  </div>
+
+  <div class="card story-frame story-frame--img">
+    <div class="story-frame__content">
+      <div class="section-header">Alignment</div>
+      <div class="retro-text" style="margin-bottom:8px">{{ alignmentText }}</div>
+
+      <div class="alignment-wrapper">
+        <div class="axis axis-y">
+          <div class="axis-label axis-top">Good</div>
+          <div class="axis-label axis-mid">Neutral</div>
+          <div class="axis-label axis-bottom">Evil</div>
+        </div>
+        <div class="grid-3x3">
+          <div class="row" *ngFor="let r of [0,1,2]">
+            <div class="cell" *ngFor="let c of [0,1,2]" [class.active]="alignment.row === r && alignment.col === c"></div>
+          </div>
+        </div>
+        <div class="axis axis-x">
+          <div class="axis-label axis-left">Lawful</div>
+          <div class="axis-label axis-mid">Neutral</div>
+          <div class="axis-label axis-right">Chaotic</div>
+        </div>
+      </div>
+
+      <div class="section-header" style="margin-top:20px;">Identity</div>
+      <div class="form-group">
+        <label class="retro-text" for="gender">Gender</label>
+        <select id="gender" class="form-input" [(ngModel)]="gender" (ngModelChange)="onGenderChange($event)">
+          <option [ngValue]="''" disabled>Select gender</option>
+          <option [ngValue]="'masculine'">Masculine</option>
+          <option [ngValue]="'feminine'">Feminine</option>
+          <option [ngValue]="'neutral'">Neutral</option>
+          <option [ngValue]="'flux'">Flux</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="retro-text" for="age">Age</label>
+        <select id="age" class="form-input" [(ngModel)]="ageBucket" (ngModelChange)="onAgeBucketChange($event)">
+          <option [ngValue]="''" disabled>Select age</option>
+          <option [ngValue]="'very_young'">Very Young</option>
+          <option [ngValue]="'young'">Young</option>
+          <option [ngValue]="'neutral'">Neither Old Nor Young</option>
+          <option [ngValue]="'wisened'">Wisened</option>
+          <option [ngValue]="'very_old'">Very Old</option>
+        </select>
+      </div>
+
+      <div class="actions" style="margin-top: 16px; display: flex; gap: 12px;">
+        <button class="btn-secondary" (click)="goBack()">Back to Game</button>
+        <a class="btn-primary" [routerLink]="['/icon-select', characterId]">Change Profile Icon</a>
+        <a class="btn-secondary" [routerLink]="['/last-time', characterId]">Last Time...</a>
+      </div>
+    </div>
+  </div>
+  
+</div>
+</ion-content>
+
+<app-bottom-tabs [characterId]="characterId"></app-bottom-tabs>

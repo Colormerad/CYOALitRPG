@@ -1,0 +1,30 @@
+.history-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.history-item {
+  margin: 0.5rem 0;
+}
+
+.event-row {
+  display: flex;
+  gap: 8px;
+}
+
+.event-index {
+  color: var(--ion-color-medium);
+  min-width: 1.5rem;
+}
+
+.event-title {
+  font-weight: 700;
+}
+
+.event-choice {
+  margin-top: 2px;
+}
+
+.error {
+  color: #ff6666;
+}

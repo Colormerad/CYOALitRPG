@@ -90,6 +90,8 @@
   border-image-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
   border-image-width: 1;
   border-image-repeat: round;
+  /* Use repeat for crisp pixel edges if visible */
+  border-image-repeat: repeat;
   /* No color filter; ::after handles tint via masking */
   z-index: 1;
   /* Hide the base (white) image so the colored mask defines the border color */
@@ -103,17 +105,17 @@
   inset: 0;
   pointer-events: none;
   background: var(--frame-tint-color, #c5e68a);
-  opacity: var(--frame-tint-opacity, 0.35);
+  opacity: var(--frame-tint-opacity, 1);
   /* WebKit 9-slice mask using the same image and slices as the border */
   -webkit-mask-box-image: var(--frame-image-url);
   -webkit-mask-box-image-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
   -webkit-mask-box-image-width: var(--frame-border-width);
-  -webkit-mask-box-image-repeat: stretch;
+  -webkit-mask-box-image-repeat: repeat;
   /* Standards fallback (mask-border) */
   mask-border-source: var(--frame-image-url);
   mask-border-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
   mask-border-width: var(--frame-border-width);
-  mask-border-repeat: stretch;
+  mask-border-repeat: repeat;
   z-index: 2;
 }
 
@@ -167,7 +169,11 @@
   min-height: 100vh;
   position: relative;
   box-sizing: border-box;
+  overflow-y: auto; /* allow scrolling to reveal content below */
   padding: 1.5rem;
+  /* Ensure content clears fixed bottom tabs on pages not using ion-content */
+  --bottom-tabs-height: 60px; /* override per-page if your tabs are taller */
+  padding-bottom: calc(1.5rem + var(--bottom-tabs-height) + env(safe-area-inset-bottom, 0px));
 }
 
 /* Responsive centered container */
@@ -450,12 +456,67 @@ $sprite-icons: (
    BUTTON COMPONENTS
    ======================================== */
 
+.btn--framed {
+  /* Use theme frame variables already set on :root */
+  position: relative;
+  border: none; /* replace native border */
+  background-clip: padding-box; /* keep background inside */
+  image-rendering: pixelated;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-style: solid;
+    border-color: transparent;
+    border-width: var(--frame-border-width, 8px);
+    border-image-source: var(--frame-image-url);
+    border-image-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
+    border-image-width: 1;
+    border-image-repeat: repeat;
+    z-index: 1;
+    opacity: 0; /* base image hidden; ::after applies tint via mask */
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: var(--frame-tint-color, #c5e68a);
+    opacity: var(--frame-tint-opacity, 1);
+    -webkit-mask-box-image: var(--frame-image-url);
+    -webkit-mask-box-image-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
+    -webkit-mask-box-image-width: var(--frame-border-width, 8px);
+    -webkit-mask-box-image-repeat: repeat;
+    mask-border-source: var(--frame-image-url);
+    mask-border-slice: var(--slice-top) var(--slice-right) var(--slice-bottom) var(--slice-left);
+    mask-border-width: var(--frame-border-width, 8px);
+    mask-border-repeat: repeat;
+    z-index: 2;
+    /* Pixel drop-shadow applied only to the framed border */
+    filter: 
+      drop-shadow(var(--frame-ds-x, 3px) var(--frame-ds-y, 3px) 0 rgba(0,0,0, var(--frame-ds-opacity, 0.9)))
+      drop-shadow(calc(var(--frame-ds-x, 3px) / 2) calc(var(--frame-ds-y, 3px) / 2) 0 rgba(0,0,0, var(--frame-ds-opacity, 0.7)));
+    will-change: filter;
+  }
+}
+
+/* Stronger shadow on hover for better affordance */
+.btn--framed:hover::after {
+  filter: 
+    drop-shadow(var(--frame-ds-x-hover, 4px) var(--frame-ds-y-hover, 4px) 0 rgba(0,0,0, var(--frame-ds-opacity, 0.95)))
+    drop-shadow(calc(var(--frame-ds-x-hover, 4px) / 2) calc(var(--frame-ds-y-hover, 4px) / 2) 0 rgba(0,0,0, var(--frame-ds-opacity, 0.8)));
+}
+
 .btn-primary {
   padding: 12px 20px;
-  background-color: var(--retro-button-bg);
+  background-color: transparent; /* transparent center */
   color: var(--retro-button-text);
-  border: 2px solid var(--retro-border);
-  border-radius: 4px;
+  @extend .btn--framed;
+  border-radius: 0; /* pixel-perfect corners for framed border */
   cursor: pointer;
   font-size: 1.1rem;
   font-family: 'VT323', monospace;
@@ -463,7 +524,7 @@ $sprite-icons: (
   transition: all 0.2s ease;
   
   &:hover {
-    background-color: var(--retro-green-medium);
+    /* keep background transparent; allow subtle text change */
     color: var(--retro-green-lightest);
     text-shadow: 0 0 3px var(--retro-green-darkest);
     transform: translateY(-1px);
@@ -486,23 +547,23 @@ $sprite-icons: (
 
 .btn-secondary {
   @extend .btn-primary;
-  background-color: var(--retro-green-dark);
-  border-color: var(--retro-green-medium);
+  background-color: transparent; /* transparent center */
+  /* border handled by themed frame */
   
   &:hover {
-    background-color: var(--retro-green-light);
-    color: var(--retro-green-darkest);
+    /* keep background transparent */
+    color: var(--retro-green-light);
   }
 }
 
 .btn-danger {
   @extend .btn-primary;
-  background-color: #7a2a2a;
-  border-color: #a03a3a;
+  background-color: transparent; /* transparent center */
+  /* border handled by themed frame */
   
   &:hover {
-    background-color: #a03a3a;
-    color: var(--retro-green-lightest);
+    /* keep background transparent */
+    color: #ffcccc;
   }
 }
 
@@ -713,8 +774,8 @@ $sprite-icons: (
   transform: translate(-50%, -50%);
   width: 60px;
   height: 60px;
-  background-color: var(--retro-green-light);
-  border: 3px solid var(--retro-green-lightest);
+  background-color: var(--overlay-bg, var(--retro-green-light));
+  border: 3px solid var(--overlay-border, var(--retro-green-lightest));
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -722,13 +783,13 @@ $sprite-icons: (
   cursor: pointer;
   z-index: 10;
   transition: all 0.2s ease;
-  box-shadow: 0 0 15px var(--retro-green-light);
+  box-shadow: 0 0 15px var(--overlay-border, var(--retro-green-light));
   animation: playIconPulse 1.5s infinite;
   
   &:hover {
     transform: translate(-50%, -50%) scale(1.1);
-    background-color: var(--retro-green-lightest);
-    box-shadow: 0 0 25px var(--retro-green-light);
+    background-color: var(--overlay-border, var(--retro-green-lightest));
+    box-shadow: 0 0 25px var(--overlay-border, var(--retro-green-light));
   }
   
   &:active {
@@ -738,7 +799,7 @@ $sprite-icons: (
   .play-icon {
     width: 0;
     height: 0;
-    border-left: 20px solid var(--retro-green-darkest);
+    border-left: 20px solid var(--overlay-icon, var(--retro-green-darkest));
     border-top: 12px solid transparent;
     border-bottom: 12px solid transparent;
     margin-left: 4px; // Center the triangle
@@ -791,8 +852,8 @@ $sprite-icons: (
   align-items: center;
   justify-content: center;
   margin-bottom: 12px;
-  background-color: var(--retro-green-darkest);
-  border: 2px solid var(--retro-border);
+  background-color: var(--pixel-art-bg, var(--retro-green-darkest));
+  border: 2px solid var(--pixel-art-border, var(--retro-border));
   position: relative;
   overflow: hidden;
 }
@@ -800,7 +861,7 @@ $sprite-icons: (
 .pixel-art-character {
   width: 64px;
   height: 64px;
-  background-color: var(--retro-green-medium);
+  background-color: var(--pixel-art-swatch, var(--pixel-art-bg, var(--retro-green-dark)));
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
@@ -1540,4 +1601,34 @@ $sprite-icons: (
   .characters-grid {
     grid-template-columns: repeat(6, 1fr); /* 6 columns max on ultra-wide */
   }
+}
+
+/* ========================================
+   GLOBAL SCANLINES EFFECT
+   ======================================== */
+
+/*
+  Usage: add class .app-scanlines to the top-level container (e.g., ion-app)
+  Tunables:
+    --scanline-size: vertical spacing in px
+    --scanline-opacity: opacity of dark stripe
+*/
+.app-scanlines {
+  position: relative;
+  overflow: hidden;
+}
+
+.app-scanlines::before {
+  content: '';
+  position: fixed; /* cover the viewport regardless of scroll */
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999; /* above content but below modals if they set higher */
+  opacity: var(--scanline-opacity, 0.25);
+  background-image: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(0, 0, 0, 1) 50%
+  );
+  background-size: 100% var(--scanline-size, 4px);
 }

@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { DatabaseService } from '../../services/database.service';
+import { BottomTabsComponent } from '../../components/bottom-tabs/bottom-tabs.component';
 import { InventoryItem } from '../../models/inventory.model';
 import { Character } from '../../models/character.model';
 import { PlayerProgress } from '../../models/player-progress.model';
@@ -14,7 +15,7 @@ import { PlayerProgress } from '../../models/player-progress.model';
   templateUrl: './inventory.page.html',
   styleUrls: ['./inventory.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule]
+  imports: [CommonModule, FormsModule, IonicModule, BottomTabsComponent]
 })
 export class InventoryPage implements OnInit {
   characterId: number = 0;

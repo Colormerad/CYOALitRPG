@@ -1,0 +1,14 @@
+ion-tab-bar {
+  --background: var(--retro-green-darkest);
+  --color: var(--retro-text);
+  --border: 2px solid var(--retro-border);
+}
+
+ion-tab-button {
+  --color: var(--retro-text);
+  --color-selected: var(--retro-accent, #9cff57);
+}
+
+ion-icon {
+  font-size: 20px;
+}

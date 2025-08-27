@@ -3,9 +3,20 @@
   <audio #backgroundMusic src="assets/audio/fun-house-7.opus" loop></audio>
 
   <div class="header">
-    <h1>LitRPG Adventure</h1>
-    <div class="header-buttons">
-      <button class="back-button" (click)="goToCharacterSelect()">Back to Characters</button>
+    <div class="page-header game-character-header" *ngIf="characterData">
+      <div class="avatar clickable" *ngIf="characterData.iconKey; else noIcon" (click)="goToCharacterEditor()" (keydown.enter)="goToCharacterEditor()" (keydown.space)="goToCharacterEditor()" role="button" tabindex="0" aria-label="Edit character">
+        <div class="sprite-frame-2x">
+          <span class="sprite-2x-center" [ngClass]="'icon-' + characterData.iconKey"></span>
+        </div>
+      </div>
+      <ng-template #noIcon>
+        <div class="avatar placeholder-avatar clickable" (click)="goToCharacterEditor()" (keydown.enter)="goToCharacterEditor()" (keydown.space)="goToCharacterEditor()" role="button" tabindex="0" aria-label="Edit character">
+          <div class="sprite-frame-2x">
+            <span class="sprite-2x-center icon-question"></span>
+          </div>
+        </div>
+      </ng-template>
+      <h1 class="retro-header character-name">{{ characterData.name }}</h1>
     </div>
   </div>
 
@@ -54,7 +65,7 @@
   <div *ngIf="!loading && !error && currentNode && !isDeathScreen" class="story-content">
     <div class="story-frame story-frame--img">
       <div class="story-frame__content story-node">
-        <h2>{{ currentNode.title }}</h2>
+        <h2>Prologue</h2>
         <div class="story-text" [innerHTML]="currentNode.content"></div>
       </div>
     </div>
@@ -89,18 +100,14 @@
     </div>
   </div>
 
-  <div *ngIf="!loading && !error && playerProgress && !isDeathScreen" class="player-status">
-    <div class="character-info">
-      <h3>Character Status</h3>
-      <div class="metadata" *ngIf="playerProgress?.metadata">
-        <div *ngFor="let item of objectKeys(playerProgress?.metadata)" class="metadata-item">
-          <span class="label">{{ formatMetadataKey(item) }}:</span>
-          <span class="value">{{ playerProgress.metadata[item] }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
+
   
-  <!-- Bottom spacer to prevent content from being cut off by menu -->
+
+  <div class="header-buttons">
+    <button class="back-button" (click)="goToCharacterSelect()">Back to Characters</button>
+  </div>
   <div class="bottom-spacer" style="height: 60px; width: 100%;"></div>
+
 </div>
+
+<app-bottom-tabs [characterId]="characterId"></app-bottom-tabs>

@@ -50,8 +50,16 @@ const routes: Routes = [
     loadComponent: () => import('./pages/icon-select/icon-select.page').then(m => m.IconSelectPage)
   },
   {
+    path: 'character-editor/:id',
+    loadComponent: () => import('./pages/character-editor/character-editor.page').then(m => m.CharacterEditorPage)
+  },
+  {
     path: 'battle',
     loadComponent: () => import('./pages/battle/battle.page').then(m => m.BattlePage)
+  },
+  {
+    path: 'last-time/:id',
+    loadComponent: () => import('./pages/last-time/last-time.page').then(m => m.LastTimePage)
   },
   {
     path: '',

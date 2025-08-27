@@ -37,6 +37,23 @@ export class DatabaseService {
     return this.http.post<User>(`${this.apiUrl}/users`, user, this.httpOptions);
   }
 
+  // Merge and persist metadata into PlayerProgress.metadata
+  updateProgressMetadata(characterId: number, patch: Record<string, any>): Observable<PlayerProgress> {
+    return new Observable<PlayerProgress>((observer) => {
+      this.getPlayerProgress(characterId).subscribe({
+        next: (progress) => {
+          const currentMeta = progress?.metadata && typeof progress.metadata === 'object' ? progress.metadata : {};
+          const updated: PlayerProgress = { ...progress, metadata: { ...currentMeta, ...patch } } as any;
+          this.http.put<PlayerProgress>(`${this.apiUrl}/story/progress/${characterId}`, updated, this.httpOptions).subscribe({
+            next: (saved) => { observer.next(saved); observer.complete(); },
+            error: (err) => { console.error('Error updating PlayerProgress.metadata:', err); observer.error(err); }
+          });
+        },
+        error: (err) => { console.error('Error loading PlayerProgress for metadata update:', err); observer.error(err); }
+      });
+    });
+  }
+
   useInventoryItem(characterId: number, itemId: number, amount: number = 1): Observable<{ itemId: number; quantity: number; removed: boolean }> {
     return this.http.post<{ itemId: number; quantity: number; removed: boolean }>(
       `${this.apiUrl}/characters/${characterId}/inventory/${itemId}/use`,
@@ -143,6 +160,10 @@ export class DatabaseService {
     return this.http.get<StoryNode>(`${this.apiUrl}/story/nodes/${id}`);
   }
 
+  getChoice(id: number): Observable<Choice | any> {
+    return this.http.get<Choice | any>(`${this.apiUrl}/story/choices/${id}`);
+  }
+
   getFirstStoryNode(): Observable<StoryNode> {
     return this.http.get<StoryNode>(`${this.apiUrl}/story/start`);
   }
@@ -224,6 +245,64 @@ export class DatabaseService {
 
   getCharacterPreferences(characterId: number): Observable<CharacterPreferences> {
     return this.http.get<CharacterPreferences>(`${this.apiUrl}/profile/${characterId}/preferences`);
+  }
+
+  // --- Frontend-only extras (until backend supports persistence) ---
+  getProfileExtras(characterId: number): { gender?: 'masculine'|'feminine'|'neutral'|'flux'; ageBucket?: 'very_young'|'young'|'neutral'|'wisened'|'very_old' } {
+    try {
+      const raw = localStorage.getItem(`profile_extras_${characterId}`);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  }
+
+  setProfileExtras(characterId: number, extras: { gender?: 'masculine'|'feminine'|'neutral'|'flux'; ageBucket?: 'very_young'|'young'|'neutral'|'wisened'|'very_old' }): void {
+    try {
+      const existing = this.getProfileExtras(characterId) || {};
+      const merged = { ...existing, ...extras };
+      localStorage.setItem(`profile_extras_${characterId}`, JSON.stringify(merged));
+    } catch (e) {
+      console.warn('Failed to store profile extras', e);
+    }
+  }
+
+  updateProfileExtras(characterId: number, extras: { gender?: 'masculine'|'feminine'|'neutral'|'flux'; ageBucket?: 'very_young'|'young'|'neutral'|'wisened'|'very_old' }): Observable<CharacterProfile> {
+    // Persist to backend; also mirror to local storage for quick restore
+    this.setProfileExtras(characterId, extras);
+    return new Observable<CharacterProfile>((observer) => {
+      this.http.post<CharacterProfile>(`${this.apiUrl}/profile/${characterId}/extras`, extras, this.httpOptions).subscribe({
+        next: (profile) => {
+          observer.next(profile);
+          observer.complete();
+        },
+        error: (err) => {
+          console.warn('Backend updateProfileExtras failed, using local extras fallback', err);
+          // Return a synthetic profile merge for UI continuity
+          this.getCharacterProfile(characterId).subscribe({
+            next: (p) => {
+              const merged: any = { ...p, additionalTraits: { ...(p as any).additionalTraits, ...extras } };
+              observer.next(merged);
+              observer.complete();
+            },
+            error: () => {
+              // As last resort, fabricate minimal object
+              observer.next({
+                id: 0,
+                characterId,
+                strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, charisma: 10,
+                goodEvilAxis: 0, orderChaosAxis: 0,
+                combatPreference: 0, explorationPreference: 0, socialPreference: 0, puzzlePreference: 0,
+                caution: 0, bravery: 0, curiosity: 0, empathy: 0, magicAffinity: 0,
+                strengthExp: 0, dexterityExp: 0, constitutionExp: 0, intelligenceExp: 0, wisdomExp: 0, charismaExp: 0,
+                additionalTraits: { ...extras }, createdAt: '', updatedAt: ''
+              } as any);
+              observer.complete();
+            }
+          });
+        }
+      });
+    });
   }
 
   getRandomOutfits(count: number = 4): Observable<any[]> {
