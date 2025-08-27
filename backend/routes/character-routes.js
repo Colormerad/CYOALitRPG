@@ -12,7 +12,7 @@ router.get('/user/:userId', async (req, res) => {
   try {
     const userId = parseInt(req.params.userId);
     const result = await pool.query(
-      'SELECT c.*, c.icon_key as "iconKey", cls.name as "className" FROM "character" c LEFT JOIN class cls ON cls.id = c.classid WHERE c.accountid = $1 ORDER BY c.id',
+      'SELECT c.id, c.name, c.createdat, c.accountid, c.level, c.experience, c.classid, c.worldid, c.locationid, c.coordinatex, c.coordinatey, c.is_dead, c.icon_key as "iconKey", cls.name as "className" FROM "character" c LEFT JOIN class cls ON cls.id = c.classid WHERE c.accountid = $1 ORDER BY c.id',
       [userId]
     );
     res.json(result.rows);
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
   try {
     const characterId = parseInt(req.params.id);
     const result = await pool.query(
-      'SELECT c.*, c.icon_key as "iconKey", cls.Name as "className" FROM "character" c LEFT JOIN Class cls ON cls.Id = c.ClassId WHERE c.id = $1',
+      'SELECT c.id, c.name, c.createdat, c.accountid, c.level, c.experience, c.classid, c.worldid, c.locationid, c.coordinatex, c.coordinatey, c.is_dead, c.icon_key as "iconKey", cls.Name as "className" FROM "character" c LEFT JOIN Class cls ON cls.Id = c.ClassId WHERE c.id = $1',
       [characterId]
     );
     
