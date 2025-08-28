@@ -13,5 +13,5 @@ export interface Character {
   createdAt?: string;
   updatedAt?: string;
   is_dead?: boolean;
-  icon_key?: string | null;
+  iconKey?: string | null;
 }

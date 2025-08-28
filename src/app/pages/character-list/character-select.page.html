@@ -54,12 +54,12 @@
             <div class="pixel-art-character" 
                  [ngClass]="[(character.className || character.class || 'Warrior')?.toLowerCase(), character.is_dead ? 'dead' : '']"></div>
 
-            <!-- Profile icon overlay: alive shows character.icon_key if present; dead shows skullcrossbones; centered within a 2x frame -->
+            <!-- Profile icon overlay: alive shows character.iconKey if present; dead shows skullcrossbones; centered within a 2x frame -->
             <div class="character-icon-overlay">
-              <!-- Show character icon if alive and has icon_key -->
-              <ng-container *ngIf="!character.is_dead && character.icon_key">
+              <!-- Show character icon if alive and has iconKey -->
+              <ng-container *ngIf="!character.is_dead && character.iconKey">
                 <div class="sprite-center-abs sprite-frame-2x" style="--sprite-nudge-x: 2px;">
-                  <span class="sprite-2x-center" [ngClass]="'icon-' + character.icon_key"></span>
+                  <span class="sprite-2x-center" [ngClass]="'icon-' + character.iconKey"></span>
                 </div>
               </ng-container>
               <!-- Dead shows skullcrossbones -->

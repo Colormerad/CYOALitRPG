@@ -4,9 +4,9 @@
 
   <div class="header">
     <div class="page-header game-character-header" *ngIf="characterData">
-      <div class="avatar clickable" *ngIf="characterData.icon_key; else noIcon" (click)="goToCharacterEditor()" (keydown.enter)="goToCharacterEditor()" (keydown.space)="goToCharacterEditor()" role="button" tabindex="0" aria-label="Edit character">
+      <div class="avatar clickable" *ngIf="characterData.iconKey; else noIcon" (click)="goToCharacterEditor()" (keydown.enter)="goToCharacterEditor()" (keydown.space)="goToCharacterEditor()" role="button" tabindex="0" aria-label="Edit character">
         <div class="sprite-frame-2x">
-          <span class="sprite-2x-center" [ngClass]="'icon-' + characterData.icon_key"></span>
+          <span class="sprite-2x-center" [ngClass]="'icon-' + characterData.iconKey"></span>
         </div>
       </div>
       <ng-template #noIcon>

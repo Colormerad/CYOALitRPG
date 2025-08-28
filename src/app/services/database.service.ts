@@ -82,8 +82,8 @@ export class DatabaseService {
       tap(character => {
         // Merge stored icon if available (fallback for backend issues)
         const storedIcon = this.getStoredIconKey(id);
-        if (storedIcon && (!character.icon_key || character.icon_key !== storedIcon)) {
-          character.icon_key = storedIcon;
+        if (storedIcon && (!character.iconKey || character.iconKey !== storedIcon)) {
+          character.iconKey = storedIcon;
         }
         // Merge stored name if available (fallback for backend issues)
         const storedName = this.getStoredName(id);
@@ -103,7 +103,7 @@ export class DatabaseService {
     const body: any = { ...character };
     // Duplicate common fields in snake_case for compatibility
     if (character.name != null) body.character_name = character.name;
-    if ((character as any).icon_key != null) body.icon_key = (character as any).icon_key;
+    if ((character as any).iconKey != null) body.icon_key = (character as any).iconKey;
     if (character.accountId != null) body.account_id = character.accountId;
     // Prune undefined to avoid sending extraneous undefineds
     Object.keys(body).forEach(k => body[k] === undefined && delete body[k]);
@@ -187,8 +187,8 @@ export class DatabaseService {
       account_id: accountId ?? undefined
     };
     // eslint-disable-next-line no-console
-    console.debug('[DatabaseService] PATCH /characters/:id (icon) body:', body);
-    return this.http.patch<Character>(`${this.apiUrl}/characters/${id}`, body, this.httpOptions);
+    console.debug('[DatabaseService] PUT /characters/:id (icon) body:', body);
+    return this.http.put<Character>(`${this.apiUrl}/characters/${id}`, body, this.httpOptions);
   }
 
   // Client-side icon persistence (fallback for backend issues)
@@ -217,14 +217,14 @@ export class DatabaseService {
     if (!this.allowCharacterIconNetwork) {
       const current = this.getCurrentCharacter();
       if (current && current.id === id) {
-        const updated: Character = { ...current, icon_key: iconKey } as Character;
+        const updated: Character = { ...current, iconKey: iconKey } as Character;
         this.storeIconKey(id, iconKey);
         this.setCurrentCharacter(updated);
         return of(updated);
       }
       // Persist icon locally so future fetch merges apply
       this.storeIconKey(id, iconKey);
-      return of({ id, icon_key: iconKey } as Character);
+      return of({ id, iconKey: iconKey } as Character);
     }
 
     // Single attempt: minimal body; on error, fallback locally without further retries
@@ -240,11 +240,11 @@ export class DatabaseService {
         const current = this.getCurrentCharacter();
         this.storeIconKey(id, iconKey);
         if (current && current.id === id) {
-          const updated: Character = { ...current, icon_key: iconKey } as Character;
+          const updated: Character = { ...current, iconKey: iconKey } as Character;
           this.setCurrentCharacter(updated);
           return of(updated);
         }
-        return of({ id, icon_key: iconKey } as Character);
+        return of({ id, iconKey: iconKey } as Character);
       })
     );
     return bodyCall$;
@@ -257,8 +257,8 @@ export class DatabaseService {
         characters.forEach(character => {
           if (character.id) {
             const storedIcon = this.getStoredIconKey(character.id);
-            if (storedIcon && (!character.icon_key || character.icon_key !== storedIcon)) {
-              character.icon_key = storedIcon;
+            if (storedIcon && (!character.iconKey || character.iconKey !== storedIcon)) {
+              character.iconKey = storedIcon;
             }
             const storedName = this.getStoredName(character.id);
             if (storedName && character.name !== storedName) {
