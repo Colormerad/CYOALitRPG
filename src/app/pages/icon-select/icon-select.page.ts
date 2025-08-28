@@ -28,7 +28,7 @@ export class IconSelectPage {
     if (Number.isFinite(this.characterId)) {
       this.db.getCharacter(this.characterId).subscribe(ch => {
         this.character = ch;
-        if (ch?.iconKey) this.selectedKeySig.set(ch.iconKey);
+        if (ch?.icon_key) this.selectedKeySig.set(ch.icon_key);
       });
     }
   }
@@ -60,7 +60,7 @@ export class IconSelectPage {
   async save() {
     const key = this.selectedKey();
     if (!this.character || !this.character.id || !key) return;
-    const updated: Character = { ...this.character, iconKey: key } as Character;
+    const updated: Character = { ...this.character, icon_key: key } as Character;
     // Optimistic update for immediate UI feedback
     this.db.setCurrentCharacter(updated);
     const accountId = (this.character as any)?.accountId;
