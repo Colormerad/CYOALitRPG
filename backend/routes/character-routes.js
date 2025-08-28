@@ -138,19 +138,22 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({ error: 'Character not found' });
     }
 
-    // Map payload keys to exact DB column names (quoted where necessary)
+    // Map payload keys to exact DB column names (match actual database schema)
     const columnMap = new Map([
-      ['name', '"Name"'],
-      ['level', '"Level"'],
-      ['experience', '"Experience"'],
-      ['health', '"Health"'],
-      ['mana', '"Mana"'],
-      ['strength', '"Strength"'],
-      ['agility', '"Agility"'],
-      ['intelligence', '"Intelligence"'],
-      ['classid', '"ClassId"'],
-      // icon_key was added as lower_snake; keep unquoted identifier
-      ['icon_key', 'icon_key']
+      ['name', 'name'],
+      ['character_name', 'name'], // compatibility alias
+      ['level', 'level'],
+      ['experience', 'experience'],
+      ['health', 'health'],
+      ['mana', 'mana'],
+      ['strength', 'strength'],
+      ['agility', 'agility'],
+      ['intelligence', 'intelligence'],
+      ['classid', 'classid'],
+      ['accountid', 'accountid'],
+      ['account_id', 'accountid'], // compatibility alias
+      ['icon_key', 'icon_key'],
+      ['iconKey', 'icon_key'] // compatibility alias
     ]);
 
     const makeUpdateParts = (omitIconKey = false) => {
