@@ -85,6 +85,8 @@ export class LastTimePage implements OnInit {
           return entry;
         });
         this.populateNodeContent().finally(() => {
+          // Filter out entries with no content to avoid showing "(content unavailable)"
+          this.entries = this.entries.filter(entry => entry.nodeContent && entry.nodeContent.trim().length > 0);
           this.loading = false;
         });
       },

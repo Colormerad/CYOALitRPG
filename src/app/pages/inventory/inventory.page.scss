@@ -14,7 +14,9 @@
 .inventory-content {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: fit-content;
+  height: auto;
+  max-height: none;
 }
 
 // Header styles

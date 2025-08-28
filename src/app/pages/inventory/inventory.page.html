@@ -1,132 +1,363 @@
-<div class="game-container inventory-page-content">
-  <div class="header">
-    <h1>Inventory</h1>
-    <div class="header-buttons">
-      <button class="back-button" (click)="goBack()">Back to Game</button>
-    </div>
+<div class="content-container standard-page">
+  <div class="page-header">
+    <h1 class="retro-header">Inventory</h1>
   </div>
 
   <!-- Loading state -->
   <div *ngIf="loading" class="loading">
-    <p>Loading...</p>
+    <span class="retro-text">Loading...</span>
   </div>
 
   <!-- Error state -->
   <div *ngIf="error" class="error">
-    <p>{{ error }}</p>
-    <button (click)="goBack()">Return to Game</button>
+    <div class="card story-frame story-frame--img">
+      <div class="story-frame__content">
+        <p class="retro-text">{{ error }}</p>
+        <button class="btn-secondary" (click)="goBack()">Return to Game</button>
+      </div>
+    </div>
   </div>
 
   <!-- Inventory content -->
-  <div *ngIf="!loading && !error" class="inventory-content">
-    <!-- Character info and gold -->
-    <div class="character-info-panel">
-      <div class="character-name">
-        <h2>{{ character?.name }}</h2>
-      </div>
-      <div class="gold-container">
-        <span class="gold-icon">💰</span>
-        <span class="gold-amount">{{ gold }} Gold</span>
-      </div>
-    </div>
+  <div *ngIf="!loading && !error" class="inventory-content" style="padding-bottom: 80px;">
 
-    <!-- Inventory tabs -->
-    <div class="inventory-tabs">
-      <div class="tab-buttons">
-        <button 
-          [class.active]="activeTab === 'all'" 
-          (click)="setActiveTab('all')">All</button>
-        <button 
-          [class.active]="activeTab === 'equipment'" 
-          (click)="setActiveTab('equipment')">Equipment</button>
-        <button 
-          [class.active]="activeTab === 'consumables'" 
-          (click)="setActiveTab('consumables')">Consumables</button>
-        <button 
-          [class.active]="activeTab === 'quest'" 
-          (click)="setActiveTab('quest')">Quest</button>
-      </div>
-    </div>
-
-    <!-- Item grid -->
-    <div class="item-grid" *ngIf="!selectedItem">
-      <div class="item-card" *ngFor="let item of getFilteredItems()" (click)="selectItem(item)">
-        <div class="item-icon" [class.equipped]="item.isEquipped">
-          <ion-icon name="cube" *ngIf="!item.icon"></ion-icon>
-          <img [src]="item.icon" *ngIf="item.icon" alt="{{ item.name }}">
-          <div class="item-quantity" *ngIf="item.quantity > 1">{{ item.quantity }}</div>
-          <div class="equipped-badge" *ngIf="item.isEquipped">E</div>
+    <!-- Inventory tabs with persistent gold display -->
+    <div class="card story-frame story-frame--img" style="margin-bottom: 16px;">
+      <div class="story-frame__content">
+        <!-- Header row with title, sorting controls, and gold -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h1 class="section-header" style="margin: 0;">Items</h1>
+            <!-- Sorting Controls (only show in inventory view) -->
+            <div class="sort-buttons" *ngIf="!showEquippedView" style="display: flex; gap: 8px; align-items: center;">
+              <button 
+                class="btn-secondary" 
+                (click)="toggleAlphabeticalSort()"
+                style="padding: 4px 8px; font-size: 0.9rem; min-width: 70px; display: flex; align-items: center; gap: 4px;"
+                [style.background]="isAlphabeticalSortActive() ? 'var(--retro-green-light)' : ''"
+                [style.color]="isAlphabeticalSortActive() ? 'var(--retro-green-darkest)' : ''"
+                [title]="'Sort alphabetically ' + getAlphabeticalSortLabel()">
+                <span>{{ getAlphabeticalSortIcon() }}</span>
+                <span>{{ getAlphabeticalSortLabel() }}</span>
+              </button>
+              <button 
+                class="btn-secondary" 
+                (click)="toggleDateSort()"
+                style="padding: 4px 8px; font-size: 0.9rem; min-width: 70px; display: flex; align-items: center; gap: 4px;"
+                [style.background]="isDateSortActive() ? 'var(--retro-green-light)' : ''"
+                [style.color]="isDateSortActive() ? 'var(--retro-green-darkest)' : ''"
+                [title]="'Sort by date obtained ' + getDateSortLabel()">
+                <span>{{ getDateSortIcon() }}</span>
+                <span>{{ getDateSortLabel() }}</span>
+              </button>
+            </div>
+          </div>
+          <!-- Gold display -->
+          <div class="gold-container" style="text-align: right;">
+            <span class="gold-icon">💰</span>
+            <span class="gold-amount retro-text" style="font-size: 1.2rem;">{{ gold }} Gold</span>
+          </div>
         </div>
-        <div class="item-name">{{ item.name }}</div>
-      </div>
-      
-      <!-- Empty state -->
-      <div class="empty-state" *ngIf="getFilteredItems().length === 0">
-        <ion-icon name="sad"></ion-icon>
-        <p>No items found in this category</p>
+        
+        <!-- Inventory tabs row (only show in inventory view) -->
+        <div class="inventory-tabs" *ngIf="!showEquippedView" style="margin-bottom: 16px;">
+          <div class="tab-buttons" style="display: flex; gap: 4px; justify-content: center; flex-wrap: nowrap;">
+            <button 
+              [class]="activeTab === 'all' ? 'btn-primary' : 'btn-secondary'"
+              (click)="setActiveTab('all')" 
+              style="padding: 8px 12px; font-size: 1.2rem; min-width: auto; flex: 1; max-width: 80px;">All</button>
+            <button 
+              [class]="activeTab === 'equipment' ? 'btn-primary' : 'btn-secondary'"
+              (click)="setActiveTab('equipment')" 
+              style="padding: 8px 8px; font-size: 1.2rem; min-width: auto; flex: 1; max-width: 90px;">Equip</button>
+            <button 
+              [class]="activeTab === 'consumables' ? 'btn-primary' : 'btn-secondary'"
+              (click)="setActiveTab('consumables')" 
+              style="padding: 8px 8px; font-size: 1.2rem; min-width: auto; flex: 1; max-width: 90px;">Items</button>
+            <button 
+              [class]="activeTab === 'quest' ? 'btn-primary' : 'btn-secondary'"
+              (click)="setActiveTab('quest')" 
+              style="padding: 8px 12px; font-size: 1.2rem; min-width: auto; flex: 1; max-width: 80px;">Quest</button>
+          </div>
+        </div>
+
+        <!-- Equipped Items View -->
+        <div class="equipped-items-view" *ngIf="showEquippedView && !selectedItem" style="margin-top: 16px;">
+          <div class="equipment-layout" style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 24px; max-width: 450px; margin: 0 auto;">
+            
+            <!-- Left side accessories -->
+            <div class="left-accessories" style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
+              <!-- Shield -->
+              <div class="equipment-slot" style="width: 48px; height: 48px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;" 
+                   (click)="getEquippedItem('shield') && selectItem(getEquippedItem('shield')!)">
+                <div *ngIf="getEquippedItem('shield'); else emptyShield">
+                  <img [src]="getEquippedItem('shield')!.icon" *ngIf="getEquippedItem('shield')!.icon" style="max-width: 32px; max-height: 32px;">
+                  <ion-icon name="cube" *ngIf="!getEquippedItem('shield')!.icon" style="color: var(--retro-text);"></ion-icon>
+                </div>
+                <ng-template #emptyShield>
+                  <span style="font-size: 1.5rem;">{{ getSlotIcon('shield') }}</span>
+                </ng-template>
+                <div class="slot-label" style="position: absolute; bottom: -28px; font-size: 1.1rem; color: var(--retro-text-muted); text-align: center; width: 60px;">Shield</div>
+              </div>
+            </div>
+
+            <!-- Center humanoid figure -->
+            <div class="humanoid-figure" style="display: grid; grid-template-rows: auto auto auto auto; gap: 32px; justify-items: center;">
+              
+              <!-- Head slot -->
+              <div class="equipment-slot" style="width: 48px; height: 48px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                   (click)="getEquippedItem('head') && selectItem(getEquippedItem('head')!)">
+                <div *ngIf="getEquippedItem('head'); else emptyHead">
+                  <img [src]="getEquippedItem('head')!.icon" *ngIf="getEquippedItem('head')!.icon" style="max-width: 32px; max-height: 32px;">
+                  <ion-icon name="cube" *ngIf="!getEquippedItem('head')!.icon" style="color: var(--retro-text);"></ion-icon>
+                </div>
+                <ng-template #emptyHead>
+                  <span style="font-size: 1.5rem;">{{ getSlotIcon('head') }}</span>
+                </ng-template>
+                <div class="slot-label" style="position: absolute; bottom: -28px; font-size: 1.1rem; color: var(--retro-text-muted);">Head</div>
+              </div>
+
+              <!-- Body row with hands -->
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <!-- Off-hand (left side) -->
+                <div class="equipment-slot" style="width: 40px; height: 40px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                     [style.opacity]="isHandSlotBlockedByTwoHanded().offhand && !getHandSlotItem('offhand') ? '0.5' : '1'"
+                     (click)="getHandSlotItem('offhand') && selectItem(getHandSlotItem('offhand')!)">
+                  <div *ngIf="getHandSlotItem('offhand'); else emptyOffhand">
+                    <img [src]="getHandSlotItem('offhand')!.icon" *ngIf="getHandSlotItem('offhand')!.icon" style="max-width: 24px; max-height: 24px;">
+                    <ion-icon name="cube" *ngIf="!getHandSlotItem('offhand')!.icon" size="small" style="color: var(--retro-text);"></ion-icon>
+                  </div>
+                  <ng-template #emptyOffhand>
+                    <span style="font-size: 1rem;">{{ getSlotIcon('offhand') }}</span>
+                  </ng-template>
+                  <div *ngIf="getHandSlotItem('offhand')?.weaponType === '2handed'" class="two-handed-indicator" style="position: absolute; top: -4px; right: -4px; background: var(--retro-green-light); color: var(--retro-green-darkest); border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;">2H</div>
+                  <div class="slot-label" style="position: absolute; bottom: -48px; font-size: 1.1rem; color: var(--retro-text-muted); text-align: center; width: 40px;">Off-hand</div>
+                </div>
+
+                <!-- Body/Chest -->
+                <div class="equipment-slot" style="width: 56px; height: 56px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                     (click)="getEquippedItem('body') && selectItem(getEquippedItem('body')!)">
+                  <div *ngIf="getEquippedItem('body'); else emptyBody">
+                    <img [src]="getEquippedItem('body')!.icon" *ngIf="getEquippedItem('body')!.icon" style="max-width: 40px; max-height: 40px;">
+                    <ion-icon name="cube" *ngIf="!getEquippedItem('body')!.icon" style="color: var(--retro-text);"></ion-icon>
+                  </div>
+                  <ng-template #emptyBody>
+                    <span style="font-size: 2rem;">{{ getSlotIcon('body') }}</span>
+                  </ng-template>
+                  <div class="slot-label" style="position: absolute; bottom: -28px; font-size: 1.1rem; color: var(--retro-text-muted);">Body</div>
+                </div>
+
+                <!-- Main-hand (right side) -->
+                <div class="equipment-slot" style="width: 40px; height: 40px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                     [style.opacity]="isHandSlotBlockedByTwoHanded().mainhand && !getHandSlotItem('mainhand') ? '0.5' : '1'"
+                     (click)="getHandSlotItem('mainhand') && selectItem(getHandSlotItem('mainhand')!)">
+                  <div *ngIf="getHandSlotItem('mainhand'); else emptyMainhand">
+                    <img [src]="getHandSlotItem('mainhand')!.icon" *ngIf="getHandSlotItem('mainhand')!.icon" style="max-width: 24px; max-height: 24px;">
+                    <ion-icon name="cube" *ngIf="!getHandSlotItem('mainhand')!.icon" size="small" style="color: var(--retro-text);"></ion-icon>
+                  </div>
+                  <ng-template #emptyMainhand>
+                    <span style="font-size: 1rem;">{{ getSlotIcon('mainhand') }}</span>
+                  </ng-template>
+                  <div *ngIf="getHandSlotItem('mainhand')?.weaponType === '2handed'" class="two-handed-indicator" style="position: absolute; top: -4px; right: -4px; background: var(--retro-green-light); color: var(--retro-green-darkest); border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;">2H</div>
+                  <div class="slot-label" style="position: absolute; bottom: -48px; font-size: 1.1rem; color: var(--retro-text-muted); text-align: center; width: 40px;">Main-hand</div>
+                </div>
+              </div>
+
+              <!-- Feet -->
+              <div class="equipment-slot" style="width: 48px; height: 48px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                   (click)="getEquippedItem('feet') && selectItem(getEquippedItem('feet')!)">
+                <div *ngIf="getEquippedItem('feet'); else emptyFeet">
+                  <img [src]="getEquippedItem('feet')!.icon" *ngIf="getEquippedItem('feet')!.icon" style="max-width: 32px; max-height: 32px;">
+                  <ion-icon name="cube" *ngIf="!getEquippedItem('feet')!.icon" style="color: var(--retro-text);"></ion-icon>
+                </div>
+                <ng-template #emptyFeet>
+                  <span style="font-size: 1.5rem;">{{ getSlotIcon('feet') }}</span>
+                </ng-template>
+                <div class="slot-label" style="position: absolute; bottom: -28px; font-size: 1.1rem; color: var(--retro-text-muted);">Feet</div>
+              </div>
+            </div>
+
+            <!-- Right side accessories -->
+            <div class="right-accessories" style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
+              <!-- Necklace -->
+              <div class="equipment-slot" style="width: 48px; height: 48px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                   (click)="getEquippedItem('necklace') && selectItem(getEquippedItem('necklace')!)">
+                <div *ngIf="getEquippedItem('necklace'); else emptyNecklace">
+                  <img [src]="getEquippedItem('necklace')!.icon" *ngIf="getEquippedItem('necklace')!.icon" style="max-width: 32px; max-height: 32px;">
+                  <ion-icon name="cube" *ngIf="!getEquippedItem('necklace')!.icon" style="color: var(--retro-text);"></ion-icon>
+                </div>
+                <ng-template #emptyNecklace>
+                  <span style="font-size: 1.5rem;">{{ getSlotIcon('necklace') }}</span>
+                </ng-template>
+                <div class="slot-label" style="position: absolute; bottom: -48px; font-size: 1.1rem; color: var(--retro-text-muted); text-align: center; width: 60px;">Necklace</div>
+              </div>
+
+              <!-- Ring 1 -->
+              <div class="equipment-slot" style="width: 40px; height: 40px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                   (click)="getEquippedItem('ring1') && selectItem(getEquippedItem('ring1')!)">
+                <div *ngIf="getEquippedItem('ring1'); else emptyRing1">
+                  <img [src]="getEquippedItem('ring1')!.icon" *ngIf="getEquippedItem('ring1')!.icon" style="max-width: 24px; max-height: 24px;">
+                  <ion-icon name="cube" *ngIf="!getEquippedItem('ring1')!.icon" size="small" style="color: var(--retro-text);"></ion-icon>
+                </div>
+                <ng-template #emptyRing1>
+                  <span style="font-size: 1rem;">{{ getSlotIcon('ring1') }}</span>
+                </ng-template>
+                <div class="slot-label" style="position: absolute; bottom: -48px; font-size: 1.1rem; color: var(--retro-text-muted);">Ring 1</div>
+              </div>
+
+              <!-- Ring 2 -->
+              <div class="equipment-slot" style="width: 40px; height: 40px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                   (click)="getEquippedItem('ring2') && selectItem(getEquippedItem('ring2')!)">
+                <div *ngIf="getEquippedItem('ring2'); else emptyRing2">
+                  <img [src]="getEquippedItem('ring2')!.icon" *ngIf="getEquippedItem('ring2')!.icon" style="max-width: 24px; max-height: 24px;">
+                  <ion-icon name="cube" *ngIf="!getEquippedItem('ring2')!.icon" size="small" style="color: var(--retro-text);"></ion-icon>
+                </div>
+                <ng-template #emptyRing2>
+                  <span style="font-size: 1rem;">{{ getSlotIcon('ring2') }}</span>
+                </ng-template>
+                <div class="slot-label" style="position: absolute; bottom: -48px; font-size: 1.1rem; color: var(--retro-text-muted);">Ring 2</div>
+              </div>
+            </div>
+          </div>
+          
+
+          
+          <!-- Equipment rules info -->
+          <div style="text-align: center; margin-top: 16px; padding: 8px; background: var(--retro-green-dark); border: 1px solid var(--retro-border); border-radius: 4px;">
+            <div style="font-size: 1.1rem; color: var(--retro-text-muted); line-height: 1.4;">
+              <div>• 2-handed weapons occupy both hands</div>
+              <div>• 1-handed weapons + shields allowed</div>
+              <div>• Dual-wield 1-handed weapons allowed</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item grid -->
+        <div class="item-grid" *ngIf="!selectedItem && !showEquippedView" style="margin-top: 16px;">
+          <div class="item-card" *ngFor="let item of getFilteredItems()" (click)="selectItem(item)" style="cursor: pointer;">
+            <div class="item-icon" [class.equipped]="item.isEquipped" style="position: relative; width: 48px; height: 48px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+              <ion-icon name="cube" *ngIf="!item.icon" style="color: var(--retro-text);"></ion-icon>
+              <img [src]="item.icon" *ngIf="item.icon" alt="{{ item.name }}" style="max-width: 32px; max-height: 32px;">
+              <div class="item-quantity" *ngIf="item.quantity > 1" style="position: absolute; top: -8px; right: -8px; background: var(--retro-green-medium); color: var(--retro-green-darkest); border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold;">{{ item.quantity }}</div>
+              <div class="equipped-badge" *ngIf="item.isEquipped" style="position: absolute; bottom: -8px; right: -8px; background: var(--retro-green-light); color: var(--retro-green-darkest); border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;">E</div>
+            </div>
+            <div class="item-name retro-text" style="text-align: center; font-size: 1.1rem; color: var(--retro-green-darkest); font-weight: bold; margin-top: 4px; text-transform: capitalize;">{{ item.name }}</div>
+          </div>
+          
+          <!-- Empty state -->
+          <div *ngIf="getFilteredItems().length === 0" class="retro-text" style="text-align: center; padding: 32px; color: var(--retro-text-muted);">
+            No items in this category
+          </div>
+        </div>
+        
+        <!-- Pagination controls (only show in inventory view) -->
+        <div *ngIf="hasMultiplePages() && !selectedItem && !showEquippedView" class="pagination-controls" style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 16px;">
+          <button 
+            class="btn-secondary" 
+            [disabled]="!hasPreviousPage()" 
+            (click)="previousPage()"
+            style="padding: 8px 16px; font-size: 1rem; min-width: 80px;"
+            [style.opacity]="hasPreviousPage() ? '1' : '0.5'"
+            [style.cursor]="hasPreviousPage() ? 'pointer' : 'not-allowed'">
+            ← Prev
+          </button>
+          
+          <span class="retro-text" style="font-size: 1rem; color: var(--retro-green-lightest); font-weight: bold;">
+            Page {{ currentPage }}/{{ getTotalPages() }}
+          </span>
+          
+          <button 
+            class="btn-secondary" 
+            [disabled]="!hasNextPage()" 
+            (click)="nextPage()"
+            style="padding: 8px 16px; font-size: 1rem; min-width: 80px;"
+            [style.opacity]="hasNextPage() ? '1' : '0.5'"
+            [style.cursor]="hasNextPage() ? 'pointer' : 'not-allowed'">
+            Next →
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Item details -->
-    <div class="item-details" *ngIf="selectedItem">
-      <div class="item-header">
-        <h3>{{ selectedItem.name }}</h3>
-        <ion-button fill="clear" (click)="closeItemDetails()">
-          <ion-icon name="close"></ion-icon>
-        </ion-button>
-      </div>
-      
-      <div class="item-content">
-        <div class="item-image">
-          <ion-icon name="cube" *ngIf="!selectedItem.icon" size="large"></ion-icon>
-          <img [src]="selectedItem.icon" *ngIf="selectedItem.icon" alt="{{ selectedItem.name }}">
+    <div class="card story-frame story-frame--img" *ngIf="selectedItem" style="margin-bottom: 16px; min-height: fit-content; height: auto;">
+      <div class="story-frame__content" style="min-height: fit-content; height: auto; overflow: visible;">
+        <div class="item-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h1 class="section-header" style="margin: 0; text-transform: capitalize;">{{ selectedItem.name }}</h1>
+          <button class="btn-secondary" (click)="closeItemDetails()" style="padding: 8px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+            ✕
+          </button>
         </div>
         
-        <div class="item-info">
-          <p class="item-description">{{ selectedItem.description }}</p>
-          
-          <div class="item-type">
-            <span>Type: </span>
-            <span class="value">{{ selectedItem.type | titlecase }}</span>
+        <div class="item-content" style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="item-image" style="display: flex; justify-content: center; align-items: center;">
+            <div style="width: 64px; height: 64px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative;">
+              <ion-icon name="cube" *ngIf="!selectedItem.icon" size="large" style="color: var(--retro-text);"></ion-icon>
+              <img [src]="selectedItem.icon" *ngIf="selectedItem.icon" alt="{{ selectedItem.name }}" style="max-width: 48px; max-height: 48px;">
+              <div class="item-quantity-badge" *ngIf="selectedItem.quantity > 1" style="position: absolute; bottom: -8px; right: -8px; background: var(--retro-green-medium); color: var(--retro-green-darkest); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; border: 2px solid var(--retro-border);">{{ selectedItem.quantity }}</div>
+            </div>
           </div>
           
-          <div class="item-value">
-            <span>Value: </span>
-            <span class="value">{{ selectedItem.value }} Gold</span>
+          <div class="item-info">
+            <p class="retro-text item-description" style="margin-bottom: 12px;">{{ selectedItem.description }}</p>
+            
+            <div class="item-type retro-text" style="margin-bottom: 8px;">
+              <span style="color: var(--retro-green-darkest); font-size: 1.1rem; font-weight: bold;">Type: </span>
+              <span class="value" style="color: var(--retro-green-darkest); font-size: 1.1rem; font-weight: bold; text-transform: capitalize;">{{ selectedItem.type | titlecase }}</span>
+            </div>
+            
+            <div class="item-value retro-text" style="margin-bottom: 8px;">
+              <span style="color: var(--retro-green-darkest); font-size: 1.1rem; font-weight: bold;">Value: </span>
+              <span class="value" style="color: var(--retro-green-darkest); font-size: 1.1rem; font-weight: bold;">{{ selectedItem.value }} Gold</span>
+            </div>
+            
+
+            
+            <!-- Stats for equipment -->
+            <div *ngIf="selectedItem.stats?.intelligence" class="stat retro-text" style="margin-bottom: 8px;">
+              <span>Intelligence: </span>
+              <span style="color: var(--retro-green-light);">+{{ selectedItem.stats?.intelligence }}</span>
+            </div>
           </div>
-          
-          <div class="item-quantity">
-            <span>Quantity: </span>
-            <span class="value">{{ selectedItem.quantity }}</span>
-          </div>
-          
-          <!-- Stats for equipment -->
         </div>
-        <!-- Intelligence is used instead of magic in our stats interface -->
-        <div *ngIf="selectedItem.stats?.intelligence" class="stat">
-          <span>Intelligence:</span> <span>+{{ selectedItem.stats?.intelligence }}</span>
+        
+        <div class="item-actions" style="display: flex; gap: 12px; margin-top: 16px; justify-content: center;">
+          <button 
+            *ngIf="selectedItem.type === 'equipment' && !selectedItem.isEquipped" 
+            class="btn-primary" 
+            (click)="equipItem(selectedItem)">
+            Equip
+          </button>
+          <button 
+            *ngIf="selectedItem.type === 'equipment' && selectedItem.isEquipped" 
+            class="btn-secondary" 
+            (click)="unequipItem(selectedItem)">
+            Unequip
+          </button>
+          <button 
+            *ngIf="selectedItem.type === 'consumable'" 
+            class="btn-primary" 
+            (click)="useItem(selectedItem)">
+            Use
+          </button>
         </div>
       </div>
-      <div class="item-actions">
-        <button 
-          *ngIf="selectedItem.type === 'equipment' && !selectedItem.isEquipped" 
-          class="action-button equip-button" 
-          (click)="equipItem(selectedItem)">
-          Equip
-        </button>
-        <button 
-          *ngIf="selectedItem.type === 'equipment' && selectedItem.isEquipped" 
-          class="action-button unequip-button" 
-          (click)="unequipItem(selectedItem)">
-          Unequip
-        </button>
-        <button 
-          *ngIf="selectedItem.type === 'consumable'" 
-          class="action-button use-button" 
-          (click)="useItem(selectedItem)">
-          Use
-        </button>
-      </div>
+    </div>
+
+    <!-- Navigation Buttons (Outside containers) -->
+    <div class="actions" style="margin-top: 16px; display: flex; flex-direction: column; gap: 12px; justify-content: center;">
+      <!-- Full-width Equipped Items Toggle -->
+      <button 
+        class="btn-secondary" 
+        (click)="toggleEquippedView()"
+        style="width: 100%; padding: 12px 16px; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;"
+        [style.background]="showEquippedView ? 'var(--retro-green-light)' : ''"
+        [style.color]="showEquippedView ? 'var(--retro-green-darkest)' : ''"
+        title="View equipped items">
+        {{ showEquippedView ? 'Inventory' : 'Equipped' }}
+      </button>
+      
+      <button class="btn-secondary" (click)="goBack()" style="width: 100%; padding: 12px 16px; font-size: 1.2rem;">Back to Game</button>
     </div>
   </div>
 </div>

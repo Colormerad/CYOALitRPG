@@ -51,6 +51,8 @@
 
 .story-frame__content {
   padding: var(--frame-padding);
+  box-sizing: border-box; /* Include padding in width calculations */
+  width: 100%; /* Ensure content doesn't exceed container */
 }
 
 /* Image-based 9-slice frame using border-image. Provide:
@@ -73,8 +75,9 @@
   /* Make sure the pixels stay crisp */
   image-rendering: pixelated;
   z-index: 0; /* establish stacking context */
-  overflow: hidden;
+  overflow: visible; /* Allow content to be fully visible */
   isolation: isolate; /* make blend modes interact with this element, not the whole page */
+  min-height: fit-content; /* Ensure container grows with content */
 }
 
 .story-frame--img::before {
@@ -522,20 +525,22 @@ $sprite-icons: (
 
 .btn-primary {
   padding: 12px 20px;
-  /* Themeable primary fill color (matches app theme); override --btn-primary-bg per theme if needed */
-  background-color: var(--btn-primary-bg, var(--retro-green-medium));
+  /* Use darker background for better contrast with light text */
+  background-color: var(--btn-primary-bg, var(--retro-green-dark));
+  /* Revert to original light font color */
   color: var(--retro-button-text);
   @extend .btn--framed;
   border-radius: var(--btn-radius);
   min-width: var(--btn-min-width, 80px);
   cursor: pointer;
-  font-size: 1.1rem;
+  /* Increase font size for better readability */
+  font-size: 1.4rem;
   font-family: 'VT323', monospace;
   text-transform: uppercase;
   transition: all 0.2s ease;
   
   &:hover {
-    /* keep background transparent; allow subtle text change */
+    /* Keep original hover behavior with light text */
     color: var(--retro-green-lightest);
     text-shadow: 0 0 3px var(--retro-green-darkest);
     transform: translateY(-1px);
@@ -1548,7 +1553,7 @@ $sprite-icons: (
   .btn-secondary,
   .btn-danger {
     padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 16px);
-    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    font-size: 1.4rem;
     width: 100%;
     max-width: none;
   }

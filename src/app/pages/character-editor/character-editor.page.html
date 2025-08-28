@@ -4,19 +4,82 @@
     <h1 class="retro-header">Character</h1>
   </div>
 
-  <div class="card" style="margin-bottom: 16px;">
-    <div class="form-group">
-      <label class="retro-text" for="charName">Name</label>
-      <input id="charName" class="form-input" type="text" [(ngModel)]="name" placeholder="Enter character name"
-             (keyup.enter)="onNameCommit()" (blur)="onNameCommit()" />
+  <!-- Container 1: Basic Character Info -->
+  <div class="card story-frame story-frame--img" style="margin-bottom: 16px;">
+    <div class="story-frame__content">
+      <h1 class="section-header" style="text-align: center;">Info</h1>
+      
+      <!-- Name -->
+      <div class="form-group">
+        <label class="retro-text" for="charName">Name</label>
+        <input id="charName" class="form-input" type="text" [(ngModel)]="name" placeholder="Enter character name"
+               (keyup.enter)="onNameCommit()" (blur)="onNameCommit()" />
+      </div>
+
+      <!-- Clickable Character Icon -->
+      <div class="form-group">
+        <label class="retro-text">Profile Icon</label>
+        <div class="character-icon-container" [routerLink]="['/icon-select', characterId]" style="cursor: pointer;">
+          <div class="character-icon-display" style="width: 64px; height: 64px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); position: relative; display: flex; align-items: center; justify-content: center;">
+            <!-- Show character icon using CSS sprite classes like character-select page -->
+            <ng-container *ngIf="character && character.iconKey">
+              <div class="sprite-center-abs sprite-frame-2x">
+                <span class="sprite-2x-center" [ngClass]="'icon-' + character.iconKey"></span>
+              </div>
+            </ng-container>
+            <!-- Placeholder when no icon selected -->
+            <div *ngIf="!character || !character.iconKey" 
+                 class="retro-text" style="color: var(--retro-text); font-size: 0.8rem; text-align: center;">
+              Click to Select
+            </div>
+          </div>
+          <div class="retro-text" style="margin-top: 8px; font-size: 0.9rem; opacity: 0.8; text-align: center;">
+            Click to change icon
+          </div>
+        </div>
+      </div>
+
+      <!-- Age -->
+      <div class="form-group">
+        <label class="retro-text" for="age">Age</label>
+        <select id="age" class="form-input" [(ngModel)]="ageBucket" (ngModelChange)="onAgeBucketChange($event)">
+          <option [ngValue]="'unknown'">Unknown</option>
+          <option [ngValue]="''" disabled>Select age</option>
+          <option [ngValue]="'very_young'">Very Young</option>
+          <option [ngValue]="'young'">Young</option>
+          <option [ngValue]="'neutral'">Neither Old Nor Young</option>
+          <option [ngValue]="'wisened'">Wisened</option>
+          <option [ngValue]="'very_old'">Very Old</option>
+        </select>
+      </div>
+
+      <!-- Gender -->
+      <div class="form-group">
+        <label class="retro-text" for="gender">Gender</label>
+        <select id="gender" class="form-input" [(ngModel)]="gender" (ngModelChange)="onGenderChange($event)">
+          <option [ngValue]="'unknown'">Unknown</option>
+          <option [ngValue]="''" disabled>Select gender</option>
+          <option [ngValue]="'masculine'">Masculine</option>
+          <option [ngValue]="'feminine'">Feminine</option>
+          <option [ngValue]="'neutral'">Neutral</option>
+          <option [ngValue]="'flux'">Flux</option>
+        </select>
+      </div>
+
+      <!-- Save Button -->
+      <div class="actions" style="margin-top: 16px;">
+        <button class="btn-primary" [disabled]="isSaving" (click)="saveAll()">Save</button>
+      </div>
     </div>
   </div>
 
-  <div class="card story-frame story-frame--img">
+  <!-- Container 2: Character Stats -->
+  <div class="card story-frame story-frame--img" style="margin-bottom: 16px;">
     <div class="story-frame__content">
-      <div class="section-header">Alignment</div>
-      <div class="retro-text" style="margin-bottom:8px">{{ alignmentText }}</div>
-
+      <h1 class="section-header" style="text-align: center;">Stats</h1>
+      
+      <!-- Alignment Chart -->
+      <div class="retro-text" style="margin-bottom:8px">Alignment: {{ alignmentText }}</div>
       <div class="alignment-wrapper">
         <div class="axis axis-y">
           <div class="axis-label axis-top">Good</div>
@@ -35,39 +98,28 @@
         </div>
       </div>
 
-      <div class="section-header" style="margin-top:20px;">Identity</div>
-      <div class="form-group">
-        <label class="retro-text" for="gender">Gender</label>
-        <select id="gender" class="form-input" [(ngModel)]="gender" (ngModelChange)="onGenderChange($event)">
-          <option [ngValue]="'unknown'">Unknown</option>
-          <option [ngValue]="''" disabled>Select gender</option>
-          <option [ngValue]="'masculine'">Masculine</option>
-          <option [ngValue]="'feminine'">Feminine</option>
-          <option [ngValue]="'neutral'">Neutral</option>
-          <option [ngValue]="'flux'">Flux</option>
-        </select>
+      <!-- Character Class -->
+      <div class="form-group" style="margin-top: 20px;">
+        <label class="retro-text">Class</label>
+        <div class="retro-text" style="font-size: 1.1rem;">
+          {{ character?.className || 'Unknown' }}
+        </div>
       </div>
 
+      <!-- Character Level -->
       <div class="form-group">
-        <label class="retro-text" for="age">Age</label>
-        <select id="age" class="form-input" [(ngModel)]="ageBucket" (ngModelChange)="onAgeBucketChange($event)">
-          <option [ngValue]="'unknown'">Unknown</option>
-          <option [ngValue]="''" disabled>Select age</option>
-          <option [ngValue]="'very_young'">Very Young</option>
-          <option [ngValue]="'young'">Young</option>
-          <option [ngValue]="'neutral'">Neither Old Nor Young</option>
-          <option [ngValue]="'wisened'">Wisened</option>
-          <option [ngValue]="'very_old'">Very Old</option>
-        </select>
-      </div>
-
-      <div class="actions" style="margin-top: 16px; display: flex; gap: 12px;">
-        <button class="btn-secondary" (click)="goBack()">Back to Game</button>
-        <a class="btn-primary" [routerLink]="['/icon-select', characterId]">Change Profile Icon</a>
-        <button class="btn-primary" [disabled]="isSaving" (click)="saveAll()">Save</button>
-        <a class="btn-secondary" [routerLink]="['/last-time', characterId]">Last Time...</a>
+        <label class="retro-text">Level</label>
+        <div class="retro-text" style="font-size: 1.1rem;">
+          {{ character?.level || 1 }}
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Navigation Buttons (Outside containers) -->
+  <div class="actions" style="margin-top: 16px; display: flex; gap: 12px;">
+    <button class="btn-secondary" (click)="goBack()">Back to Game</button>
+    <a class="btn-secondary" [routerLink]="['/last-time', characterId]">Recap</a>
   </div>
   
 </div>

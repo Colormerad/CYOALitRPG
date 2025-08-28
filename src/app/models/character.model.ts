@@ -10,6 +10,7 @@ export interface Character {
   dexterity: number;
   intelligence: number;
   classId?: number;
+  className?: string; // Added for class name from JOIN query
   createdAt?: string;
   updatedAt?: string;
   is_dead?: boolean;

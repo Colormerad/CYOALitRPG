@@ -99,3 +99,51 @@
 .axis-left, .axis-mid, .axis-right {
   text-align: center;
 }
+
+/* Actions/Buttons section - Mobile responsive */
+.actions {
+  /* Mobile: Stack buttons vertically and make them full width */
+  @media (max-width: 768px) {
+    flex-direction: column !important;
+    gap: 8px !important;
+    
+    .btn-primary,
+    .btn-secondary {
+      width: 100% !important;
+      text-align: center;
+      margin: 0;
+    }
+  }
+  
+  /* Tablet and up: Keep horizontal layout with better spacing */
+  @media (min-width: 769px) {
+    flex-wrap: wrap;
+    
+    .btn-primary,
+    .btn-secondary {
+      flex: 1;
+      min-width: 140px;
+    }
+  }
+}
+
+/* Profile Icon Container - Mobile responsive */
+.character-icon-container {
+  /* Mobile: Center the entire icon container */
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+    .character-icon-display {
+      margin: 0 auto;
+    }
+  }
+  
+  /* Desktop: Keep default alignment */
+  @media (min-width: 769px) {
+    display: block;
+  }
+}
