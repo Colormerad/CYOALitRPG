@@ -3,7 +3,8 @@ import { AudioService } from '../../services/audio.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../models/account.model';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -22,16 +23,17 @@ export class LoginPage implements OnInit, AfterViewInit {
     password: ''
   };
 
-  isLoading = false;
+  // Use global loading service stream if needed for template binding
+  isLoading$ = this.loading.isLoading$;
   showPassword = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private alertController: AlertController,
-    private loadingController: LoadingController,
     private toastController: ToastController,
-    private audioService: AudioService
+    private audioService: AudioService,
+    private loading: LoadingService
   ) {}
 
   ngOnInit() {
@@ -130,26 +132,18 @@ export class LoginPage implements OnInit, AfterViewInit {
       return;
     }
 
-    this.isLoading = true;
-    const loading = await this.loadingController.create({
-      message: 'Logging in...',
-      spinner: 'crescent'
-    });
-    await loading.present();
+    // Global LoadingService + interceptor will show the sprite-based loading icon
 
     try {
       const response = await this.authService.login(this.loginData).toPromise();
       
       if (response?.success) {
-        await loading.dismiss();
         this.showToast('Login successful! Welcome back!', 'success');
         this.router.navigate(['/select-character']);
       } else {
-        await loading.dismiss();
         this.showToast(response?.error || 'Login failed', 'danger');
       }
     } catch (error: any) {
-      await loading.dismiss();
       console.error('Login error:', error);
       
       if (error.status === 401) {
@@ -160,7 +154,7 @@ export class LoginPage implements OnInit, AfterViewInit {
         this.showToast('Login failed. Please try again.', 'danger');
       }
     } finally {
-      this.isLoading = false;
+      // No local loading state; global service handles icon
     }
   }
 

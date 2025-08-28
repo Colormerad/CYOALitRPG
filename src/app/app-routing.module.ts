@@ -62,6 +62,10 @@ const routes: Routes = [
     loadComponent: () => import('./pages/last-time/last-time.page').then(m => m.LastTimePage)
   },
   {
+    path: 'sprite-test',
+    loadComponent: () => import('./pages/sprite-test/sprite-test.page').then(m => m.SpriteTestPage)
+  },
+  {
     path: '',
     redirectTo: 'select-character',
     pathMatch: 'full'

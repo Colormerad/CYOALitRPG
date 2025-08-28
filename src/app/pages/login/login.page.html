@@ -41,7 +41,7 @@
                 name="email"
                 placeholder="Enter your email"
                 required
-                [disabled]="isLoading">
+                [disabled]="((isLoading$ | async) ?? false)">
               </ion-input>
             </div>
           </div>
@@ -58,13 +58,13 @@
                 name="password"
                 placeholder="Enter your password"
                 required
-                [disabled]="isLoading">
+                [disabled]="((isLoading$ | async) ?? false)">
               </ion-input>
               <button 
                 type="button"
                 class="pixel-button-small" 
                 (click)="togglePasswordVisibility()"
-                [disabled]="isLoading">
+                [disabled]="((isLoading$ | async) ?? false)">
                 <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
               </button>
             </div>
@@ -74,13 +74,13 @@
           <button 
             type="submit" 
             class="pixel-button"
-            [disabled]="isLoading || !loginForm.form.valid">
-            <ion-spinner *ngIf="isLoading" name="crescent" class="pixel-spinner"></ion-spinner>
-            <span *ngIf="!isLoading">
+            [disabled]="(((isLoading$ | async) ?? false) || !loginForm.form.valid)">
+            <div class="loading-icon small fast" *ngIf="(isLoading$ | async)"></div>
+            <span *ngIf="!(isLoading$ | async)">
               <ion-icon name="log-in" class="button-icon"></ion-icon>
               Login
             </span>
-            <span *ngIf="isLoading">Logging in...</span>
+            <span *ngIf="(isLoading$ | async)">Logging in...</span>
           </button>
 
           <!-- Forgot Password -->
@@ -88,7 +88,7 @@
             type="button" 
             class="pixel-link"
             (click)="showForgotPasswordAlert()"
-            [disabled]="isLoading">
+            [disabled]="(isLoading$ | async)">
             Forgot Password?
           </button>
         </form>
@@ -102,7 +102,7 @@
         type="button"
         class="pixel-button pixel-button-outline" 
         (click)="goToRegister()"
-        [disabled]="isLoading">
+        [disabled]="(isLoading$ | async)">
         <ion-icon name="person-add" class="button-icon"></ion-icon>
         Create Account
       </button>

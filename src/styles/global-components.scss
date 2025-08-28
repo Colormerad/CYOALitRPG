@@ -216,6 +216,12 @@ $sprite-src: '/assets/icons/icon-atlas.png';
 // Exact cell size based on a 512px atlas split into 21 columns/rows
 $sprite-cell: (512px / 21);
 
+// Object sprite sheet variables
+$object-sprite-src: '/assets/icons/objects.png';
+$object-sprite-size: 16px; // Each icon is 16x16
+$object-sprite-spacing: 8px; // 8px between icons
+$object-sprite-offset: 17px; // First icon starts 17px from top-left
+
 // Common pixel-art rendering for sprites
 .sprite-base {
   display: inline-block;
@@ -235,6 +241,19 @@ $sprite-cell: (512px / 21);
   background-image: url(#{$src});   
   // Avoid strict-unary deprecation by multiplying by -1 explicitly
   background-position: ($col * -$cell - 5 ) ($row * -$cell - 5) ;
+}
+
+// Object sprite mixin for objects.png
+// Calculates position based on 16x16 icons with 8px spacing, starting at 17px offset
+@mixin object-sprite-icon($row, $col) {
+  @extend .sprite-base;
+  width: $object-sprite-size;
+  height: $object-sprite-size;
+  background-image: url(#{$object-sprite-src});
+  // Position calculation: -offset - (row/col * (size + spacing))
+  background-position: 
+    (-$object-sprite-offset - ($col * ($object-sprite-size + $object-sprite-spacing))) 
+    (-$object-sprite-offset - ($row * ($object-sprite-size + $object-sprite-spacing)));
 }   
 
 // Convenience size variants when upscaling icons
@@ -378,11 +397,287 @@ $sprite-icons: (
   .icon-#{$name} { @include sprite-icon($r, $c); }
 }
 
+// Object sprite icons registry (objects.png - 1024x1024, 16x16 icons, 8px spacing, 17px offset)
+$object-sprite-icons: (
+  // Add object icon entries here as needed
+  // Example: 'sword': (row: 0, col: 0),
+  // Example: 'shield': (row: 0, col: 1),
+);
+
+@each $name, $pos in $object-sprite-icons {
+  $r: map-get($pos, row);
+  $c: map-get($pos, col);
+  .obj-#{$name} { @include object-sprite-icon($r, $c); }
+}
+
 // Auto-generate utility classes for all grid cells: .icon-r<row>-c<col>
 // Uses 0-based indexing, 21x21 grid by default.
 @for $r from 0 through 20 {
   @for $c from 0 through 20 {
     .icon-r#{$r}-c#{$c} { @include sprite-icon($r, $c); }
+  }
+}
+
+// Auto-generate utility classes for object sprite grid: .obj-r<row>-c<col>
+// Objects.png can fit approximately 41x41 icons (1024px / (16px + 8px) ≈ 42.67)
+@for $r from 0 through 40 {
+  @for $c from 0 through 40 {
+    .obj-r#{$r}-c#{$c} { @include object-sprite-icon($r, $c); }
+  }
+}
+
+// Animated sprite sequence from row 11, columns 14-25
+.obj-animated-sequence {
+  @include object-sprite-icon(11, 14); // Start with first frame (row 11, col 14)
+  animation: sprite-sequence 2s infinite step-end; // Discrete frame animation
+}
+
+@keyframes sprite-sequence {
+  // Discrete frame animation through row 11, columns 14-25 (12 frames total)
+  // Each frame holds for exactly 8.33% of the animation duration
+  0%, 8.32% { background-position: (-$object-sprite-offset - (14 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+  8.33%, 16.65% { background-position: (-$object-sprite-offset - (15 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+  16.66%, 24.98% { background-position: (-$object-sprite-offset - (16 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+  24.99%, 33.31% { background-position: (-$object-sprite-offset - (17 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+  33.32%, 41.64% { background-position: (-$object-sprite-offset - (18 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+  41.65%, 49.97% { background-position: (-$object-sprite-offset - (19 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+  49.98%, 58.30% { background-position: (-$object-sprite-offset - (20 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+  58.31%, 66.63% { background-position: (-$object-sprite-offset - (21 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+  66.64%, 74.96% { background-position: (-$object-sprite-offset - (22 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+  74.97%, 83.29% { background-position: (-$object-sprite-offset - (23 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+  83.30%, 91.62% { background-position: (-$object-sprite-offset - (24 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+  91.63%, 100% { background-position: (-$object-sprite-offset - (25 * ($object-sprite-size + $object-sprite-spacing))) (-$object-sprite-offset - (11 * ($object-sprite-size + $object-sprite-spacing))); }
+}
+
+// Animation speed variants
+.obj-animated-sequence.slow { animation-duration: 4s; }
+.obj-animated-sequence.fast { animation-duration: 1s; }
+.obj-animated-sequence.ultra-fast { animation-duration: 0.5s; }
+
+
+
+// Loading container with centered icon
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  
+  .loading-text {
+    color: var(--retro-text-secondary);
+    font-family: var(--retro-font);
+    font-size: 14px;
+    text-align: center;
+  }
+}
+
+// Full-screen loading overlay
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  // Use app theme background instead of black scrim
+  // Prefer a simple themed fill to keep consistency with active theme
+  background: var(--retro-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  
+  .loading-container {
+    // Let the themed background show through; keep content minimal
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+}
+
+// Customizable sprite animation using CSS custom properties
+.obj-sprite-animation {
+  @extend .sprite-base;
+  width: $object-sprite-size;
+  height: $object-sprite-size;
+  background-image: url(#{$object-sprite-src});
+  
+  // Default values (can be overridden)
+  --sprite-row: 0;
+  --sprite-start-col: 0;
+  --sprite-end-col: 5;
+  --sprite-duration: 2s;
+  
+  // Calculate initial position
+  background-position: 
+    calc(-#{$object-sprite-offset} - (var(--sprite-start-col) * #{$object-sprite-size + $object-sprite-spacing}))
+    calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  
+  animation: sprite-custom-sequence var(--sprite-duration) infinite step-end;
+}
+
+// Loading icon component using sprite animation
+.loading-icon {
+  @extend .obj-sprite-animation;
+  --sprite-row: 11;
+  --sprite-start-col: 16;
+  --sprite-end-col: 23;
+  --sprite-duration: 2s;
+  
+  // Default size variants
+  &.small {
+    transform: scale(1);
+  }
+  
+  &.medium {
+    transform: scale(2);
+  }
+  
+  &.large {
+    transform: scale(3);
+  }
+  
+  &.extra-large {
+    transform: scale(4);
+  }
+  
+  // Speed variants for loading
+  &.slow {
+    --sprite-duration: 3s;
+  }
+  
+  &.fast {
+    --sprite-duration: 1s;
+  }
+  
+  &.ultra-fast {
+    --sprite-duration: 0.5s;
+  }
+}
+
+// Flexible keyframes - dynamically shows frames based on start/end columns
+// This supports any range from start-col to end-col (inclusive)
+@keyframes sprite-custom-sequence {
+  // Frame 0: start-col + 0
+  0%, 4.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (var(--sprite-start-col) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 1: start-col + 1 (only shows if end-col >= start-col + 1)
+  5%, 9.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 1) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 2: start-col + 2 (only shows if end-col >= start-col + 2)
+  10%, 14.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 2) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 3: start-col + 3
+  15%, 19.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 3) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 4: start-col + 4
+  20%, 24.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 4) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 5: start-col + 5
+  25%, 29.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 5) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 6: start-col + 6
+  30%, 34.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 6) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 7: start-col + 7
+  35%, 39.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 7) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 8: start-col + 8
+  40%, 44.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 8) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 9: start-col + 9
+  45%, 49.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 9) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 10: start-col + 10
+  50%, 54.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 10) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 11: start-col + 11
+  55%, 59.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 11) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 12: start-col + 12
+  60%, 64.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 12) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 13: start-col + 13
+  65%, 69.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 13) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 14: start-col + 14
+  70%, 74.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 14) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 15: start-col + 15
+  75%, 79.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 15) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 16: start-col + 16
+  80%, 84.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 16) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 17: start-col + 17
+  85%, 89.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 17) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 18: start-col + 18
+  90%, 94.99% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 18) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
+  }
+  // Frame 19: start-col + 19
+  95%, 100% { 
+    background-position: 
+      calc(-#{$object-sprite-offset} - (min(var(--sprite-end-col), var(--sprite-start-col) + 19) * #{$object-sprite-size + $object-sprite-spacing}))
+      calc(-#{$object-sprite-offset} - (var(--sprite-row) * #{$object-sprite-size + $object-sprite-spacing}));
   }
 }
 

@@ -1,3 +1,8 @@
 <ion-app class="app-scanlines">
   <ion-router-outlet></ion-router-outlet>
+
+  <!-- Global loading overlay -->
+  <div class="loading-overlay" *ngIf="(isLoading$ | async)">
+    <div class="loading-icon medium fast" aria-label="Loading" role="status"></div>
+  </div>
 </ion-app>

@@ -1,0 +1,193 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Object Sprite Test</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/profile"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="app-container">
+  <div class="content-container">
+    <h1 class="page-header">Object Sprite Test</h1>
+    <p>Testing the objects.png sprite sheet positioning. Each icon should be 16x16 pixels from the sprite sheet.</p>
+    
+    <h2 class="section-header">First Row (Row 0)</h2>
+    <div class="test-grid">
+      <div class="test-item" *ngFor="let sprite of firstRowSprites">
+        <div [class]="sprite.class + ' sprite-2x'"></div>
+        <span>{{sprite.class}}</span>
+      </div>
+    </div>
+
+    <h2 class="section-header">Second Row (Row 1)</h2>
+    <div class="test-grid">
+      <div class="test-item" *ngFor="let sprite of secondRowSprites">
+        <div [class]="sprite.class + ' sprite-2x'"></div>
+        <span>{{sprite.class}}</span>
+      </div>
+    </div>
+
+    <h2 class="section-header">Animated Sequence (Row 11, Columns 14-25)</h2>
+    <div class="animation-demo">
+      <div class="animation-item">
+        <div class="obj-animated-sequence sprite-4x"></div>
+        <span>Normal Speed (2s)</span>
+      </div>
+      <div class="animation-item">
+        <div class="obj-animated-sequence slow sprite-4x"></div>
+        <span>Slow (4s)</span>
+      </div>
+      <div class="animation-item">
+        <div class="obj-animated-sequence fast sprite-4x"></div>
+        <span>Fast (1s)</span>
+      </div>
+      <div class="animation-item">
+        <div class="obj-animated-sequence ultra-fast sprite-4x"></div>
+        <span>Ultra Fast (0.5s)</span>
+      </div>
+    </div>
+
+    <h2 class="section-header">Customizable Animations</h2>
+    <div class="custom-animation-demo">
+      <div class="custom-animation-item">
+        <div class="obj-sprite-animation sprite-4x" 
+             style="--sprite-row: 11; --sprite-start-col: 16; --sprite-end-col: 23; --sprite-duration: 2s;"></div>
+        <span>Row 11, Cols 16-23 (8 frames)</span>
+      </div>
+      <div class="custom-animation-item">
+        <div class="obj-sprite-animation sprite-4x" 
+             style="--sprite-row: 5; --sprite-start-col: 0; --sprite-end-col: 3; --sprite-duration: 1.5s;"></div>
+        <span>Row 5, Cols 0-3 (4 frames)</span>
+      </div>
+      <div class="custom-animation-item">
+        <div class="obj-sprite-animation sprite-4x" 
+             style="--sprite-row: 0; --sprite-start-col: 10; --sprite-end-col: 12; --sprite-duration: 2s;"></div>
+        <span>Row 0, Cols 10-12 (3 frames)</span>
+      </div>
+      <div class="custom-animation-item">
+        <div class="obj-sprite-animation sprite-4x" 
+             style="--sprite-row: 8; --sprite-start-col: 5; --sprite-end-col: 15; --sprite-duration: 1s;"></div>
+        <span>Row 8, Cols 5-15 (11 frames)</span>
+      </div>
+    </div>
+
+    <h2 class="section-header">Loading Icon Component</h2>
+    <div class="loading-demo">
+      <div class="loading-demo-item">
+        <div class="loading-icon small"></div>
+        <span>Small (.loading-icon.small)</span>
+      </div>
+      <div class="loading-demo-item">
+        <div class="loading-icon medium"></div>
+        <span>Medium (.loading-icon.medium)</span>
+      </div>
+      <div class="loading-demo-item">
+        <div class="loading-icon large"></div>
+        <span>Large (.loading-icon.large)</span>
+      </div>
+      <div class="loading-demo-item">
+        <div class="loading-icon extra-large"></div>
+        <span>Extra Large (.loading-icon.extra-large)</span>
+      </div>
+    </div>
+
+    <div class="loading-demo">
+      <div class="loading-demo-item">
+        <div class="loading-icon medium slow"></div>
+        <span>Slow (3s)</span>
+      </div>
+      <div class="loading-demo-item">
+        <div class="loading-icon medium"></div>
+        <span>Normal (2s)</span>
+      </div>
+      <div class="loading-demo-item">
+        <div class="loading-icon medium fast"></div>
+        <span>Fast (1s)</span>
+      </div>
+      <div class="loading-demo-item">
+        <div class="loading-icon medium ultra-fast"></div>
+        <span>Ultra Fast (0.5s)</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Loading Icon Usage</h2>
+      <p>Use the new <code>.loading-icon</code> component for consistent loading animations:</p>
+      
+      <h3>Basic Usage:</h3>
+      <pre><code>&lt;!-- Simple loading icon --&gt;
+&lt;div class="loading-icon medium"&gt;&lt;/div&gt;
+
+&lt;!-- Loading container with text --&gt;
+&lt;div class="loading-container"&gt;
+  &lt;div class="loading-icon large"&gt;&lt;/div&gt;
+  &lt;div class="loading-text"&gt;Loading...&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Full-screen loading overlay --&gt;
+&lt;div class="loading-overlay"&gt;
+  &lt;div class="loading-container"&gt;
+    &lt;div class="loading-icon extra-large"&gt;&lt;/div&gt;
+    &lt;div class="loading-text"&gt;Please wait...&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+      <h3>Size Variants:</h3>
+      <ul>
+        <li><code>.loading-icon.small</code> - 1x scale (16px)</li>
+        <li><code>.loading-icon.medium</code> - 2x scale (32px)</li>
+        <li><code>.loading-icon.large</code> - 3x scale (48px)</li>
+        <li><code>.loading-icon.extra-large</code> - 4x scale (64px)</li>
+      </ul>
+
+      <h3>Speed Variants:</h3>
+      <ul>
+        <li><code>.loading-icon.slow</code> - 3 seconds per cycle</li>
+        <li><code>.loading-icon</code> - 2 seconds per cycle (default)</li>
+        <li><code>.loading-icon.fast</code> - 1 second per cycle</li>
+        <li><code>.loading-icon.ultra-fast</code> - 0.5 seconds per cycle</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Customizable Animation Usage</h2>
+      <p>For custom animations, use the <code>.obj-sprite-animation</code> class with CSS custom properties:</p>
+      <pre><code>&lt;div class="obj-sprite-animation sprite-2x" 
+     style="--sprite-row: 11; 
+            --sprite-start-col: 14; 
+            --sprite-end-col: 25;
+            --sprite-duration: 2s;"&gt;&lt;/div&gt;</code></pre>
+      
+      <h3>Available Properties:</h3>
+      <ul>
+        <li><code>--sprite-row</code>: Which row to animate (0-based)</li>
+        <li><code>--sprite-start-col</code>: Starting column (0-based)</li>
+        <li><code>--sprite-end-col</code>: Ending column (0-based, inclusive)</li>
+        <li><code>--sprite-duration</code>: Animation speed (e.g., 2s, 500ms)</li>
+        <li>Animates from start-col to end-col (inclusive) - up to 20 frames supported</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Static Sprite Usage</h2>
+      <p>For non-animated sprites, use the existing system:</p>
+      <ul>
+        <li><strong>SCSS:</strong> Add entries to <code>$object-sprite-icons</code> map in <code>global-components.scss</code></li>
+        <li><strong>TypeScript:</strong> Add entries to <code>OBJECT_ICON_ENTRIES</code> array in <code>icon-catalog.ts</code></li>
+        <li><strong>HTML:</strong> Use classes like <code>.obj-sword</code> or utility classes like <code>.obj-r0-c0</code></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Quick Reference</h2>
+      <p><strong>Sprite Sheet Specs:</strong></p>
+      <ul>
+        <li>Size: 1024x1024px</li>
+        <li>Icon size: 16x16px</li>
+        <li>Spacing: 8px between icons</li>
+        <li>Offset: 17px from top-left corner</li>
+      </ul>
+    </div>
+  </div>
+</ion-content>
