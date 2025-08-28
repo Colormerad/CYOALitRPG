@@ -33,6 +33,26 @@ module.exports = {
           requiresinput: { type: 'boolean', description: 'Whether this choice requires input' },
           requiresclass: { type: 'boolean', description: 'Whether this choice requires a class selection' }
         }
+      },
+      Character: {
+        type: 'object',
+        properties: {
+          id: { type: 'integer', description: 'Character ID' },
+          name: { type: 'string', description: 'Character name' },
+          accountid: { type: 'integer', description: 'Account ID that owns this character' },
+          level: { type: 'integer', description: 'Character level', default: 1 },
+          experience: { type: 'integer', description: 'Character experience points', default: 0 },
+          classid: { type: 'integer', description: 'Character class ID' },
+          worldid: { type: 'integer', description: 'World ID where character exists', nullable: true },
+          locationid: { type: 'integer', description: 'Location ID where character is located', nullable: true },
+          coordinatex: { type: 'integer', description: 'X coordinate', nullable: true },
+          coordinatey: { type: 'integer', description: 'Y coordinate', nullable: true },
+          is_dead: { type: 'boolean', description: 'Whether character is dead', default: false },
+          icon_key: { type: 'string', description: 'Character icon key', nullable: true },
+          iconKey: { type: 'string', description: 'Character icon key (alias)', nullable: true },
+          className: { type: 'string', description: 'Character class name' },
+          createdat: { type: 'string', format: 'date-time', description: 'Creation timestamp' }
+        }
       }
     }
   },
@@ -454,6 +474,107 @@ module.exports = {
             }
           },
           '400': { description: 'Invalid request data' },
+          '500': { description: 'Server error' }
+        }
+      }
+    },
+    '/characters/user/{userId}': {
+      get: {
+        summary: 'Get characters by user ID',
+        description: 'Returns all characters belonging to a specific user/account',
+        parameters: [
+          {
+            name: 'userId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+            description: 'User/Account ID'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'List of characters',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: { $ref: '#/components/schemas/Character' }
+                }
+              }
+            }
+          },
+          '500': { description: 'Server error' }
+        }
+      }
+    },
+    '/characters/{id}': {
+      get: {
+        summary: 'Get character by ID',
+        description: 'Returns a specific character by its ID',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+            description: 'Character ID'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Character details',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Character' }
+              }
+            }
+          },
+          '404': { description: 'Character not found' },
+          '500': { description: 'Server error' }
+        }
+      },
+      put: {
+        summary: 'Update character',
+        description: 'Updates a character with new data including name, level, experience, and icon',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+            description: 'Character ID'
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string', description: 'Character name' },
+                  level: { type: 'integer', description: 'Character level' },
+                  experience: { type: 'integer', description: 'Experience points' },
+                  icon_key: { type: 'string', description: 'Character icon key', nullable: true },
+                  iconKey: { type: 'string', description: 'Character icon key (alias)', nullable: true },
+                  character_name: { type: 'string', description: 'Character name (compatibility)' },
+                  account_id: { type: 'integer', description: 'Account ID (compatibility)' }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Character updated successfully',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Character' }
+              }
+            }
+          },
+          '400': { description: 'Invalid request data' },
+          '404': { description: 'Character not found' },
           '500': { description: 'Server error' }
         }
       }
