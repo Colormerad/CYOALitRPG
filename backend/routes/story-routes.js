@@ -71,6 +71,24 @@ router.get('/progress/:characterId', async (req, res) => {
   }
 });
 
+// Update a player's progress (including metadata)
+router.put('/progress/:characterId', async (req, res) => {
+  try {
+    const characterId = parseInt(req.params.characterId);
+    const updateData = req.body;
+    
+    if (!characterId) {
+      return res.status(400).json({ error: 'Character ID is required' });
+    }
+    
+    const progress = await storyService.updatePlayerProgress(characterId, updateData);
+    res.json(progress);
+  } catch (err) {
+    console.error('Error updating player progress:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Make a choice
 router.post('/choice', async (req, res) => {
   try {

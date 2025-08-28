@@ -245,6 +245,37 @@ class StoryService {
       gold,
     };
   }
+
+  /**
+   * Update a player's progress (including metadata)
+   * @param {number} characterId - The ID of the character
+   * @param {Object} updateData - The data to update
+   * @returns {Promise<Object>} - The updated player progress
+   */
+  async updatePlayerProgress(characterId, updateData) {
+    // Get current progress
+    const currentProgress = await progressRepo.getByCharacterId(characterId);
+    if (!currentProgress) {
+      throw new Error(`No progress found for character ${characterId}`);
+    }
+
+    // Merge metadata if provided
+    const updatedMetadata = updateData.metadata 
+      ? { ...(currentProgress.metadata || {}), ...updateData.metadata }
+      : currentProgress.metadata;
+
+    // Prepare update data
+    const progressUpdate = {
+      ...updateData,
+      metadata: updatedMetadata
+    };
+
+    // Update progress in database
+    const updated = await progressRepo.update(characterId, progressUpdate);
+    
+    // Return formatted progress (same format as getPlayerProgress)
+    return this.getPlayerProgress(characterId);
+  }
   
   /**
    * Initialize a new player's progress

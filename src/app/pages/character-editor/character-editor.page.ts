@@ -127,6 +127,16 @@ export class CharacterEditorPage implements OnInit {
     if (this.isSaving) return;
     this.isSaving = true;
     const updated: Character = { ...this.character, name: (this.name || '').trim() || this.character.name } as Character;
+    
+    // Prepare metadata updates for gender and age preferences
+    const metadataUpdates: Record<string, any> = {};
+    if (this.gender && this.gender !== 'unknown') {
+      metadataUpdates['gender_preference'] = this.gender;
+    }
+    if (this.ageBucket && this.ageBucket !== 'unknown') {
+      metadataUpdates['age_preference'] = this.ageBucket;
+    }
+    
     this.db.updateCharacterWithCompatibility(updated)
       .pipe(finalize(() => { this.isSaving = false; }))
       .subscribe({
@@ -134,6 +144,20 @@ export class CharacterEditorPage implements OnInit {
           // sync local state from server response (fallback to our updated fields)
           this.character = { ...updated, ...(saved || {}) } as Character;
           this.name = this.character.name;
+          
+          // Update metadata if there are changes
+          if (Object.keys(metadataUpdates).length > 0) {
+            console.log('[CharacterEditor] Updating metadata:', metadataUpdates);
+            this.db.updateProgressMetadata(this.character.id!, metadataUpdates).subscribe({
+              next: (progressSaved) => {
+                console.log('[CharacterEditor] Metadata updated successfully:', progressSaved);
+              },
+              error: (metaErr) => {
+                console.warn('[CharacterEditor] Failed to update metadata:', metaErr);
+              }
+            });
+          }
+          
           const t = await this.toastCtrl.create({ message: 'Character saved', duration: 1500, color: 'success', position: 'bottom' });
           await t.present();
           const active = document.activeElement as HTMLElement | null;
@@ -152,24 +176,60 @@ export class CharacterEditorPage implements OnInit {
       next: (ch: any) => {
         this.character = ch as Character;
         this.name = (ch?.name ?? '').toString();
-        const meta = ch?.metadata ?? ch?.meta ?? ch?.additionalTraits ?? ch;
-        console.log('[CharacterEditor] Character metadata:', meta);
-        if (meta) {
-          const g = meta.gender || meta.Gender || null;
-          const a = meta.ageBucket || meta.age_bucket || meta.age || null;
-          if ((this.gender === '' || this.gender === 'unknown') && g && ['masculine','feminine','neutral','flux'].includes(String(g))) {
-            this.gender = g as any;
+        
+        // Load game session metadata first (priority source)
+        this.db.getPlayerProgress(this.characterId).subscribe({
+          next: (progress: any) => {
+            const sessionMeta = progress?.metadata || {};
+            const characterMeta = ch?.metadata ?? ch?.meta ?? ch?.additionalTraits ?? ch;
+            
+            console.log('[CharacterEditor] Game session metadata:', sessionMeta);
+            console.log('[CharacterEditor] Character metadata:', characterMeta);
+            
+            // Priority: game session metadata > character metadata > defaults
+            const g = sessionMeta.gender_preference || characterMeta?.gender || characterMeta?.Gender || null;
+            const a = sessionMeta.age_preference || characterMeta?.ageBucket || characterMeta?.age_bucket || characterMeta?.age || null;
+            
+            if (g && ['masculine','feminine','neutral','flux'].includes(String(g))) {
+              this.gender = g as any;
+            } else {
+              this.gender = 'unknown';
+            }
+            
+            if (a && ['very_young','young','neutral','wisened','very_old'].includes(String(a))) {
+              this.ageBucket = a as any;
+            } else {
+              this.ageBucket = 'unknown';
+            }
+            
+            console.log('[CharacterEditor] Loaded preferences - Gender:', this.gender, 'Age:', this.ageBucket);
+          },
+          error: (progressErr) => {
+            console.warn('[CharacterEditor] Failed to load game session metadata, falling back to character metadata:', progressErr);
+            
+            // Fallback to character metadata only
+            const meta = ch?.metadata ?? ch?.meta ?? ch?.additionalTraits ?? ch;
+            if (meta) {
+              const g = meta.gender || meta.Gender || null;
+              const a = meta.ageBucket || meta.age_bucket || meta.age || null;
+              
+              if (g && ['masculine','feminine','neutral','flux'].includes(String(g))) {
+                this.gender = g as any;
+              } else {
+                this.gender = 'unknown';
+              }
+              
+              if (a && ['very_young','young','neutral','wisened','very_old'].includes(String(a))) {
+                this.ageBucket = a as any;
+              } else {
+                this.ageBucket = 'unknown';
+              }
+            }
           }
-          if ((this.ageBucket === '' || this.ageBucket === 'unknown') && a && ['very_young','young','neutral','wisened','very_old'].includes(String(a))) {
-            this.ageBucket = a as any;
-          }
-          // Ensure defaults if nothing resolvable
-          if (!this.gender) this.gender = 'unknown';
-          if (!this.ageBucket) this.ageBucket = 'unknown';
-        }
+        });
       },
       error: (err) => {
-        console.warn('[CharacterEditor] Failed to load character for metadata logging:', err);
+        console.warn('[CharacterEditor] Failed to load character:', err);
       }
     });
   }
