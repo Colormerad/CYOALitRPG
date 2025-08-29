@@ -1,10 +1,16 @@
 <div class="content-container standard-page">
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="loading-container">
+      <div class="loading-icon medium"></div>
+      <div class="loading-text">Loading history...</div>
+    </div>
+  </div>
   <div class="page-header">
     <h1 class="retro-header">Last Time In MYTHOS</h1>
     <div class="retro-text">We last saw our {{ roleLabel }}...</div>
   </div>
 
-  <div *ngIf="loading" class="loading"><span>Loading...</span></div>
+  <!-- Loading state handled by overlay -->
   <div *ngIf="error" class="error"><span>{{ error }}</span></div>
 
   <div *ngIf="!loading && !error" class="card story-frame story-frame--img">

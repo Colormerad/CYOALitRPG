@@ -1,12 +1,15 @@
 <div class="content-container standard-page">
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="loading-container">
+      <div class="loading-icon medium"></div>
+      <div class="loading-text">Loading inventory...</div>
+    </div>
+  </div>
   <div class="page-header">
     <h1 class="retro-header">Inventory</h1>
   </div>
 
-  <!-- Loading state -->
-  <div *ngIf="loading" class="loading">
-    <span class="retro-text">Loading...</span>
-  </div>
+  <!-- Loading state handled by overlay -->
 
   <!-- Error state -->
   <div *ngIf="error" class="error">
@@ -54,8 +57,15 @@
           </div>
           <!-- Gold display -->
           <div class="gold-container" style="text-align: right;">
-            <span class="gold-icon">💰</span>
-            <span class="gold-amount retro-text" style="font-size: 1.2rem;">{{ gold }} Gold</span>
+            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
+              <span class="sprite-frame-2x" style="display: inline-block; vertical-align: middle;">
+                <span class="gold-icon obj-money-tinted sprite-2x-center"></span>
+              </span>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.05;">
+                <span class="gold-amount retro-text" style="font-size: 1.2rem;">{{ gold }}</span>
+                <span class="retro-text" style="font-size: 1rem;">Gold</span>
+              </div>
+            </div>
           </div>
         </div>
         
@@ -83,12 +93,11 @@
 
         <!-- Equipped Items View -->
         <div class="equipped-items-view" *ngIf="showEquippedView && !selectedItem" style="margin-top: 16px;">
-          <div class="equipment-layout" style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 24px; max-width: 450px; margin: 0 auto;">
+          <div class="equipment-layout five-col" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; max-width: 520px; margin: 0 auto; justify-items: center;">
             
-            <!-- Left side accessories -->
-            <div class="left-accessories" style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
-              <!-- Shield -->
-              <div class="equipment-slot" style="width: 48px; height: 48px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;" 
+            <!-- Row 1: col 1 Shield/Offhand -->
+            <div class="equipment-slot-wrap" style="grid-column: 1; grid-row: 1;">
+              <div class="equipment-slot" style="border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;" 
                    (click)="getEquippedItem('shield') && selectItem(getEquippedItem('shield')!)">
                 <div *ngIf="getEquippedItem('shield'); else emptyShield">
                   <img [src]="getEquippedItem('shield')!.icon" *ngIf="getEquippedItem('shield')!.icon" style="max-width: 32px; max-height: 32px;">
@@ -97,15 +106,13 @@
                 <ng-template #emptyShield>
                   <span style="font-size: 1.5rem;">{{ getSlotIcon('shield') }}</span>
                 </ng-template>
-                <div class="slot-label" style="position: absolute; bottom: -28px; font-size: 1.1rem; color: var(--retro-text-muted); text-align: center; width: 60px;">Shield</div>
               </div>
+              <div class="slot-label">Offhand</div>
             </div>
 
-            <!-- Center humanoid figure -->
-            <div class="humanoid-figure" style="display: grid; grid-template-rows: auto auto auto auto; gap: 32px; justify-items: center;">
-              
-              <!-- Head slot -->
-              <div class="equipment-slot" style="width: 48px; height: 48px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+            <!-- Row 1: col 3 Head -->
+            <div class="equipment-slot-wrap" style="grid-column: 3; grid-row: 1;">
+              <div class="equipment-slot" style="border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
                    (click)="getEquippedItem('head') && selectItem(getEquippedItem('head')!)">
                 <div *ngIf="getEquippedItem('head'); else emptyHead">
                   <img [src]="getEquippedItem('head')!.icon" *ngIf="getEquippedItem('head')!.icon" style="max-width: 32px; max-height: 32px;">
@@ -114,73 +121,13 @@
                 <ng-template #emptyHead>
                   <span style="font-size: 1.5rem;">{{ getSlotIcon('head') }}</span>
                 </ng-template>
-                <div class="slot-label" style="position: absolute; bottom: -28px; font-size: 1.1rem; color: var(--retro-text-muted);">Head</div>
               </div>
-
-              <!-- Body row with hands -->
-              <div style="display: flex; gap: 8px; align-items: center;">
-                <!-- Off-hand (left side) -->
-                <div class="equipment-slot" style="width: 40px; height: 40px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
-                     [style.opacity]="isHandSlotBlockedByTwoHanded().offhand && !getHandSlotItem('offhand') ? '0.5' : '1'"
-                     (click)="getHandSlotItem('offhand') && selectItem(getHandSlotItem('offhand')!)">
-                  <div *ngIf="getHandSlotItem('offhand'); else emptyOffhand">
-                    <img [src]="getHandSlotItem('offhand')!.icon" *ngIf="getHandSlotItem('offhand')!.icon" style="max-width: 24px; max-height: 24px;">
-                    <ion-icon name="cube" *ngIf="!getHandSlotItem('offhand')!.icon" size="small" style="color: var(--retro-text);"></ion-icon>
-                  </div>
-                  <ng-template #emptyOffhand>
-                    <span style="font-size: 1rem;">{{ getSlotIcon('offhand') }}</span>
-                  </ng-template>
-                  <div *ngIf="getHandSlotItem('offhand')?.weaponType === '2handed'" class="two-handed-indicator" style="position: absolute; top: -4px; right: -4px; background: var(--retro-green-light); color: var(--retro-green-darkest); border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;">2H</div>
-                  <div class="slot-label" style="position: absolute; bottom: -48px; font-size: 1.1rem; color: var(--retro-text-muted); text-align: center; width: 40px;">Off-hand</div>
-                </div>
-
-                <!-- Body/Chest -->
-                <div class="equipment-slot" style="width: 56px; height: 56px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
-                     (click)="getEquippedItem('body') && selectItem(getEquippedItem('body')!)">
-                  <div *ngIf="getEquippedItem('body'); else emptyBody">
-                    <img [src]="getEquippedItem('body')!.icon" *ngIf="getEquippedItem('body')!.icon" style="max-width: 40px; max-height: 40px;">
-                    <ion-icon name="cube" *ngIf="!getEquippedItem('body')!.icon" style="color: var(--retro-text);"></ion-icon>
-                  </div>
-                  <ng-template #emptyBody>
-                    <span style="font-size: 2rem;">{{ getSlotIcon('body') }}</span>
-                  </ng-template>
-                  <div class="slot-label" style="position: absolute; bottom: -28px; font-size: 1.1rem; color: var(--retro-text-muted);">Body</div>
-                </div>
-
-                <!-- Main-hand (right side) -->
-                <div class="equipment-slot" style="width: 40px; height: 40px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
-                     [style.opacity]="isHandSlotBlockedByTwoHanded().mainhand && !getHandSlotItem('mainhand') ? '0.5' : '1'"
-                     (click)="getHandSlotItem('mainhand') && selectItem(getHandSlotItem('mainhand')!)">
-                  <div *ngIf="getHandSlotItem('mainhand'); else emptyMainhand">
-                    <img [src]="getHandSlotItem('mainhand')!.icon" *ngIf="getHandSlotItem('mainhand')!.icon" style="max-width: 24px; max-height: 24px;">
-                    <ion-icon name="cube" *ngIf="!getHandSlotItem('mainhand')!.icon" size="small" style="color: var(--retro-text);"></ion-icon>
-                  </div>
-                  <ng-template #emptyMainhand>
-                    <span style="font-size: 1rem;">{{ getSlotIcon('mainhand') }}</span>
-                  </ng-template>
-                  <div *ngIf="getHandSlotItem('mainhand')?.weaponType === '2handed'" class="two-handed-indicator" style="position: absolute; top: -4px; right: -4px; background: var(--retro-green-light); color: var(--retro-green-darkest); border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;">2H</div>
-                  <div class="slot-label" style="position: absolute; bottom: -48px; font-size: 1.1rem; color: var(--retro-text-muted); text-align: center; width: 40px;">Main-hand</div>
-                </div>
-              </div>
-
-              <!-- Feet -->
-              <div class="equipment-slot" style="width: 48px; height: 48px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
-                   (click)="getEquippedItem('feet') && selectItem(getEquippedItem('feet')!)">
-                <div *ngIf="getEquippedItem('feet'); else emptyFeet">
-                  <img [src]="getEquippedItem('feet')!.icon" *ngIf="getEquippedItem('feet')!.icon" style="max-width: 32px; max-height: 32px;">
-                  <ion-icon name="cube" *ngIf="!getEquippedItem('feet')!.icon" style="color: var(--retro-text);"></ion-icon>
-                </div>
-                <ng-template #emptyFeet>
-                  <span style="font-size: 1.5rem;">{{ getSlotIcon('feet') }}</span>
-                </ng-template>
-                <div class="slot-label" style="position: absolute; bottom: -28px; font-size: 1.1rem; color: var(--retro-text-muted);">Feet</div>
-              </div>
+              <div class="slot-label">Head</div>
             </div>
 
-            <!-- Right side accessories -->
-            <div class="right-accessories" style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
-              <!-- Necklace -->
-              <div class="equipment-slot" style="width: 48px; height: 48px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+            <!-- Row 1: col 5 Necklace -->
+            <div class="equipment-slot-wrap" style="grid-column: 5; grid-row: 1;">
+              <div class="equipment-slot" style="border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
                    (click)="getEquippedItem('necklace') && selectItem(getEquippedItem('necklace')!)">
                 <div *ngIf="getEquippedItem('necklace'); else emptyNecklace">
                   <img [src]="getEquippedItem('necklace')!.icon" *ngIf="getEquippedItem('necklace')!.icon" style="max-width: 32px; max-height: 32px;">
@@ -189,11 +136,62 @@
                 <ng-template #emptyNecklace>
                   <span style="font-size: 1.5rem;">{{ getSlotIcon('necklace') }}</span>
                 </ng-template>
-                <div class="slot-label" style="position: absolute; bottom: -48px; font-size: 1.1rem; color: var(--retro-text-muted); text-align: center; width: 60px;">Necklace</div>
               </div>
+              <div class="slot-label">Necklace</div>
+            </div>
 
-              <!-- Ring 1 -->
-              <div class="equipment-slot" style="width: 40px; height: 40px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+            <!-- Row 2: col 2 Gloves -->
+            <div class="equipment-slot-wrap" style="grid-column: 2; grid-row: 2;">
+              <div class="equipment-slot" style="border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                   [style.opacity]="isHandSlotBlockedByTwoHanded().offhand && !getHandSlotItem('offhand') ? '0.5' : '1'"
+                   (click)="getHandSlotItem('offhand') && selectItem(getHandSlotItem('offhand')!)">
+                <div *ngIf="getHandSlotItem('offhand'); else emptyOffhand">
+                  <img [src]="getHandSlotItem('offhand')!.icon" *ngIf="getHandSlotItem('offhand')!.icon" style="max-width: 24px; max-height: 24px;">
+                  <ion-icon name="cube" *ngIf="!getHandSlotItem('offhand')!.icon" size="small" style="color: var(--retro-text);"></ion-icon>
+                </div>
+                <ng-template #emptyOffhand>
+                  <span style="font-size: 1rem;">{{ getSlotIcon('offhand') }}</span>
+                </ng-template>
+                <div *ngIf="getHandSlotItem('offhand')?.weaponType === '2handed'" class="two-handed-indicator" style="position: absolute; top: -4px; right: -4px; background: var(--retro-green-light); color: var(--retro-green-darkest); border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;">2H</div>
+              </div>
+              <div class="slot-label">Gloves</div>
+            </div>
+
+            <!-- Row 2: col 3 Body -->
+            <div class="equipment-slot-wrap" style="grid-column: 3; grid-row: 2;">
+              <div class="equipment-slot" style="border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                   (click)="getEquippedItem('body') && selectItem(getEquippedItem('body')!)">
+                <div *ngIf="getEquippedItem('body'); else emptyBody">
+                  <img [src]="getEquippedItem('body')!.icon" *ngIf="getEquippedItem('body')!.icon" style="max-width: 40px; max-height: 40px;">
+                  <ion-icon name="cube" *ngIf="!getEquippedItem('body')!.icon" style="color: var(--retro-text);"></ion-icon>
+                </div>
+                <ng-template #emptyBody>
+                  <span style="font-size: 2rem;">{{ getSlotIcon('body') }}</span>
+                </ng-template>
+              </div>
+              <div class="slot-label">Body</div>
+            </div>
+
+            <!-- Row 2: col 4 Main-hand -->
+            <div class="equipment-slot-wrap" style="grid-column: 4; grid-row: 2;">
+              <div class="equipment-slot" style="border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                   [style.opacity]="isHandSlotBlockedByTwoHanded().mainhand && !getHandSlotItem('mainhand') ? '0.5' : '1'"
+                   (click)="getHandSlotItem('mainhand') && selectItem(getHandSlotItem('mainhand')!)">
+                <div *ngIf="getHandSlotItem('mainhand'); else emptyMainhand">
+                  <img [src]="getHandSlotItem('mainhand')!.icon" *ngIf="getHandSlotItem('mainhand')!.icon" style="max-width: 24px; max-height: 24px;">
+                  <ion-icon name="cube" *ngIf="!getHandSlotItem('mainhand')!.icon" size="small" style="color: var(--retro-text);"></ion-icon>
+                </div>
+                <ng-template #emptyMainhand>
+                  <span style="font-size: 1rem;">{{ getSlotIcon('mainhand') }}</span>
+                </ng-template>
+                <div *ngIf="getHandSlotItem('mainhand')?.weaponType === '2handed'" class="two-handed-indicator" style="position: absolute; top: -4px; right: -4px; background: var(--retro-green-light); color: var(--retro-green-darkest); border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;">2H</div>
+              </div>
+              <div class="slot-label">Main-hand</div>
+            </div>
+
+            <!-- Row 2: col 5 Ring 1 -->
+            <div class="equipment-slot-wrap" style="grid-column: 5; grid-row: 2;">
+              <div class="equipment-slot" style="border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
                    (click)="getEquippedItem('ring1') && selectItem(getEquippedItem('ring1')!)">
                 <div *ngIf="getEquippedItem('ring1'); else emptyRing1">
                   <img [src]="getEquippedItem('ring1')!.icon" *ngIf="getEquippedItem('ring1')!.icon" style="max-width: 24px; max-height: 24px;">
@@ -202,11 +200,28 @@
                 <ng-template #emptyRing1>
                   <span style="font-size: 1rem;">{{ getSlotIcon('ring1') }}</span>
                 </ng-template>
-                <div class="slot-label" style="position: absolute; bottom: -48px; font-size: 1.1rem; color: var(--retro-text-muted);">Ring 1</div>
               </div>
+              <div class="slot-label">Ring 1</div>
+            </div>
 
-              <!-- Ring 2 -->
-              <div class="equipment-slot" style="width: 40px; height: 40px; border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+            <!-- Row 3: col 3 Feet -->
+            <div class="equipment-slot-wrap" style="grid-column: 3; grid-row: 3;">
+              <div class="equipment-slot" style="border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
+                   (click)="getEquippedItem('feet') && selectItem(getEquippedItem('feet')!)">
+                <div *ngIf="getEquippedItem('feet'); else emptyFeet">
+                  <img [src]="getEquippedItem('feet')!.icon" *ngIf="getEquippedItem('feet')!.icon" style="max-width: 32px; max-height: 32px;">
+                  <ion-icon name="cube" *ngIf="!getEquippedItem('feet')!.icon" style="color: var(--retro-text);"></ion-icon>
+                </div>
+                <ng-template #emptyFeet>
+                  <span style="font-size: 1.5rem;">{{ getSlotIcon('feet') }}</span>
+                </ng-template>
+              </div>
+              <div class="slot-label">Feet</div>
+            </div>
+
+            <!-- Row 3: col 5 Ring 2 -->
+            <div class="equipment-slot-wrap" style="grid-column: 5; grid-row: 3;">
+              <div class="equipment-slot" style="border: 2px solid var(--retro-border); background: var(--retro-green-dark); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;"
                    (click)="getEquippedItem('ring2') && selectItem(getEquippedItem('ring2')!)">
                 <div *ngIf="getEquippedItem('ring2'); else emptyRing2">
                   <img [src]="getEquippedItem('ring2')!.icon" *ngIf="getEquippedItem('ring2')!.icon" style="max-width: 24px; max-height: 24px;">
@@ -215,11 +230,12 @@
                 <ng-template #emptyRing2>
                   <span style="font-size: 1rem;">{{ getSlotIcon('ring2') }}</span>
                 </ng-template>
-                <div class="slot-label" style="position: absolute; bottom: -48px; font-size: 1.1rem; color: var(--retro-text-muted);">Ring 2</div>
               </div>
+              <div class="slot-label">Ring 2</div>
             </div>
           </div>
-          
+        
+  
 
           
           <!-- Equipment rules info -->

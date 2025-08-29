@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart, NavigationCancel, NavigationError } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { environment } from '../environments/environment';
-import { LoadingService } from './services/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -19,13 +18,10 @@ export class AppComponent {
   isAuthPage = false;
   // Flag to check if a character is selected
   characterSelected = false;
-  // Global loading observable for template
-  isLoading$ = this.loading.isLoading$;
   
   constructor(
     private router: Router,
-    private authService: AuthService,
-    private loading: LoadingService
+    private authService: AuthService
   ) {
     // Ensure a default theme is set and applied on startup
     this.ensureDefaultTheme();
@@ -34,26 +30,21 @@ export class AppComponent {
       this.gameStarted = !!account;
     });
 
-    // Global navigation loading + menu state updates
+    // Set active menu item based on current route
     this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        this.loading.show();
-      }
-
       if (event instanceof NavigationEnd) {
-        this.loading.hide();
         const currentUrl = event.url;
-
+        
         // Check if current page should hide navigation (auth pages, character select, grave)
-        this.isAuthPage = currentUrl.includes('/login') ||
-                          currentUrl.includes('/register') ||
-                          currentUrl.includes('/select-character') ||
-                          currentUrl.includes('/grave');
-
+        this.isAuthPage = currentUrl.includes('/login') || 
+                         currentUrl.includes('/register') || 
+                         currentUrl.includes('/select-character') ||
+                         currentUrl.includes('/grave');
+        
         // Check if a character is selected by looking for character ID in URL
         const characterIdMatch = currentUrl.match(/\/(game|inventory|quests|icon-select)\/([0-9]+)/);
         this.characterSelected = characterIdMatch !== null && characterIdMatch.length > 2;
-
+        
         // Set active menu item based on URL
         if (currentUrl.includes('/game')) {
           this.activeMenuItem = 'game';
@@ -66,10 +57,6 @@ export class AppComponent {
         } else {
           this.activeMenuItem = '';
         }
-      }
-
-      if (event instanceof NavigationCancel || event instanceof NavigationError) {
-        this.loading.hide();
       }
     });
   }

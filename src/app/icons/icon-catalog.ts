@@ -4,13 +4,6 @@ export interface IconEntry {
   col: number;
 }
 
-// Object sprite interface (same structure as IconEntry)
-export interface ObjectIconEntry {
-  key: string;
-  row: number;
-  col: number;
-}
-
 // Keep this in sync with the SCSS $sprite-icons map in styles/global-components.scss
 export const ICON_ENTRIES: IconEntry[] = [
   
@@ -69,16 +62,4 @@ export const ICON_ENTRIES: IconEntry[] = [
   { key: 'person9', row: 2, col: 15 },
   { key: 'heart', row: 2, col: 16 },
   { key: 'alien', row: 2, col: 17 }
-];
-
-// Keep this in sync with the SCSS $object-sprite-icons map in styles/global-components.scss
-// Objects.png sprite sheet: 1024x1024, 16x16 icons, 8px spacing, starts at 17px offset
-export const OBJECT_ICON_ENTRIES: ObjectIconEntry[] = [
-  // Add object icon entries here as you identify them in the sprite sheet
-  // Example entries (you'll need to map these to actual objects in the sprite):
-  // { key: 'sword', row: 0, col: 0 },
-  // { key: 'shield', row: 0, col: 1 },
-  // { key: 'potion', row: 0, col: 2 },
-  // { key: 'key', row: 0, col: 3 },
-  // { key: 'coin', row: 0, col: 4 },
 ];

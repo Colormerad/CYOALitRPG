@@ -4,13 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { InventoryPageRoutingModule } from './inventory-routing.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    InventoryPageRoutingModule
+    InventoryPageRoutingModule,
+    SharedModule
   ],
   declarations: []
 })

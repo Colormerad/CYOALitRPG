@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>All Items (JSON)</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="load()" [disabled]="loading">
+        <ion-icon name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="loading-container">
+      <div class="loading-icon medium"></div>
+      <div class="loading-text">Loading items...</div>
+    </div>
+  </div>
+
+  <ion-card *ngIf="error">
+    <ion-card-header>
+      <ion-card-title>Error</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{ error }}
+    </ion-card-content>
+  </ion-card>
+
+  <div *ngIf="!loading && !error">
+    <p>Total: <strong>{{ items?.length || 0 }}</strong></p>
+    <pre class="json-view">{{ prettyJson }}</pre>
+  </div>
+</ion-content>

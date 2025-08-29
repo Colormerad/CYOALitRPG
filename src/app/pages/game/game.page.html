@@ -20,8 +20,11 @@
     </div>
   </div>
 
-  <div *ngIf="loading" class="loading">
-    <p>Loading...</p>
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="loading-container">
+      <div class="loading-icon medium"></div>
+      <div class="loading-text">Loading game...</div>
+    </div>
   </div>
 
   <div *ngIf="error" class="error">

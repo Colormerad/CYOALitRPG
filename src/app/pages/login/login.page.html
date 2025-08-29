@@ -9,6 +9,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="retro-content">
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="loading-container">
+      <div class="loading-icon medium"></div>
+      <div class="loading-text">Logging in...</div>
+    </div>
+  </div>
   <audio #backgroundMusic src="assets/audio/The Fun House of Doom_7.wav" loop></audio>
   <div class="pixel-container">
     <!-- Logo/Game Title -->
@@ -41,7 +47,7 @@
                 name="email"
                 placeholder="Enter your email"
                 required
-                [disabled]="((isLoading$ | async) ?? false)">
+                [disabled]="isLoading">
               </ion-input>
             </div>
           </div>
@@ -58,13 +64,13 @@
                 name="password"
                 placeholder="Enter your password"
                 required
-                [disabled]="((isLoading$ | async) ?? false)">
+                [disabled]="isLoading">
               </ion-input>
               <button 
                 type="button"
                 class="pixel-button-small" 
                 (click)="togglePasswordVisibility()"
-                [disabled]="((isLoading$ | async) ?? false)">
+                [disabled]="isLoading">
                 <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
               </button>
             </div>
@@ -74,13 +80,12 @@
           <button 
             type="submit" 
             class="pixel-button"
-            [disabled]="(((isLoading$ | async) ?? false) || !loginForm.form.valid)">
-            <div class="loading-icon small fast" *ngIf="(isLoading$ | async)"></div>
-            <span *ngIf="!(isLoading$ | async)">
+            [disabled]="isLoading || !loginForm.form.valid">
+            <span *ngIf="!isLoading">
               <ion-icon name="log-in" class="button-icon"></ion-icon>
               Login
             </span>
-            <span *ngIf="(isLoading$ | async)">Logging in...</span>
+            <span *ngIf="isLoading">Logging in...</span>
           </button>
 
           <!-- Forgot Password -->
@@ -88,7 +93,7 @@
             type="button" 
             class="pixel-link"
             (click)="showForgotPasswordAlert()"
-            [disabled]="(isLoading$ | async)">
+            [disabled]="isLoading">
             Forgot Password?
           </button>
         </form>
@@ -102,7 +107,7 @@
         type="button"
         class="pixel-button pixel-button-outline" 
         (click)="goToRegister()"
-        [disabled]="(isLoading$ | async)">
+        [disabled]="isLoading">
         <ion-icon name="person-add" class="button-icon"></ion-icon>
         Create Account
       </button>

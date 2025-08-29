@@ -376,6 +376,110 @@
   }
 }
 
+/* Equipped layout helpers */
+.equipment-slot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px; // space between box and label
+}
+
+.slot-label {
+  margin-top: 6px;
+  font-size: 1.1rem;
+  color: var(--retro-text-muted);
+  text-align: center;
+  line-height: 1;
+  white-space: nowrap; // keep labels on one line
+}
+
+.equipment-layout {
+  gap: 20px !important; // consistent gaps between columns
+}
+
+.left-accessories,
+.right-accessories {
+  display: flex;
+  flex-direction: column;
+  gap: 20px !important; // consistent vertical spacing
+  align-items: center;
+}
+
+.humanoid-figure {
+  display: grid;
+  gap: 20px !important; // consistent vertical spacing
+  justify-items: center;
+}
+
+.body-row {
+  display: flex;
+  align-items: center;
+  gap: 20px !important; // spacing between hand/body boxes
+}
+
+// Uniform equipment slot sizing
+.equipment-slot {
+  width: 48px;
+  height: 48px;
+}
+
+// Ensure equipped layout never exceeds container width
+.equipment-layout {
+  width: 100%;
+  margin: 0 auto;
+  justify-items: center; // center each column's content
+}
+
+// Default 3-col only when not explicitly using five-col layout
+.equipment-layout:not(.five-col) {
+  grid-template-columns: repeat(3, 1fr) !important;
+}
+
+@media (max-width: 576px) {
+  // Keep the 3-column composition, but make the UI fit by shrinking boxes and gaps
+  .equipment-slot {
+    width: 40px;
+    height: 40px;
+  }
+
+  .equipment-layout {
+    gap: 5px !important;
+  }
+
+  .body-row {
+    gap: 5px !important;
+  }
+
+  .left-accessories,
+  .right-accessories,
+  .humanoid-figure {
+    gap: 5px !important;
+  }
+}
+
+/* Vertically align Head, Body, Feet by constraining center column width */
+.humanoid-figure {
+  width: 184px; // 48*3 + 20*2 on desktop
+}
+
+.humanoid-figure > .equipment-slot-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.body-row {
+  width: 100%;
+  justify-content: space-between;
+}
+
+@media (max-width: 576px) {
+  .humanoid-figure {
+    width: 130px; // 40*3 + 5*2 on mobile
+  }
+}
+
 // Loading and error states
 .loading,
 .error {
@@ -425,6 +529,7 @@
   }
 }
 
+
 // Responsive adjustments
 @media (max-width: 576px) {
   .item-content {
@@ -435,3 +540,4 @@
     margin: 0 auto;
   }
 }
+

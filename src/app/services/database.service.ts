@@ -516,6 +516,14 @@ export class DatabaseService {
       });
     });
   }
+ 
+  /**
+   * Fetch all items in the database for admin/review purposes.
+   * Returns raw rows as provided by backend GET /items.
+   */
+  getAllItems(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/items`);
+  }
   
   updateInventoryItem(characterId: number, item: InventoryItem): Observable<InventoryItem> {
     return new Observable(observer => {

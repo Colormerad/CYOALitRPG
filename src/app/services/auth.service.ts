@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, finalize } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { Account, AuthResponse, LoginRequest, RegisterRequest } from '../models/account.model';
 import { DatabaseService } from './database.service';
-import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,21 +25,16 @@ export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient, private db: DatabaseService, private loading: LoadingService) {
+  constructor(private http: HttpClient, private db: DatabaseService) {
     // Check if user is already logged in (from localStorage)
     this.loadStoredAccount();
   }
 
   register(registerData: RegisterRequest): Observable<AuthResponse> {
-    this.loading.show();
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, registerData, this.httpOptions)
-      .pipe(
-        finalize(() => this.loading.hide())
-      );
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, registerData, this.httpOptions);
   }
 
   login(loginData: LoginRequest): Observable<AuthResponse> {
-    this.loading.show();
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, loginData, this.httpOptions)
       .pipe(
         map(response => {
@@ -48,8 +42,7 @@ export class AuthService {
             this.setCurrentAccount(response.account);
           }
           return response;
-        }),
-        finalize(() => this.loading.hide())
+        })
       );
   }
 
@@ -164,7 +157,6 @@ export class AuthService {
     // Call the real backend API endpoint
     // Remove '/auth' from the path as the backend expects /api/accounts/:id
     const accountsApiUrl = this.apiUrl.replace('/auth', '');
-    this.loading.show();
     return this.http.put<AuthResponse>(
       `${accountsApiUrl}/accounts/${currentAccount.id}`, 
       updates, 
@@ -176,8 +168,7 @@ export class AuthService {
           this.setCurrentAccount(response.account);
         }
         return response;
-      }),
-      finalize(() => this.loading.hide())
+      })
     );
   }
   

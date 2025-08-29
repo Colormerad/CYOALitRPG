@@ -1,12 +1,14 @@
 <ion-content class="retro-content">
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="loading-container">
+      <div class="loading-icon medium"></div>
+      <div class="loading-text">Loading...</div>
+    </div>
+  </div>
   <div class="pixel-container">
     <h1 class="retro-header">Memorial Stone</h1>
     
-    <!-- Loading state -->
-    <div *ngIf="loading" class="loading-container">
-      <div class="retro-text">Loading...</div>
-      <div class="pixel-loader"></div>
-    </div>
+    <!-- Loading handled by overlay -->
     
     <!-- Error state -->
     <div *ngIf="error" class="error-container">

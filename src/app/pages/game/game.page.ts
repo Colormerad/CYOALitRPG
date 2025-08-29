@@ -1,7 +1,8 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { filter } from 'rxjs/operators';
 import { DatabaseService } from '../../services/database.service';
 import { BottomTabsComponent } from '../../components/bottom-tabs/bottom-tabs.component';
 import { StoryNode, Choice } from '../../models/story.model';
@@ -17,7 +18,7 @@ import { AudioService } from '../../services/audio.service';
   templateUrl: './game.page.html',
   styleUrls: ['./game.page.scss']
 })
-export class GamePage implements OnInit, AfterViewInit {
+export class GamePage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('backgroundMusic') backgroundMusic!: ElementRef<HTMLAudioElement>;
   characterId: number = 0;
   currentNode: StoryNode | null = null;
@@ -43,18 +44,53 @@ export class GamePage implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
+      // Reset state when navigating to ensure loading is visible
+      this.loading = true;
+      this.error = null;
+      this.currentNode = null;
+      this.choices = [];
+      
       this.characterId = +params['id']; // Convert to number
       if (this.characterId) {
-        this.loadPlayerProgress();
+        // Add small delay to ensure loading state is visible
+        setTimeout(() => {
+          this.loadPlayerProgress();
+        }, 100);
       } else {
         this.error = 'Invalid character ID';
         this.loading = false;
+      }
+    });
+
+    // Listen for navigation events to catch back button navigation
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      // If we're navigating to this game page, ensure loading is shown
+      if (event.url.includes('/game/') && event.url.includes(this.characterId.toString())) {
+        this.loading = true;
+        this.error = null;
+        setTimeout(() => {
+          this.loadPlayerProgress();
+        }, 100);
       }
     });
   }
 
   ngAfterViewInit(): void {
     this.initializeMusic();
+  }
+
+  ionViewWillEnter(): void {
+    // This method is called every time the page is about to enter and become the active page
+    // This ensures loading is shown even when navigating back via browser/back button
+    if (this.characterId) {
+      this.loading = true;
+      this.error = null;
+      setTimeout(() => {
+        this.loadPlayerProgress();
+      }, 100);
+    }
   }
 
   ngOnDestroy(): void {

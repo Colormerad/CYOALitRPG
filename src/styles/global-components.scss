@@ -216,7 +216,7 @@ $sprite-src: '/assets/icons/icon-atlas.png';
 // Exact cell size based on a 512px atlas split into 21 columns/rows
 $sprite-cell: (512px / 21);
 
-// Object sprite sheet variables
+// Objects sprite sheet variables
 $object-sprite-src: '/assets/icons/objects.png';
 $object-sprite-size: 16px; // Each icon is 16x16
 $object-sprite-spacing: 8px; // 8px between icons
@@ -255,6 +255,30 @@ $object-sprite-offset: 17px; // First icon starts 17px from top-left
     (-$object-sprite-offset - ($col * ($object-sprite-size + $object-sprite-spacing))) 
     (-$object-sprite-offset - ($row * ($object-sprite-size + $object-sprite-spacing)));
 }   
+
+// Masked/tinted object sprite using the same color model as the framed border
+// Uses the sprite alpha as a mask and fills with --frame-tint-color
+@mixin object-sprite-mask-icon($row, $col) {
+  @extend .sprite-base;
+  width: $object-sprite-size;
+  height: $object-sprite-size;
+  background: var(--frame-tint-color, #c5e68a);
+  // WebKit mask
+  -webkit-mask-image: url(#{$object-sprite-src});
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position:
+    calc(-#{$object-sprite-offset} - (#{$col} * #{$object-sprite-size + $object-sprite-spacing}))
+    calc(-#{$object-sprite-offset} - (#{$row} * #{$object-sprite-size + $object-sprite-spacing}));
+  // Standards
+  mask-image: url(#{$object-sprite-src});
+  mask-repeat: no-repeat;
+  mask-position:
+    calc(-#{$object-sprite-offset} - (#{$col} * #{$object-sprite-size + $object-sprite-spacing}))
+    calc(-#{$object-sprite-offset} - (#{$row} * #{$object-sprite-size + $object-sprite-spacing}));
+}
+
+// Tinted money icon helper (objects.png: col 1, row 14 -> 0-based row 13, col 0)
+.obj-money-tinted { @include object-sprite-mask-icon(13, 0); }
 
 // Convenience size variants when upscaling icons
 .sprite-2x { transform: scale(2); transform-origin: center; }
@@ -385,9 +409,6 @@ $sprite-icons: (
   'alien': (row: 2, col: 17),
 
 
-
-
-
   );
 
 
@@ -402,6 +423,7 @@ $object-sprite-icons: (
   // Add object icon entries here as needed
   // Example: 'sword': (row: 0, col: 0),
   // Example: 'shield': (row: 0, col: 1),
+  'money': (row: 13, col: 0),
 );
 
 @each $name, $pos in $object-sprite-icons {
@@ -419,9 +441,9 @@ $object-sprite-icons: (
 }
 
 // Auto-generate utility classes for object sprite grid: .obj-r<row>-c<col>
-// Objects.png can fit approximately 41x41 icons (1024px / (16px + 8px) ≈ 42.67)
-@for $r from 0 through 40 {
-  @for $c from 0 through 40 {
+// With 6px spacing: ~46x46 icons (1024px / (16px + 6px) ≈ 46.54)
+@for $r from 0 through 46 {
+  @for $c from 0 through 46 {
     .obj-r#{$r}-c#{$c} { @include object-sprite-icon($r, $c); }
   }
 }
