@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
@@ -7,6 +7,7 @@ import { NPC, SirSebastian } from '../../models/npc.model';
 import { DatabaseService } from '../../services/database.service';
 import { Character } from '../../models/character.model';
 import { InventoryItem } from '../../models/inventory.model';
+import { AudioService } from '../../services/audio.service';
 
 @Component({
   selector: 'app-battle',
@@ -15,7 +16,9 @@ import { InventoryItem } from '../../models/inventory.model';
   templateUrl: './battle.page.html',
   styleUrls: ['./battle.page.scss']
 })
-export class BattlePage {
+export class BattlePage implements AfterViewInit, OnDestroy {
+  @ViewChild('backgroundMusic') battleMusic!: ElementRef<HTMLAudioElement>;
+  private prevMusicEl: HTMLAudioElement | null = null;
   // Basic demo state (can be replaced with real character/enemy data)
   playerName = 'You';
   character: Character | null = null;
@@ -46,13 +49,14 @@ export class BattlePage {
   outcome: 'win' | 'lose' | null = null;
   awardedExp: any | null = null;
 
-  constructor(private toastCtrl: ToastController, private route: ActivatedRoute, private router: Router, private db: DatabaseService) {
+  constructor(private toastCtrl: ToastController, private route: ActivatedRoute, private router: Router, private db: DatabaseService, private audioService: AudioService) {
     // Allow assigning an NPC via query param: /battle?npc=sir-sebastian
     const npcId = this.route.snapshot.queryParamMap.get('npc');
     if (npcId) {
       const resolved = this.resolveNpc(npcId);
       if (resolved) this.assignOpponent(resolved);
     }
+
     // Parse outcome wiring (always)
     const win = this.route.snapshot.queryParamMap.get('nextOnWin');
     const lose = this.route.snapshot.queryParamMap.get('nextOnLose');
@@ -82,7 +86,38 @@ export class BattlePage {
         });
       }
     }
+  }
 
+  ngAfterViewInit(): void {
+    const battleEl = this.battleMusic?.nativeElement;
+    if (!battleEl) return;
+
+    // Save and pause current music, then start battle music
+    this.prevMusicEl = this.audioService.getCurrentMusicElement();
+    this.audioService.pauseCurrentMusic();
+
+    // React to global audio state
+    this.audioService.masterVolume$.subscribe(() => {
+      battleEl.volume = this.audioService.getEffectiveMusicVolume();
+    });
+    this.audioService.musicVolume$.subscribe(() => {
+      battleEl.volume = this.audioService.getEffectiveMusicVolume();
+    });
+    this.audioService.muted$.subscribe((muted) => {
+      battleEl.muted = muted;
+    });
+
+    // Play battle music under current settings
+    this.audioService.playElementWithCurrentSettings(battleEl);
+  }
+
+  ngOnDestroy(): void {
+    // Stop battle music
+    try { this.battleMusic?.nativeElement.pause(); } catch {}
+    // Resume previous music if any
+    if (this.prevMusicEl) {
+      this.audioService.playElementWithCurrentSettings(this.prevMusicEl);
+    }
   }
 
   private safeParse(json: string): any | null {
@@ -197,7 +232,8 @@ export class BattlePage {
       return;
     }
 
-    // Enemy takes action after short delay
+    // Enemy takes action after artificial thinking delay
+    const preDelay = this.roll(900, 1600);
     setTimeout(async () => {
       const action = Math.random();
       if (action < 0.8) {
@@ -225,8 +261,10 @@ export class BattlePage {
         return;
       }
 
+      // Brief post-action pause before returning control
+      await new Promise(resolve => setTimeout(resolve, this.roll(350, 700)));
       this.isPlayerTurn.set(true);
-    }, 500);
+    }, preDelay);
   }
 
   private roll(min: number, max: number) {

@@ -109,9 +109,15 @@ export class GamePage implements OnInit, AfterViewInit, OnDestroy {
     const audioEl = this.backgroundMusic.nativeElement;
     audioEl.loop = true;
 
-    // React to global volume/mute
-    this.audioService.volume$.subscribe(volume => {
-      audioEl.volume = volume;
+    // Register as current app music element
+    this.audioService.registerMusicElement(audioEl);
+
+    // React to global volume/mute with effective track volume
+    this.audioService.masterVolume$.subscribe(() => {
+      audioEl.volume = this.audioService.getEffectiveMusicVolume();
+    });
+    this.audioService.musicVolume$.subscribe(() => {
+      audioEl.volume = this.audioService.getEffectiveMusicVolume();
     });
     this.audioService.muted$.subscribe(muted => {
       audioEl.muted = muted;
@@ -122,6 +128,8 @@ export class GamePage implements OnInit, AfterViewInit, OnDestroy {
     });
 
     // Attempt playback (handles most autoplay cases after user interaction)
+    audioEl.volume = this.audioService.getEffectiveMusicVolume();
+    audioEl.muted = this.audioService.isMuted();
     audioEl.play().catch(err => {
       console.warn('Autoplay blocked on game page; will retry after user interaction.', err);
       const tryPlay = () => {

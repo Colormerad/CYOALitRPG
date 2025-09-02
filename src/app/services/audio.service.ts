@@ -22,6 +22,7 @@ export class AudioService {
   private musicVolumeSubject = new BehaviorSubject<number>(0.7);
   private sfxVolumeSubject = new BehaviorSubject<number>(0.8);
   private mutedSubject = new BehaviorSubject<boolean>(false);
+  private currentMusicEl: HTMLAudioElement | null = null;
 
   // Public observables
   masterVolume$ = this.masterVolumeSubject.asObservable();
@@ -69,6 +70,34 @@ export class AudioService {
   }
   getEffectiveSfxVolume() {
     return this.isMuted() ? 0 : this.getMasterVolume() * this.getSfxVolume();
+  }
+
+  // Music element management
+  registerMusicElement(el: HTMLAudioElement | null) {
+    this.currentMusicEl = el;
+  }
+
+  getCurrentMusicElement(): HTMLAudioElement | null {
+    return this.currentMusicEl;
+  }
+
+  pauseCurrentMusic() {
+    try {
+      this.currentMusicEl?.pause();
+    } catch {}
+  }
+
+  async playElementWithCurrentSettings(el: HTMLAudioElement) {
+    try {
+      el.loop = true;
+      el.volume = this.getEffectiveMusicVolume();
+      el.muted = this.isMuted();
+      await el.play();
+      // set as current after successful play
+      this.currentMusicEl = el;
+    } catch (e) {
+      // noop; caller may attach user-gesture retry
+    }
   }
 
   private clamp01(v: number) {

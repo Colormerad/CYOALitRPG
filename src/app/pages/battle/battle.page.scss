@@ -1,9 +1,11 @@
-// Using global styles - most styles moved to global-components.scss
-// .battle-container uses .content-container from global styles
-// .entity uses .entity-card from global styles
-// .hpbar uses .progress-bar from global styles
-// .hp uses .progress-fill from global styles
-// .hp.enemy uses .progress-fill.enemy-health from global styles
+// Use global components where possible. Only minimal page-specific rules here.
+
+.battle-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 
 .hptext {
   margin-top: 8px;
@@ -11,18 +13,17 @@
   color: var(--retro-text);
 }
 
-.actions {
-  ion-button + ion-button {
-    margin-top: 8px;
-  }
+.progress-fill.enemy-health {
+  background: var(--retro-red, #c0392b);
+}
 
-  ion-button {
-    --background: var(--retro-button-bg);
-    --color: var(--retro-button-text);
-    --border-color: var(--retro-border);
-    --border-style: solid;
-    --border-width: 2px;
-    font-family: 'VT323', monospace;
+.actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+
+  button {
+    width: 100%;
   }
 }
 
@@ -33,28 +34,13 @@
   color: var(--retro-green-light);
 }
 
-.inventory-panel ion-card {
-  background-color: var(--retro-green-dark);
-  border: 2px solid var(--retro-border);
+
+.no-top-margin {
+  margin-top: 0;
 }
 
-.inventory-panel ion-card-title {
-  color: var(--retro-green-lightest);
-  font-family: 'Press Start 2P', 'VT323', monospace;
-}
-
-.log {
-  background-color: var(--retro-green-dark);
-  border: 2px solid var(--retro-border);
-  border-radius: 8px;
-  padding: 16px;
-}
-
-.log-title {
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: var(--retro-green-lightest);
-  font-family: 'Press Start 2P', 'VT323', monospace;
+.align-end {
+  margin-left: auto;
 }
 
 .log-entries {
@@ -69,7 +55,6 @@
   font-size: 1rem;
 }
 
-// Make the page background fill 100% height with retro dark green
 ion-content {
   --background: var(--retro-bg);
 }
