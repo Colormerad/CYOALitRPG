@@ -10,11 +10,12 @@ import { PlayerProgress } from '../../models/player-progress.model';
 import { CharacterProfile } from '../../models/character-profile.model';
 import { Character } from '../../models/character.model';
 import { AudioService } from '../../services/audio.service';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule, FormsModule, BottomTabsComponent],
+  imports: [CommonModule, FormsModule, IonicModule, BottomTabsComponent],
   templateUrl: './game.page.html',
   styleUrls: ['./game.page.scss']
 })

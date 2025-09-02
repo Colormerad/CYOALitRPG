@@ -1,3 +1,10 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Prologue</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
 <div class="game-container game-page-content">
   <!-- Background music for game screen -->
   <audio #backgroundMusic src="assets/audio/fun-house-7.opus" loop></audio>
@@ -68,7 +75,6 @@
   <div *ngIf="!loading && !error && currentNode && !isDeathScreen" class="story-content">
     <div class="story-frame story-frame--img">
       <div class="story-frame__content story-node">
-        <h2>Prologue</h2>
         <div class="story-text" [innerHTML]="currentNode.content"></div>
       </div>
     </div>
@@ -109,8 +115,9 @@
   <div class="header-buttons">
     <button class="back-button" (click)="goToCharacterSelect()">Back to Characters</button>
   </div>
-    <div class="bottom-spacer" style="height: 60px; width: 100%;"></div>
 
 </div>
+
+</ion-content>
 
 <app-bottom-tabs [characterId]="characterId"></app-bottom-tabs>

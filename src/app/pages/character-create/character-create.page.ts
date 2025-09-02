@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { DatabaseService } from '../../services/database.service';
 import { Character } from '../../models/character.model';
 import { AuthService } from '../../services/auth.service';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-character-create',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, IonicModule],
   templateUrl: './character-create.page.html',
   styleUrls: ['./character-create.page.scss']
 })

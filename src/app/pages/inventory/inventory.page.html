@@ -1,3 +1,10 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Inventory</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
 <div class="content-container standard-page">
   <div *ngIf="loading" class="loading-overlay">
     <div class="loading-container">
@@ -5,9 +12,7 @@
       <div class="loading-text">Loading inventory...</div>
     </div>
   </div>
-  <div class="page-header">
-    <h1 class="retro-header">Inventory</h1>
-  </div>
+ 
 
   <!-- Loading state handled by overlay -->
 
@@ -22,7 +27,7 @@
   </div>
 
   <!-- Inventory content -->
-  <div *ngIf="!loading && !error" class="inventory-content" style="padding-bottom: 80px;">
+  <div *ngIf="!loading && !error" class="inventory-content">
 
     <!-- Inventory tabs with persistent gold display -->
     <div class="card story-frame story-frame--img" style="margin-bottom: 16px;">
@@ -377,5 +382,7 @@
     </div>
   </div>
 </div>
+
+</ion-content>
 
 <app-bottom-tabs [characterId]="characterId"></app-bottom-tabs>
