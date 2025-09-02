@@ -1,15 +1,20 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 import { AudioService } from '../../services/audio.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../models/account.model';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  standalone: false
+  standalone: true,
+  imports: [CommonModule, FormsModule, IonicModule, SharedModule]
 })
 /*
  * LoginPage component with continuous background music playback

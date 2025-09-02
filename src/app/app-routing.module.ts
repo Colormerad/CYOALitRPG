@@ -6,24 +6,25 @@ import { AuthGuard } from './services/auth.guard';
 const routes: Routes = [
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
+    loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage)
   },
   {
     path: 'register',
-    loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterPageModule)
+    loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage)
   },
   {
     path: 'select-character',
-    loadChildren: () =>
-      import('./pages/character-list/character-select.module').then(
-        (m) => m.CharacterSelectPageModule
-      )
+    loadComponent: () =>
+      import('./pages/character-list/character-select.page').then(
+        (m) => m.CharacterSelectPage
+      ),
+    canActivate: [AuthGuard]
   },
   
   // Add other protected routes here, guarded by AuthGuard
   {
     path: 'profile',
-    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+    loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage)
   },
   {
     path: 'theme-select',
