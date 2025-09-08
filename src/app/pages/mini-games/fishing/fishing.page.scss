@@ -1,0 +1,120 @@
+ion-content {
+  --background: var(--retro-bg);
+}
+
+.fishing-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.no-top-margin { margin-top: 0; }
+
+.fish-game {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fish-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fish-indicator .fish-icon {
+  width: 28px;
+  height: 18px;
+  background: url('/assets/icons/fish.svg') no-repeat center/contain, rgba(255,255,255,0.2);
+  border-radius: 3px;
+}
+.fish-indicator.left .fish-icon { filter: hue-rotate(10deg) saturate(1.2); }
+.fish-indicator.right .fish-icon { filter: hue-rotate(-10deg) saturate(1.2); }
+.fish-indicator .pull-text { font-weight: 700; }
+
+.fish-bar {
+  position: relative;
+  height: 22px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.fish-bar .zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(46, 204, 113, 0.35);
+  z-index: 1;
+}
+.fish-bar .marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  margin-left: -3px;
+  background: var(--retro-yellow, #f1c40f);
+  box-shadow: 0 0 6px rgba(241,196,15,0.8);
+  z-index: 2;
+}
+
+.hud {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.tension-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+.tension-bar {
+  position: relative;
+}
+.tension-bar .progress-fill {
+  background: linear-gradient(90deg, #e74c3c, #c0392b);
+}
+
+.drag-pad {
+  margin-top: 6px;
+  height: 60px;
+  border: 1px dashed rgba(255,255,255,0.35);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none; /* allow pointer events for drag */
+}
+.drag-pad:active { background: rgba(255,255,255,0.08); }
+.pad-tip { opacity: 0.8; }
+
+.actions { margin-top: 8px; display: flex; gap: 8px; }
+.result { margin-top: 4px; }
+
+/* Pole aligned to marker, below band */
+.pole-track {
+  position: relative;
+  height: 40px;
+  touch-action: none; /* allow custom drag gestures */
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: grab;
+}
+.fishing-pole {
+  position: absolute;
+  top: 6px;
+  transform: translateX(-50%);
+  cursor: grab;
+  touch-action: none;
+}
+.pole-icon {
+  width: 28px;
+  height: 28px;
+  background: url('/assets/icons/fishing-pole.svg') no-repeat center/contain, rgba(255,255,255,0.15);
+  border-radius: 3px;
+}

@@ -58,6 +58,27 @@ const routes: Routes = [
     path: 'battle',
     loadComponent: () => import('./pages/battle/battle.page').then(m => m.BattlePage)
   },
+  // New forging routes (moved from crafting)
+  {
+    path: 'forging',
+    loadComponent: () => import('./pages/mini-games/forging/forging.page').then(m => m.ForgingPage)
+  },
+  {
+    path: 'forging/:id',
+    loadComponent: () => import('./pages/mini-games/forging/forging.page').then(m => m.ForgingPage)
+  },
+  // Fishing mini-game
+  {
+    path: 'fishing',
+    loadComponent: () => import('./pages/mini-games/fishing/fishing.page').then(m => m.FishingPage)
+  },
+  {
+    path: 'fishing/:id',
+    loadComponent: () => import('./pages/mini-games/fishing/fishing.page').then(m => m.FishingPage)
+  },
+  // Back-compat redirects
+  { path: 'crafting', redirectTo: 'forging', pathMatch: 'full' },
+  { path: 'crafting/:id', redirectTo: 'forging/:id', pathMatch: 'full' },
   {
     path: 'last-time/:id',
     loadComponent: () => import('./pages/last-time/last-time.page').then(m => m.LastTimePage)

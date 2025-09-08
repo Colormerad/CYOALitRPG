@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Rod -->
+  <path d="M18 108 L92 20" stroke="#b07a3c" stroke-width="6" stroke-linecap="round"/>
+  <!-- Grip -->
+  <path d="M18 108 L34 92" stroke="#7a5530" stroke-width="10" stroke-linecap="round"/>
+  <!-- Reel -->
+  <circle cx="32" cy="90" r="8" fill="#c0c6cf" stroke="#8a93a1" stroke-width="2"/>
+  <circle cx="32" cy="90" r="3" fill="#8a93a1"/>
+  <!-- Line from tip -->
+  <path d="M92 20 C98 28, 104 36, 110 42" stroke="#e6f2ff" stroke-width="2"/>
+  <!-- Hook -->
+  <path d="M110 42 C116 50, 112 60, 104 60 C100 60, 100 64, 104 64 C112 64, 120 56, 118 46" stroke="#e6f2ff" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>

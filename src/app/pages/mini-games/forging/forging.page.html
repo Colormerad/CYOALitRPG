@@ -1,0 +1,127 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Forging</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="retro-content" [fullscreen]="true">
+  <div class="content-container standard-page forging-container">
+
+    <!-- Materials & Enhancements Card (with slots) -->
+    <div class="card">
+      <div class="story-frame story-frame--img">
+        <div class="story-frame__content">
+          <div class="section-header no-top-margin">Materials & Enhancements</div>
+          <div class="retro-text">Choose up to three materials and up to two enhancements.</div>
+
+          <div class="slots-group">
+            <div class="section-subheader">Materials</div>
+            <div class="slots-grid slots-grid--materials">
+              <button class="slot-box" *ngFor="let slot of materialSlots; let i = index" (click)="openSelect('material', i)">
+                <div class="slot-title">Material {{ i+1 }}</div>
+                <div class="slot-value" *ngIf="materialSlots[i] as m">{{ m.name }}</div>
+                <div class="slot-placeholder" *ngIf="!materialSlots[i]">Select material</div>
+              </button>
+            </div>
+          </div>
+
+          <div class="slots-group">
+            <div class="section-subheader">Enhancements</div>
+            <div class="slots-grid slots-grid--enhancements">
+              <button class="slot-box" *ngFor="let slot of enhancementSlots; let i = index" (click)="openSelect('enhancement', i)">
+                <div class="slot-title">Enhancement {{ i+1 }}</div>
+                <div class="slot-value" *ngIf="enhancementSlots[i] as e">{{ e.name }}</div>
+                <div class="slot-placeholder" *ngIf="!enhancementSlots[i]">Select enhancement</div>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Minigame Card -->
+    <div class="card">
+      <div class="story-frame story-frame--img">
+        <div class="story-frame__content">
+          <div class="section-header no-top-margin">Minigame</div>
+          <div class="minigame">
+            <div class="play-start" *ngIf="!hasStarted && !isComplete && hasAnyMaterial()">
+              <button class="play-overlay" (click)="startAttempt()" aria-label="Start crafting">
+                <span class="triangle"></span>
+              </button>
+            </div>
+            <div class="tap-area" (click)="barClick()">
+              <div class="bar">
+                <div class="fill" [style.width.%]="progress"></div>
+                <div class="zone zone--good" [style.left.%]="goodZoneStart" [style.width.%]="goodZoneWidth"></div>
+                <div class="zone zone--bullseye" [style.left.%]="bullseyeStart" [style.width.%]="bullseyeWidth"></div>
+                <div class="marker" [style.left.%]="markerPos"></div>
+              </div>
+            </div>
+            <div class="status retro-text">Attempts left: {{ attemptsLeft }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selection Modal -->
+    <ion-modal [isOpen]="modalVisible" (ionModalDidDismiss)="closeModal()">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>{{ modalType === 'material' ? 'Select Material' : 'Select Enhancement' }}</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ul class="item-list">
+            <li class="list-item" *ngFor="let it of (modalType === 'material' ? materials : enhancements)" (click)="chooseItem(it)">
+              <div class="item-main">
+                <div class="item-name">{{ it.name }}</div>
+                <div class="item-meta">x{{ it.quantity }}</div>
+              </div>
+            </li>
+          </ul>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <!-- Instructions Modal -->
+    <ion-modal [isOpen]="instructionsVisible"
+               (ionModalDidDismiss)="closeInstructionsModal()"
+               cssClass="instructions-modal">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Forge</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <p class="retro-text">Time your strike! Tap the bar to stop the marker when it's inside the green zone to make progress. Aim for the darker middle band (bullseye) for double progress.</p>
+          <div class="form-group" style="margin-top:12px;">
+            <label class="retro-text">
+              <input type="checkbox" [(ngModel)]="instructionsDontShow" /> Don't show again
+            </label>
+          </div>
+          <div style="margin-top:16px; display:flex; gap:8px;">
+            <button class="btn-primary" (click)="ackInstructions()">Got it</button>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <div class="card" *ngIf="isComplete">
+      <div class="story-frame story-frame--img">
+        <div class="story-frame__content">
+          <div class="section-header no-top-margin">{{ success ? 'Success!' : 'Failed Craft' }}</div>
+          <p class="retro-text" *ngIf="success">You crafted the item! Return to the game to continue.</p>
+          <p class="retro-text" *ngIf="!success">You ran out of attempts. Better luck next time.</p>
+          <div class="actions">
+            <button class="btn-primary" (click)="finish()">Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

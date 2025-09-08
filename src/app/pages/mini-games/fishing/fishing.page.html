@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Fishing</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="retro-content" [fullscreen]="true">
+  <div class="content-container standard-page fishing-container">
+    <div class="card">
+      <div class="story-frame story-frame--img">
+        <div class="story-frame__content fish-game">
+          <div class="section-header no-top-margin">Fight the Fish</div>
+          <div class="retro-text">Keep the marker inside the green band to manage line tension. Survive until time runs out to win.</div>
+
+          <div class="fish-indicator" [class.left]="fishDir === -1" [class.right]="fishDir === 1">
+            <div class="fish-icon"></div>
+            <div class="pull-text">{{ fishDir === -1 ? 'Pull ←' : '→ Pull' }}</div>
+          </div>
+
+          <!-- TEMP: Difficulty switcher for tuning -->
+          <div class="difficulty-temp">
+            <div class="retro-text">Difficulty:</div>
+            <button class="btn-secondary" (click)="setDifficulty('easy')">Easy</button>
+            <button class="btn-secondary" (click)="setDifficulty('normal')">Normal</button>
+            <button class="btn-secondary" (click)="setDifficulty('hard')">Hard</button>
+            <button class="btn-secondary" (click)="setDifficulty('veryHard')">Very Hard</button>
+          </div>
+
+          <div class="fish-bar">
+            <div class="zone" [style.left.%]="zoneLeft()" [style.width.%]="zoneWidth"></div>
+            <div class="marker" [style.left]="markerLeftPct()"></div>
+          </div>
+
+          <!-- Fishing pole aligned to marker, placed below the band -->
+          <div class="pole-track"
+               (pointerdown)="onPoleDown($event)"
+               (pointermove)="onPoleMove($event)"
+               (pointerup)="onPoleUp($event)"
+               (pointercancel)="onPoleUp($event)">
+            <div class="fishing-pole"
+                 [style.left]="markerLeftPct()"
+                 (pointerdown)="onPoleDown($event)"
+                 (pointermove)="onPoleMove($event)"
+                 (pointerup)="onPoleUp($event)"
+                 (pointercancel)="onPoleUp($event)">
+              <div class="pole-icon" title="Fishing pole"></div>
+            </div>
+          </div>
+
+          <div class="hud">
+            <div class="retro-text">Time: {{ secondsLeft | number:'1.0-0' }}s</div>
+          </div>
+
+          <div class="tension-row">
+            <div class="retro-text">Line Tension</div>
+            <div class="progress-bar tension-bar" [attr.aria-label]="'Tension: ' + (tension | number:'1.0-0') + '%'">
+              <div class="progress-fill" [style.width.%]="tension"></div>
+            </div>
+          </div>
+
+          <div class="drag-pad"
+               (pointerdown)="onPadDown($event)"
+               (pointermove)="onPadMove($event)"
+               (pointerup)="onPadUp($event)"
+               (pointercancel)="onPadUp($event)">
+            <div class="pad-tip retro-text">Drag left/right to keep tension balanced</div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-secondary" *ngIf="isRunning" (click)="cancel()">Cancel</button>
+            <button class="btn-primary" *ngIf="!isRunning && !isComplete" (click)="start()">Start</button>
+            <button class="btn-primary" *ngIf="isComplete" (click)="finish()">Finish</button>
+          </div>
+
+          <div class="result retro-text" *ngIf="isComplete">
+            {{ success ? 'You held out! The fish is exhausted.' : 'The line snapped! The fish got away...' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
