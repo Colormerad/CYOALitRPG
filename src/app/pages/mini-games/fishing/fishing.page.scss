@@ -39,14 +39,16 @@ ion-content {
   border-radius: 4px;
   overflow: hidden;
 }
-.fish-bar .zone {
+.fish-bar .fish {
   position: absolute;
   top: 0;
   bottom: 0;
-  background: rgba(46, 204, 113, 0.35);
-  z-index: 1;
+  transform: translateX(-50%);
+  background: rgba(46, 204, 113, 0.9);
+  box-shadow: 0 0 6px rgba(46,204,113,0.7);
+  z-index: 2;
 }
-.fish-bar .marker {
+.fish-bar .lure {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -54,7 +56,7 @@ ion-content {
   margin-left: -3px;
   background: var(--retro-yellow, #f1c40f);
   box-shadow: 0 0 6px rgba(241,196,15,0.8);
-  z-index: 2;
+  z-index: 3;
 }
 
 .hud {

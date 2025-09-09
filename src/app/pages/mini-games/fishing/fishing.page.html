@@ -10,7 +10,7 @@
       <div class="story-frame story-frame--img">
         <div class="story-frame__content fish-game">
           <div class="section-header no-top-margin">Fight the Fish</div>
-          <div class="retro-text">Keep the marker inside the green band to manage line tension. Survive until time runs out to win.</div>
+          <div class="retro-text">Keep your lure on the fish to keep the line from breaking. Survive until time runs out to win.</div>
 
           <div class="fish-indicator" [class.left]="fishDir === -1" [class.right]="fishDir === 1">
             <div class="fish-icon"></div>
@@ -27,18 +27,18 @@
           </div>
 
           <div class="fish-bar">
-            <div class="zone" [style.left.%]="zoneLeft()" [style.width.%]="zoneWidth"></div>
-            <div class="marker" [style.left]="markerLeftPct()"></div>
+            <div class="fish" [style.left]="fishLeftPct()" [style.width.px]="fishWidthPx()"></div>
+            <div class="lure" [style.left]="lureLeftPct()"></div>
           </div>
 
-          <!-- Fishing pole aligned to marker, placed below the band -->
+          <!-- Fishing pole aligned to the lure, placed below the bar -->
           <div class="pole-track"
                (pointerdown)="onPoleDown($event)"
                (pointermove)="onPoleMove($event)"
                (pointerup)="onPoleUp($event)"
                (pointercancel)="onPoleUp($event)">
             <div class="fishing-pole"
-                 [style.left]="markerLeftPct()"
+                 [style.left]="lureLeftPct()"
                  (pointerdown)="onPoleDown($event)"
                  (pointermove)="onPoleMove($event)"
                  (pointerup)="onPoleUp($event)"
@@ -63,7 +63,7 @@
                (pointermove)="onPadMove($event)"
                (pointerup)="onPadUp($event)"
                (pointercancel)="onPadUp($event)">
-            <div class="pad-tip retro-text">Drag left/right to keep tension balanced</div>
+            <div class="pad-tip retro-text">Drag left/right to keep your lure on the fish</div>
           </div>
 
           <div class="actions">

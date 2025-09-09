@@ -14,13 +14,6 @@ interface DifficultyConfig {
   fishRange: number;
   tensionBuild: number;
   tensionDecay: number;
-  // New: target zone and motion
-  zoneWidth: number;      // % width of safe zone
-  zoneOscAmp: number;     // oscillation amplitude (% of bar)
-  zoneOscSpeed: number;   // oscillation speed scalar
-  // New: fish behavior cadence
-  fishChangeMinMs: number;
-  fishChangeMaxMs: number;
   // New: time to survive
   timeSeconds: number;
   // New: tension scaling and fish bursts
@@ -38,6 +31,17 @@ interface DifficultyConfig {
   // New: control effectiveness reduces with speed, and velocity cap
   controlVelK: number;       // player control effectiveness factor vs |vel|
   maxVel: number;            // absolute velocity cap (units per second)
+  // New: grouped fish movement parameters
+  fishMove: {
+    minForce: number;         // min fish pull force
+    rangeForce: number;       // range added to min for max force
+    changeMinMs: number;      // min interval for movement changes
+    changeMaxMs: number;      // max interval for movement changes
+    sporadicity: number;      // randomness intensity (>1 more erratic)
+    awayBias: number;         // bias away from player input (0..1)
+    stepMin: number;          // min step size (bar units) for target selection
+    stepMax: number;          // max step size (bar units) for target selection
+  };
 }
 
 @Component({
@@ -52,19 +56,15 @@ export class FishingPage implements OnInit {
   // pos in range [-100, 100], 0 is centered/ideal
   pos = 0;
   vel = 0;
-  // Safe zone (moving band across the bar, in percentage coordinates 0..100)
-  zoneWidth = 24; // width of the green band in % (will be overridden by difficulty)
-  zoneCenter = 50; // center position in %
-  private time = 0; // for oscillation
-  // Oscillation controls (driven by difficulty)
-  private zoneOscAmp = 18;
-  private zoneOscSpeed = 1.5;
 
   // Fish pulling
   fishDir: -1 | 1 = 1;
   fishForce = 28; // baseline pull (raised for difficulty)
-  // New: fish targets a position across the full bar [-100, 100]
-  private fishTargetPos = 0;
+  // Fish smooth movement state
+  private fishTargetPos = 0; // where the fish is heading
+  private fishSpeed = 40;    // units per second toward target
+  // Fish current position (shown as fish indicator on the bar)
+  private fishPos = 0;
   private fishTimer: any = null;
   private burstTimeout: any = null;
 
@@ -78,11 +78,6 @@ export class FishingPage implements OnInit {
     fishRange: 28, // 22..50
     tensionBuild: 45,
     tensionDecay: 12,
-    zoneWidth: 24,
-    zoneOscAmp: 18,
-    zoneOscSpeed: 1.5,
-    fishChangeMinMs: 700,
-    fishChangeMaxMs: 1700,
     timeSeconds: 45,
     tensionDistFactor: 0.9,
     burstChancePerPull: 0.15,
@@ -94,6 +89,16 @@ export class FishingPage implements OnInit {
     inputSlewPerSec: 2.4,
     controlVelK: 0.01,
     maxVel: 240,
+    fishMove: {
+      minForce: 22,
+      rangeForce: 28,
+      changeMinMs: 700,
+      changeMaxMs: 1700,
+      sporadicity: 1.0,
+      awayBias: 0.3,
+      stepMin: 18,
+      stepMax: 36,
+    },
   };
 
   // Player input from drag (-1..1)
@@ -122,6 +127,22 @@ export class FishingPage implements OnInit {
     }
   }
 
+  // Logical half-width of the fish zone in bar units ([-100..100]).
+  // Lure within this distance of fishPos should NOT increase tension.
+  private fishHalfUnits(): number {
+    switch (this.difficulty) {
+      case 'easy':
+        return 14; // generous catch zone
+      case 'normal':
+        return 10;
+      case 'hard':
+        return 10; // match normal
+      case 'veryHard':
+      default:
+        return 10; // match normal
+    }
+  }
+
   setDifficulty(level: Difficulty) {
     this.applyDifficulty(level);
   }
@@ -138,11 +159,6 @@ export class FishingPage implements OnInit {
           fishRange: 20, // 12..32
           tensionBuild: 24,
           tensionDecay: 24,
-          zoneWidth: 32,
-          zoneOscAmp: 12,
-          zoneOscSpeed: 1.2,
-          fishChangeMinMs: 1000,
-          fishChangeMaxMs: 1800,
           timeSeconds: 50,
           tensionDistFactor: 0.6,
           burstChancePerPull: 0.0,
@@ -154,6 +170,16 @@ export class FishingPage implements OnInit {
           inputSlewPerSec: 2.8,
           controlVelK: 0.006,
           maxVel: 260,
+          fishMove: {
+            minForce: 12,
+            rangeForce: 20,
+            changeMinMs: 1000,
+            changeMaxMs: 1800,
+            sporadicity: 0.9,
+            awayBias: 0.15,
+            stepMin: 12,
+            stepMax: 24,
+          },
         };
         break;
       case 'normal':
@@ -165,11 +191,6 @@ export class FishingPage implements OnInit {
           fishRange: 28, // 22..50
           tensionBuild: 45,
           tensionDecay: 30,
-          zoneWidth: 24,
-          zoneOscAmp: 16,
-          zoneOscSpeed: 1.6,
-          fishChangeMinMs: 800,
-          fishChangeMaxMs: 1400,
           timeSeconds: 40,
           tensionDistFactor: 0.9,
           burstChancePerPull: 0.15,
@@ -181,6 +202,16 @@ export class FishingPage implements OnInit {
           inputSlewPerSec: 4.0,
           controlVelK: 0.0,
           maxVel: 360,
+          fishMove: {
+            minForce: 22,
+            rangeForce: 28,
+            changeMinMs: 800,
+            changeMaxMs: 1400,
+            sporadicity: 1.0,
+            awayBias: 0.3,
+            stepMin: 18,
+            stepMax: 36,
+          },
         };
         break;
       case 'hard':
@@ -190,15 +221,10 @@ export class FishingPage implements OnInit {
           quadDrag: 0.35,
           fishMin: 28,
           fishRange: 34, // 28..62
-          tensionBuild: 60,
-          tensionDecay: 20,
-          zoneWidth: 18,
-          zoneOscAmp: 20,
-          zoneOscSpeed: 2.0,
-          fishChangeMinMs: 650,
-          fishChangeMaxMs: 1100,
+          tensionBuild: 42,
+          tensionDecay: 22,
           timeSeconds: 32,
-          tensionDistFactor: 1.1,
+          tensionDistFactor: 0.8,
           burstChancePerPull: 0.25,
           burstMultiplier: 1.9,
           burstDurationMs: 420,
@@ -208,6 +234,16 @@ export class FishingPage implements OnInit {
           inputSlewPerSec: 3.2,
           controlVelK: 0.004,
           maxVel: 340,
+          fishMove: {
+            minForce: 28,
+            rangeForce: 34,
+            changeMinMs: 650,
+            changeMaxMs: 1100,
+            sporadicity: 1.2,
+            awayBias: 0.5,
+            stepMin: 28,
+            stepMax: 52,
+          },
         };
         break;
       case 'veryHard':
@@ -219,11 +255,6 @@ export class FishingPage implements OnInit {
           fishRange: 40, // 34..74
           tensionBuild: 75,
           tensionDecay: 18,
-          zoneWidth: 14,
-          zoneOscAmp: 24,
-          zoneOscSpeed: 2.3,
-          fishChangeMinMs: 520,
-          fishChangeMaxMs: 900,
           timeSeconds: 28,
           tensionDistFactor: 1.25,
           burstChancePerPull: 0.35,
@@ -235,18 +266,24 @@ export class FishingPage implements OnInit {
           inputSlewPerSec: 3.0,
           controlVelK: 0.006,
           maxVel: 320,
+          fishMove: {
+            minForce: 34,
+            rangeForce: 40,
+            changeMinMs: 520,
+            changeMaxMs: 900,
+            sporadicity: 1.4,
+            awayBias: 0.9,
+            stepMin: 36,
+            stepMax: 70,
+          },
         };
         break;
     }
-    // Apply immediately-applicable parameters
-    this.zoneWidth = this.cfg.zoneWidth;
-    this.zoneOscAmp = this.cfg.zoneOscAmp;
-    this.zoneOscSpeed = this.cfg.zoneOscSpeed;
-    // Resample fish force against new band if running
-    this.fishForce = this.cfg.fishMin + Math.random() * this.cfg.fishRange;
+    // Resample fish force baseline if running
+    this.fishForce = this.cfg.fishMove.minForce + Math.random() * this.cfg.fishMove.rangeForce;
     if (this.isRunning) {
       if (this.fishTimer) clearTimeout(this.fishTimer);
-      this.scheduleFishPull();
+      this.moveFish();
     }
   }
 
@@ -254,7 +291,7 @@ export class FishingPage implements OnInit {
     if (this.isRunning || this.isComplete) return;
     this.resetState();
     this.isRunning = true;
-    this.scheduleFishPull();
+    this.moveFish();
     // Loop already running from ngOnInit for idle physics; avoid double-start
     if (!this.raf) {
       this.loop(performance.now());
@@ -276,9 +313,8 @@ export class FishingPage implements OnInit {
   private resetState() {
     this.pos = 0;
     this.vel = 0;
+    this.fishPos = 0;
     this.secondsLeft = this.cfg.timeSeconds;
-    this.time = 0;
-    this.zoneCenter = 50;
     this.success = false;
     this.isComplete = false;
     this.tension = 0;
@@ -301,17 +337,8 @@ export class FishingPage implements OnInit {
       this.inputFiltered = Math.max(-1, Math.min(1, this.inputFiltered));
 
       // Compute forces
-      // Fish pulls toward its target position across the full width
-      let fish = 0;
-      if (this.isRunning) {
-        const dist = this.fishTargetPos - this.pos; // [-200..200]
-        const dir = Math.sign(dist) || (this.fishDir ?? 1);
-        // Update dir for UI indicator
-        this.fishDir = (dir >= 0 ? 1 : -1);
-        // Scale force with distance (stronger when far, softer when close)
-        const distScale = Math.min(1, Math.abs(dist) / 35); // stronger pull to reach edges
-        fish = this.fishDir * (this.fishForce * distScale);
-      }
+      // Fish movement is discrete (handled in moveFish). No continuous fish force here.
+      const fish = 0;
       // Simplified: full control (no speed-based reduction)
       const player = -this.inputFiltered * this.cfg.playerForce;
       const damping = -this.vel * this.cfg.damping; // water drag
@@ -331,21 +358,29 @@ export class FishingPage implements OnInit {
       if (this.pos < -100) { this.pos = -100; this.vel *= -0.2; }
       if (this.pos > 100) { this.pos = 100; this.vel *= -0.2; }
 
-      // Move the green zone left/right a bit (gentle oscillation)
-      this.time += dt;
-      this.zoneCenter = 50 + Math.sin(this.time * this.zoneOscSpeed) * this.zoneOscAmp; // difficulty-driven oscillation
+      // Smoothly move the fish toward its current target at fishSpeed
+      if (this.isRunning || true) {
+        const diff = this.fishTargetPos - this.fishPos;
+        const maxStep = this.fishSpeed * dt;
+        if (Math.abs(diff) <= maxStep) {
+          this.fishPos = this.fishTargetPos;
+        } else {
+          this.fishPos += Math.sign(diff) * maxStep;
+        }
+        // Update UI indicator for direction based on current motion
+        const dirNow = Math.sign(this.fishTargetPos - this.fishPos);
+        if (dirNow !== 0) this.fishDir = dirNow as -1 | 1;
+      }
 
-      // In/out of zone determines tension changes (only during active gameplay)
-      const markerPct = (this.pos + 100) * 0.5; // map [-100..100] -> [0..100]
-      const inZone = Math.abs(markerPct - this.zoneCenter) <= (this.zoneWidth / 2);
+      // Tension based on distance between lure (this.pos) and fish (this.fishPos)
       if (this.isRunning) {
-        if (inZone) {
-          // Ease tension down while inside zone
+        const d = Math.abs(this.pos - this.fishPos); // 0..200 range
+        const noTensionZone = this.fishHalfUnits();
+        if (d <= noTensionZone) {
           this.tension = Math.max(0, this.tension - (this.cfg.tensionDecay * dt));
         } else {
-          // Build tension faster the farther you are outside the zone
-          const overflow = Math.max(0, Math.abs(markerPct - this.zoneCenter) - (this.zoneWidth / 2));
-          const extra = overflow * this.cfg.tensionDistFactor;
+          const overflow = d - noTensionZone;
+          const extra = overflow * this.cfg.tensionDistFactor * 0.2; // scale factor
           this.tension = Math.min(100, this.tension + ((this.cfg.tensionBuild + extra) * dt));
         }
       }
@@ -372,94 +407,70 @@ export class FishingPage implements OnInit {
     this.raf = requestAnimationFrame(step);
   }
 
-  private scheduleFishPull() {
+  private moveFish() {
+    // Choose a new smooth movement target and schedule next change
     if (this.fishTimer) clearTimeout(this.fishTimer);
-    if (this.burstTimeout) { clearTimeout(this.burstTimeout); this.burstTimeout = null; }
-    // Determine sporadicity scalar by difficulty (higher -> more erratic, faster flips)
-    const spor = this.difficulty === 'easy' ? 0.9
-                : this.difficulty === 'normal' ? 1.0
-                : this.difficulty === 'hard' ? 1.2
-                : 1.4; // veryHard
-    // Bias fish to pull away from the user's current input direction, scaled by difficulty
-    const awayBias = this.difficulty === 'easy' ? 0.15
-                   : this.difficulty === 'normal' ? 0.3
-                   : this.difficulty === 'hard' ? 0.5
+
+    // Pick a direction biased away from the lure position, with some randomness
+    const awayProb = this.difficulty === 'easy' ? 0.6
+                   : this.difficulty === 'normal' ? 0.7
+                   : this.difficulty === 'hard' ? 0.8
                    : 0.9; // veryHard
-    // inputFiltered in [-1..1], multiply by negative to bias opposite direction
-    const dirBias = -this.inputFiltered * awayBias;
-    const movement = this.fishRandomMovement({
-      dirBias,
-      distRange: [this.cfg.fishMin, this.cfg.fishMin + this.cfg.fishRange],
-      speedRangeMs: [this.cfg.fishChangeMinMs, this.cfg.fishChangeMaxMs],
-      sporadicity: spor
-    });
-    const nextIn = movement.intervalMs;
-    // New behavior: from the current rod position, move the fish target left or right
-    // by a random increment whose size increases with difficulty. This uses the full bar.
-    const dir: -1 | 1 = (Math.random() < 0.5 ? -1 : 1);
-    // Step ranges per difficulty (in bar units)
-    const stepRange = this.difficulty === 'easy' ? [12, 24]
-                      : this.difficulty === 'normal' ? [18, 36]
-                      : this.difficulty === 'hard' ? [28, 52]
-                      : [36, 70]; // veryHard
-    const step = stepRange[0] + Math.random() * (stepRange[1] - stepRange[0]);
-    const target = this.pos + dir * step;
-    this.fishTargetPos = Math.max(-100, Math.min(100, target));
+    const awaySign = Math.sign(this.fishPos - this.pos) || (Math.random() < 0.5 ? 1 : -1);
+    const dir: -1 | 1 = (Math.random() < awayProb ? (awaySign as -1 | 1) : (Math.random() < 0.5 ? -1 : 1));
+    const step = this.cfg.fishMove.stepMin + Math.random() * (this.cfg.fishMove.stepMax - this.cfg.fishMove.stepMin);
+    // Set a new target within full bar
+    this.fishTargetPos = Math.max(-100, Math.min(100, this.fishPos + dir * step));
+    // Choose a speed based on difficulty/step size
+    const baseSpeed = this.difficulty === 'easy' ? 40
+                     : this.difficulty === 'normal' ? 60
+                     : this.difficulty === 'hard' ? 65
+                     : 100; // veryHard
+    // Add a little randomness so movement doesn't feel uniform
+    const jitter = 0.8 + Math.random() * 0.6; // 0.8..1.4
+    this.fishSpeed = baseSpeed * jitter;
+
+    // Schedule the next random movement change using multiplicative sampling (more irregular)
+    const min = Math.max(50, this.cfg.fishMove.changeMinMs);
+    const max = Math.max(min + 1, this.cfg.fishMove.changeMaxMs);
+    const ratio = max / min;
+    const nextIn = Math.round(min * Math.pow(ratio, Math.random()));
     this.fishTimer = setTimeout(() => {
-      // Apply randomized strength; direction will follow target in loop
-      const baseForce = movement.force;
-      this.fishForce = baseForce;
-      // Chance to trigger a short burst that spikes the fish force
-      if (Math.random() < this.cfg.burstChancePerPull) {
-        const boosted = baseForce * this.cfg.burstMultiplier;
-        this.fishForce = boosted;
-        this.burstTimeout = setTimeout(() => {
-          // revert towards a new baseline after burst
-          this.fishForce = this.cfg.fishMin + Math.random() * this.cfg.fishRange;
-          this.burstTimeout = null;
-        }, this.cfg.burstDurationMs);
-      }
-      if (this.isRunning) this.scheduleFishPull();
+      this.moveFish();
     }, nextIn);
   }
 
-  /**
-   * Randomize fish movement parameters: direction, distance (force), and speed (interval).
-   * - dirBias: optional bias toward a direction (-1..1). 0 = neutral.
-   * - distRange: [minForce, maxForce]
-   * - speedRangeMs: [minMs, maxMs]
-   * - sporadicity: >1 increases erratic behavior: favors quicker flips, wider force variance, shorter intervals.
-   */
-  private fishRandomMovement(params: {
-    dirBias?: number;
-    distRange: [number, number];
-    speedRangeMs: [number, number];
-    sporadicity?: number;
-  }): { dir: -1 | 1; force: number; intervalMs: number } {
-    const { dirBias = 0, distRange, speedRangeMs } = params;
-    const spor = Math.max(0.5, params.sporadicity ?? 1);
-    // Direction: bias plus sporadic jitter
-    const jitter = (Math.random() - 0.5) * 2; // -1..1
-    const score = dirBias + jitter * spor * 0.6; // weight jitter by sporadicity
-    const dir: -1 | 1 = score >= 0 ? 1 : -1;
-
-    // Force: sample within range, expand upper bound with sporadicity a bit
-    const [fMin, fMaxBase] = distRange;
-    const fMax = fMaxBase * (1 + (spor - 1) * 0.25);
-    const force = fMin + Math.random() * Math.max(0, (fMax - fMin));
-
-    // Interval: shorter with higher sporadicity
-    const [sMin, sMax] = speedRangeMs;
-    const span = Math.max(0, sMax - sMin);
-    // Base interval sample
-    let interval = sMin + Math.random() * span;
-    // Compress interval by sporadicity (e.g., spor 1.4 -> ~1/(1+0.4*0.6) shorter)
-    interval = interval / (1 + (spor - 1) * 0.6);
-    // Clamp to a safe min
-    interval = Math.max(200, interval);
-
-    return { dir, force, intervalMs: Math.round(interval) };
+  // UI helpers: map positions [-100..100] to CSS left percent strings
+  lureLeftPct(): string {
+    const pct = (this.pos + 100) * 0.5; // 0..100
+    return pct.toFixed(2) + '%';
   }
+
+  fishLeftPct(): string {
+    const pct = (this.fishPos + 100) * 0.5; // 0..100
+    return pct.toFixed(2) + '%';
+  }
+
+  // Visual size of the fish indicator varies by difficulty (Easy largest, Very Hard smallest)
+  fishWidthPx(): number {
+    switch (this.difficulty) {
+      case 'easy':
+        return 52; // easiest target (doubled)
+      case 'normal':
+        return 36;
+      case 'hard':
+        return 36; // match normal
+      case 'veryHard':
+      default:
+        return 36; // match normal
+    }
+  }
+
+
+
+
+
+  // random movement helper removed
 
   private cleanupTimers() {
     if (this.fishTimer) clearTimeout(this.fishTimer);
@@ -499,15 +510,7 @@ export class FishingPage implements OnInit {
     this.input = 0;
   }
 
-  markerLeftPct(): string {
-    // Map pos [-100..100] to 0..100% across bar
-    const pct = (this.pos + 100) * 0.5;
-    return pct.toFixed(2) + '%';
-  }
-
-  zoneLeft(): number {
-    return this.zoneCenter - (this.zoneWidth / 2);
-  }
+  // legacy helpers removed (markerLeftPct/zoneLeft)
 
   // Pole drag handling (works even when not running)
   private poleDragging = false;
@@ -517,6 +520,10 @@ export class FishingPage implements OnInit {
   onPoleDown(ev: PointerEvent) {
     ev.preventDefault();
     (ev.target as HTMLElement).setPointerCapture?.(ev.pointerId);
+    // Begin the game on first pole click
+    if (!this.isRunning && !this.isComplete) {
+      this.start();
+    }
     this.poleDragging = true;
     // Measure the track container regardless of whether the target is the pole or the track
     const current = ev.currentTarget as HTMLElement;
