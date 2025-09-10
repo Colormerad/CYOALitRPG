@@ -65,6 +65,8 @@ export class FishingPage implements OnInit {
   private fishSpeed = 40;    // units per second toward target
   // Fish current position (shown as fish indicator on the bar)
   private fishPos = 0;
+  // If fish hits wall, force next direction inward
+  private nextForcedDir: (-1 | 1) | null = null;
   private fishTimer: any = null;
   private burstTimeout: any = null;
 
@@ -380,6 +382,12 @@ export class FishingPage implements OnInit {
         const maxStep = this.fishSpeed * dt;
         if (Math.abs(diff) <= maxStep) {
           this.fishPos = this.fishTargetPos;
+          // If we arrived at a wall, force next move inward
+          if (this.fishPos <= -100 + 1e-6) {
+            this.nextForcedDir = 1;
+          } else if (this.fishPos >= 100 - 1e-6) {
+            this.nextForcedDir = -1;
+          }
         } else {
           this.fishPos += Math.sign(diff) * maxStep;
         }
@@ -445,7 +453,13 @@ export class FishingPage implements OnInit {
                    : this.difficulty === 'hard' ? 0.8
                    : 0.9; // veryHard
     const awaySign = Math.sign(this.fishPos - this.pos) || (Math.random() < 0.5 ? 1 : -1);
-    const dir: -1 | 1 = (Math.random() < awayProb ? (awaySign as -1 | 1) : (Math.random() < 0.5 ? -1 : 1));
+    let dir: -1 | 1;
+    if (this.nextForcedDir) {
+      dir = this.nextForcedDir;
+      this.nextForcedDir = null;
+    } else {
+      dir = (Math.random() < awayProb ? (awaySign as -1 | 1) : (Math.random() < 0.5 ? -1 : 1));
+    }
     const step = this.cfg.fishMove.stepMin + Math.random() * (this.cfg.fishMove.stepMax - this.cfg.fishMove.stepMin);
     // Set a new target within full bar
     this.fishTargetPos = Math.max(-100, Math.min(100, this.fishPos + dir * step));
