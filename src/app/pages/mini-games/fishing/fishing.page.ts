@@ -112,10 +112,12 @@ export class FishingPage implements OnInit {
   isRunning = false;
   isComplete = false;
   success = false;
-  secondsLeft = 45;
+  secondsLeft = 0;
   private raf: any = null;
   // Red tension bar (line strain)
   tension = 0; // 0..100; fills when outside zone
+  catchProgress = 0; // 0..100
+  isLoading = false;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
@@ -310,6 +312,19 @@ export class FishingPage implements OnInit {
     this.cleanupTimers();
   }
 
+  // Retry the minigame: clear completion, reset meters and positions. Does not auto-start.
+  retry() {
+    // Show loading spinner for 1s, then reset
+    this.isComplete = false; // close modal
+    this.isLoading = true;
+    this.isRunning = false;
+    this.cleanupTimers();
+    setTimeout(() => {
+      this.resetState();
+      this.isLoading = false;
+    }, 1000);
+  }
+
   private resetState() {
     this.pos = 0;
     this.vel = 0;
@@ -318,6 +333,7 @@ export class FishingPage implements OnInit {
     this.success = false;
     this.isComplete = false;
     this.tension = 0;
+    this.catchProgress = 0;
     this.inputFiltered = 0;
   }
 
@@ -326,10 +342,10 @@ export class FishingPage implements OnInit {
       const dt = Math.min(0.05, (now - last) / 1000); // cap dt for stability
       last = now;
 
-      // Decrease time only during active gameplay
-      if (this.isRunning) {
-        this.secondsLeft = Math.max(0, this.secondsLeft - dt);
-      }
+      // Timer disabled for now
+      // if (this.isRunning) {
+      //   this.secondsLeft = Math.max(0, this.secondsLeft - dt);
+      // }
 
       // Minimal smoothing only (no deadzone or slew) to add a touch of inertia
       const alpha = 1 - Math.exp(-dt / Math.max(0.001, this.cfg.inputLag));
@@ -372,16 +388,20 @@ export class FishingPage implements OnInit {
         if (dirNow !== 0) this.fishDir = dirNow as -1 | 1;
       }
 
-      // Tension based on distance between lure (this.pos) and fish (this.fishPos)
+      // Catch/Tension logic: per-difficulty rates
       if (this.isRunning) {
-        const d = Math.abs(this.pos - this.fishPos); // 0..200 range
-        const noTensionZone = this.fishHalfUnits();
-        if (d <= noTensionZone) {
-          this.tension = Math.max(0, this.tension - (this.cfg.tensionDecay * dt));
+        const d = Math.abs(this.pos - this.fishPos);
+        const inFish = d <= this.fishHalfUnits();
+        let catchRate = 5;   // % per second
+        let tensionRate = 5; // % per second
+        if (this.difficulty === 'hard' || this.difficulty === 'veryHard') {
+          catchRate = 2.5;
+          tensionRate = 10;
+        }
+        if (inFish) {
+          this.catchProgress = Math.min(100, this.catchProgress + catchRate * dt);
         } else {
-          const overflow = d - noTensionZone;
-          const extra = overflow * this.cfg.tensionDistFactor * 0.2; // scale factor
-          this.tension = Math.min(100, this.tension + ((this.cfg.tensionBuild + extra) * dt));
+          this.tension = Math.min(100, this.tension + tensionRate * dt);
         }
       }
 
@@ -394,13 +414,21 @@ export class FishingPage implements OnInit {
         this.cleanupTimers();
         return;
       }
-      if (this.isRunning && this.secondsLeft <= 0) {
-        this.success = true; // Survive to end wins
+      if (this.isRunning && this.catchProgress >= 100) {
+        // Caught the fish
+        this.success = true;
         this.isComplete = true;
         this.isRunning = false;
         this.cleanupTimers();
         return;
       }
+      // if (this.isRunning && this.secondsLeft <= 0) {
+      //   this.success = true; // Survive to end wins
+      //   this.isComplete = true;
+      //   this.isRunning = false;
+      //   this.cleanupTimers();
+      //   return;
+      // }
 
       this.raf = requestAnimationFrame(step);
     };

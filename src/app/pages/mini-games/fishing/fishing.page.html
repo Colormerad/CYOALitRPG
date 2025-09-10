@@ -6,6 +6,12 @@
 
 <ion-content class="retro-content" [fullscreen]="true">
   <div class="content-container standard-page fishing-container">
+    <div class="loading-overlay" *ngIf="isLoading">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <div class="retro-text" style="margin-top:8px;">Resetting...</div>
+      </div>
+    </div>
     <div class="card">
       <div class="story-frame story-frame--img">
         <div class="story-frame__content fish-game">
@@ -44,8 +50,15 @@
             </div>
           </div>
 
-          <div class="hud">
+          <!-- <div class="hud">
             <div class="retro-text">Time: {{ secondsLeft | number:'1.0-0' }}s</div>
+          </div> -->
+
+          <div class="catch-row">
+            <div class="retro-text">Catch</div>
+            <div class="progress-bar catch-bar" [attr.aria-label]="'Catch: ' + (catchProgress | number:'1.0-0') + '%'">
+              <div class="progress-fill" [style.width.%]="catchProgress"></div>
+            </div>
           </div>
 
           <div class="tension-row">
@@ -77,8 +90,9 @@
                 <div class="retro-text" style="margin: 12px 0 20px;">
                   {{ success ? 'You held out! The fish is exhausted.' : 'The line snapped! The fish got away...' }}
                 </div>
-                <div class="actions" style="text-align:center;">
-                  <button class="btn-primary" (click)="isComplete = false">OK</button>
+                <div class="actions" style="text-align:center; display:flex; gap:12px; justify-content:center;">
+                  <button class="btn-secondary" (click)="retry()">Retry</button>
+                  <button class="btn-primary" (click)="finish()">Finish</button>
                 </div>
               </div>
             </ng-template>

@@ -59,6 +59,20 @@ ion-content {
   z-index: 3;
 }
 
+/* Full-screen loading overlay for resetting */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
 .hud {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -76,7 +90,11 @@ ion-content {
   position: relative;
 }
 .tension-bar .progress-fill {
-  background: linear-gradient(90deg, #e74c3c, #c0392b);
+  background: #e74c3c; /* red */
+}
+
+.catch-bar .progress-fill {
+  background: #2ecc71; /* green */
 }
 
 .drag-pad {
