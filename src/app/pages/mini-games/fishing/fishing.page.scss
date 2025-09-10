@@ -47,6 +47,7 @@ ion-content {
   background: rgba(46, 204, 113, 0.9);
   box-shadow: 0 0 6px rgba(46,204,113,0.7);
   z-index: 2;
+  transition: left 140ms linear; /* smooth visual stepping */
 }
 .fish-bar .lure {
   position: absolute;
