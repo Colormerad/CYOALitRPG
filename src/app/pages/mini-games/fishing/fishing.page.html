@@ -12,10 +12,7 @@
           <div class="section-header no-top-margin">Fight the Fish</div>
           <div class="retro-text">Keep your lure on the fish to keep the line from breaking. Survive until time runs out to win.</div>
 
-          <div class="fish-indicator" [class.left]="fishDir === -1" [class.right]="fishDir === 1">
-            <div class="fish-icon"></div>
-            <div class="pull-text">{{ fishDir === -1 ? 'Pull ←' : '→ Pull' }}</div>
-          </div>
+
 
           <!-- TEMP: Difficulty switcher for tuning -->
           <div class="difficulty-temp">
@@ -72,9 +69,20 @@
             <button class="btn-primary" *ngIf="isComplete" (click)="finish()">Finish</button>
           </div>
 
-          <div class="result retro-text" *ngIf="isComplete">
-            {{ success ? 'You held out! The fish is exhausted.' : 'The line snapped! The fish got away...' }}
-          </div>
+          <!-- Result modal -->
+          <ion-modal [isOpen]="isComplete">
+            <ng-template>
+              <div class="result-modal content-container">
+                <div class="section-header">Result</div>
+                <div class="retro-text" style="margin: 12px 0 20px;">
+                  {{ success ? 'You held out! The fish is exhausted.' : 'The line snapped! The fish got away...' }}
+                </div>
+                <div class="actions" style="text-align:center;">
+                  <button class="btn-primary" (click)="isComplete = false">OK</button>
+                </div>
+              </div>
+            </ng-template>
+          </ion-modal>
         </div>
       </div>
     </div>
