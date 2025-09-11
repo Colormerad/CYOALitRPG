@@ -71,7 +71,7 @@ export class FishingPage implements OnInit {
   private burstTimeout: any = null;
 
   // Difficulty configuration
-  private difficulty: Difficulty ='veryHard';
+  private difficulty: Difficulty ='normal';
   private cfg: DifficultyConfig = {
     playerForce: 32,
     damping: 12,
@@ -120,6 +120,7 @@ export class FishingPage implements OnInit {
   tension = 0; // 0..100; fills when outside zone
   catchProgress = 0; // 0..100
   isLoading = false;
+  private inFishAccum = 0; // seconds accumulated inside fish zone for periodic tension relief
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
@@ -293,6 +294,13 @@ export class FishingPage implements OnInit {
 
   start() {
     if (this.isRunning || this.isComplete) return;
+  
+    // Randomize difficulty and log it
+    const levels: Difficulty[] = ['easy', 'normal', 'hard', 'veryHard'];
+    const randomLevel = levels[Math.floor(Math.random() * levels.length)];
+    this.applyDifficulty(randomLevel);
+    console.log('Fishing difficulty:', randomLevel);
+  
     this.resetState();
     this.isRunning = true;
     this.moveFish();
@@ -341,6 +349,7 @@ export class FishingPage implements OnInit {
     this.catchProgress = 0;
     this.inputFiltered = 0;
     this.isRunning = false;
+    this.inFishAccum = 0;
   }
 
   private loop(last: number) {
@@ -412,8 +421,16 @@ export class FishingPage implements OnInit {
         }
         if (inFish) {
           this.catchProgress = Math.min(100, this.catchProgress + catchRate * dt);
+          // If marker remains inside fish zone, every full second reduces tension by 5%
+          this.inFishAccum += dt;
+          while (this.inFishAccum >= 1) {
+            this.tension = Math.max(0, this.tension - 5);
+            this.inFishAccum -= 1;
+          }
         } else {
           this.tension = Math.min(100, this.tension + tensionRate * dt);
+          // Reset accumulator when leaving fish zone
+          this.inFishAccum = 0;
         }
       }
 
