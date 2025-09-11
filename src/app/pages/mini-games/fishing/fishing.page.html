@@ -18,6 +18,23 @@
           <div class="section-header no-top-margin">Fight the Fish</div>
           <div class="retro-text">Keep your lure on the fish to keep the line from breaking. Survive until time runs out to win.</div>
 
+          <!-- Status section -->
+          <div class="section-header" style="margin-top:8px;">Status</div>
+          <!-- Catch and Tension bars above the game -->
+          <div class="catch-row">
+            <div class="retro-text">Catch</div>
+            <div class="progress-bar catch-bar" [attr.aria-label]="'Catch: ' + (catchProgress | number:'1.0-0') + '%'">
+              <div class="progress-fill" [style.width.%]="catchProgress"></div>
+            </div>
+          </div>
+
+          <div class="tension-row">
+            <div class="retro-text">Line Tension</div>
+            <div class="progress-bar tension-bar" [attr.aria-label]="'Tension: ' + (tension | number:'1.0-0') + '%'">
+              <div class="progress-fill" [style.width.%]="tension"></div>
+            </div>
+          </div>
+
 
 
           <!-- TEMP: Difficulty switcher for tuning -->
@@ -54,19 +71,7 @@
             <div class="retro-text">Time: {{ secondsLeft | number:'1.0-0' }}s</div>
           </div> -->
 
-          <div class="catch-row">
-            <div class="retro-text">Catch</div>
-            <div class="progress-bar catch-bar" [attr.aria-label]="'Catch: ' + (catchProgress | number:'1.0-0') + '%'">
-              <div class="progress-fill" [style.width.%]="catchProgress"></div>
-            </div>
-          </div>
-
-          <div class="tension-row">
-            <div class="retro-text">Line Tension</div>
-            <div class="progress-bar tension-bar" [attr.aria-label]="'Tension: ' + (tension | number:'1.0-0') + '%'">
-              <div class="progress-fill" [style.width.%]="tension"></div>
-            </div>
-          </div>
+          
 
           <div class="drag-pad"
                (pointerdown)="onPadDown($event)"

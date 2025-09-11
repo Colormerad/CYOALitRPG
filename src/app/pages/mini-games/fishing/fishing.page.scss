@@ -94,6 +94,14 @@ ion-content {
   background: #e74c3c; /* red */
 }
 
+.catch-row {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
 .catch-bar .progress-fill {
   background: #2ecc71; /* green */
 }
