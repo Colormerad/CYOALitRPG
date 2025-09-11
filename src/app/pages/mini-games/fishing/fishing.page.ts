@@ -323,7 +323,10 @@ export class FishingPage implements OnInit {
     this.cleanupTimers();
     setTimeout(() => {
       this.resetState();
+      // Ensure not running after reset
+      this.isRunning = false;
       this.isLoading = false;
+      // Do not auto-start; first pole click will start the game
     }, 1000);
   }
 
@@ -337,6 +340,7 @@ export class FishingPage implements OnInit {
     this.tension = 0;
     this.catchProgress = 0;
     this.inputFiltered = 0;
+    this.isRunning = false;
   }
 
   private loop(last: number) {
@@ -444,6 +448,8 @@ export class FishingPage implements OnInit {
   }
 
   private moveFish() {
+    // Do not move or schedule when not running
+    if (!this.isRunning) return;
     // Choose a new smooth movement target and schedule next change
     if (this.fishTimer) clearTimeout(this.fishTimer);
 
@@ -489,7 +495,12 @@ export class FishingPage implements OnInit {
   }
 
   fishLeftPct(): string {
-    const pct = (this.fishPos + 100) * 0.5; // 0..100
+    // Map to 0..100, then clamp to avoid exact 0%/100% which can cause visual sticking
+    let pct = (this.fishPos + 100) * 0.5; // 0..100
+    const minPct = 1;
+    const maxPct = 99;
+    if (pct < minPct) pct = minPct;
+    if (pct > maxPct) pct = maxPct;
     return pct.toFixed(2) + '%';
   }
 
@@ -517,6 +528,10 @@ export class FishingPage implements OnInit {
   private cleanupTimers() {
     if (this.fishTimer) clearTimeout(this.fishTimer);
     this.fishTimer = null;
+    if (this.raf) {
+      cancelAnimationFrame(this.raf);
+      this.raf = null;
+    }
     this.input = 0;
     this.dragging = false;
   }
@@ -562,6 +577,8 @@ export class FishingPage implements OnInit {
   onPoleDown(ev: PointerEvent) {
     ev.preventDefault();
     (ev.target as HTMLElement).setPointerCapture?.(ev.pointerId);
+    // Ignore clicks while loading overlay is visible
+    if (this.isLoading) return;
     // Begin the game on first pole click
     if (!this.isRunning && !this.isComplete) {
       this.start();
