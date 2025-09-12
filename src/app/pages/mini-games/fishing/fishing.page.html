@@ -47,8 +47,8 @@
           </div> -->
 
           <div class="fish-bar">
-            <div class="fish" [style.left]="fishLeftPct()" [style.width.px]="fishWidthPx()"></div>
-            <div class="lure" [style.left]="lureLeftPct()"></div>
+            <div class="fish" [style.left]="getFishPositionAsPercentage()" [style.width.px]="getFishIndicatorWidth()"></div>
+            <div class="lure" [style.left]="getLurePositionAsPercentage()"></div>
           </div>
 
           <!-- Fishing pole aligned to the lure, placed below the bar -->
@@ -58,7 +58,7 @@
                (pointerup)="onPoleUp($event)"
                (pointercancel)="onPoleUp($event)">
             <div class="fishing-pole"
-                 [style.left]="lureLeftPct()"
+                 [style.left]="getLurePositionAsPercentage()"
                  (pointerdown)="onPoleDown($event)"
                  (pointermove)="onPoleMove($event)"
                  (pointerup)="onPoleUp($event)"
