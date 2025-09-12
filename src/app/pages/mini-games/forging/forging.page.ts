@@ -64,14 +64,52 @@ export class ForgingPage implements OnInit {
           const items: InventoryItem[] = res.items || [];
           this.materials = items.filter(it => this.isMaterialItem(it) && (it.quantity ?? 0) > 0);
           this.enhancements = items.filter(it => this.isEnhancementItem(it) && (it.quantity ?? 0) > 0);
+          
+          // Add some test materials and enhancements if none exist
+          if (this.materials.length === 0) {
+            this.addTestMaterials();
+          }
+          if (this.enhancements.length === 0) {
+            this.addTestEnhancements();
+          }
         },
-        error: () => {}
+        error: (err) => {
+          console.error('Error loading inventory:', err);
+          // Add test items on error too
+          this.addTestMaterials();
+          this.addTestEnhancements();
+        }
       });
+    } else {
+      // No character ID, add test items
+      this.addTestMaterials();
+      this.addTestEnhancements();
     }
   }
 
   ngOnInit(): void {
     this.openInstructionsIfNeeded();
+  }
+
+  // Add test materials for development/testing
+  private addTestMaterials() {
+    this.materials = [
+      { id: 1, name: 'Iron Ore', description: 'Common metal ore', quantity: 5, type: 'misc', value: 10 },
+      { id: 2, name: 'Steel Ingot', description: 'Refined metal', quantity: 3, type: 'misc', value: 25 },
+      { id: 3, name: 'Oak Wood', description: 'Sturdy wood', quantity: 8, type: 'misc', value: 8 },
+      { id: 4, name: 'Dragon Scale', description: 'Rare crafting material', quantity: 2, type: 'misc', value: 100 },
+      { id: 5, name: 'Leather Hide', description: 'Tanned animal skin', quantity: 6, type: 'misc', value: 15 }
+    ];
+  }
+
+  // Add test enhancements for development/testing
+  private addTestEnhancements() {
+    this.enhancements = [
+      { id: 101, name: 'Fire Rune', description: 'Adds fire damage', quantity: 2, type: 'misc', value: 50 },
+      { id: 102, name: 'Sharpening Stone', description: 'Increases weapon damage', quantity: 4, type: 'misc', value: 30 },
+      { id: 103, name: 'Hardening Oil', description: 'Improves durability', quantity: 3, type: 'misc', value: 35 },
+      { id: 104, name: 'Magic Essence', description: 'Adds magical properties', quantity: 1, type: 'misc', value: 75 }
+    ];
   }
 
   startAttempt() {
@@ -106,6 +144,9 @@ export class ForgingPage implements OnInit {
     // If running, a click stops the attempt
     if (this.isRunning) {
       this.stopAttempt();
+    } else if (!this.hasStarted && !this.isComplete && this.hasAnyMaterial()) {
+      // If not started yet, clicking the bar area also starts the game
+      this.startAttempt();
     }
   }
 
@@ -130,6 +171,7 @@ export class ForgingPage implements OnInit {
     if (this.progress >= 100) {
       this.isComplete = true;
       this.success = true;
+      this.handleCraftingSuccess();
     } else if (this.attemptsLeft <= 0) {
       this.isComplete = true;
       this.success = false;
@@ -143,8 +185,30 @@ export class ForgingPage implements OnInit {
     }
   }
 
+  // Handle successful crafting - could be expanded to create items
+  private handleCraftingSuccess() {
+    // Get the materials and enhancements used
+    const usedMaterials = this.materialSlots.filter(m => !!m) as InventoryItem[];
+    const usedEnhancements = this.enhancementSlots.filter(e => !!e) as InventoryItem[];
+    
+    console.log('Crafting successful!');
+    console.log('Materials used:', usedMaterials.map(m => m.name).join(', '));
+    console.log('Enhancements used:', usedEnhancements.map(e => e.name).join(', '));
+    
+    // Here you would typically:
+    // 1. Consume the materials (reduce quantity)
+    // 2. Create a new item based on the materials/enhancements
+    // 3. Add the new item to inventory
+    
+    // For now, we'll just log the success
+  }
+
   cancel() {
-    if (this.isRunning) return;
+    if (this.isRunning) {
+      // If running, stop the current attempt
+      if (this.timer) cancelAnimationFrame(this.timer);
+      this.isRunning = false;
+    }
     this.isComplete = true;
     this.success = false;
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -8,37 +8,44 @@ type Difficulty = 'easy' | 'normal' | 'hard' | 'veryHard';
 
 
 interface FishMovementConfig {
-  stepMin: number;
-  stepMax: number;
-  minForce: number;
-  rangeForce: number;
-  changeMinMs: number;
-  changeMaxMs: number;
-  sporadicity: number;
-  awayProbability: number;
-  baseSpeed: number;
-  awayBias: number;
+  // Movement range parameters
+  stepMin: number;        // Minimum step size for fish movement
+  stepMax: number;        // Maximum step size for fish movement
+  
+  // Force parameters
+  minForce: number;       // Minimum force applied by fish
+  rangeForce: number;     // Additional random force range
+  
+  // Timing parameters
+  changeMinMs: number;    // Minimum time between direction changes (ms)
+  changeMaxMs: number;    // Maximum time between direction changes (ms)
+  sporadicity: number;    // Multiplier for movement frequency (higher = more erratic)
+  
+  // Behavior parameters
+  awayProbability: number; // Chance fish will move away from lure
+  baseSpeed: number;      // Base movement speed of fish
 }
 
 interface DifficultyConfig {
-  playerForce: number;
-  damping: number;
-  quadDrag: number;
-  fishMin: number;
-  fishRange: number;
-  tensionBuild: number;
-  tensionDecay: number;
-  tensionDistFactor: number;
-  burstChancePerPull: number;
-  burstMultiplier: number;
-  burstDurationMs: number;
-  inputLag: number;
-  inertia: number;
-  inputDeadzone: number;
-  inputSlewPerSec: number;
-  controlVelK: number;
-  maxVel: number;
-  fishWidthPx: number;
+  // Physics parameters
+  playerForce: number;     // Force applied by player input
+  damping: number;         // Linear water resistance
+  quadDrag: number;        // Quadratic drag coefficient
+  inputLag: number;        // Input smoothing factor (seconds)
+  inertia: number;         // Lure mass/inertia factor
+  inputSlewPerSec: number; // Input rate limiting
+  maxVel: number;          // Maximum lure velocity
+  
+  // Visual parameters
+  fishWidthPx: number;     // Visual width of fish indicator in pixels
+  
+  // Game mechanics
+  catchProgressRate: number;    // How fast catch progress increases (% per second)
+  lineStressRate: number;       // How fast tension builds when outside fish zone (% per second)
+  tensionReductionRate: number; // How fast tension reduces when in fish zone (% per second)
+  fishBaseSpeed: number;        // Base speed for fish movement
+  
+  // Fish movement behavior
   fishMove: FishMovementConfig;
 }
 
@@ -58,7 +65,7 @@ export class FishingPage implements OnInit {
   fishForce = 28;
   // Fish smooth movement state
   fishTargetPos = 0; // where the fish is heading
-  private fishSpeed = 40;    // units per second toward target
+  private fishSpeed = 0; // Will be set from config in applyDifficulty
   // Fish current position (shown as fish indicator on the bar)
   fishPos = 0;
   // If fish hits wall, force next direction inward
@@ -68,35 +75,40 @@ export class FishingPage implements OnInit {
   // Difficulty configuration
   private difficulty: Difficulty ='normal';
   private cfg: DifficultyConfig = {
+    // Physics parameters
     playerForce: 32,
     damping: 12,
     quadDrag: 0.4,
-    fishMin: 22,
-    fishRange: 28, // 22..50
-    tensionBuild: 45,
-    tensionDecay: 12,
-    tensionDistFactor: 0.9,
-    burstChancePerPull: 0.15,
-    burstMultiplier: 1.6,
-    burstDurationMs: 350,
     inputLag: 0.08,
     inertia: 1.0,
-    inputDeadzone: 0,
     inputSlewPerSec: 2.4,
-    controlVelK: 0.01,
     maxVel: 240,
+    
+    // Visual parameters
     fishWidthPx: 50, // Default to normal difficulty width
+    
+    // Game mechanics
+    catchProgressRate: 5, // How fast catch progress increases
+    lineStressRate: 5, // How fast tension builds when outside fish zone
+    tensionReductionRate: 5, // How fast tension reduces when in fish zone
+    fishBaseSpeed: 40, // Base speed for fish movement
     fishMove: {
+      // Movement range parameters
+      stepMin: 18,
+      stepMax: 36,
+      
+      // Force parameters
       minForce: 22,
       rangeForce: 28,
+      
+      // Timing parameters
       changeMinMs: 700,
       changeMaxMs: 1700,
       sporadicity: 1.0,
+      
+      // Behavior parameters
       awayProbability: 0.7,
       baseSpeed: 60,
-      awayBias: 0.3,
-      stepMin: 18,
-      stepMax: 36,
     },
   };
 
@@ -124,26 +136,15 @@ export class FishingPage implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    this.applyDifficulty(this.difficulty);
-
+    this.applyDifficulty(this.difficulty)
   }
 
   private fishHalfUnits(): number {
-    switch (this.difficulty) {
-      case 'easy':
-        return 14; // generous catch zone
-      case 'normal':
-        return 10;
-      case 'hard':
-        return 10; // match normal
-      case 'veryHard':
-      default:
-        return 10; // match normal
-    }
-  }
-
-  setDifficulty(level: Difficulty) {
-    this.applyDifficulty(level);
+    // Calculate catch zone size based on visual width
+    // We use a scaling factor to convert pixels to game units
+    // This ensures the gameplay mechanics match the visual representation
+    const scalingFactor = 0.2; // 1 pixel = 0.2 game units
+    return this.cfg.fishWidthPx * scalingFactor;
   }
 
   private applyDifficulty(level: Difficulty) {
@@ -154,22 +155,18 @@ export class FishingPage implements OnInit {
           playerForce: 45,
           damping: 8,
           quadDrag: 0.27,
-          fishMin: 12,
-          fishRange: 20, // 12..32
-          tensionBuild: 24,
-          tensionDecay: 24,
-          tensionDistFactor: 0.6,
-          burstChancePerPull: 0.0,
-          burstMultiplier: 1.5,
-          burstDurationMs: 300,
           inputLag: 0.065,
           inertia: 1.08,
-          inputDeadzone: 0,
           inputSlewPerSec: 2.8,
-          controlVelK: 0.006,
           maxVel: 260,
-          fishWidthPx: 60, // Easy: largest fish indicator
+          fishWidthPx: 60,
+          catchProgressRate: 7.5,
+          lineStressRate: 3,
+          tensionReductionRate: 8,
+          fishBaseSpeed: 30,
           fishMove: {
+            stepMin: 12,
+            stepMax: 24,
             minForce: 12,
             rangeForce: 20,
             changeMinMs: 1000,
@@ -177,9 +174,6 @@ export class FishingPage implements OnInit {
             sporadicity: 0.8,
             awayProbability: 0.6,
             baseSpeed: 40,
-            awayBias: 0.15,
-            stepMin: 12,
-            stepMax: 24,
           },
         };
         break;
@@ -188,22 +182,18 @@ export class FishingPage implements OnInit {
           playerForce: 40,
           damping: 6,
           quadDrag: 0.30,
-          fishMin: 22,
-          fishRange: 28, // 22..50
-          tensionBuild: 45,
-          tensionDecay: 30,
-          tensionDistFactor: 0.9,
-          burstChancePerPull: 0.15,
-          burstMultiplier: 1.7,
-          burstDurationMs: 350,
           inputLag: 0.06,
           inertia: 1.06,
-          inputDeadzone: 0,
           inputSlewPerSec: 4.0,
-          controlVelK: 0.0,
           maxVel: 360,
-          fishWidthPx: 50, // Normal difficulty width
+          fishWidthPx: 50,
+          catchProgressRate: 5,
+          lineStressRate: 5,
+          tensionReductionRate: 5,
+          fishBaseSpeed: 40,
           fishMove: {
+            stepMin: 18,
+            stepMax: 36,
             minForce: 22,
             rangeForce: 28,
             changeMinMs: 800,
@@ -211,9 +201,6 @@ export class FishingPage implements OnInit {
             sporadicity: 1.0,
             awayProbability: 0.7,
             baseSpeed: 60,
-            awayBias: 0.3,
-            stepMin: 18,
-            stepMax: 36,
           },
         };
         break;
@@ -222,22 +209,18 @@ export class FishingPage implements OnInit {
           playerForce: 36,
           damping: 6.5,
           quadDrag: 0.35,
-          fishMin: 28,
-          fishRange: 34, // 28..62
-          tensionBuild: 45,
-          tensionDecay: 30,
-          tensionDistFactor: 0.9,
-          burstChancePerPull: 0.25,
-          burstMultiplier: 1.9,
-          burstDurationMs: 420,
           inputLag: 0.07,
           inertia: 1.10,
-          inputDeadzone: 0,
           inputSlewPerSec: 3.2,
-          controlVelK: 0.004,
           maxVel: 340,
-          fishWidthPx: 40, // Hard difficulty width
+          fishWidthPx: 40,
+          catchProgressRate: 2.5,
+          lineStressRate: 10,
+          tensionReductionRate: 3,
+          fishBaseSpeed: 50,
           fishMove: {
+            stepMin: 28,
+            stepMax: 52,
             minForce: 28,
             rangeForce: 34,
             changeMinMs: 650,
@@ -245,9 +228,6 @@ export class FishingPage implements OnInit {
             sporadicity: 1.2,
             awayProbability: 0.8,
             baseSpeed: 65,
-            awayBias: 0.5,
-            stepMin: 28,
-            stepMax: 52,
           },
         };
         break;
@@ -256,22 +236,18 @@ export class FishingPage implements OnInit {
           playerForce: 30,
           damping: 7.2,
           quadDrag: 0.56,
-          fishMin: 34,
-          fishRange: 40, // 34..74
-          tensionBuild: 45,
-          tensionDecay: 30,
-          tensionDistFactor: 0.9,
-          burstChancePerPull: 0.35,
-          burstMultiplier: 2.3,
-          burstDurationMs: 500,
           inputLag: 0.09,
           inertia: 1.28,
-          inputDeadzone: 0,
           inputSlewPerSec: 3.0,
-          controlVelK: 0.006,
           maxVel: 320,
-          fishWidthPx: 36, // Very hard: smallest fish indicator
+          fishWidthPx: 36,
+          catchProgressRate: 2,
+          lineStressRate: 12,
+          tensionReductionRate: 2,
+          fishBaseSpeed: 60,
           fishMove: {
+            stepMin: 36,
+            stepMax: 70,
             minForce: 34,
             rangeForce: 40,
             changeMinMs: 520,
@@ -279,13 +255,13 @@ export class FishingPage implements OnInit {
             sporadicity: 1.5,
             awayProbability: 0.9,
             baseSpeed: 100,
-            awayBias: 0.9,
-            stepMin: 36,
-            stepMax: 70,
           },
         };
         break;
     }
+    
+    // Set fish speed from configuration after the difficulty has been applied
+    this.fishSpeed = this.cfg.fishBaseSpeed;
     // Resample fish force baseline if running
     this.fishForce = this.cfg.fishMove.minForce + Math.random() * this.cfg.fishMove.rangeForce;
     if (this.isRunning) {
@@ -300,6 +276,8 @@ export class FishingPage implements OnInit {
     // Randomize difficulty and log it
     const levels: Difficulty[] = ['easy', 'normal', 'hard', 'veryHard'];
     const randomLevel = levels[Math.floor(Math.random() * levels.length)];
+
+    
     this.applyDifficulty(randomLevel);
     console.log('Fishing difficulty:', randomLevel);
   
@@ -421,19 +399,15 @@ export class FishingPage implements OnInit {
     const lureToFishDistance = Math.abs(this.pos - this.fishPos);
     const isLureInFishZone = lureToFishDistance <= this.fishHalfUnits();
     
-    // Set rates based on difficulty
-    let catchProgressRate = 5;   // % per second
-    let lineStressRate = 5; // % per second
-    
-    if (this.difficulty === 'hard' || this.difficulty === 'veryHard') {
-      catchProgressRate = 2.5;
-      lineStressRate = 10;
-    }
+    // Use rates from difficulty configuration
+    const catchProgressRate = this.cfg.catchProgressRate;
+    const lineStressRate = this.cfg.lineStressRate;
+    const tensionReductionRate = this.cfg.tensionReductionRate;
     
     if (isLureInFishZone) {
       // Inside fish zone: increase catch progress and reduce tension
       this.catchProgress = Math.min(100, this.catchProgress + catchProgressRate * deltaTime);
-      this.tension = Math.max(0, this.tension - (5 * deltaTime)); // Tension reduction rate is fixed at 5% per second
+      this.tension = Math.max(0, this.tension - (tensionReductionRate * deltaTime));
     } else {
       // Outside fish zone: increase tension
       this.tension = Math.min(100, this.tension + lineStressRate * deltaTime);
@@ -532,10 +506,9 @@ export class FishingPage implements OnInit {
   
   private scheduleNextMovement(): void {
     // Get sporadicity factor from configuration
-    const sporadicity = this.cfg.fishMove.sporadicity;
-                      
-    const minMs = this.cfg.fishMove.changeMinMs * sporadicity;
-    const maxMs = this.cfg.fishMove.changeMaxMs * sporadicity;
+
+    const minMs = this.cfg.fishMove.changeMinMs * this.cfg.fishMove.sporadicity;
+    const maxMs = this.cfg.fishMove.changeMaxMs * this.cfg.fishMove.sporadicity;
     const nextMs = minMs + Math.random() * (maxMs - minMs);
     
     this.fishTimer = setTimeout(() => this.moveFish(), nextMs);
@@ -687,5 +660,5 @@ export class FishingPage implements OnInit {
     const inputRatio = (pointerX - centerPosition) / (this.polePadWidth / 2);
     this.input = Math.max(-1, Math.min(1, inputRatio));
   }
-  
+
 }

@@ -36,6 +36,10 @@
             </div>
           </div>
 
+          <div class="actions" *ngIf="hasAnyMaterial() && !hasStarted && !isComplete">
+            <button class="btn-primary" (click)="startAttempt()">Start Crafting</button>
+          </div>
+
         </div>
       </div>
     </div>
@@ -60,6 +64,22 @@
               </div>
             </div>
             <div class="status retro-text">Attempts left: {{ attemptsLeft }}</div>
+            <div class="retro-text" *ngIf="!hasStarted && !isComplete">
+              <div *ngIf="hasAnyMaterial()">
+                Click the play button or tap the bar to start crafting.
+              </div>
+              <div *ngIf="!hasAnyMaterial()">
+                Please select at least one material to begin crafting.
+              </div>
+            </div>
+            <div class="retro-text" *ngIf="isRunning">
+              Tap the bar when the marker is in the green zone!
+            </div>
+            
+            <!-- Game controls -->
+            <div class="actions" *ngIf="hasStarted && !isComplete">
+              <button class="btn-secondary" (click)="cancel()">Give Up</button>
+            </div>
           </div>
         </div>
       </div>
@@ -91,11 +111,6 @@
                (ionModalDidDismiss)="closeInstructionsModal()"
                cssClass="instructions-modal">
       <ng-template>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>Forge</ion-title>
-          </ion-toolbar>
-        </ion-header>
         <ion-content class="ion-padding">
           <p class="retro-text">Time your strike! Tap the bar to stop the marker when it's inside the green zone to make progress. Aim for the darker middle band (bullseye) for double progress.</p>
           <div class="form-group" style="margin-top:12px;">
