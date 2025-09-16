@@ -1,0 +1,111 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="playerId ? '/game/' + playerId : '/select-character'" (click)="onBackClick()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Busking Mini-Game</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Start Screen -->
+  <div class="start-screen" *ngIf="!gameActive">
+    <div class="start-content">
+      <h1>Busking Mini-Game</h1>
+      <p>Hit the notes in time with the music!</p>
+      
+      <div class="controls-info">
+        <h3>Controls</h3>
+        <div class="control-mapping">
+          <div class="control-row">
+            <div class="control-key">
+              <div class="key">A</div>
+              <div class="arrow">←</div>
+              <div class="lane-preview" style="background: #e74c3c;"></div>
+            </div>
+            <div class="control-key">
+              <div class="key">S</div>
+              <div class="arrow">↓</div>
+              <div class="lane-preview" style="background: #3498db;"></div>
+            </div>
+            <div class="control-key">
+              <div class="key">D</div>
+              <div class="arrow">↑</div>
+              <div class="lane-preview" style="background: #2ecc71;"></div>
+            </div>
+            <div class="control-key">
+              <div class="key">F</div>
+              <div class="arrow">→</div>
+              <div class="lane-preview" style="background: #f1c40f;"></div>
+            </div>
+          </div>
+          <div class="control-labels">
+            <div>Red Lane</div>
+            <div>Blue Lane</div>
+            <div>Green Lane</div>
+            <div>Yellow Lane</div>
+          </div>
+        </div>
+        <div class="start-hint" *ngIf="!isMobile()">
+          <div class="key">SPACE</div>
+          <div class="label">to start</div>
+        </div>
+      </div>
+      
+      <ion-button 
+        (click)="startGame()" 
+        size="large" 
+        color="primary"
+        class="start-button"
+      >
+        <ion-icon slot="start" name="play"></ion-icon>
+        Play Now
+      </ion-button>
+      
+      <div class="difficulty-section">
+        <h4>Difficulty</h4>
+        <ion-segment [(ngModel)]="selectedDifficulty" value="medium">
+          <ion-segment-button value="easy">Easy</ion-segment-button>
+          <ion-segment-button value="medium">Medium</ion-segment-button>
+          <ion-segment-button value="hard">Hard</ion-segment-button>
+          <ion-segment-button value="veryHard">Very Hard</ion-segment-button>
+        </ion-segment>
+        <div class="bpm-note">Tempo: {{ bpm }} BPM • Easy=Half • Medium=Quarter • Hard=Eighth • Very Hard=16th</div>
+      </div>
+      
+      <p class="hint" *ngIf="!isMobile()">or press SPACE to begin</p>
+    </div>
+  </div>
+  
+  <!-- Game Container (hidden until game starts) -->
+  <div class="game-container" [class.hidden]="!gameActive">
+    <div class="game-canvas-container">
+      <canvas #gameCanvas></canvas>
+      
+      <!-- Touch controls for mobile -->
+      <div class="touch-controls" *ngIf="isMobile()">
+        <div 
+          *ngFor="let key of keys; let i = index" 
+          class="touch-lane"
+          (touchstart)="onLaneTouchStart(i, $event)"
+          (touchend)="onLaneTouchEnd(i, $event)"
+          (touchcancel)="onLaneTouchEnd(i, $event)"
+          #touchLane
+        ></div>
+      </div>
+    </div>
+    
+    <div class="instructions" *ngIf="!isMobile()">
+      <h3>How to Play</h3>
+      <p>Press the correct key when the notes reach the judgment line.</p>
+      <p><strong>Desktop:</strong> Use A, S, D, F or Arrow Keys</p>
+      <p>Hit the notes as close to the line as possible for higher scores!</p>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary">
+    <ion-title>Score: {{ score }} | Combo: {{ combo }}x</ion-title>
+  </ion-toolbar>
+</ion-footer>

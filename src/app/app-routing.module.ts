@@ -76,6 +76,11 @@ const routes: Routes = [
     path: 'fishing/:id',
     loadComponent: () => import('./pages/mini-games/fishing/fishing.page').then(m => m.FishingPage)
   },
+  // Busking mini-game
+  {
+    path: 'busking/:id',
+    loadComponent: () => import('./pages/mini-games/busking/busking.page').then(m => m.BuskingPage)
+  },
   // Back-compat redirects
   { path: 'crafting', redirectTo: 'forging', pathMatch: 'full' },
   { path: 'crafting/:id', redirectTo: 'forging/:id', pathMatch: 'full' },
