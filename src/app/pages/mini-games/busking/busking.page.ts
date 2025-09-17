@@ -264,10 +264,15 @@ export class BuskingPage implements OnInit, OnDestroy {
     }
     
     // Rhythm-based note generation: spawn at exact musical grid
+    // Important: spawn at most ONE chord per frame to cap simultaneity at 2 notes
     const intervalMs = this.getCurrentIntervalMs();
-    while (this.songProgress >= this.nextSpawnAtMs) {
-      this.generateChord(); // spawn 1 or 2 lanes at the same time
+    if (this.songProgress >= this.nextSpawnAtMs) {
+      this.generateChord(); // spawns 1 or 2 lanes at the same instant
       this.nextSpawnAtMs += intervalMs;
+      // If we fell behind (e.g., lag), fast-forward the next spawn time without emitting extra chords this frame
+      while (this.songProgress >= this.nextSpawnAtMs) {
+        this.nextSpawnAtMs += intervalMs;
+      }
     }
     
     // Update notes
@@ -347,16 +352,14 @@ export class BuskingPage implements OnInit, OnDestroy {
     ctx.stroke();
     ctx.setLineDash([]);
     
-    // Draw notes
+    // Draw notes (skip hit notes to avoid ghost trails)
     this.notes.forEach(note => {
       if (note.hit) {
-        ctx.fillStyle = note.perfect ? '#4caf50' : '#ffc107';
-        ctx.globalAlpha = 0.5;
-      } else {
-        // Use lane color for notes
-        ctx.fillStyle = this.LANE_COLORS[note.lane % this.LANE_COLORS.length];
-        ctx.globalAlpha = 1;
+        return;
       }
+      // Use lane color for notes
+      ctx.fillStyle = this.LANE_COLORS[note.lane % this.LANE_COLORS.length];
+      ctx.globalAlpha = 1;
       
       // Calculate lane width and position
       const totalLanes = 4; // We always have exactly 4 lanes
@@ -538,6 +541,12 @@ export class BuskingPage implements OnInit, OnDestroy {
     const laneWidth = this.viewWidth / 4;
     const centerX = note.lane * laneWidth + laneWidth / 2;
     this.addHitEffect(centerX, note.y, perfect ? 'perfect' : 'good');
+
+    // Remove the note immediately to prevent ghost notes
+    const idx = this.notes.findIndex(n => n.id === note.id);
+    if (idx !== -1) {
+      this.notes.splice(idx, 1);
+    }
   }
   
   noteMissed(note: Note) {
@@ -547,7 +556,11 @@ export class BuskingPage implements OnInit, OnDestroy {
       const laneWidth = this.viewWidth / 4;
       const centerX = note.lane * laneWidth + laneWidth / 2;
       this.addHitEffect(centerX, this.getJudgmentY(), 'miss');
-      note.hit = true; // Mark as hit to avoid multiple misses
+      // Remove the note immediately to prevent ghost notes
+      const idx = this.notes.findIndex(n => n.id === note.id);
+      if (idx !== -1) {
+        this.notes.splice(idx, 1);
+      }
     }
   }
   
